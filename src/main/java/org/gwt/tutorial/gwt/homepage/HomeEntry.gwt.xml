@@ -1,0 +1,24 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.i18n.I18N"/>
+    
+    <!-- Inherit gwtview Modules -->   
+    <inherits name="com.gwtview.arch.BaseView"/>
+    
+    <!-- Internal Modules -->   
+    <inherits name="org.hibernate.tutorial.resources.I18NResources"/>
+    <inherits name="org.gwt.tutorial.dto.DataObjects"/>
+    <inherits name="org.gwt.tutorial.exceptions.Exceptions"/>
+    <inherits name="org.gwt.tutorial.proxy.RPCProxy"/>
+                                                    
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='org.gwt.tutorial.gwt.homepage.client.HomeEntry'/>
+  
+  	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+  	<extend-property name="locale" values="default,en_us,zh_cn" />
+  	
+  	<add-linker name="xs"/>
+  	
+</module>
