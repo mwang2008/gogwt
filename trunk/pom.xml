@@ -1,0 +1,250 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.hibernate.tutorials</groupId>
+   <artifactId>web-spring</artifactId>
+   <version>1.0.0-SNAPSHOT</version>
+   <packaging>war</packaging>
+   <name>GWT, Spring MVC</name>
+   
+   <properties>
+        <gwt.version>1.5.3</gwt.version>
+        <maven.compiler.source>1.5</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
+   </properties>
+
+   <pluginRepositories>
+     <pluginRepository>
+       <id>gwt-maven-plugins</id>
+       <url>
+           http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/
+       </url>
+     </pluginRepository>
+   </pluginRepositories>
+
+
+   <build>
+     <!-- we dont want the version to be part of the generated war file name -->
+     <finalName>${artifactId}</finalName>
+     
+     <!-- deploy jboss runtime -->
+     <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.1-alpha-2</version>
+          <configuration>
+	     <packagingExcludes>${warExclude}</packagingExcludes>
+	     <outputDirectory> ${JBOSS_HOME}/server/mytest/deploy </outputDirectory>
+	     <outputFileNameMapping>	     	  	      
+		@{artifactId}@@{classifier}@.@{extension}@
+             </outputFileNameMapping>
+	  </configuration>
+       </plugin>
+     
+     
+     <!-- GWT plugin -->
+     <plugin>
+        <groupId>com.totsp.gwt</groupId>
+        <artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+        <version>2.0-RC1</version>
+        <configuration>
+           <logLevel>INFO</logLevel>
+           <compileTargets>
+              <value>org.gwt.tutorial.gwt.homepage.HomeEntry</value>
+           </compileTargets>
+	   <runTarget>
+	      org.gwt.tutorial.gwt.homepage.HomeEntry/HomeEntry.html
+	   </runTarget>
+	   <style>DETAILED</style>
+	   <noServer>false</noServer>
+	   <extraJvmArgs>-Xmx512m</extraJvmArgs>
+				 
+	   <i18nMessagesNames>
+		<value>org.hibernate.tutorial.resources.i18n.LabelResources</value>
+		<value>org.hibernate.tutorial.resources.i18n.ViewResources</value>
+	   </i18nMessagesNames>
+					 
+	  <gwtVersion>${gwtVersion}</gwtVersion>
+       </configuration>
+       
+       <executions>
+         <execution>
+           <goals>	     
+	     <goal>i18n</goal>
+	     <goal>compile</goal>
+ 	   </goals>
+	 </execution>
+       </executions>
+     </plugin>
+     
+     <!-- resource bundle -->
+     <plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>native2ascii-maven-plugin</artifactId>
+	<executions>
+	   <execution>
+              <goals>
+		 <goal>native2ascii</goal>
+              </goals>
+	      <configuration>
+                 <encoding>utf-8</encoding>
+                 <src>src/main/resources</src>
+		 <dest>target/classes</dest>
+		 <includes>
+		    **/*_ja.properties,**/*_zh.properties
+                 </includes>
+              </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>	
+   </build>		
+  
+   <profiles>
+    <profile>
+      <id>gwt-dev-windows</id>
+      <properties>
+        <platform>windows</platform>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+    </profile>
+    <profile>
+      <id>gwt-dev-linux</id>
+      <properties>
+        <platform>linux</platform>
+      </properties>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <os>
+          <name>linux</name>
+        </os>
+      </activation>
+    </profile>
+   </profiles>  
+   
+   <dependencies>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-core</artifactId>
+         <version>3.3.1.GA</version>
+      </dependency>
+        
+        <!-- Because this is a web app, we also have a dependency on the servlet api. -->
+      <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>servlet-api</artifactId>
+         <version>2.3</version>
+      </dependency>
+
+      <!-- Hibernate uses slf4j for logging, for our purposes here use the simple backend -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.5.6</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+         <version>1.5.6</version>
+      </dependency>
+
+      <dependency>
+         <groupId>mysql</groupId>
+         <artifactId>mysql-connector-java</artifactId>
+         <version>5.0.5</version>
+      </dependency>
+                
+      <!-- Hibernate gives you a choice of bytecode providers between cglib and javassist -->       
+      <dependency>
+          <groupId>javassist</groupId>
+          <artifactId>javassist</artifactId>
+          <version>3.4.GA</version>
+      </dependency>
+      
+      <!-- Spring MVC -->      
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-webmvc</artifactId>
+          <version>2.5.4</version>
+      </dependency>
+      
+      <!-- GWT -->
+      <dependency>
+          <groupId>com.google.gwt</groupId>
+          <artifactId>gwt-user</artifactId>
+          <version>${gwt.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.google.gwt</groupId>
+         <artifactId>gwt-servlet</artifactId>
+         <version>${gwt.version}</version>
+         <scope>compile</scope>
+      </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <version>${gwt.version}</version>
+      <classifier>${platform}-libs</classifier>
+      <type>zip</type>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <version>${gwt.version}</version>
+      <classifier>${platform}</classifier>
+      <scope>provided</scope>
+    </dependency>
+     
+    <!-- GWT + SL -->
+    <dependency>
+       <groupId>net.sf.gwt-widget</groupId>
+       <artifactId>gwt-sl</artifactId>
+       <version>0.1.5</version>
+    </dependency>
+    <!-- GWT + Log -->
+    <dependency>
+       <groupId>com.google.code.gwt-log</groupId>
+       <artifactId>gwt-log</artifactId>
+       <version>2.5.3-IHG</version>
+    </dependency>	
+    <!-- XML parser Jdom,xerces,jaxen, saxpath -->
+    <dependency>
+       <groupId>org.jdom</groupId>
+       <artifactId>jdom</artifactId>
+       <version>1.1</version>
+    </dependency>    
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <version>1.0-FCS</version>
+    </dependency>
+    <dependency>
+      <groupId>saxpath</groupId>
+      <artifactId>saxpath</artifactId>
+      <version>1.0-FCS</version>
+    </dependency>
+    	
+    <!-- gwtview 1.0-SNAPSHOT -->
+    <dependency>
+      <groupId>com.gwtview.navigation</groupId>
+      <artifactId>gwtview</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+		
+  </dependencies>
+</project>

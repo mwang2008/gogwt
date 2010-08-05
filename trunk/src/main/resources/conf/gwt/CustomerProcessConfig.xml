@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <forms>		 
+      <form name="registerForm" type="org.gwt.tutorial.gwt.homepage.client.RegisterFormEntry"/>      
+  </forms>
+ 
+  <values>		 
+      <value name="registerValue" type="org.gwt.tutorial.gwt.homepage.client.RegisterValue"/>      
+  </values>
+  	
+  <views>        
+     <!-- home view -->
+     <view name="home" class="org.gwt.tutorial.gwt.homepage.client.RegisterView" 
+        form="registerForm" value="registerValue">
+        
+     </view>
+     
+     <view name="confirm" class="org.gwt.tutorial.gwt.homepage.client.ConfirmView">
+     
+     </view>
+     
+  </views>
+</application>
