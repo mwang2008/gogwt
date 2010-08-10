@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.gogwt.app.booking.dto.dataObjects.common">
+
+    <class name="StateBean" table="STATE">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+   
+        <property name="stateId" column="state"/>
+        <property name="languageId"/>
+        <property name="stateName" column="state_name"/>                 
+    </class>
+    
+    <sql-query name="selectState" cacheable="true">
+		<![CDATA[
+           from StateBean where languageId=:languageId ORDER BY state_name ASC
+        ]]>
+	</sql-query>
+	
+</hibernate-mapping>

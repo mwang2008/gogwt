@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+       	<!-- 
+	      This file will hold all the domain service definitions.
+	    -->
+	    
+	    <!--  hotelsearch: hibrenate impl -->
+        <bean name="name=dao/HotelSearchDAO" class="com.gogwt.app.booking.businessService.dataaccess.hibernate.HibernateHotelSearchDAO">                  
+        </bean>
+        
+         <bean name="name=dao/CommonDAO" class="com.gogwt.app.booking.businessService.dataaccess.hibernate.HibernateCommonDAO">                  
+        </bean>
+	    
+</beans>
