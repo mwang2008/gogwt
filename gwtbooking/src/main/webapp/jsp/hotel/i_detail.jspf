@@ -1,0 +1,15 @@
+<%--
+  i_detail.jspf
+--%>
+
+<table> 
+  <tr> <td> <b>${detail.name}</b> </td> <tr>
+  <tr> <td> ${detail.address} ${detail.city}, ${detail.state} ${detail.zipCode} </td> <tr>
+  
+  
+  <tr> <td> ${detail.description}</td> <tr>
+  
+  
+  
+ 
+</table>

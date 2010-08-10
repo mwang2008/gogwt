@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- ========================= IMPORTS ============================== -->     
+	
+	<!-- model bean -->
+    <import resource="classpath:conf/domainService.xml"/> 
+
+	<!-- dao bean -->
+    <import resource="classpath:conf/daoService.xml"/> 
+
+	<!-- scope beans: session, flash -->
+	<import resource="classpath:conf/scopeBeans.xml"/>
+	
+	<!-- GWT RPC remote call section -->
+   <import resource="classpath:conf/rpcConfig.xml"/>
+	
+	
+	<!-- ========================= BEAN DEFINITIONS ============================== -->     
+	<!-- bean lookup service -->
+	<bean class="com.gogwt.app.booking.utils.BeanLookupService"/>
+
+	<!-- ========================= VALIDATOR ========================= -->
+	<bean name="name=validator/reservation/SearchFormValidator" class="com.gogwt.app.booking.controllers.validation.SearchFormValidator"/>
+	<bean name="name=validator/reservation/GuestInfoFormValidator" class="com.gogwt.app.booking.controllers.validation.GuestInfoFormValidator"/>
+  
+  
+    <!-- ========================= INTERCEPTOR ========================= -->
+    <bean name="Booking:name=interceptor/config/URLHandlerInterceptor" class="com.gogwt.app.booking.config.interceptor.URLHandlerInterceptor">
+       <property name="supportedLangRegion">
+         <map>
+           <entry key="en-US"><value>US English</value></entry>
+           <entry key="es-ES"><value>Español</value></entry>     
+         </map>
+       </property>
+    </bean>
+
+	<!-- ========================= INTERNAL RESOURCE RESOLVER ========================= -->
+	<bean name="localeResolver" class="com.gogwt.app.booking.config.resolver.BookLocaleResolver"> 
+		<property name="defaultLocale"><value>en_US</value></property>
+	</bean>
+	
+	<!-- ========================= RESOURCE BUNDLE DEFINITIONS ========================= -->
+    <bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+      <property name="basenames">
+       <list>
+ 		  <value>com.gogwt.app.booking.resources.i18n.view.LabelResources</value>
+ 		  <value>com.gogwt.app.booking.resources.i18n.error.ErrorResources</value>
+ 		  <value>com.gogwt.app.booking.resources.i18n.misc.MiscResources</value>
+       </list>
+     </property>
+    </bean>
+  
+    <!-- ========================= POPULATOR ========================= -->
+    <bean name="name=populator/StatePopulator" class="com.gogwt.app.booking.populator.StatePopulator"/>
+  
+	<!-- ========================= CONTROLLER DEFINITIONS ========================= --> 
+    <!-- HomeController" -->
+    <bean name="name=controller/reservation/HomeController" class="com.gogwt.app.booking.controllers.HomePageController"/> 
+
+    <!-- HotelSearchController -->
+ 	<bean name="name=controller/reservation/HotelSearchController" class="com.gogwt.app.booking.controllers.action.HotelSearchController">    
+ 		<property name="bindOnNewForm"><value>true</value></property>
+		<property name="commandName"><value>searchFormBean</value></property>		
+	 	<property name="validator"><ref bean="name=validator/reservation/SearchFormValidator"/></property>
+		<property name="formView"><value>/reservation/search_form</value></property>
+		<property name="successView"><value>searchresult</value></property> 	 
+	</bean>   
+
+    <bean name="name=controller/reservation/HotelSearchResultController" class="com.gogwt.app.booking.controllers.action.HotelSearchResultController"/> 
+    
+    <bean name="name=controller/reservation/GuestInfoController" class="com.gogwt.app.booking.controllers.action.GuestInfoController">
+       <property name="populators">
+			<map>
+		 		<entry key="statePopulator"><ref bean="name=populator/StatePopulator"/> </entry>
+		 	</map>
+	   </property>
+	   
+ 		<property name="bindOnNewForm"><value>true</value></property>
+		<property name="commandName"><value>guestInfoFormBean</value></property>		
+	 	<property name="validator"><ref bean="name=validator/reservation/GuestInfoFormValidator"/></property>
+		<property name="formView"><value>/reservation/guest_info_form</value></property>
+		<property name="successView"><value>confirmed</value></property> 	 
+       
+    </bean> 
+    
+    <bean name="name=controller/reservation/ConfirmedController" class="com.gogwt.app.booking.controllers.action.ConfirmedController"/> 
+    <bean name="name=controller/property/HotelDetailController" class="com.gogwt.app.booking.controllers.action.HotelDetailController"/>
+
+    <!-- ========================= GET CONTROLLER ========================= -->
+    <bean name="name=controller/reservation/GWTHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTHotelSearchController"/> 
+ 
+
+	<!-- ========================= URL MAPPING ========================= -->
+	
+    <bean name="urlMappingPart2" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+       <property name="interceptors">
+		  <list>
+			 <ref bean="Booking:name=interceptor/config/URLHandlerInterceptor"/>
+  		  </list>
+	   </property> 
+		
+       <property name="mappings">
+           <props>
+              <prop key="/**/home/**/">name=controller/reservation/HomeController</prop> 
+              <prop key="/**/hotelsearch/**/">name=controller/reservation/HotelSearchController</prop>
+              <prop key="/**/searchresult/**/">name=controller/reservation/HotelSearchResultController</prop>
+              <prop key="/**/guestinfo/**/">name=controller/reservation/GuestInfoController</prop>
+              <prop key="/**/confirmed/**/">name=controller/reservation/ConfirmedController</prop>
+              <prop key="/**/hoteldetail/**/">name=controller/property/HotelDetailController</prop>      
+              <prop key="/**/gwtreservation/**/">name=controller/reservation/GWTHotelSearchController</prop>       
+           </props>
+       </property>
+     </bean>
+  	 
+	 <bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+		<property name="prefix"><value>/jsp</value></property>
+		<property name="suffix"><value>.jsp</value></property>
+	</bean>
+    
+   
+</beans>

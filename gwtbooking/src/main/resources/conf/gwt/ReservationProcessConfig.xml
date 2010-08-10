@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<application> 
+	<views>
+		<view name="home" 
+			class="com.gogwt.app.booking.gwt.reservation.client.navigation.HomeView">
+        </view>
+      		
+		<!-- hotelsearchresult -->
+		<view name="searchresult"
+			class="com.gogwt.app.booking.gwt.reservation.client.navigation.SearchResultView">           			
+		</view>
+
+      <!--  guestinfo -->
+      <view name="guestinfo"
+			class="com.gogwt.app.booking.gwt.reservation.client.navigation.GuestInformationView">
+			<properties>
+				<property name="populators">
+					<map>
+						<entry key="statesProvincesPopulator">com.gogwt.app.booking.populator.StatePopulator</entry>
+		 			</map>
+				</property>
+			</properties>
+		</view> 
+		
+		<!--  resconfirmation -->   
+		<view name="resconfirmation"
+         class="com.gogwt.app.booking.gwt.reservation.client.navigation.ReservationConfirmationView">
+      </view> 
+      
+	</views>
+</application>
