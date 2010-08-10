@@ -2,7 +2,7 @@ package com.gogwt.app.booking.resources.i18n.view;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	D:/ebook/gwtbooking/src/main/resources/com/gogwt/app/booking/resources/i18n/view/LabelResources.properties'.
+ * 	D:/gogwt/gwtbooking/src/main/resources/com/gogwt/app/booking/resources/i18n/view/LabelResources.properties'.
  */
 public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   

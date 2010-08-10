@@ -2,7 +2,7 @@ package com.gogwt.app.booking.resources.i18n.error;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	D:/ebook/gwtbooking/src/main/resources/com/gogwt/app/booking/resources/i18n/error/ErrorResources.properties'.
+ * 	D:/gogwt/gwtbooking/src/main/resources/com/gogwt/app/booking/resources/i18n/error/ErrorResources.properties'.
  */
 public interface ErrorResources extends com.google.gwt.i18n.client.Messages {
   
