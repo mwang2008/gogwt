@@ -27,18 +27,29 @@
 
    <servlet-mapping>
 	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/es-ES/*</url-pattern>
+	  <url-pattern>/en-us/*</url-pattern>
    </servlet-mapping>
 
    <servlet-mapping>
 	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/en-us/*</url-pattern>
+	  <url-pattern>/es-ES/*</url-pattern>
    </servlet-mapping>
 
    <servlet-mapping>
 	  <servlet-name>booking</servlet-name>
 	  <url-pattern>/es-es/*</url-pattern>
    </servlet-mapping>
+   
+   <servlet-mapping>
+	  <servlet-name>booking</servlet-name>
+	  <url-pattern>/zh-CN/*</url-pattern>
+   </servlet-mapping>
+
+   <servlet-mapping>
+	  <servlet-name>booking</servlet-name>
+	  <url-pattern>/zh-cn/*</url-pattern>
+   </servlet-mapping>
+   
    
    <!--  jboss does not like */*.rpc -->
    <servlet-mapping>

@@ -2,6 +2,7 @@ package com.gogwt.app.booking.gwt.reservation.client;
 
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.FooterLayoutWidget;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HeaderLayoutWidget;
+import com.gogwt.app.booking.gwt.reservation.client.widgets.common.MenuLayoutWidget;
 import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
 import com.gogwt.framework.arch.navigation.AbstractViewConfigAccessor;
 import com.google.gwt.core.client.GWT;
@@ -15,32 +16,19 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class ReservationEntryPoint extends AbstractEntryPoint {
 
-	Panel wrapperPanel;
-	protected Panel containerPanel;
-	private Panel headerPanel;
-	
+	//Panel wrapperPanel;
+	//protected Panel containerPanel;
+	 
 	
 	@Override
 	protected void loadModule() {
-		/*
-		wrapperPanel = WidgetStyleUtils.createFlowPanelWithIdStyles( "wrapper" );
-		containerPanel = WidgetStyleUtils.createFlowPanelWithId( "container" );
-	    headerPanel = WidgetStyleUtils.createFlowPanelWithStyles( "MastheadContainer" );
-	      
-	    Widget headerWidget = new HeaderLayoutWidget();
-	    headerPanel.add( headerWidget );
-	    containerPanel.add( headerPanel );
-	    
-	    // view panel
-	    addViewPanel( containerPanel );
-	    	
-	    // add everything to root panel
-	    wrapperPanel.add( containerPanel );
-	    RootPanel.get().add( wrapperPanel );
-	    */
+		 
 	     	
 		// header
 		RootPanel.get("header").add(new HeaderLayoutWidget());
+		
+		// menu 
+		RootPanel.get("menu").add(new MenuLayoutWidget());
 
 		// show middle part of GWT body, wrapperContent is defined in the
 		// loading JSP.

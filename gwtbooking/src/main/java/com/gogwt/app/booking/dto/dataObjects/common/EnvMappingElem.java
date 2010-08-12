@@ -7,6 +7,7 @@ package com.gogwt.app.booking.dto.dataObjects.common;
  * 
  */
 public class EnvMappingElem {
+	 
 	private String languageId; // en
 	private String countryId; // US
 	private String controllerName;
@@ -18,7 +19,7 @@ public class EnvMappingElem {
     private boolean isSecure;
     private String domainName;
     
-    public String getLagnRegion() {
+	public String getLagnRegion() {
     	return getLanguageId() + "-" + getCountryId().toUpperCase();
     }
 	public String getLanguageId() {

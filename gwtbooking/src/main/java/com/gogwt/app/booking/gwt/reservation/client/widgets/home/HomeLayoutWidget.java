@@ -1,8 +1,9 @@
 package com.gogwt.app.booking.gwt.reservation.client.widgets.home;
 
+import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
+import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.framework.arch.widgets.BaseWidget;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -14,9 +15,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  */
 public class HomeLayoutWidget extends BaseWidget {
+	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
+	
 	HomeFormEntry formEntry;
-	Panel layoutPanel = new FlowPanel();
-
+	 
+	private Panel layoutPanel = WidgetStyleUtils.createHorizontalPanel();
+	
 	public HomeLayoutWidget() {
 		super();
 		formEntry = new HomeFormEntry();
@@ -29,30 +33,61 @@ public class HomeLayoutWidget extends BaseWidget {
 	 * </p>
 	 */
 	public void prepareEntryLayout() {
-		layoutPanel.add(new Label(" Home Widget"));
+	 	
+		layoutPanel.getElement().setId( "homeViewId" );
 		
-		Panel theFormPanel = new VerticalPanel();
-
+		Panel theFormPanel = buildAndInitFormPanel();
+		Panel rightPanel = buildRightPanel();
+		
+		layoutPanel.add(theFormPanel);
+		layoutPanel.add(rightPanel);
+ 
+	}
+	
+	private Panel buildRightPanel() {
+		Panel rightPanel = WidgetStyleUtils.createVerticalPanel();
+		rightPanel.getElement().setId("homeViewRight");
+		
+		rightPanel.add(new Label("Right Panel"));
+		return rightPanel;
+	}
+	
+	private Panel buildAndInitFormPanel() {
+		Panel leftPanel = WidgetStyleUtils.createVerticalPanel();
+		leftPanel.getElement().setId("homeViewLeft");
+		
+		Panel theFormPanel = WidgetStyleUtils.createVerticalPanel("homeSearchPanel");
+		
 		//add error panel
 		ErrorPanel.getInstance().initErrorPanel();
 		theFormPanel.add(ErrorPanel.getInstance());
 		
-		theFormPanel.add(new Label(
+/*		theFormPanel.add(new Label(
 						"Ex of Destination->address: 1600 Pennsylvania Avenue, NW Washington, DC 20500 "));
 		
 		theFormPanel.add(new Label("Ex of Destination->city: atlanta, ga"));
-
-		theFormPanel.add(new Label("Destination:"));
+*/
+		
+		theFormPanel.add(WidgetStyleUtils.createLabel(tags.Label_Destination(), "text12blue"));
 		theFormPanel.add(formEntry.getDestination());
-
-		theFormPanel.add(new Label("Radius"));
+	 	
+	    WidgetStyleUtils.addIdStylesToWidget(formEntry.getDestination(),
+	            "destSubContainer", "quickResRow");
+	    
+		theFormPanel.add(WidgetStyleUtils.createLabel(tags.Label_Radius(), "text12blue"));
 		theFormPanel.add(formEntry.getRadius());
+		formEntry.getRadius().setStyleName("quickResRow");
+		
+		//WidgetStyleUtils.addIdStylesToWidget(formEntry.getRadius(),
+	     //       "destSubContainer", "quickResRow");
 
 		theFormPanel.add(formEntry.getBtnSelectDestination());
-
-		layoutPanel.add(theFormPanel);
 		
 		// call formEntry to inti the form entry
 		formEntry.prepareFormEntry();
+		
+		leftPanel.add(theFormPanel);
+		
+		return leftPanel;
 	}
 }
