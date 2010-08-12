@@ -7,7 +7,10 @@ public class HomeView extends AbstractView {
 	private HomeLayoutWidget homeWidget;
 	
 	public HomeView() {
-		homeWidget = new HomeLayoutWidget();			
+		homeWidget = new HomeLayoutWidget();
+		
+		//add homeWidget to home viewPanel
+		viewPanel.add(homeWidget);		
 	}
 	
 	 
@@ -16,12 +19,7 @@ public class HomeView extends AbstractView {
 	 * Invoked by AbstractEntry
 	 */
 	public void process() {
-		 
-		
-		//add homeWidget to home viewPanel
-		viewPanel.add(homeWidget);		
- 		
-		homeWidget.prepareEntryLayout();		
+ 		homeWidget.prepareEntryLayout();		
 		
 	}
   

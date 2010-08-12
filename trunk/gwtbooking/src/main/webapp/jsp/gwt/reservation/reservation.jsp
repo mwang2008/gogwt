@@ -27,7 +27,9 @@
 <div id="wrapper">
   <div id="container">
      <div id="header" style="position: relative"></div>
+     <div id="menu" style="position: relative"></div>    
      <div id="wrapperContent" style="position: relative"></div>
+   
      <div id="footer" style="position: relative"></div>
   </div>
 </div>   

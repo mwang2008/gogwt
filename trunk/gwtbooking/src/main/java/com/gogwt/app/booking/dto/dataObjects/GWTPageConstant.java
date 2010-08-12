@@ -6,5 +6,7 @@ public class GWTPageConstant {
 	public static String GUEST_INFO = "guestinfo";
 	public static String RESERVATION_CONFIRMATION = "resconfirmation";
 	
-
+    public static String HYPHON = "-";
+    public static String UNDER_SCORE = "_";
+    public static String SLASH = "/";
 }

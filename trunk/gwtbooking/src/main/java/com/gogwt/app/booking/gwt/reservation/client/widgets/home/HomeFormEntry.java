@@ -11,6 +11,7 @@ import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
+import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
@@ -30,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean> {
-	 
+	private TagsReservationResources tags = TagsReservationResources.Util.getInstance(); 
 	 
 	protected Button btnSelectDestination = new Button();
 	//private final TextBox destination = new TextBox();
@@ -50,10 +51,12 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean
 		
 		DestinationSuggestOracle oracle = new DestinationSuggestOracle();	 
 		TextBox destinationText = new TextBox();
-		destinationText.setText("please enter city or full address");
+		destinationText.setText("Please enter city or full address");
 		destinationText.setVisibleLength(30);
 		destinationText.setMaxLength(LENGTH_75);
 		destination = new SuggestBox(oracle, destinationText);
+		 
+ 		 
 	}
 
 	/**
@@ -69,6 +72,10 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean
 	public void onClick(Widget eventWidget) {
 		if (eventWidget == btnSelectDestination) {
 			
+			if (GWTStringUtils.equals(destination.getText(), "tags.label_Search_box_colon")) {
+				destination.setText("");
+			}
+		 
 			//1. validate: not 
 			ArrayList<String> errorList = new SearchValidate().validate(this);
 			if (GWTStringUtils.isSet(errorList)) {

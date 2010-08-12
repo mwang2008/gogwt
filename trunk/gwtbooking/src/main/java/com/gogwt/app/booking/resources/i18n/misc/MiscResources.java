@@ -2,7 +2,7 @@ package com.gogwt.app.booking.resources.i18n.misc;
 
 /**
  * Interface to represent the constants contained in resource bundle:
- * 	'D:/ebook/gwtbooking/src/main/resources/com/gogwt/app/booking/resources/i18n/misc/MiscResources.properties'.
+ * 	'D:/gogwt/gwtbooking/src/main/resources/com/gogwt/app/booking/resources/i18n/misc/MiscResources.properties'.
  */
 public interface MiscResources extends com.google.gwt.i18n.client.ConstantsWithLookup {
   
@@ -34,11 +34,11 @@ public interface MiscResources extends com.google.gwt.i18n.client.ConstantsWithL
   String language_selector_zh_CN();
 
   /**
-   * Translated "en-US,zh-CN,es-ES".
+   * Translated "en_US,zh_CN,es_ES".
    * 
-   * @return translated "en-US,zh-CN,es-ES"
+   * @return translated "en_US,zh_CN,es_ES"
    */
-  @DefaultStringValue("en-US,zh-CN,es-ES")
+  @DefaultStringValue("en_US,zh_CN,es_ES")
   @Key("language.support.list")
   String language_support_list();
 }

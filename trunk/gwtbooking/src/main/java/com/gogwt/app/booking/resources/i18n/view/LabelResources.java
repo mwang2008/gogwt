@@ -12,6 +12,51 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
    * @return translated "Address"
    */
   @DefaultMessage("Address")
+  @Key("Label.Address")
+  String Label_Address();
+
+  /**
+   * Translated "Along Route".
+   * 
+   * @return translated "Along Route"
+   */
+  @DefaultMessage("Along Route")
+  @Key("Label.AlongRoute")
+  String Label_AlongRoute();
+
+  /**
+   * Translated "Destination".
+   * 
+   * @return translated "Destination"
+   */
+  @DefaultMessage("Destination")
+  @Key("Label.Destination")
+  String Label_Destination();
+
+  /**
+   * Translated "Radius".
+   * 
+   * @return translated "Radius"
+   */
+  @DefaultMessage("Radius")
+  @Key("Label.Radius")
+  String Label_Radius();
+
+  /**
+   * Translated "Please enter city or full address".
+   * 
+   * @return translated "Please enter city or full address"
+   */
+  @DefaultMessage("Please enter city or full address")
+  @Key("Label.Search.box.colon")
+  String Label_Search_box_colon();
+
+  /**
+   * Translated "Address".
+   * 
+   * @return translated "Address"
+   */
+  @DefaultMessage("Address")
   @Key("Label.address")
   String Label_address();
 
