@@ -15,6 +15,7 @@ public class SearchResultView extends AbstractView {
 	public void process() {
 		 this.viewPanel.add(new Label("SearchResultView "));
 		 
+		 viewPanel.clear();
 		 
 		 final HotelSearchResponseBean hotelSearchResponseBean = GWTSession.getCurrentReservationContainer().getHotelSearchResponseBean();
 		  

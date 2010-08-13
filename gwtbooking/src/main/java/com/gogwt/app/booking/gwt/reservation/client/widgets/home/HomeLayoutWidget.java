@@ -33,7 +33,7 @@ public class HomeLayoutWidget extends BaseWidget {
 	 * </p>
 	 */
 	public void prepareEntryLayout() {
-	 	
+		layoutPanel.clear();
 		layoutPanel.getElement().setId( "homeViewId" );
 		
 		Panel theFormPanel = buildAndInitFormPanel();

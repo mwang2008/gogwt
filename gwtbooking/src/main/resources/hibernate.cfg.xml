@@ -26,11 +26,16 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
         
-        <!-- Disable the second-level cache  -->
-        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-
+        <!-- Enable the second-level cache  -->
+        <property name="cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
+        
+        <property name="cache.use_query_cache">true</property>
+        <property name="cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_structured_entries">true</property>
+        
+        
         <!-- Echo all executed SQL to stdout -->
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         
         <mapping resource="com/gogwt/app/booking/service/domain/SearchProperty.hbm.xml"/>
         <mapping resource="com/gogwt/app/booking/service/domain/State.hbm.xml"/>

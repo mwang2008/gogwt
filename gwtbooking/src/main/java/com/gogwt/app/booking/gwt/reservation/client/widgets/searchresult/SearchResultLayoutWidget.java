@@ -57,7 +57,9 @@ public class SearchResultLayoutWidget extends BaseWidget implements TabListener 
 	 */
 	public void prepareEntryLayout(
 			final HotelSearchResponseBean hotelSearchResponseBean) {
-
+		
+		layoutPanel.clear();
+		
 		VerticalPanel panel = new VerticalPanel();
 		FlexTable flextable = new FlexTable();
 			
