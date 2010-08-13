@@ -10,6 +10,8 @@ public class GuestInformationView extends AbstractView {
 	@Override
 	public void process() {
 		
+		 viewPanel.clear();
+		
 		 //1. add progress bar
 		 ProgressBarWidget progressBar = new ProgressBarWidget();
 		 progressBar.processDisplayProgressBar(ProcessStatusEnum.SEARCH_RESULT);
