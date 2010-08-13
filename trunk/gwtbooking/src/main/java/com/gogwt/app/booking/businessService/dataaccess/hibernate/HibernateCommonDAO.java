@@ -9,6 +9,7 @@ import org.hibernate.classic.Session;
 import com.gogwt.app.booking.businessService.dataaccess.CommonDAO;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
 import com.gogwt.app.booking.dto.dataObjects.common.StateBean;
 
 public class HibernateCommonDAO implements CommonDAO {
@@ -20,6 +21,8 @@ public class HibernateCommonDAO implements CommonDAO {
 	 * Get state from database
 	 */
 	public List<StateBean> getStateList(UserContextBean userContext) {
+		logger.debug("getStateList");
+		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
@@ -46,6 +49,23 @@ public class HibernateCommonDAO implements CommonDAO {
 	  	session.getTransaction().commit();
 	
 		return hotelBean; 
+	}
+
+	public List<KeywordBean> getKeywordList(String keyword, int numberResult) {
+		logger.debug("getKeyword");
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+        
+		Query query = session.createQuery("from KeywordBean where keyword like :keyword ORDER BY keyword ASC");
+		query.setParameter("keyword", keyword + "%" );		
+		query.setFirstResult(0);
+		query.setMaxResults(10);
+
+		List<KeywordBean> result = query.list();
+		
+		session.getTransaction().commit();
+		
+		return result ;
 	}
 
 }
