@@ -97,6 +97,7 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean
 			 *    No big block of handle RPC onSuccess and onError 
 			 * 2. add control function to RPC proxy, such as set timed out, avoid duplicate call etc.  
 			 *------------------------------------------------*/
+			GWTSession.getCurrentReservationContainer().setHotelSearchRequest(request);
 			RPCReservationProxy.getInstance().searchHotels(request,
 					GWTExtClientUtils.getUserContext(), new CommandBean(), this);
 
@@ -115,8 +116,8 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean
 		//2. if multiple result
 		
 		//3. only one result
-		// 4. save to session
-		GWTSession.getCurrentReservationContainer().setHotelSearchResponseBean(hotelSearchResponse);
+		// 4. save to session		
+		GWTSession.getCurrentReservationContainer().setHotelSearchResponse(hotelSearchResponse);
 
 		// 5. go to hotelsearchresult page
 		GWTExtClientUtils.forward(VIEW_SEARCH_RESULT);

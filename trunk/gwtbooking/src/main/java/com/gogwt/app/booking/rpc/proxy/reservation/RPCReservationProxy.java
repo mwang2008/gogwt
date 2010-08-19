@@ -1,10 +1,11 @@
 package com.gogwt.app.booking.rpc.proxy.reservation;
 
- 
-
+  
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
@@ -14,7 +15,11 @@ import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
-
+/**
+ * RPCReservationProxy
+ * 
+ *
+ */
 public final class RPCReservationProxy {
 	private static RPCReservationProxy instance = new RPCReservationProxy();
 	
@@ -83,4 +88,30 @@ public final class RPCReservationProxy {
 			}		 
 		});
  	}
+	
+	/**
+	 * Used for session backup
+	 * @param processStatusEnum
+	 * @param command
+	 * @param callback
+	 */
+	public void getReservationContainerBeanFromSession(final ProcessStatusEnum processStatusEnum, final CommandBean command,
+			final RPCProxyInterface<BaseBean> callback) {
+        
+		ReservationProcessServiceAsync service = ReservationProcessServiceAsync.Util.getSeesionBackupAsync();
+		
+		service.getReservationContainerBeanFromSession(processStatusEnum, new AsyncCallback<ReservationContainerBean>() {
+ 		 
+			//@Override
+			public void onFailure(Throwable caught) {
+				callback.handleRPCError(caught, command);				
+			}
+
+			//@Override
+			public void onSuccess(ReservationContainerBean result) {
+				callback.handleRPCSuccess(result, command);				
+			}		 
+		});
+	   	
+	}
 }

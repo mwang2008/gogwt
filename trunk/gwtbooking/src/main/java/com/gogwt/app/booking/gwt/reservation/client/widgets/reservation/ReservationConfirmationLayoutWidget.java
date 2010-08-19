@@ -26,7 +26,7 @@ public class ReservationConfirmationLayoutWidget extends BaseWidget {
 	public void prepareEntryLayout() {
 		//layoutPanel.add(new Label("Reservation is success"));
 		
-		ReserveResponseBean reserveResponseBean = GWTSession.getCurrentReservationContainer().getReserveResponseBean();
+		ReserveResponseBean reserveResponseBean = GWTSession.getCurrentReservationContainer().getReserveResponse();
 		
 		layoutPanel.add(new Label("Your reservation number is: " + reserveResponseBean.getReserveNum()));
 	}

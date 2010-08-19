@@ -8,16 +8,19 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 
 public final class GWTExtClientUtils {
 	private static EnvMappingElem bean;
 
 	public static UserContextBean getUserContext() {
 		final UserContextBean userContext = new UserContextBean();
-
-		userContext.setLanguageId("en");
-		userContext.setCountryId("us");
-
+		EnvMappingElem env = buildMappingElem();
+		 
+		userContext.setLanguageId(env!=null && env.getLanguageId()!= null ? env.getLanguageId() :  "en");
+		userContext.setCountryId(env!=null && env.getCountryId()!= null ? env.getCountryId() : "us");
+		 
+		
 		return userContext;
 	}
 
@@ -86,7 +89,9 @@ public final class GWTExtClientUtils {
 			envMappingElem.setSecure(parseBooleanValue(jsonObj.get("isSecure")));
 		}
 		
-		
+		if (GWTStringUtils.isSet(Location.getQueryString())) {
+		    envMappingElem.setQueryParamter(Location.getQueryString());
+		}
 		
 		return envMappingElem;
 	}

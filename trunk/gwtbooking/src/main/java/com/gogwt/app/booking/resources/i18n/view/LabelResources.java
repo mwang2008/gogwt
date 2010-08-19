@@ -88,6 +88,24 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String Label_zip();
 
   /**
+   * Translated "Home".
+   * 
+   * @return translated "Home"
+   */
+  @DefaultMessage("Home")
+  @Key("Page.name.home")
+  String Page_name_home();
+
+  /**
+   * Translated "Search Result".
+   * 
+   * @return translated "Search Result"
+   */
+  @DefaultMessage("Search Result")
+  @Key("Page.name.searchresult")
+  String Page_name_searchresult();
+
+  /**
    * Translated "book the hotel".
    * 
    * @return translated "book the hotel"
@@ -158,4 +176,22 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Radius")
   @Key("label.radius")
   String label_radius();
+
+  /**
+   * Translated "List View".
+   * 
+   * @return translated "List View"
+   */
+  @DefaultMessage("List View")
+  @Key("searchresult.tabpanel.list.view")
+  String searchresult_tabpanel_list_view();
+
+  /**
+   * Translated "Map View".
+   * 
+   * @return translated "Map View"
+   */
+  @DefaultMessage("Map View")
+  @Key("searchresult.tabpanel.map.view")
+  String searchresult_tabpanel_map_view();
 }

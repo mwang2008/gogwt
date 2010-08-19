@@ -5,34 +5,49 @@ import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 
+/**
+ * ReservationContainerBean
+ *  
+ */
+
 public class ReservationContainerBean extends BaseBean {
+	/* status of reservation: SEARCH_FORM,SEARCH_RESULT, ROOM_RATE,GUEST_INFO */
+	private ProcessStatusEnum status = ProcessStatusEnum.SEARCH_FORM;
+	  
 	/* request in hotel search form page */
-	private SearchFormBean searchFormBean;
+	private SearchFormBean hotelSearchRequest;
 
 	/* response after submit "Find A Hotel" button */
-	private HotelSearchResponseBean hotelSearchResponseBean;
+	private HotelSearchResponseBean hotelSearchResponse;
 
 	/* the selected item in hotel search result page*/
 	private int selectHotelItem;
 	
 	/* the result of reservation */
-	private ReserveResponseBean ReserveResponseBean;
-	
-	public SearchFormBean getSearchFormBean() {
-		return searchFormBean;
+	private ReserveResponseBean reserveResponse;
+
+	public ProcessStatusEnum getStatus() {
+		return status;
 	}
 
-	public void setSearchFormBean(SearchFormBean searchFormBean) {
-		this.searchFormBean = searchFormBean;
+	public void setStatus(ProcessStatusEnum status) {
+		this.status = status;
 	}
 
-	public HotelSearchResponseBean getHotelSearchResponseBean() {
-		return hotelSearchResponseBean;
+	public SearchFormBean getHotelSearchRequest() {
+		return hotelSearchRequest;
 	}
 
-	public void setHotelSearchResponseBean(
-			HotelSearchResponseBean hotelSearchResponseBean) {
-		this.hotelSearchResponseBean = hotelSearchResponseBean;
+	public void setHotelSearchRequest(SearchFormBean hotelSearchRequest) {
+		this.hotelSearchRequest = hotelSearchRequest;
+	}
+
+	public HotelSearchResponseBean getHotelSearchResponse() {
+		return hotelSearchResponse;
+	}
+
+	public void setHotelSearchResponse(HotelSearchResponseBean hotelSearchResponse) {
+		this.hotelSearchResponse = hotelSearchResponse;
 	}
 
 	public int getSelectHotelItem() {
@@ -43,12 +58,16 @@ public class ReservationContainerBean extends BaseBean {
 		this.selectHotelItem = selectHotelItem;
 	}
 
-	public ReserveResponseBean getReserveResponseBean() {
-		return ReserveResponseBean;
+	public ReserveResponseBean getReserveResponse() {
+		return reserveResponse;
 	}
 
-	public void setReserveResponseBean(ReserveResponseBean reserveResponseBean) {
-		ReserveResponseBean = reserveResponseBean;
+	public void setReserveResponse(ReserveResponseBean reserveResponse) {
+		this.reserveResponse = reserveResponse;
 	}
+	
+
+	
+	
 	
 }

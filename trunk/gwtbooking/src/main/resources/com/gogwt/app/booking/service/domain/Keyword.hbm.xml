@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.gogwt.app.booking.dto.dataObjects.common">
+
+    <class name="KeywordBean" table="KEYWORD">
+        <id name="keyword" column="keyword"/>        
+        <property name="lat"/>
+        <property name="lng"/>             
+    </class>
+    
+    <sql-query name="selectKeyword" cacheable="true">
+		<![CDATA[
+           from KeywordBean where keyword like :keyword limit :number ORDER BY keyword ASC
+        ]]>
+	</sql-query>
+	
+</hibernate-mapping>

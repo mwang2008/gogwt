@@ -1,0 +1,32 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	<diskStore path="java.io.tmpdir/gogwt" />
+	<cacheManagerEventListenerFactory class="" properties="" />
+
+	<!-- Default cache region settings -->
+	<defaultCache 
+	   maxElementsInMemory="5000" 
+	   eternal="false"
+	   timeToIdleSeconds="3600" 
+	   timeToLiveSeconds="43200"
+	   overflowToDisk="false" 
+	   maxElementsOnDisk="0"
+	   memoryStoreEvictionPolicy="LRU" 
+	/>
+
+	 
+
+	<!-- Hibernate Endeavor Caches -->
+        
+	<cache name="|gogwt|keyword|com.gogwt.app.booking.dto.dataObjects.common.KeywordBean" 
+		eternal="false" maxElementsInMemory="50000"
+		overflowToDisk="false" timeToLiveSeconds="43200"
+		timeToIdleSeconds="3600" />
+
+	<cache name="|gogwt|state|com.gogwt.app.booking.dto.dataObjects.common.StateBean" 
+		eternal="false" maxElementsInMemory="50000"
+		overflowToDisk="false" timeToLiveSeconds="43200"
+		timeToIdleSeconds="3600" />
+	 
+
+</ehcache>

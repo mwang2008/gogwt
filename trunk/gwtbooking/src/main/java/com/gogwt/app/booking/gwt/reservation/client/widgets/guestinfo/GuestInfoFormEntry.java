@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
+import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
@@ -93,7 +94,7 @@ public class GuestInfoFormEntry implements ClickListener, RPCProxyInterface<Base
 	 
 	public void handleRPCSuccess(BaseBean result, CommandBean command) {
 		ReserveResponseBean reserveResponseBean = (ReserveResponseBean)result;
-		GWTSession.getCurrentReservationContainer().setReserveResponseBean(reserveResponseBean);
+		GWTSession.getCurrentReservationContainer().setReserveResponse(reserveResponseBean);		 
 		
 		// 5. go to hotelsearchresult page
 		GWTExtClientUtils.forward(RESERVATION_CONFIRMATION);

@@ -3,6 +3,8 @@ package com.gogwt.app.booking.rpc.services.reservation;
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
@@ -35,6 +37,12 @@ public abstract class ReservationProcessServiceAdapter extends BaseService imple
  
 	public ReserveResponseBean reserveHotel(GuestInfoFormBean guestInfoForm,
 			UserContextBean userContext) throws AppRemoteException {
+		throw new UnsupportedException();
+	}
+
+
+	public ReservationContainerBean getReservationContainerBeanFromSession(
+			ProcessStatusEnum processStatusEnum) throws AppRemoteException {
 		throw new UnsupportedException();
 	}
  

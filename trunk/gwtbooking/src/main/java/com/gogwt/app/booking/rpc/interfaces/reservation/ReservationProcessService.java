@@ -3,6 +3,8 @@ package com.gogwt.app.booking.rpc.interfaces.reservation;
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
@@ -46,4 +48,11 @@ public interface ReservationProcessService extends RemoteService {
 	 */
 	ReserveResponseBean reserveHotel(GuestInfoFormBean guestInfoForm, UserContextBean userContext) throws AppRemoteException;
 	
+	/**
+	 * <p> Retrieve reservation session container </p>
+	 * 
+	 * @param callback
+	 */
+	ReservationContainerBean getReservationContainerBeanFromSession(ProcessStatusEnum processStatusEnum) throws AppRemoteException;
+
 }
