@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
@@ -28,11 +27,11 @@ public class HotelSearchResultController extends AbstractController {
 	  throws ServletException, IOException {
 		logger.debug("handleRequestInternal");
 		
-		HotelSearchResponseBean hotelSearchResponse = SessionBeanLookupService.getReservationSessionManager().getHotelSearchResponse();
+		HotelSearchResponseBean hotelSearchResponse = SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().getHotelSearchResponse();
 		final ModelMap modelMap = new ModelMap();
 		
 		modelMap.addAttribute( "searchResponse", hotelSearchResponse );
-		modelMap.addAttribute( "searchRequestForm", SessionBeanLookupService.getReservationSessionManager().getSearchFormBean() );
+		modelMap.addAttribute( "searchRequestForm", SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().getHotelSearchRequest() );
 		
 	    return new ModelAndView("/reservation/search_result").addAllObjects(modelMap);
 	    

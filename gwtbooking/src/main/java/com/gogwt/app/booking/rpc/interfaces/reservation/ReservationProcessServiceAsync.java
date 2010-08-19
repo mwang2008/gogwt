@@ -3,6 +3,8 @@ package com.gogwt.app.booking.rpc.interfaces.reservation;
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
@@ -25,7 +27,7 @@ public interface ReservationProcessServiceAsync {
 	final String SUGGESTIVE_TEXT_SERVICE_URI = "suggestiveText.rpc";
 	final String HOTEL_SEARCH_SERVICE_URI = "hotelSearch.rpc";
 	final String HOTEL_RESERVE_SERVICE_URI = "reserveHotel.rpc";
-
+	final String RESERVATION_SESSION_SERVICE_URI = "reservationSession.rpc";
 	
 	/***************************************************************************
 	 * Define Async interfaces
@@ -37,6 +39,7 @@ public interface ReservationProcessServiceAsync {
 	
 	void  reserveHotel(GuestInfoFormBean guestInfoForm, UserContextBean userContext, AsyncCallback<ReserveResponseBean> callback);
 	
+	void  getReservationContainerBeanFromSession(ProcessStatusEnum processStatusEnum, AsyncCallback<ReservationContainerBean> callback);
 	
 	/**************************************************************************
 	 * <code><B>Util<code><B> <p/> Utils to get service <p/>
@@ -56,6 +59,11 @@ public interface ReservationProcessServiceAsync {
 		public static ReservationProcessServiceAsync reserveHotelAsync() {
 			return getInstance(HOTEL_RESERVE_SERVICE_URI);
 		}
+		
+		public static ReservationProcessServiceAsync getSeesionBackupAsync() {
+			return getInstance(RESERVATION_SESSION_SERVICE_URI);
+		}
+		
 		
 		/**
 		 * <p> Convenient method used by all method calls in this service </p>

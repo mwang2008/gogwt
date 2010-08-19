@@ -18,6 +18,7 @@ public class EnvMappingElem {
     private String token;
     private boolean isSecure;
     private String domainName;
+    private String queryParamter; 
     
 	public String getLagnRegion() {
     	return getLanguageId() + "-" + getCountryId().toUpperCase();
@@ -88,7 +89,14 @@ public class EnvMappingElem {
 	}
 	public void setDomainName(String domainName) {
 		this.domainName = domainName;
+	}
+	public String getQueryParamter() {
+		return queryParamter;
+	}
+	public void setQueryParamter(String queryParamter) {
+		this.queryParamter = queryParamter;
 	}	
+	
 	
 	
 }

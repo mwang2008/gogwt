@@ -1,10 +1,24 @@
 package com.gogwt.app.booking.scopeManager.session;
 
-import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
-import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 
 public class ReservationSessionManager {
-	private SearchFormBean searchFormBean;
+	private ReservationContainerBean reservationContainerBean;
+
+	public ReservationContainerBean getReservationContainerBean() {
+	   if (reservationContainerBean == null) {
+			  reservationContainerBean = new ReservationContainerBean();
+	   }
+	   return reservationContainerBean;
+	}
+
+	public void setReservationContainerBean(
+			ReservationContainerBean reservationContainerBean) {
+		this.reservationContainerBean = reservationContainerBean;
+	}
+	
+	
+	/*private SearchFormBean searchFormBean;
 	private HotelSearchResponseBean hotelSearchResponse;
 
 	public SearchFormBean getSearchFormBean() {
@@ -21,6 +35,6 @@ public class ReservationSessionManager {
 
 	public void setHotelSearchResponse(HotelSearchResponseBean hotelSearchResponse) {
 		this.hotelSearchResponse = hotelSearchResponse;
-	}
+	}*/
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
 import com.gogwt.app.booking.businessService.domainService.ReservationBusinessService;
+import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
@@ -94,8 +95,10 @@ public class HotelSearchController extends SimpleFormController {
 		
 		//2. has result, redirect to result page
 		if (hotelSearchResponse != null && hotelSearchResponse.hasSearchResult()) {
-			SessionBeanLookupService.getReservationSessionManager().setSearchFormBean(searchFormBean);
-			SessionBeanLookupService.getReservationSessionManager().setHotelSearchResponse(hotelSearchResponse);
+			SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setHotelSearchRequest(searchFormBean);
+			SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setHotelSearchResponse(hotelSearchResponse);
+			SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setStatus(ProcessStatusEnum.SEARCH_FORM);
+			
 			String targetURL = getSuccessView();
 			return new ModelAndView(new RedirectView(targetURL));
 		}

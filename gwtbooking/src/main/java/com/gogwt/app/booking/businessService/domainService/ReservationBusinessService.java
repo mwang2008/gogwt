@@ -49,7 +49,7 @@ public final class ReservationBusinessService {
 		
 		//2.1.2 statusCode is not 200
 		if (geocodeResponseBean.getCode() != 200) {
-			
+			//todo
 		}
 				
 		//2.2 has multiple result

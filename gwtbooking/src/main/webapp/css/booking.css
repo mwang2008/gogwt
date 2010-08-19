@@ -1296,4 +1296,51 @@ a, a:visited, a:hover {
    font-size: 12px;  
 }
  
-	
+.progressBar {
+   margin-top: 5px;
+   margin-left: 10px;
+   color:#000000;
+   font-size:11px;
+   font-weight:normal;
+   padding:3;
+   text-align:left;
+   vertical-align:top;
+}
+
+ 
+.result_area_border { 
+  border:1px solid #080808;
+  background-color:#FFF8C6;
+  position:relative;
+  width:972px; 
+  top:20px;
+  margin-bottom: 9px;
+}
+
+.result_name_row { 
+  color:#000000;
+  font-family:Verdana,Helvetica,sans-serif;
+  font-size:11px;
+}
+
+.content_area_table_even_row { 
+  color:#000000;
+  font-family:Verdana,Helvetica,sans-serif;
+  font-size:9px;
+}
+
+.milesText {
+  border-width:1px;
+  padding:10px;
+  font-family:Verdana,Helvetica,sans-serif;
+  position:absolute;
+   
+  width:100x;  
+  //text-align:right;
+}
+
+.table-cell { 
+  background-color:#FFFF00;
+  border:1px solid #000099;
+  padding:5px;
+}

@@ -35,8 +35,14 @@ public class ResultListPanel extends BaseWidget {
 		List<HotelBean> hotelList = hotelSearchResponseBean.getHotelList();
 		if (hotelList != null && !hotelList.isEmpty()) {
 			for (int i=0; i<hotelList.size(); i++) {
+				
 				hotel = hotelList.get(i);
-				flextable.setWidget(i, 0, new Label(hotel.getId()+ ":" + hotel.getName()));
+				
+				//display each hotel items
+				SearchResultItemWidget itemWidget = new SearchResultItemWidget(hotel, i);
+				flextable.setWidget(i, 1, itemWidget);
+				
+/*				flextable.setWidget(i, 0, new Label(hotel.getId()+ ":" + hotel.getName()));
 		 		flextable.setWidget(i, 1, new Label(""+hotel.getLat()));
 				flextable.setWidget(i, 2, new Label(""+hotel.getLng()));
 				flextable.setWidget(i, 3, new Label(hotel.getCity()));				
@@ -50,7 +56,7 @@ public class ResultListPanel extends BaseWidget {
 						GWTExtClientUtils.forward("guestinfo");						
 					}					
 				});				
-				flextable.setWidget(i, 4, reserve);
+				flextable.setWidget(i, 4, reserve);*/
 			}
 		}
 		
