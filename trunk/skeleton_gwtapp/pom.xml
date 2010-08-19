@@ -1,0 +1,139 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.skeleton.example</groupId>
+    <artifactId>skeleton_gwtapp</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>skeleton_gwtapp Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+
+    <properties>
+        <!-- convenience to define GWT version in one place -->
+        <gwt.version>2.0.3</gwt.version>
+        <gwt-pluginVersion>1.2</gwt-pluginVersion>
+
+        <!--  tell the compiler we can use 1.6 -->
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
+
+    <build>
+        <finalName>skeleton_gwtapp</finalName>
+
+        <plugins>
+    
+           <!-- deploy jboss runtime -->
+          <!--
+           <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-war-plugin</artifactId>
+             <version>2.1-alpha-2</version>
+             <configuration>
+	        <packagingExcludes>${warExclude}</packagingExcludes>
+	        <outputDirectory> ${JBOSS_HOME}/server/default/deploy </outputDirectory>
+	        <outputFileNameMapping>@{artifactId}@@{classifier}@.@{extension}@</outputFileNameMapping>
+             </configuration>
+            </plugin>
+          -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!--Maven GWT plugin goes here-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt-pluginVersion}</version>
+   
+                <configuration>
+                    <logLevel>INFO</logLevel>
+
+                    <runTarget>com.skeleton.example.gwt.MyFirstGWTModule/MyFirstGWT.html</runTarget>
+
+                    <compileTargets>
+                       <value>com.skeleton.example.gwt.MyFirstGWTModule</value>                 
+                    </compileTargets>
+
+                    <i18nMessagesBundles>
+ 	              <i18nMessagesBundle>com.skeleton.example.resources.i18n.LabelResources</i18nMessagesBundle>
+ 	            </i18nMessagesBundles>
+                   
+                    <generateDirectory>src/main/java</generateDirectory>
+                </configuration>
+                             
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>i18n</goal>
+                        </goals>
+                    </execution>
+                </executions>                
+            </plugin>
+            
+            <!-- resource bundle -->
+           <plugin>
+	      <groupId>org.codehaus.mojo</groupId>
+	      <artifactId>native2ascii-maven-plugin</artifactId>
+	      <executions>
+	         <execution>
+                   <goals>
+		     <goal>native2ascii</goal>
+                   </goals>
+	           <configuration>
+                     <encoding>utf-8</encoding>
+                     <src>src/main/resources</src>
+		     <dest>target/classes</dest>
+		     <includes>
+		         **/*_ja.properties,**/*_zh.properties
+                     </includes>
+                  </configuration>
+               </execution>
+             </executions>
+         </plugin>
+      </plugins>
+
+
+    </build>
+
+    <dependencies>
+      <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Because this is a web app, we also have a dependency on the servlet api. -->
+    <dependency>
+       <groupId>javax.servlet</groupId>
+       <artifactId>servlet-api</artifactId>
+       <version>2.4</version>
+    </dependency>
+    
+    <!--  GWT dependencies (from central repo) -->
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <version>${gwt.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+ </dependencies>
+
+</project>
