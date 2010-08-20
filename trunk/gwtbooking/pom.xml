@@ -86,12 +86,11 @@
            </modules>
           <gwtVersion>${gwt.version}</gwtVersion>
           <style>${gwt.module.compile.style}</style>
-     
-         <!--
+            
           <i18nConstantsWithLookupBundles>
               <i18nConstantsWithLookupBundle>com.gogwt.app.booking.resources.i18n.misc.MiscResources</i18nConstantsWithLookupBundle>
           </i18nConstantsWithLookupBundles>
-          -->
+          
            
           <i18nMessagesBundles>
              <i18nMessagesBundle>com.gogwt.app.booking.resources.i18n.view.LabelResources</i18nMessagesBundle>
@@ -117,17 +116,17 @@
 	<artifactId>native2ascii-maven-plugin</artifactId>
 	<executions>
 	   <execution>
-              <goals>
-		 <goal>native2ascii</goal>
-              </goals>
+         <goals>
+		      <goal>native2ascii</goal>
+         </goals>
 	      <configuration>
-                 <encoding>utf-8</encoding>
-                 <src>src/main/resources</src>
-		 <dest>target/classes</dest>
-		 <includes>
-		    **/*_ja.properties,**/*_zh.properties
-                 </includes>
-              </configuration>
+             <encoding>utf-8</encoding>
+             <src>src/main/resources</src>
+		       <dest>target/classes</dest>
+		       <includes>
+		          **/*_ja.properties,**/*_zh.properties
+             </includes>
+          </configuration>
           </execution>
         </executions>
       </plugin>
@@ -292,7 +291,13 @@
       <classifier>jdk15</classifier> 
     </dependency>   
   
-
+     <!-- EHCACHE -->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>1.4.1</version>
+    </dependency>
+   
   </dependencies>
 
 </project>
