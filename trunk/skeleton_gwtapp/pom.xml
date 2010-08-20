@@ -46,6 +46,25 @@
                 </configuration>
             </plugin>
 
+     <!-- unwar to jboss deploy directory -->
+     <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>        
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <tasks>
+                   <unwar src="target/skeleton_gwtapp.war" dest="${JBOSS_HOME}/server/mytest/deploy/skeleton_gwtapp.war"/>                                      
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+ 
+        </executions>
+     </plugin>
+     
             <!--Maven GWT plugin goes here-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
