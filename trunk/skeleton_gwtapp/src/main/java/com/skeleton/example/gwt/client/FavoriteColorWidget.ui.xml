@@ -8,10 +8,40 @@
       <g:Label ui:field="greeting"/>
       
       <g:Label>Choose your favorite color(s):</g:Label>
+      
+      <g:HTMLPanel>
+        Hello, .
+      </g:HTMLPanel>
+      
+      <g:HorizontalPanel>
+        <g:Label  ui:field="firstName"/>      
+        <g:ListBox ui:field='listBox' visibleItemCount='1'/>
+      </g:HorizontalPanel>
+      
+      <g:Label>LastName:  Wang</g:Label>
+      
+      <g:HTML>
+        A &nbsp; B &alpha;
+        <ul>
+           <li>Sidebar</li>
+           <li>Sidebar</li>
+           <li>Sidebar</li>
+        </ul>
+      </g:HTML>
+      
+       <g:HorizontalPanel>
+        <g:Label  ui:field="addressLabel"/>      
+        <g:TextBox ui:field="address">3 Ravinia Drive</g:TextBox>
+      </g:HorizontalPanel>
+      
+      
       <g:CheckBox ui:field="red" formValue="red">Red</g:CheckBox>
       <g:CheckBox ui:field="white" formValue="white">White</g:CheckBox>
       <g:CheckBox ui:field="blue" formValue="blue">Blue</g:CheckBox>
+      
       <g:Button ui:field="button">Submit</g:Button>
+      <g:Button ui:field="btnSearch">Do Search</g:Button>
+      
    </g:VerticalPanel>
 
 </ui:UiBinder>

@@ -2,7 +2,7 @@ package com.skeleton.example.resources.i18n;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	J:/svnviews/gogwt/skeleton_gwtapp/src/main/resources/com/skeleton/example/resources/i18n/LabelResources.properties'.
+ * 	D:/gogwt/skeleton_gwtapp/src/main/resources/com/skeleton/example/resources/i18n/LabelResources.properties'.
  */
 public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   
