@@ -4,10 +4,24 @@
      xmlns:c="urn:import:com.skeleton.example.gwt.client">
      <ui:style>
           .bolder { font-weight:bold; }
+          .pretty { background-color: Skyblue; }
      </ui:style>
+     <ui:style field='otherStyle'>
+       .pretty { background-color: Orange; }
+     </ui:style>
+     
+     
      <g:HTMLPanel>
+         <div class='{otherStyle.pretty}'>
+           Hello, <span ui:field='nameSpan'/>.
+         </div>
+         
+        
+         
+          <g:Label  ui:field="welcomeLabel"/>
           <g:Label styleName="{style.bolder}" text="This is my label in bold!"/>
           <g:VerticalPanel ui:field="myPanelContent" spacing="5"/>
+          
            <c:FavoriteColorWidget/>          
      </g:HTMLPanel>
 </ui:UiBinder>
