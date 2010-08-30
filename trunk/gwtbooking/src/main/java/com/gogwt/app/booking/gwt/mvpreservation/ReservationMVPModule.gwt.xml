@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.0.3//EN" "http://google-web-toolkit.googlecode.com/svn/tags/2.0.3/distro-source/core/src/gwt-module.dtd">
+<module>
+	  <!-- Inherit the core Web Toolkit stuff. -->
+   <inherits name='com.google.gwt.user.User' />
+   <inherits name="com.google.gwt.i18n.I18N" />
+   <inherits name="com.google.gwt.json.JSON"/>
+   <inherits name="com.google.gwt.xml.XML" />
+   <inherits name="com.google.gwt.maps.GoogleMaps" />
+   <inherits name="com.google.gwt.ajaxloader.AjaxLoader"/>
+   
+   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+   
+   <!-- Internal Modules -->
+   <inherits name="com.gogwt.app.booking.resources.i18n.I18NResources"/> 
+   
+   <inherits name="com.gogwt.framework.arch.gwtArch" />
+   <inherits name="com.gogwt.app.booking.exceptions.GWTExceptions" />
+   <inherits name="com.gogwt.app.booking.dto.DataObjects" />
+   <inherits name="com.gogwt.app.booking.gwt.common.Common" />
+   <inherits name="com.gogwt.app.booking.rpc.rpcInterfaces" />
+
+	<entry-point class="com.gogwt.app.booking.gwt.mvpreservation.client.ReservationMVPEntryPoint"/>
+	
+</module>
