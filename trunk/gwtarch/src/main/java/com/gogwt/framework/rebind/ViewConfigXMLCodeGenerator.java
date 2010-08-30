@@ -21,8 +21,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * ViewConfigAccessorInterfaceGenerator defers reading xml and
  * generating code to this class
  * <p/>
- * @author bhavesh.thakker@ihg.com
- * @since Oct 7, 2008
+ * @deprecated
  */
 @SuppressWarnings("unchecked")
 public class ViewConfigXMLCodeGenerator

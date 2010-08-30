@@ -9,7 +9,7 @@ import com.gogwt.framework.arch.widgets.AbstractView;
  * Bean object used to hold view contains
  * 
  * @author WangM
- * 
+ * @deprecated
  */
 public class ViewConfig {
 	private String name;

@@ -4,19 +4,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
- 
-/**
- * 
- * @author WangM
- * @deprecated use AbstractPage
- */
-public abstract class AbstractView extends Composite implements View 
-{
-	protected final Panel viewPanel;
+public abstract class AbstractPage extends Composite {
+	protected final Panel pagePanel;
 	 
-	public AbstractView() {
-		  viewPanel = new FlowPanel();
-		  initWidget(viewPanel);
+	public AbstractPage() {
+		pagePanel = new FlowPanel();
+		  initWidget(pagePanel);
     }
 	
 	/**
@@ -27,4 +20,3 @@ public abstract class AbstractView extends Composite implements View
 	public void preProcess() {}
 	public void postProcess() {}
 }
-
