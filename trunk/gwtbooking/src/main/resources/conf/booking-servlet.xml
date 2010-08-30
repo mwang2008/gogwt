@@ -90,7 +90,9 @@
     <bean name="name=controller/property/HotelDetailController" class="com.gogwt.app.booking.controllers.action.HotelDetailController"/>
 
     <!-- ========================= GET CONTROLLER ========================= -->
-    <bean name="name=controller/reservation/GWTHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTHotelSearchController"/> 
+    <bean name="name=controller/reservation/GWTHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTHotelSearchController"/>
+    <bean name="name=controller/reservation/GWTMVPHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTMVPHotelSearchController"/>
+     
  
 
 	<!-- ========================= URL MAPPING ========================= -->
@@ -110,7 +112,8 @@
               <prop key="/**/guestinfo/**/">name=controller/reservation/GuestInfoController</prop>
               <prop key="/**/confirmed/**/">name=controller/reservation/ConfirmedController</prop>
               <prop key="/**/hoteldetail/**/">name=controller/property/HotelDetailController</prop>      
-              <prop key="/**/gwtreservation/**/">name=controller/reservation/GWTHotelSearchController</prop>       
+              <prop key="/**/gwtreservation/**/">name=controller/reservation/GWTHotelSearchController</prop>
+              <prop key="/**/mvpreservation/**/">name=controller/reservation/GWTMVPHotelSearchController</prop>       
            </props>
        </property>
      </bean>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<application> 
+	<pages>
+		<page name="home" 
+			class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.HomePage">
+      </page>
+      		
+		<!-- hotelsearchresult -->
+		<page name="searchresult"
+			class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.SearchResultPage">           			
+		</page>
+ 
+      
+	</pages>
+</application>
