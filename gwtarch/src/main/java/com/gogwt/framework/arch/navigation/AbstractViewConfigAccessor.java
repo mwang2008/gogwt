@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 
  * @author WangM
- * 
+ * @deprecated
  */
 public abstract class AbstractViewConfigAccessor implements ViewConfigAccessor {
 	protected static String[] viewTokens;

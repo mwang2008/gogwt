@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gogwt.framework.arch.navigation.AbstractViewConfigAccessor;
-import com.gogwt.framework.arch.navigation.ViewConfig;
-import com.gogwt.framework.arch.navigation.ViewConfigAccessor;
-import com.gogwt.framework.arch.widgets.AbstractView;
+import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
+import com.gogwt.framework.arch.navigation.PageConfig;
+import com.gogwt.framework.arch.navigation.PageConfigAccessor;
+import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -19,14 +19,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
-
-/**
- * 
- * @author WangM
- * @deprecated
- */
-public class ViewConfigAccessorInterfaceGenerator extends Generator {
-
+public class PageConfigAccessorInterfaceGenerator extends Generator {
 	private final static String ROOT_CONF_PATH = "conf/gwt/";
 
 	/** Simple name of class to be generated */
@@ -35,8 +28,8 @@ public class ViewConfigAccessorInterfaceGenerator extends Generator {
 	/** Package name of class to be generated */
 	private transient String packageName = null;
 
-	private transient JClassType viewAccessorInterfaceClassType = null;
-
+	private transient JClassType pageAccessorInterfaceClassType = null;
+	
 	@Override
 	public String generate(TreeLogger logger, GeneratorContext context,
 			String typeName) throws UnableToCompleteException {
@@ -44,23 +37,23 @@ public class ViewConfigAccessorInterfaceGenerator extends Generator {
 		try {
 			final TypeOracle typeOracle = context.getTypeOracle();
 			// get classType and save instance variables
-			viewAccessorInterfaceClassType = typeOracle.getType(typeName);
-			packageName = viewAccessorInterfaceClassType.getPackage().getName();
-			generatedImplClassName = viewAccessorInterfaceClassType.getSimpleSourceName()+ "Impl";
+			pageAccessorInterfaceClassType = typeOracle.getType(typeName);
+			packageName = pageAccessorInterfaceClassType.getPackage().getName();
+			generatedImplClassName = pageAccessorInterfaceClassType.getSimpleSourceName()+ "Impl";
 
 			// Generate class source code
 			generateClass(logger, context);
 
 		} catch (Exception e) {
 			// record to logger that Map generation threw an exception
-			logger.log(TreeLogger.ERROR,"Code Generation Error: ViewAccessorInterfaceProxyGenerator", e);
+			logger.log(TreeLogger.ERROR,"Code Generation Error: PageConfigAccessorInterfaceGenerator", e);
 		}
 
 		// return the fully qualifed name of the class generated
 		return packageName + "." + generatedImplClassName;
 
 	}
-
+	
 	private void generateClass(final TreeLogger logger,
 			final GeneratorContext context) {
 
@@ -84,12 +77,12 @@ public class ViewConfigAccessorInterfaceGenerator extends Generator {
 		composer.addImport(List.class.getCanonicalName());
 		composer.addImport(Map.class.getCanonicalName());
 		composer.addImport(HashMap.class.getCanonicalName());
-		composer.addImport(AbstractViewConfigAccessor.class.getCanonicalName());
-		composer.addImport(AbstractView.class.getCanonicalName());
-		composer.addImport(ViewConfig.class.getCanonicalName());
+		composer.addImport(AbstractPageConfigAccessor.class.getCanonicalName());
+		composer.addImport(AbstractPage.class.getCanonicalName());
+		composer.addImport(PageConfig.class.getCanonicalName());
 
-		composer.setSuperclass(AbstractViewConfigAccessor.class.getSimpleName());
-		composer.addImplementedInterface(ViewConfigAccessor.class.getCanonicalName());
+		composer.setSuperclass(AbstractPageConfigAccessor.class.getSimpleName());
+		composer.addImplementedInterface(PageConfigAccessor.class.getCanonicalName());
 
 		// source code generator
 		SourceWriter sourceWriter = null;
@@ -98,8 +91,6 @@ public class ViewConfigAccessorInterfaceGenerator extends Generator {
 		// generator constructor source code
 		generateConstructor(sourceWriter);
 
-		//todo:
-		//generateMethod_ToString(sourceWriter);
 		// generator method source code
 	    generateViewConfigMethodsByXML(logger, sourceWriter );
 	    
@@ -112,7 +103,7 @@ public class ViewConfigAccessorInterfaceGenerator extends Generator {
 		context.commit(logger, printWriter);
 
 	}
-
+	
 	/************************************************************************
 	 * PRIVATE METHOD
 	 ************************************************************************/
@@ -132,7 +123,7 @@ public class ViewConfigAccessorInterfaceGenerator extends Generator {
 	    sourceWriter.println( "public " + generatedImplClassName + "() { " );
 	    sourceWriter.indent();
 	    sourceWriter.println( "super();" );
-	    sourceWriter.println( "viewConfigInstances = new HashMap<String, ViewConfig>();" );
+	    sourceWriter.println( "pageConfigInstances = new HashMap<String, PageConfig>();" );
 
 	    // end constructor source generation
 	    sourceWriter.outdent();
@@ -141,21 +132,20 @@ public class ViewConfigAccessorInterfaceGenerator extends Generator {
 	  } 
 	/**
 	   * <p>
-	   * Generates code for lazyCreateOrGetViewConfig(String token) 
-	   * and getViewTokens() implementations using an xml file
+	   * Generates code for lazyCreateOrGetPageConfig(String token) 
+	   * and getPageTokens() implementations using an xml file
 	   * </p>
 	   * @param writer
 	   */
 	  private void generateViewConfigMethodsByXML(final TreeLogger logger, final SourceWriter writer) {
 	    try {
-	      final String path = ROOT_CONF_PATH + this.viewAccessorInterfaceClassType.getSimpleSourceName() + ".xml";
+	      final String path = ROOT_CONF_PATH + this.pageAccessorInterfaceClassType.getSimpleSourceName() + ".xml";
 	      
 	      logger.log( TreeLogger.INFO, path );
 	      
-	      ViewConfigXMLCodeGenerator.createViewConfigAccessorMethods( writer, path );
+	      PageConfigXMLCodeGenerator.createPageConfigAccessorMethods( writer, path );
 	    } catch (Exception e) {
 	      logger.log( TreeLogger.ERROR, "An error occured in xml parser usage");
 	    }
 	  }
 }
-

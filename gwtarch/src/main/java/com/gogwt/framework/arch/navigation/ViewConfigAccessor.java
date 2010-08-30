@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 
  * @author WangM
- *
+ * @deprecated
  */
 public interface ViewConfigAccessor {
    public String toString();
