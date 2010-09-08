@@ -3,7 +3,7 @@ package com.gogwt.app.booking.gwt.reservation.client.widgets.searchresult;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Panel;
 
-public class SearchResultItemWidget extends BaseWidget {
+public class SearchResultItemWidget extends AbstractWidget {
 	
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 	

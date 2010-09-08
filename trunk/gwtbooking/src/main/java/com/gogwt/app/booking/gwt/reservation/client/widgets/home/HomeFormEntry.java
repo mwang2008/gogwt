@@ -55,7 +55,7 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean
 		destinationText.setVisibleLength(30);
 		destinationText.setMaxLength(LENGTH_75);
 		destination = new SuggestBox(oracle, destinationText);
-		 
+		
  		 
 	}
 

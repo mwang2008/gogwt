@@ -5,13 +5,13 @@ import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
  
 
-public class ProgressBarWidget extends BaseWidget {
+public class ProgressBarWidget extends AbstractWidget {
 	
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 	
