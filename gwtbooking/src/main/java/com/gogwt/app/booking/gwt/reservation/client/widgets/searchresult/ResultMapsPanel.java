@@ -6,7 +6,7 @@ import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GoogleUtils;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.Maps;
 import com.google.gwt.maps.client.control.LargeMapControl;
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Panel;
  * @author WangM
  *
  */
-public class ResultMapsPanel extends BaseWidget  {
+public class ResultMapsPanel extends AbstractWidget  {
 	private Panel layoutPanel = new FlowPanel();
 	private final FlowPanel mapPanel;
  

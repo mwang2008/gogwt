@@ -7,7 +7,7 @@ import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ResultListPanel extends BaseWidget {
+public class ResultListPanel extends AbstractWidget {
 	Panel layoutPanel = new FlowPanel();
 
 	public ResultListPanel() {

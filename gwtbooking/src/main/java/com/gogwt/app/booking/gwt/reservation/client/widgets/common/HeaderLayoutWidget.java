@@ -9,7 +9,7 @@ import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationLookupResources;
 import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
-public class HeaderLayoutWidget extends BaseWidget {
+public class HeaderLayoutWidget extends AbstractWidget {
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 	
 	private Panel layoutPanel = WidgetStyleUtils.createHorizontalPanel();

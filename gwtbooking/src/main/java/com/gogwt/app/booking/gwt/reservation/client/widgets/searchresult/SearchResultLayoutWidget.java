@@ -4,7 +4,7 @@ import com.gogwt.app.booking.dto.dataObjects.common.EnvMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author WangM
  * 
  */
-public class SearchResultLayoutWidget extends BaseWidget implements
+public class SearchResultLayoutWidget extends AbstractWidget implements
 		 SelectionHandler<Integer> {
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 

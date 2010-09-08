@@ -5,7 +5,7 @@ import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GuestInfoLayoutWidget extends BaseWidget implements HasFormEntry {
+public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntry {
 	private static final String WIDGET_STYLE = "guestInfoWidget";
 	private static final String REQUIRED_STYLE = "guestInfoRequiredField";
 	

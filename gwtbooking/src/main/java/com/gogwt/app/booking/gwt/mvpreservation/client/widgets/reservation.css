@@ -1,0 +1,49 @@
+.homeViewId {   
+  min-height:336px;
+  width:972px;
+}
+
+.text12blue {
+   color:#4784BE; 
+   font-weight: bold;
+   font-size: 12px;  
+}
+
+.text12red {
+   color:#FF0000; 
+   font-weight: bold;
+   font-size: 12px;  
+}
+.homeViewRight {
+  float:right;
+  position:absolute;
+  left:48%;
+  //top:17em;
+  top:17px;
+}
+
+.homeViewLeft {
+  float:left;
+  top:27px;
+}
+
+.homeSearchPanel {
+  position:absolute;
+  top:10px;
+  padding:8px 0 0;
+}
+
+.destSubContainer {
+  color: #666;
+  font-size: 12px;
+  font-weight: bold;
+  vertical-align:top
+  height: 26px;
+  line-height: 14px;
+  padding: 14px 0 0 5px;
+  width: 465px;
+}
+.quickResRow {
+   margin-top: 9px;
+   margin-bottom: 9px;
+}

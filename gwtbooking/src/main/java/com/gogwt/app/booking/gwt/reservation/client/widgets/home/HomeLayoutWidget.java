@@ -3,7 +3,7 @@ package com.gogwt.app.booking.gwt.reservation.client.widgets.home;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
-import com.gogwt.framework.arch.widgets.BaseWidget;
+import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author WangM
  * 
  */
-public class HomeLayoutWidget extends BaseWidget {
+public class HomeLayoutWidget extends AbstractWidget {
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 	
 	HomeFormEntry formEntry;
