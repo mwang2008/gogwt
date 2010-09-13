@@ -1,5 +1,7 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.reservation.view;
 
+import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
+import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.core.client.GWT;
@@ -18,16 +20,33 @@ public class ReservationConfirmationViewImpl extends AbstractWidget implements R
 
     private static ReservationConfirmationViewUiBinder uiBinder = GWT.create(ReservationConfirmationViewUiBinder.class);
 
+    private Presenter presenter;
+    
     @UiField Label reservationNumber; 
     @UiField Label reservationNumberLabel;
     
     public ReservationConfirmationViewImpl() {
  		initWidget(uiBinder.createAndBindUi(this)); 	
- 		
- 		displayConfirmation();
   	}
     
-    private void displayConfirmation() {
-    	
-    }
+    
+
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
+		
+	}
+
+	public Widget asWidget() {
+		return this;
+	}
+
+
+
+	/**
+	 * Display reservation result
+	 */
+	public void displayConfirmation() {
+		ReserveResponseBean reserveResponse = (ReserveResponseBean)GWTSession.getCurrentReservationContainer().getReserveResponse();
+		reservationNumber.setText(reserveResponse.getReserveNum()+"");
+	}
 }
