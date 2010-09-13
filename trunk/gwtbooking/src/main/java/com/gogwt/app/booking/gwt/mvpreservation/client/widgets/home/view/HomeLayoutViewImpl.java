@@ -28,7 +28,6 @@ public class HomeLayoutViewImpl extends AbstractRequestWidget implements HomeLay
 	private Presenter<SearchFormBean> presenter;
 	
  	@UiField Label destinationLabel;
-	//@UiField (provided = true)
  	@UiField (provided = true) SuggestBox destination;
 	@UiField Label radiusLabel;
 	@UiField ListBox radius;
@@ -73,8 +72,7 @@ public class HomeLayoutViewImpl extends AbstractRequestWidget implements HomeLay
 */	
 	@UiHandler("btnSearch")
 	void doSearch(ClickEvent event) {
-	   //Window.alert("btnSelectionDestinationClicked");	 
-	   if (presenter != null) {		   
+ 	   if (presenter != null) {		   
 		   presenter.doSearch();
 	   }	  
 	}

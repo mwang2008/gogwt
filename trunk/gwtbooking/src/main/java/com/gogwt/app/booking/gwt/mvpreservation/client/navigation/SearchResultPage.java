@@ -4,17 +4,13 @@ import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_HOME;
 
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
-import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
-import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.presenter.HomePresenter;
-import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view.HomeLayoutViewImpl;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.presenter.SearchResultPresenter;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view.SearchResultViewImpl;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
-import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
 import com.gogwt.framework.arch.widgets.AbstractPage;
 
 public class SearchResultPage extends AbstractPage implements RPCProxyInterface<BaseBean> {

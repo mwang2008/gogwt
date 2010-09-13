@@ -1,11 +1,13 @@
 package com.gogwt.app.booking.businessService.domainService;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.gogwt.app.booking.businessService.dataaccess.HotelSearchDAO;
+import com.gogwt.app.booking.businessService.geocode.EarthGeoUtils;
 import com.gogwt.app.booking.businessService.geocode.GeocodeFactory;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
@@ -67,7 +69,30 @@ public final class ReservationBusinessService {
 		    
 		List<HotelBean> result = getHotelSearchDAO().searchHotel(centerGeocode);
 		
-		hotelSearchResponse.setHotelList(result);
+		 //3. return if hotel is not found.
+        if (result == null || result.isEmpty()) {
+            return hotelSearchResponse;
+        }
+        
+        
+		//4. remove the hotel which outside the radius
+ 		double distance;
+		if (result != null && !result.isEmpty()) {
+	 		for (HotelBean hotel : result) {
+			   distance = EarthGeoUtils.arcDistance(centerGeocodeBean.getLat(), centerGeocodeBean.getLng(), hotel.getLat(), hotel.getLng() );
+			   if (distance > searchFormBean.getRadius() ) {
+				   result.remove(hotel);
+				   continue;
+			   }
+			   hotel.setDistance(distance);
+			   
+			}
+			hotelSearchResponse.setHotelList(result);
+		}
+		
+		 //5. sort by distance.
+        Collections.sort(result, new HotelDistanceComparator());
+        
 		hotelSearchResponse.setCenterGeocode(centerGeocode);
 		
 		

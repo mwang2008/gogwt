@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author WangM
  *
  */
-public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean> {
+public class HomeFormEntry  implements ClickListener, RPCProxyInterface<HotelSearchResponseBean> {
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance(); 
 	 
 	protected Button btnSelectDestination = new Button();
@@ -108,9 +108,8 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<BaseBean
 	
  
 	//@Override
-	public void handleRPCSuccess(BaseBean result, CommandBean command) {
-		HotelSearchResponseBean hotelSearchResponse = (HotelSearchResponseBean)result;
-		
+	public void handleRPCSuccess(HotelSearchResponseBean hotelSearchResponse, CommandBean command) {
+	 	
 		//1. if no result
 		
 		//2. if multiple result

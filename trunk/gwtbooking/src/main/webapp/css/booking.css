@@ -1194,8 +1194,7 @@ a, a:visited, a:hover {
   width:400x;  
 }
 
-.headerLanguage {
-  //border-style: dashed;
+.headerLanguage {  
   border-width:1px;
   padding:10px;
   position:absolute;
@@ -1344,3 +1343,19 @@ a, a:visited, a:hover {
   border:1px solid #000099;
   padding:5px;
 }
+
+  .item {
+    margin-bottom:0.3em;
+    margin-bottom:0.3em;
+    margin-left:0.8em;
+  }
+
+  
+  .distance {  
+    border-width:1px;
+    padding:10px;
+    position:absolute;
+    top:1px;
+    right:15px;
+    width:100x;  
+  }

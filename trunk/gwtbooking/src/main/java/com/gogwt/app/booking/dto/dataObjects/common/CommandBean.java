@@ -16,7 +16,7 @@ import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 public class CommandBean extends BaseBean
 {
    
-   private Map mArgs;
+   private Map  mArgs;
 
    
    /**

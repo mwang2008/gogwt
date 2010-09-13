@@ -13,7 +13,7 @@
    
    <!-- Internal Modules -->
    <inherits name="com.gogwt.app.booking.resources.i18n.I18NResources"/> 
-   
+    
    <inherits name="com.gogwt.framework.arch.gwtArch" />
    <inherits name="com.gogwt.app.booking.exceptions.GWTExceptions" />
    <inherits name="com.gogwt.app.booking.dto.DataObjects" />

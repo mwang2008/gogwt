@@ -11,6 +11,8 @@ import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
+import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppHandlerManager;
+import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.event.HotelSelectEvent;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
@@ -22,7 +24,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GuestInfoFormEntry implements ClickListener, RPCProxyInterface<BaseBean> {
+public class GuestInfoFormEntry implements ClickListener, RPCProxyInterface<ReserveResponseBean> {
 	private HasFormEntry callback;
 	 
 	TextBox firstName = new TextBox();
@@ -92,12 +94,12 @@ public class GuestInfoFormEntry implements ClickListener, RPCProxyInterface<Base
 	}
 
 	 
-	public void handleRPCSuccess(BaseBean result, CommandBean command) {
-		ReserveResponseBean reserveResponseBean = (ReserveResponseBean)result;
-		GWTSession.getCurrentReservationContainer().setReserveResponse(reserveResponseBean);		 
+	public void handleRPCSuccess(ReserveResponseBean reserveResponseBean, CommandBean command) {
+ 		GWTSession.getCurrentReservationContainer().setReserveResponse(reserveResponseBean);		 
 		
 		// 5. go to hotelsearchresult page
 		GWTExtClientUtils.forward(RESERVATION_CONFIRMATION);
+			
 		
 	}
 
