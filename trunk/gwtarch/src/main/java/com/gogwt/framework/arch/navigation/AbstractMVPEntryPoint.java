@@ -30,8 +30,10 @@ public abstract class AbstractMVPEntryPoint implements EntryPoint,
 		initializePageAccessor();
 		initializeHistoryListener();
 
+		preLoadModule();
 		loadModule();
-
+		postLoadModule();
+		
 		if (!isDefaultPageLoaded) {
 			History.fireCurrentHistoryState();
 		}
@@ -56,9 +58,11 @@ public abstract class AbstractMVPEntryPoint implements EntryPoint,
 	 * <p>
 	 * The entry point of loading module, all sub class should implement it.
 	 * </p>
-	 */
+	 */	
 	protected abstract void loadModule();
-
+	protected void preLoadModule() {}
+	protected void postLoadModule() {}
+	
 	/**
 	 * <p>
 	 * Make subclass provide the correct view accessor
