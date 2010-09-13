@@ -37,8 +37,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SearchResultViewImpl extends AbstractWidget implements
-		SearchResultView<HotelBean>, RPCProxyInterface<BaseBean> {
+public class SearchResultViewImpl<T> extends AbstractWidget implements
+		SearchResultView<T>, RPCProxyInterface<BaseBean> {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 
@@ -47,10 +47,9 @@ public class SearchResultViewImpl extends AbstractWidget implements
 			UiBinder<Widget, SearchResultViewImpl> {
 	}
 
-	private static SearchResultViewUiBinder uiBinder = GWT
-			.create(SearchResultViewUiBinder.class);
+	private static SearchResultViewUiBinder uiBinder = GWT.create(SearchResultViewUiBinder.class);
 
-	private Presenter<HotelBean> presenter;
+	private Presenter<T> presenter;
 
 	@UiField Label destinationLabel;
 	@UiField TabLayoutPanel tabPanel;
@@ -109,7 +108,7 @@ public class SearchResultViewImpl extends AbstractWidget implements
 	
 	
 	public void setPresenter(
-			com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view.SearchResultView.Presenter<HotelBean> presenter) {
+			com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view.SearchResultView.Presenter<T> presenter) {
 		this.presenter = presenter; 		
 	}
 
@@ -186,7 +185,7 @@ public class SearchResultViewImpl extends AbstractWidget implements
 	 * show hotel list
 	 * @param hotelSearchResponseBea
 	 */
-	private void showHotelList(final Presenter<HotelBean> presenter, final HotelSearchResponseBean hotelSearchResponseBea) {
+	private void showHotelList(final Presenter<T> presenter, final HotelSearchResponseBean hotelSearchResponseBea) {
 		itemDetailList.displayDetailItemList(presenter, hotelSearchResponseBea);
 	}
 	

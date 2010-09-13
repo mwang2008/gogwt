@@ -20,7 +20,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ResultDetailItemSubView extends AbstractWidget {
+public class ResultDetailItemSubView<T> extends AbstractWidget {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 
