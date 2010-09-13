@@ -36,5 +36,9 @@ public interface HomeLayoutView<T> {
 	 */
 	void fromValue(T t);
 	
-	void fillErrorMsg(ArrayList<String> msg);
+	/**
+	 * Fill error message
+	 * @param msg
+	 */
+	void dispErrorMsg(ArrayList<String> msg);
 }

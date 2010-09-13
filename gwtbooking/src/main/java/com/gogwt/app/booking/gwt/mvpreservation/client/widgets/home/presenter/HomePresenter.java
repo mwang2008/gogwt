@@ -8,31 +8,26 @@ import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
+import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppHandlerManager;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.presenter.Presenter;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.HotelSearchEvent;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view.HomeLayoutView;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 
-public class HomePresenter implements Presenter, HomeLayoutView.Presenter<SearchFormBean>, RPCProxyInterface<BaseBean> {
-	 
-	
-	private final HandlerManager eventBus;
+public class HomePresenter implements Presenter, HomeLayoutView.Presenter<SearchFormBean>, RPCProxyInterface<HotelSearchResponseBean> {
+ 	 
 	private final HomeLayoutView<SearchFormBean> view; 
-	//private SearchFormBean searchFormBean;
-	//private final HomeLayoutView.Presenter presenter;
-	
-	public HomePresenter(HandlerManager eventBus,
-			HomeLayoutView<SearchFormBean> view) {
+ 	
+	public HomePresenter(HomeLayoutView<SearchFormBean> view) {
 		
-		this.eventBus = eventBus;
+		//this.eventBus = 
 		this.view = view;
 		this.view.setPresenter(this);		
-		//this.presenter = presenter;
+		 
 	}
 
 	public void go(HasWidgets container) {
@@ -51,7 +46,7 @@ public class HomePresenter implements Presenter, HomeLayoutView.Presenter<Search
 		//2. validate form value
 		ArrayList<String> errorList = new SearchValidate().validate(formBean);
 		if (GWTStringUtils.isSet(errorList)) {
- 			view.fillErrorMsg(errorList);
+ 			view.dispErrorMsg(errorList);
 			return;
 		}
 		
@@ -71,19 +66,20 @@ public class HomePresenter implements Presenter, HomeLayoutView.Presenter<Search
 	/**
 	 * Call back for the RPC of searchHotels
 	 */
-	public void handleRPCSuccess(BaseBean result, CommandBean command) {
-        HotelSearchResponseBean hotelSearchResponse = (HotelSearchResponseBean)result;
-				
+	public void handleRPCSuccess(HotelSearchResponseBean hotelSearchResponse, CommandBean command) {
+     			
 		GWTSession.getCurrentReservationContainer().setHotelSearchResponse(hotelSearchResponse);
 
 		// invoke event bus for target page
-		eventBus.fireEvent(new HotelSearchEvent());	
+		AppHandlerManager.getEventBus().fireEvent(new HotelSearchEvent());	
 	}
 
 	public void handleRPCError(Throwable caught, CommandBean command) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	 
 
 	 
 }

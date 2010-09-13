@@ -1,0 +1,50 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+     xmlns:g="urn:import:com.google.gwt.user.client.ui"
+     xmlns:gm='urn:import:com.google.gwt.maps.client'
+     xmlns:item='urn:import:com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view'>
+     
+     <ui:style field='resStyle' src="../../reservation.css"/>
+  
+     <g:HTMLPanel>
+        <br/>
+        <form>
+             
+        <table> 
+          <tr class='{resStyle.item}'>
+             <td align="left" colspan="2">   
+                <!--  error msg -->
+                &nbsp;&nbsp; <g:HTML styleName="{resStyle.text12red}" ui:field="errorMessage"></g:HTML>
+             </td>
+          </tr> 
+          <tr class='{resStyle.item}'>
+             <td align="right">  Title: </td>  <td> <g:TextBox ui:field="title"/> </td>
+          </tr>  
+          <tr class='{resStyle.item}'>
+             <td align="right">  First Name: </td>  <td> <g:TextBox ui:field="firstName"/> </td>
+          </tr>
+          <tr class='{resStyle.item}'>
+             <td align="right">  Last Name: </td>  <td> <g:TextBox ui:field="lastName"/> </td>
+          </tr>
+          <tr class='{resStyle.item}'>
+             <td align="right">  Address: </td>  <td> <g:TextBox ui:field="address"/> </td>
+          </tr>
+          <tr class='{resStyle.item}'>
+             <td align="right">  City: </td>  <td> <g:TextBox ui:field="city"/> </td>
+          </tr>
+          <tr class='{resStyle.item}'>
+             <td align="right">  State: </td>  <td> <g:TextBox ui:field="stateId"/> </td>
+          </tr>
+          <tr class='{resStyle.item}'>
+             <td align="right">  Zip Code: </td>  <td> <g:TextBox ui:field="zipCode"/> </td>
+          </tr>
+          <tr class='{resStyle.item}'>
+             <td align="right">  Email: </td>  <td> <g:TextBox ui:field="email"/> </td>
+          </tr>
+          <tr class='{resStyle.item}'>
+             <td align="center" colspan="2">  <g:Button ui:field="btnSubmit"/> </td>
+          </tr>
+        </table>    
+        </form>
+     </g:HTMLPanel> 
+</ui:UiBinder>

@@ -28,6 +28,16 @@ public final class GoogleUtils {
 		 });
 	}
 
+	public static void loadGoogleMapKey() {
+	   if (!googleMapKeyLoaded) {
+		   Maps.loadMapsApi(GoogleUtils.GOOGLE_MAPKEY, "2", false, new Runnable() {
+		      public void run() {
+		    	  googleMapKeyLoaded = true;
+		      }
+		   });
+	   }
+	}
+	
 	/**
 	 * @return the googleMapKeyLoaded
 	 */

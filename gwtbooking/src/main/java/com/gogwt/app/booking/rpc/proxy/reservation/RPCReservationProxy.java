@@ -40,7 +40,7 @@ public final class RPCReservationProxy {
 	 */
 	public void searchHotels(final SearchFormBean hotelSearch, final UserContextBean userContext, 
 			       final CommandBean command,
-			final RPCProxyInterface<BaseBean> callback) {
+			final RPCProxyInterface<HotelSearchResponseBean> callback) {
 		
 		ReservationProcessServiceAsync service = ReservationProcessServiceAsync.Util.searchHotelsAsync();
 		
@@ -71,7 +71,7 @@ public final class RPCReservationProxy {
 	 */
 	public void reserveHotel(final GuestInfoFormBean guestInfo, final UserContextBean userContext, 
 			       final CommandBean command,
-			final RPCProxyInterface<BaseBean> callback) {
+			final RPCProxyInterface<ReserveResponseBean> callback) {
 		
 		ReservationProcessServiceAsync service = ReservationProcessServiceAsync.Util.reserveHotelAsync();
 		

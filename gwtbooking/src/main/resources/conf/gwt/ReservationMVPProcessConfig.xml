@@ -11,6 +11,22 @@
 			class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.SearchResultPage">           			
 		</page>
  
+      <!-- guestinfo -->
+      <page name="guestinfo"
+         class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.GuestInfoPage">   
+         <properties>
+            <property name="populators">
+               <map>
+                  <entry key="statesProvincesPopulator">com.gogwt.app.booking.populator.StatePopulator</entry>
+               </map>
+            </property>
+         </properties>                        
+      </page>
+      
+      <!--  resconfirmation -->   
+      <view name="resconfirmation"
+         class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.ReservationConfirmationPage">
+      </view> 
       
 	</pages>
 </application>

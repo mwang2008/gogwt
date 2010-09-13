@@ -106,6 +106,51 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String Page_name_searchresult();
 
   /**
+   * Translated "Indoor Pool".
+   * 
+   * @return translated "Indoor Pool"
+   */
+  @DefaultMessage("Indoor Pool")
+  @Key("amenities.indoor.pool")
+  String amenities_indoor_pool();
+
+  /**
+   * Translated "Kitchen".
+   * 
+   * @return translated "Kitchen"
+   */
+  @DefaultMessage("Kitchen")
+  @Key("amenities.kitchen")
+  String amenities_kitchen();
+
+  /**
+   * Translated "Outdoor Pool".
+   * 
+   * @return translated "Outdoor Pool"
+   */
+  @DefaultMessage("Outdoor Pool")
+  @Key("amenities.outdoor.pool")
+  String amenities_outdoor_pool();
+
+  /**
+   * Translated "Pet Allowed".
+   * 
+   * @return translated "Pet Allowed"
+   */
+  @DefaultMessage("Pet Allowed")
+  @Key("amenities.pet.allowed")
+  String amenities_pet_allowed();
+
+  /**
+   * Translated "Tennis".
+   * 
+   * @return translated "Tennis"
+   */
+  @DefaultMessage("Tennis")
+  @Key("amenities.tennis")
+  String amenities_tennis();
+
+  /**
    * Translated "book the hotel".
    * 
    * @return translated "book the hotel"

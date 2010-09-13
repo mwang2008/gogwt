@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface SearchResultView<T> {
 	public interface Presenter<T> {
-		 
+		void doSelect(int index, T t);
 	}
 	
 	public void process();

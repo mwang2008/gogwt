@@ -26,6 +26,8 @@ public class HotelBean extends BaseBean {
 	private String hasOutdoorPool;
 	private String hasKitchen;
 
+	private double distance;
+	
 	public int getId() {
 		return id;
 	}
@@ -194,6 +196,14 @@ public class HotelBean extends BaseBean {
 
 	public void setHasKitchen(String hasKitchen) {
 		this.hasKitchen = hasKitchen;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 
 	

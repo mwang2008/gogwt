@@ -1,6 +1,7 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.navigation;
 
-import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.AppController;
+import com.gogwt.app.booking.gwt.common.utils.GoogleUtils;
+import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppController;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.presenter.HomePresenter;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view.HomeLayoutViewImpl;
 import com.gogwt.framework.arch.widgets.AbstractPage;
@@ -10,16 +11,10 @@ public class HomePage extends AbstractPage {
 	private HomeLayoutViewImpl homeView; 
 	
 	public HomePage() {
-		//homeView = new HomeLayoutViewImpl();
-	    
-		HandlerManager eventBus = new HandlerManager(null);
-		//HasWidgets container = this;
-		
-	    AppController appViewer = new AppController(eventBus);
 	    if (homeView == null) {
 	    	homeView = new HomeLayoutViewImpl();           
          }
-         new HomePresenter(eventBus, homeView).go(pagePanel);
+         new HomePresenter(homeView).go(pagePanel);
          
  	}
 	
@@ -29,4 +24,8 @@ public class HomePage extends AbstractPage {
 		homeView.prepareEntryLayout();
 	}
 
+	@Override
+	public void postProcess() {
+		GoogleUtils.loadGoogleMapKey();
+	}
 }

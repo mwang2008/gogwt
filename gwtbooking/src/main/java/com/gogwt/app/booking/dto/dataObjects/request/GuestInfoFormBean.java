@@ -4,7 +4,7 @@ import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 
 public class GuestInfoFormBean extends BaseBean {
 	private int id;  //propety Id
-	
+	private String title;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -13,6 +13,15 @@ public class GuestInfoFormBean extends BaseBean {
     private String stateId;
     private String zipCode;
     
+    
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}

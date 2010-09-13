@@ -47,3 +47,45 @@
    margin-top: 9px;
    margin-bottom: 9px;
 }
+
+.result_area_border { 
+  border:1px solid #080808;
+  background-color:#FFF8C6;
+  position:relative;
+  width:972px; 
+  top:20px;
+  margin-bottom: 9px;
+}
+
+ .item {
+    margin-bottom:0.3em;
+    margin-bottom:0.3em;
+    margin-left:0.8em;
+ }
+
+  
+ .distance {  
+    border-width:1px;
+    padding:10px;
+    position:absolute;
+    top:1px;
+    right:15px;
+    width:100x;  
+ }
+  
+ .btnSelect {  
+    border-width:1px;
+    padding:10px;
+    position:absolute;
+    top:18px;
+    right:15px;
+    width:100x;  
+ }
+ 
+.guestInfoRequiredField { 
+    padding:4px 16px 2px 0;
+    text-align:right;
+    width:79px;
+}
+ 
+ 
