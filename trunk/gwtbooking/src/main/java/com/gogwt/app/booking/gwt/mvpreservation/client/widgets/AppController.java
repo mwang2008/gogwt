@@ -1,6 +1,9 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets;
 
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.*;
+import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.GUEST_INFO;
+import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.RESERVATION_CONFIRMATION;
+import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_HOME;
+import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_SEARCH_RESULT;
 
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.event.GuestInfoEvent;
@@ -10,7 +13,6 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.HotelS
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.event.HotelSelectEvent;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.event.HotelSelectEventHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
 
 public class AppController {
 	private final HandlerManager eventBus;

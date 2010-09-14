@@ -4,6 +4,7 @@ package com.gogwt.app.booking.rpc.proxy.reservation;
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
+import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
@@ -69,13 +70,13 @@ public final class RPCReservationProxy {
 	 * @param userContext
 	 * @param callback
 	 */
-	public void reserveHotel(final GuestInfoFormBean guestInfo, final UserContextBean userContext, 
+	public void reserveHotel(final GuestInfoFormBean guestInfo, final int selectedHotelItem, final UserContextBean userContext, 
 			       final CommandBean command,
 			final RPCProxyInterface<ReserveResponseBean> callback) {
 		
 		ReservationProcessServiceAsync service = ReservationProcessServiceAsync.Util.reserveHotelAsync();
 		
-		service.reserveHotel(guestInfo, userContext, new AsyncCallback<ReserveResponseBean>() {
+		service.reserveHotel(guestInfo, selectedHotelItem, userContext, new AsyncCallback<ReserveResponseBean>() {
 
 			//@Override
 			public void onFailure(Throwable caught) {

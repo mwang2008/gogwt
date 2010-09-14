@@ -1,14 +1,15 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.presenter;
 
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.RESERVATION_CONFIRMATION;
-
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
+import com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
+import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppHandlerManager;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.presenter.Presenter;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.event.GuestInfoEvent;
@@ -20,7 +21,8 @@ import com.gogwt.framework.arch.utils.GWTStringUtils;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class GuestInfoPresenter implements Presenter, GuestInfoView.Presenter<GuestInfoFormBean>, RPCProxyInterface<ReserveResponseBean> {
-
+	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
+	
 	private final GuestInfoView<GuestInfoFormBean> view; 
  	
 	public GuestInfoPresenter(GuestInfoView<GuestInfoFormBean> view) {
@@ -48,11 +50,16 @@ public class GuestInfoPresenter implements Presenter, GuestInfoView.Presenter<Gu
 		//2. get form Value
 		GuestInfoFormBean guestInfo = view.toValue();
 		
+		final ReservationContainerBean currentContainer = GWTSession
+		.getCurrentReservationContainer();
+ 		 
+		guestInfo.setId(currentContainer.getSelectedHotel().getId());
+		
 		//3. call RPC
  		CommandBean passCommand = new CommandBean();
 		passCommand.addArg("guestInfo", guestInfo);
 		
-		RPCReservationProxy.getInstance().reserveHotel(guestInfo,
+		RPCReservationProxy.getInstance().reserveHotel(guestInfo, currentContainer.getSelectHotelItem(),
 				GWTExtClientUtils.getUserContext(), passCommand, this);
 
 	}
@@ -66,14 +73,17 @@ public class GuestInfoPresenter implements Presenter, GuestInfoView.Presenter<Gu
 		GWTSession.getCurrentReservationContainer().setGuestInfoBean(guestInfo);
         GWTSession.getCurrentReservationContainer().setReserveResponse(reserveResponseBean);		 
 		
-		//go to hotelsearchresult page
-		GWTExtClientUtils.forward(RESERVATION_CONFIRMATION);
+		//go to reservation confirmation page
+		//GWTExtClientUtils.forward(RESERVATION_CONFIRMATION);
 		AppHandlerManager.getEventBus().fireEvent(new GuestInfoEvent());
 	}
 
 	public void handleRPCError(Throwable caught, CommandBean command) {
 		//add error message
-		caught.printStackTrace();
-		
-	}
+		if (caught instanceof SessionTimedoutException) {
+			ArrayList<String> errorList = new ArrayList<String>();
+			errorList.add(tags.error_session_timedout());
+			view.dispErrorMsg(errorList);
+		}
+ 	}
 }

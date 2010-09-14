@@ -9,17 +9,17 @@ public class ReservationConfirmationPage extends AbstractPage {
 
 	private ReservationConfirmationView theView;
 
-	public ReservationConfirmationPage() {
-		if (theView == null) {
+	public ReservationConfirmationPage() {		// 
+ 		if (theView == null) {
 			theView = new ReservationConfirmationViewImpl();
 		}
-		// new GuestInfoPresenter(guestinfoView).go(pagePanel);
-	}
+		new ReservationConfirmationPresenter(theView).go(pagePanel);
+ 	}
 
 	@Override
 	public void process() {
 		//this.pagePanel.add(new Label(" confirmation "));
-		new ReservationConfirmationPresenter(theView).go(pagePanel);
+		theView.process();
 	}
 
 }

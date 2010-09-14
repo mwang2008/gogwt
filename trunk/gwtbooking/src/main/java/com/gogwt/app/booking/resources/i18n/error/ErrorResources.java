@@ -16,6 +16,15 @@ public interface ErrorResources extends com.google.gwt.i18n.client.Messages {
   String error_empty_location();
 
   /**
+   * Translated "Session Timedout".
+   * 
+   * @return translated "Session Timedout"
+   */
+  @DefaultMessage("Session Timedout")
+  @Key("error.session.timedout")
+  String error_session_timedout();
+
+  /**
    * Translated "Please enter your {0}.".
    * 
    * @return translated "Please enter your {0}."

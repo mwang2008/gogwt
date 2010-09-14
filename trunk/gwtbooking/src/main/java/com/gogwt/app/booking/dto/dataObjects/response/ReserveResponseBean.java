@@ -1,10 +1,14 @@
 package com.gogwt.app.booking.dto.dataObjects.response;
 
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 
 public class ReserveResponseBean extends BaseBean {
 	private int reserveNum;
-
+    private HotelBean selectHotel;
+    private GuestInfoFormBean guestInfo;
+    
 	public int getReserveNum() {
 		return reserveNum;
 	}
@@ -13,4 +17,21 @@ public class ReserveResponseBean extends BaseBean {
 		this.reserveNum = reserveNum;
 	}
 
+	public HotelBean getSelectHotel() {
+		return selectHotel;
+	}
+
+	public void setSelectHotel(HotelBean selectHotel) {
+		this.selectHotel = selectHotel;
+	}
+
+	public GuestInfoFormBean getGuestInfo() {
+		return guestInfo;
+	}
+
+	public void setGuestInfo(GuestInfoFormBean guestInfo) {
+		this.guestInfo = guestInfo;
+	}
+
+	
 }

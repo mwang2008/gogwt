@@ -8,6 +8,8 @@ public interface ReservationConfirmationView  {
 		
 	}
 	
+	public void process();
+	
 	/**
 	 * Connect to presenter
 	 * @param presenter
@@ -20,5 +22,4 @@ public interface ReservationConfirmationView  {
 	 */
 	Widget asWidget();
 	
-	void displayConfirmation();
 }

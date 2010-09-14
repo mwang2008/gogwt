@@ -10,8 +10,8 @@ import com.gogwt.app.booking.dto.dataObjects.common.EnvMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
-import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
+import com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
@@ -37,8 +37,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SearchResultViewImpl<T> extends AbstractWidget implements
-		SearchResultView<T>, RPCProxyInterface<BaseBean> {
+public class SearchResultViewImpl extends AbstractWidget implements
+		SearchResultView<HotelBean>, RPCProxyInterface<BaseBean> {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 
@@ -49,7 +49,7 @@ public class SearchResultViewImpl<T> extends AbstractWidget implements
 
 	private static SearchResultViewUiBinder uiBinder = GWT.create(SearchResultViewUiBinder.class);
 
-	private Presenter<T> presenter;
+	private Presenter<HotelBean> presenter;
 
 	@UiField Label destinationLabel;
 	@UiField TabLayoutPanel tabPanel;
@@ -108,7 +108,7 @@ public class SearchResultViewImpl<T> extends AbstractWidget implements
 	
 	
 	public void setPresenter(
-			com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view.SearchResultView.Presenter<T> presenter) {
+			com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view.SearchResultView.Presenter<HotelBean> presenter) {
 		this.presenter = presenter; 		
 	}
 
@@ -161,6 +161,12 @@ public class SearchResultViewImpl<T> extends AbstractWidget implements
 	public void handleRPCError(Throwable caught, CommandBean command) {
 	    // could not find in backend session, redirect back to home page.
 		//todo: use eventBus
+		
+		if (caught instanceof SessionTimedoutException) {
+			GWTExtClientUtils.redirect(VIEW_HOME);
+			return;
+		}
+		
 		GWTExtClientUtils.redirect( VIEW_HOME );
  	}
 	
@@ -185,7 +191,7 @@ public class SearchResultViewImpl<T> extends AbstractWidget implements
 	 * show hotel list
 	 * @param hotelSearchResponseBea
 	 */
-	private void showHotelList(final Presenter<T> presenter, final HotelSearchResponseBean hotelSearchResponseBea) {
+	private void showHotelList(final Presenter<HotelBean> presenter, final HotelSearchResponseBean hotelSearchResponseBea) {
 		itemDetailList.displayDetailItemList(presenter, hotelSearchResponseBea);
 	}
 	

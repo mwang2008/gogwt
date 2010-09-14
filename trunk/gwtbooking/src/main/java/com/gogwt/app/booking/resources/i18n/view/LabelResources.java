@@ -223,6 +223,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String label_radius();
 
   /**
+   * Translated "Reservation Number".
+   * 
+   * @return translated "Reservation Number"
+   */
+  @DefaultMessage("Reservation Number")
+  @Key("reservation.resnumber")
+  String reservation_resnumber();
+
+  /**
    * Translated "List View".
    * 
    * @return translated "List View"

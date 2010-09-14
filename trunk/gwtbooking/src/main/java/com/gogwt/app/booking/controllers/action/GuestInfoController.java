@@ -14,7 +14,9 @@ import com.gogwt.app.booking.businessService.domainService.LookupBusinessService
 import com.gogwt.app.booking.businessService.domainService.ReservationBusinessService;
 import com.gogwt.app.booking.controllers.BaseAbstractFormController;
 import com.gogwt.app.booking.controllers.ControllerHelper;
+import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
+import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
  
 
 /**
@@ -94,8 +96,12 @@ public class GuestInfoController extends BaseAbstractFormController {
 		
 	
 		//1. call domain service to search for hotel
-		ReservationBusinessService reservationBusinessService = LookupBusinessService.getReservationBusinessService();		
-		reservationBusinessService.confirmReservation(guestFormBean, ControllerHelper.getUserContext(request));
+		ReservationBusinessService reservationBusinessService = LookupBusinessService.getReservationBusinessService();
+		//todo:
+		int index = 2;
+		HotelBean selectedHotel = SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().getHotelSearchResponse().getHotelList().get(index);
+		
+		reservationBusinessService.confirmReservation(guestFormBean, selectedHotel, ControllerHelper.getUserContext(request));
 			
 		String targetURL = getSuccessView();
 		return new ModelAndView(new RedirectView(targetURL));
