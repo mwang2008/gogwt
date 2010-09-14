@@ -8,8 +8,6 @@ public class ReservationConfirmationPresenter implements Presenter, ReservationC
 	private final ReservationConfirmationView view; 
 	
 	public ReservationConfirmationPresenter(ReservationConfirmationView view) {
-		
-		//this.eventBus = 
 		this.view = view;
 		this.view.setPresenter(this);		
 		 
@@ -19,7 +17,5 @@ public class ReservationConfirmationPresenter implements Presenter, ReservationC
 	public void go(HasWidgets container) {
 	    container.clear();
 	    container.add(view.asWidget());
-	    
-	    view.displayConfirmation();
  	}
 }

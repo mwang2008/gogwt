@@ -60,9 +60,10 @@ public class HotelSearchRPCController extends ReservationProcessServiceAdapter {
 		HotelSearchResponseBean hotelSearchResponse = reservationBusinessService.findHotelsWithLocation(searchFormBean);
 		
 		//2. set request/response to session
+		SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setStatus(ProcessStatusEnum.SEARCH_RESULT);
 		SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setHotelSearchRequest(searchFormBean);
 		SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setHotelSearchResponse(hotelSearchResponse);
-		SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setStatus(ProcessStatusEnum.SEARCH_RESULT);
+		
 		
 		return hotelSearchResponse;
 	}

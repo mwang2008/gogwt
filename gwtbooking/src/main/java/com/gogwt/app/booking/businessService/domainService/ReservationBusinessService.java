@@ -105,7 +105,7 @@ public final class ReservationBusinessService {
 	 * @param guestInfo
 	 * @param userContext
 	 */
-	public ReserveResponseBean confirmReservation(final GuestInfoFormBean guestInfo, final UserContextBean userContext) {
+	public ReserveResponseBean confirmReservation(final GuestInfoFormBean guestInfo, final HotelBean selectHotel, final UserContextBean userContext) {
 		 ReservationBean reservationBean = new ReservationBean();
 		 
 		 reservationBean.setPropertyId(guestInfo.getId());
@@ -125,6 +125,8 @@ public final class ReservationBusinessService {
 		 
 		 ReserveResponseBean reserveResponseBean = new ReserveResponseBean();
 		 reserveResponseBean.setReserveNum(reservationId);
+		 reserveResponseBean.setGuestInfo(guestInfo);
+		 reserveResponseBean.setSelectHotel(selectHotel);
 		 
 		 return reserveResponseBean;
 	}

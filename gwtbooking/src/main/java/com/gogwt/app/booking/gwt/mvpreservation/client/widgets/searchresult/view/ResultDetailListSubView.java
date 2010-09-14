@@ -13,7 +13,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ResultDetailListSubView<T> extends AbstractWidget {
+public class ResultDetailListSubView extends AbstractWidget {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 
@@ -40,7 +40,7 @@ public class ResultDetailListSubView<T> extends AbstractWidget {
 	}
 	
 	
-	public void displayDetailItemList(final Presenter<T> presenter, final HotelSearchResponseBean hotelSearchResponseBea) {
+	public void displayDetailItemList(final Presenter presenter, final HotelSearchResponseBean hotelSearchResponseBea) {
 	 	int i = 0;
 		//ResultDetailItemSubView subItemView = new ResultDetailItemSubView();
 		//subItemView.setPresenter(presenter);

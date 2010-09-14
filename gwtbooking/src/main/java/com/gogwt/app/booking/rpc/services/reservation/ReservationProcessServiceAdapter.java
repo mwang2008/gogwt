@@ -35,7 +35,7 @@ public abstract class ReservationProcessServiceAdapter extends BaseService imple
 	}
 
  
-	public ReserveResponseBean reserveHotel(GuestInfoFormBean guestInfoForm,
+	public ReserveResponseBean reserveHotel(GuestInfoFormBean guestInfoForm, final int selectedHotelItme,
 			UserContextBean userContext) throws AppRemoteException {
 		throw new UnsupportedException();
 	}

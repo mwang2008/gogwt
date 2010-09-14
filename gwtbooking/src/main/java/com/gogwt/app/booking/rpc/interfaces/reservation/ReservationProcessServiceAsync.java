@@ -3,6 +3,7 @@ package com.gogwt.app.booking.rpc.interfaces.reservation;
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
+import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
@@ -10,7 +11,6 @@ import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.SuggestiveDestinationResponseBean;
-import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -37,7 +37,7 @@ public interface ReservationProcessServiceAsync {
 	
 	void  searchHotels(SearchFormBean hotelSearch, UserContextBean userContext, AsyncCallback<HotelSearchResponseBean> callback);
 	
-	void  reserveHotel(GuestInfoFormBean guestInfoForm, UserContextBean userContext, AsyncCallback<ReserveResponseBean> callback);
+	void  reserveHotel(GuestInfoFormBean guestInfoForm, final int selectedHotelItme, UserContextBean userContext, AsyncCallback<ReserveResponseBean> callback);
 	
 	void  getReservationContainerBeanFromSession(ProcessStatusEnum processStatusEnum, AsyncCallback<ReservationContainerBean> callback);
 	

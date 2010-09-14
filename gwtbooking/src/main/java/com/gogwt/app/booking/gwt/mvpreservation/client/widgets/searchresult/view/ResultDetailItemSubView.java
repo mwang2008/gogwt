@@ -63,6 +63,7 @@ public class ResultDetailItemSubView<T> extends AbstractWidget {
 	   
 	   //set selected hotel to GWTSession
 	   currentContainer.setSelectedHotel(selectHotel);
+	   currentContainer.setSelectHotelItem(index);
 	   
 	   if (presenter != null) {		   
 		   presenter.doSelect(index, selectHotel);

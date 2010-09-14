@@ -7,8 +7,30 @@
      <ui:style field='resStyle' src="../../reservation.css"/>
   
      <g:HTMLPanel>
-         Reservation Confirmation Number: 
-         
-         <g:Label ui:field="reservationNumberLabel"/> <g:Label ui:field="reservationNumber"/> 
+         <br/>
+         <table> <tr> <td> <b> <g:Label ui:field="reservationNumberLabel"/></b></td> <g:Label ui:field="reservationNumber"/> <td> </td></tr></table>
+         <table> 
+            <tr>
+                <td class="text12blue"> Guest Information  </td>  
+            </tr>
+            <tr>
+                <td> <b><g:Label ui:field="guestName"/> </b></td>  
+            </tr>
+            <tr>
+                <td> <g:Label ui:field="guestAddress"/> </td>  
+            </tr>         
+         </table>
+         <br/>
+         <table> 
+             <tr>
+                <td class="text12blue"> Hotel Information </td>  
+            </tr>
+            <tr>
+                <td> <b><g:Label ui:field="hotelName"/> </b></td>  
+            </tr>
+            <tr>
+                <td> <g:Label ui:field="hotelAddress"/> </td>  
+            </tr>         
+         </table>
      </g:HTMLPanel> 
 </ui:UiBinder>

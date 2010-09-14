@@ -4,15 +4,13 @@ import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.RESERVATION_
 
 import java.util.ArrayList;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
+import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
-import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
-import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppHandlerManager;
-import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.event.HotelSelectEvent;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
@@ -83,9 +81,12 @@ public class GuestInfoFormEntry implements ClickListener, RPCProxyInterface<Rese
 			// 2. retrieve form data
 			GuestInfoFormBean request = fillFormData();  
  			
+			final ReservationContainerBean currentContainer = GWTSession
+			.getCurrentReservationContainer();
+ 		   
 			// 3. RPC call, the response under handleRPCSuccess,  handleRPCError
 		 	RPCReservationProxy.getInstance()
-					.reserveHotel(request, GWTExtClientUtils.getUserContext(),
+					.reserveHotel(request,currentContainer.getSelectHotelItem(), GWTExtClientUtils.getUserContext(),
 							new CommandBean(), this);
 
 			return;
@@ -99,9 +100,7 @@ public class GuestInfoFormEntry implements ClickListener, RPCProxyInterface<Rese
 		
 		// 5. go to hotelsearchresult page
 		GWTExtClientUtils.forward(RESERVATION_CONFIRMATION);
-			
-		
-	}
+ 	}
 
 	 
 	public void handleRPCError(Throwable caught, CommandBean command) {
