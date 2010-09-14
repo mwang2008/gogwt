@@ -6,11 +6,12 @@
 			class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.HomePage">
       </page>
       		
-		<!-- hotelsearchresult -->
+		<!-- hotelsearchresult  -->
 		<page name="searchresult"
 			class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.SearchResultPage">           			
 		</page>
  
+      
       <!-- guestinfo -->
       <page name="guestinfo"
          class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.GuestInfoPage">   
@@ -24,9 +25,10 @@
       </page>
       
       <!--  resconfirmation -->   
-      <view name="resconfirmation"
+      <page name="resconfirmation"
          class="com.gogwt.app.booking.gwt.mvpreservation.client.navigation.ReservationConfirmationPage">
-      </view> 
+      </page> 
+
       
 	</pages>
 </application>
