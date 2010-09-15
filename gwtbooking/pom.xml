@@ -82,21 +82,22 @@
         <configuration>
            <logLevel>INFO</logLevel>
            
-           <modules>
-              <!-- 
-              <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>
-               -->
-              <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
+           <modules>          
+              <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
+              <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>              
            </modules>
-                       
-           <compileTargets>
-               <!-- 
-               <value>com.gogwt.app.booking.gwt.reservation.ReservationEntry</value>
-               --> 
-               <value>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</value>                 
+           
+             <!--               
+           <compileTargets>   
+                     
+               <value>com.gogwt.app.booking.gwt.reservation.ReservationEntry</value>   
+                         
+               <value>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</value>
+                               
            </compileTargets>
            
-           
+            --> 
+            
           <gwtVersion>${gwt.version}</gwtVersion>
           <style>${gwt.module.compile.style}</style>
             
