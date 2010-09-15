@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <application> 
-	<views>
-		<view name="home" 
+	<pages>
+      <page name="home" 
 			class="com.gogwt.app.booking.gwt.reservation.client.navigation.HomeView">
-        </view>
+        </page>
       		
 		<!-- hotelsearchresult -->
-		<view name="searchresult"
+		<page name="searchresult"
 			class="com.gogwt.app.booking.gwt.reservation.client.navigation.SearchResultView">           			
-		</view>
+		</page>
 
       <!--  guestinfo -->
-      <view name="guestinfo"
+      <page name="guestinfo"
 			class="com.gogwt.app.booking.gwt.reservation.client.navigation.GuestInformationView">
 			<properties>
 				<property name="populators">
@@ -21,12 +21,12 @@
 		 			</map>
 				</property>
 			</properties>
-		</view> 
+		</page> 
 		
 		<!--  resconfirmation -->   
-		<view name="resconfirmation"
+		<page name="resconfirmation"
          class="com.gogwt.app.booking.gwt.reservation.client.navigation.ReservationConfirmationView">
-      </view> 
+      </page> 
       
-	</views>
+	</pages>
 </application>
