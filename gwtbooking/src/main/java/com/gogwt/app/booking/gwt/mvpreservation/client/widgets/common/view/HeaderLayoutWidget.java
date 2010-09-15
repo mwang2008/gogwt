@@ -4,10 +4,10 @@ import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.HYPHON;
 import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.SLASH;
 import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.UNDER_SCORE;
 
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationLookupResources;
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
-import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationLookupResources;
-import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.event.dom.client.ClickEvent;

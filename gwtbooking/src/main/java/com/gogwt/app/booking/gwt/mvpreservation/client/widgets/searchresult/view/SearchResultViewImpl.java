@@ -12,9 +12,9 @@ import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException;
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
-import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SearchResultViewImpl extends AbstractWidget implements
-		SearchResultView<HotelBean>, RPCProxyInterface<BaseBean> {
+		SearchResultView<HotelBean>, RPCProxyInterface<ReservationContainerBean> {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 
@@ -140,8 +140,8 @@ public class SearchResultViewImpl extends AbstractWidget implements
 	}
 	
 	
-	public void handleRPCSuccess(BaseBean result, CommandBean command) {
-		ReservationContainerBean reservationContainer = (ReservationContainerBean)result;
+	public void handleRPCSuccess(ReservationContainerBean reservationContainer, CommandBean command) {
+		 
 		 // update gwtsession
 	    if ( reservationContainer != null
 	      && reservationContainer.getHotelSearchRequest() != null 
