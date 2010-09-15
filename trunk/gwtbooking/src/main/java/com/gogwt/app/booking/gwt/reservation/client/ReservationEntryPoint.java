@@ -4,9 +4,8 @@ import com.gogwt.app.booking.gwt.reservation.client.widgets.common.FooterLayoutW
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HeaderLayoutWidget;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.MenuLayoutWidget;
 import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
-import com.gogwt.framework.arch.navigation.AbstractViewConfigAccessor;
+import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -32,7 +31,7 @@ public class ReservationEntryPoint extends AbstractEntryPoint {
 
 		// show middle part of GWT body, wrapperContent is defined in the
 		// loading JSP.
-		addViewManagerToRootPanel("wrapperContent");
+		addPageManagerToRootPanel("wrapperContent");
 		
 		
 		// footer
@@ -43,7 +42,7 @@ public class ReservationEntryPoint extends AbstractEntryPoint {
 	
 	
 	@Override
-	protected AbstractViewConfigAccessor obtainViewAccessor() {
+	protected AbstractPageConfigAccessor obtainPageAccessor() {
 		return GWT.create(ReservationProcessConfig.class);		 
 	}
 

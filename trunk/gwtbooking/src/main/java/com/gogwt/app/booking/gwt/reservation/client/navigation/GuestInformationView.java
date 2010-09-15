@@ -3,24 +3,24 @@ package com.gogwt.app.booking.gwt.reservation.client.navigation;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ProgressBarWidget;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.guestinfo.GuestInfoLayoutWidget;
-import com.gogwt.framework.arch.widgets.AbstractView;
+import com.gogwt.framework.arch.widgets.AbstractPage;
 
-public class GuestInformationView extends AbstractView {
+public class GuestInformationView extends AbstractPage {
 
 	@Override
 	public void process() {
 		
-		 viewPanel.clear();
+		pagePanel.clear();
 		
 		 //1. add progress bar
 		 ProgressBarWidget progressBar = new ProgressBarWidget();
 		 progressBar.processDisplayProgressBar(ProcessStatusEnum.SEARCH_RESULT);
-		 viewPanel.add(progressBar);
+		 pagePanel.add(progressBar);
 
 		 //2. add layout
 		 GuestInfoLayoutWidget layoutWidget = new GuestInfoLayoutWidget();
 		 layoutWidget.prepareEntryLayout();		 
-		 viewPanel.add(layoutWidget);
+		 pagePanel.add(layoutWidget);
 		
 	}
 

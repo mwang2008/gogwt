@@ -1,6 +1,7 @@
 package com.gogwt.app.booking.gwt.reservation.client.widgets.guestinfo;
 
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
@@ -8,12 +9,15 @@ import com.gogwt.framework.arch.utils.GWTStringUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntry {
+	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 	private static final String WIDGET_STYLE = "guestInfoWidget";
 	private static final String REQUIRED_STYLE = "guestInfoRequiredField";
 	
@@ -26,32 +30,20 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 		super();
 		guestInfoFormEntry = new GuestInfoFormEntry();
 		initWidget(layoutPanel);
-		
-		
-	}
+ 	}
 	
 	/**
-	 *     A----------------------------B
-	 *     |                            |
-	 *     C-------------D--------------E
-	 *     |             |              |
-	 *     |             |              |
-	 *     F-------------G--------------H
-	 *     
-	 *     
-	 * <p>
+ 	 * <p>
 	 * Fill the layout
 	 * </p>
 	 */
 	public void prepareEntryLayout() {
-		layoutPanel.add(new Label("Guest info"));
-		
-	 	guestInfoFormEntry.prepareFormEntry(this);
+ 	 	guestInfoFormEntry.prepareFormEntry(this);
 		
 		final FlexTable mainTable = WidgetStyleUtils.createFlexTable();
 		mainTable.setCellPadding( 0 );
 		mainTable.setCellSpacing( 0 );
-		//mainTable.setStyleName( "guestInformationTable" );
+		mainTable.setStyleName( "guestInformationTable" );
 		
 		final Panel leftFormTable =  fillFormPanel(guestInfoFormEntry);
 		final Panel rightTable =  fillRightPanel();
@@ -79,6 +71,9 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 	private Panel fillFormPanel(GuestInfoFormEntry formEntry) {
 		Panel theFormPanel = new VerticalPanel();
 		
+		//add extra whitespace 
+		theFormPanel.add(new HTML("<br><br>"));
+		
 		//add error panel
 		ErrorPanel.getInstance().initErrorPanel();
 		theFormPanel.add(ErrorPanel.getInstance());
@@ -86,16 +81,19 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 		FlexTable flexTable = WidgetStyleUtils.createFlexTable();
 		flexTable.addStyleName( "guestInfoFormTable" );
 		
-		fillNewRow(flexTable, formEntry.firstNameLabel, REQUIRED_STYLE, formEntry.firstName, WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, formEntry.lastNameLabel, REQUIRED_STYLE, formEntry.lastName, WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, formEntry.addressLabel, REQUIRED_STYLE, formEntry.address, WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, formEntry.cityLabel, REQUIRED_STYLE, formEntry.city, WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, formEntry.stateIdLabel, REQUIRED_STYLE, formEntry.stateId, WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, formEntry.zipCodeLabel, REQUIRED_STYLE, formEntry.zipCode, WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, formEntry.emailLabel, REQUIRED_STYLE, formEntry.email, WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.label_First_Name(), REQUIRED_STYLE, formEntry.getFirstName(), WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.label_Last_Name(), REQUIRED_STYLE, formEntry.getLastName(), WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.Label_Address(), REQUIRED_STYLE, formEntry.getAddress(), WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.Label_city(), REQUIRED_STYLE, formEntry.getCity(), WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.Label_state(), REQUIRED_STYLE, formEntry.getStateId(), WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.Label_zip(), REQUIRED_STYLE, formEntry.getZipCode(), WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.label_email(), REQUIRED_STYLE, formEntry.getEmail(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, "", REQUIRED_STYLE, formEntry.btnReserve, WIDGET_STYLE, VISIBLE );
 		
+		theFormPanel.add(formEntry.getSelectedIndex());
+		theFormPanel.add(formEntry.getHotelId());
 		theFormPanel.add(flexTable);
+		 
 		
 		return theFormPanel;
 	}
@@ -103,7 +101,7 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 	private Panel fillRightPanel() {
 		
 		Panel rightPanel = WidgetStyleUtils.createFlowPanel();
-		rightPanel.add(new Label("right"));
+		//rightPanel.add(new Label("right"));
 		
 		return rightPanel;			
 	}
@@ -127,7 +125,9 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 	    final boolean isRowVisible)
 	  {
 	    final int row = table.getRowCount();
-	    table.setText( row, 0, fieldName );
+	    table.setText( row, 0, fieldName + ": " );
+	    table.getFlexCellFormatter().setAlignment(row, 0, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
+	    
 	    if (GWTStringUtils.isSet( fieldNameStyle )) {
 	      table.getFlexCellFormatter().addStyleName( row, 0, fieldNameStyle );
 	    }

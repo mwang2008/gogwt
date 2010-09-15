@@ -25,7 +25,7 @@ public class ErrorPanel  extends Composite {
 		errorPanel.clear();
 		if (GWTStringUtils.isSet(errorList)) {
 			for (String error : errorList) {
-				errorPanel.add(new HTML(error));
+				errorPanel.add(new HTML("<div class='text12red'><li>" +  error + "</li></div>"));
 			}
 		}
  	}
