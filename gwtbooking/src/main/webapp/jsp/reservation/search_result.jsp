@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
       function initialize() {
-        var latlng = new google.maps.LatLng(${searchResponse.hotelSearchRequest.lat}, ${searchResponse.hotelSearchRequest.lng});        
+        var latlng = new google.maps.LatLng(${searchResponse.centerGeocode.lat}, ${searchResponse.centerGeocode.lng});        
         var myOptions = {
           zoom: 8,
           center: latlng,
@@ -51,14 +51,11 @@
           
        </c:forEach>        
       }
-    </script>
-
- 
-    
+    </script>    
   </head>
 
   <body onload="initialize()">
-       <h>Show hotels in Map  ${searchResponse.hotelSearchRequest.lat} | ${searchResponse.hotelSearchRequest.lng} xxxx</h>
+       <h>Show hotels in Map  ${searchResponse.centerGeocode.lat} | ${searchResponse.centerGeocode.lng} xxxx</h>
          
        <div id="map_canvas" style="width:600; height:400"></div>
 

@@ -893,12 +893,22 @@ html>body .gwt-SuggestBoxPopup .suggestPopupBottomRight {
 } 
 .gwt-TabPanel {
 }
+
+/* cusstomerize it */
+/*
 .gwt-TabPanelBottom {
   border-color: #92c1f0;
   border-style: solid;
   border-width: 3px 2px 2px;
   overflow: hidden;
-  padding: 6px;
+  padding: 1px;
+}
+*/
+.gwt-TabPanelBottom {
+  border-color: #92c1f0;
+  border-style: solid;
+  border-width: 1px 2px 2px;
+  overflow: hidden;  
 }
 
 .gwt-DecoratedTabBar {
@@ -1359,3 +1369,9 @@ a, a:visited, a:hover {
     right:15px;
     width:100x;  
   }
+
+.text12red {
+   color:#FF0000; 
+   font-weight: bold;
+   font-size: 12px;  
+}
