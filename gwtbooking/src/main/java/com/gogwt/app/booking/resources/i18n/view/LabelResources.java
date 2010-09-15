@@ -169,6 +169,33 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String button_Alt_FindHotel();
 
   /**
+   * Translated "Submit".
+   * 
+   * @return translated "Submit"
+   */
+  @DefaultMessage("Submit")
+  @Key("button.Alt.Submit")
+  String button_Alt_Submit();
+
+  /**
+   * Translated "Guest Information".
+   * 
+   * @return translated "Guest Information"
+   */
+  @DefaultMessage("Guest Information")
+  @Key("caption.guest.info")
+  String caption_guest_info();
+
+  /**
+   * Translated "Hotel Information".
+   * 
+   * @return translated "Hotel Information"
+   */
+  @DefaultMessage("Hotel Information")
+  @Key("caption.hotel.info")
+  String caption_hotel_info();
+
+  /**
    * Translated "First Name".
    * 
    * @return translated "First Name"
