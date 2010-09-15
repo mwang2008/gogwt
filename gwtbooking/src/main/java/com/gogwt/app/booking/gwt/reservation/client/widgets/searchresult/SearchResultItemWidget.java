@@ -1,9 +1,18 @@
 package com.gogwt.app.booking.gwt.reservation.client.widgets.searchresult;
 
+import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.*;
+
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
+import com.gogwt.app.booking.gwt.common.helper.DisplayHelper;
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
+import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
+import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
-import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
+import com.gogwt.framework.arch.utils.GWTFormatUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -23,61 +32,55 @@ public class SearchResultItemWidget extends AbstractWidget {
 		
 		displayItem(hotel, index);
 	}
-	
-	/*				flextable.setWidget(i, 0, new Label(hotel.getId()+ ":" + hotel.getName()));
-		flextable.setWidget(i, 1, new Label(""+hotel.getLat()));
-	flextable.setWidget(i, 2, new Label(""+hotel.getLng()));
-	flextable.setWidget(i, 3, new Label(hotel.getCity()));				
-	Anchor reserve = WidgetStyleUtils.createAnchor( "Reserve");
-	reserve.addStyleName("progressEditHotelName");
- 
-	final int index = i;
-	reserve.addClickListener(new ClickListener() {
-		public void onClick(Widget widget) {
-			GWTSession.getCurrentReservationContainer().setSelectHotelItem(index);
-			GWTExtClientUtils.forward("guestinfo");						
-		}					
-	});				
-	flextable.setWidget(i, 4, reserve);*/
-	
+ 	
 	private void displayItem(final HotelBean hotel, final int index) {
 		FlexTable flextable = new FlexTable();
 		flextable.setWidth("100%");
-		//flextable.setBorderWidth(1);
 		
-		flextable.setWidget(0, 0, new HTML(hotel.getName()));
-		//flextable.getFlexCellFormatter().setStyleName(0, 0, "table-cell");
-	 
-		flextable.setWidget(0, 2, WidgetStyleUtils.createLabel("123.22 Miles"));
-		flextable.getFlexCellFormatter().setAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
-		//flextable.getFlexCellFormatter().setStyleName(0, 2, "table-cell");
+		String fullAddress = DisplayHelper.fullAddress(hotel);
+		String amenities = DisplayHelper.fillAmenities(hotel, tags);
 		
-		// Let's put a button in the middle...
-		flextable.setWidget(1, 0, new Button("Wide Button"));
- 		flextable.getFlexCellFormatter().setColSpan(1, 0, 3);
-
- 		flextable.setText(2, 2, "bottom-right corner");
-
-
-		/*int row = flextable.getRowCount();
+		Panel hoteNamePanel = WidgetStyleUtils.createVerticalPanel();
+		hoteNamePanel.add( new HTML("&nbsp;&nbsp;<B>" + hotel.getName() + "</B>"));
+		hoteNamePanel.add(new HTML("&nbsp;&nbsp;" + fullAddress));
+		hoteNamePanel.add(new HTML("&nbsp;&nbsp;<b>Amenities:</b> " + amenities));
 		
-		Panel namePanel = WidgetStyleUtils.createHorizontalPanel("result_name_row");
-		namePanel.add(new HTML(hotel.getName()));
+		flextable.setWidget(0, 0, hoteNamePanel);
+		flextable.getFlexCellFormatter().setAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT, HasVerticalAlignment.ALIGN_MIDDLE);
 		
-		Label miles = WidgetStyleUtils.createLabel("123.22 Miles", "milesText");
+		Panel rightPanelInsider = WidgetStyleUtils.createVerticalPanel();
+		rightPanelInsider.add(new HTML(GWTFormatUtils.formatDistance(hotel.getDistance()) + " miles &nbsp;&nbsp;"));
 		
-		flextable.setWidget(row, 0, namePanel);
-		flextable.setWidget(row, 1, miles);
+		final Button selectButton = new Button("&nbsp;Select&nbsp;");
+		selectButton.getElement().setAttribute("index", Integer.toString(index));
+		
+		selectButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				if (event.getSource() instanceof Button) {
+					Button selectedButton = (Button)event.getSource();
+					
+					String indexStr = selectedButton.getElement().getAttribute("index");
+					int selectedIndex = Integer.parseInt(indexStr);
+					final ReservationContainerBean currentContainer = GWTSession
+						.getCurrentReservationContainer();
+					   
+					final HotelBean selectHotel = currentContainer.getHotelSearchResponse().getHotelList().get(selectedIndex);
+					   
+					//set selected hotel to GWTSession
+					currentContainer.setSelectedHotel(selectHotel);
+					currentContainer.setSelectHotelItem(selectedIndex);
+					
+					GWTExtClientUtils.forward( GUEST_INFO );
+				}
+				 				
+			}			
+		});
+		
+		rightPanelInsider.add(selectButton);
+		
+		flextable.setWidget(0, 1, rightPanelInsider);
+		flextable.getFlexCellFormatter().setAlignment(0, 1, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
  		
-		row = flextable.getRowCount();
-		
-		Panel selectPanel = WidgetStyleUtils.createHorizontalPanel("content_area_table_even_row");
-		selectPanel.add(new Label("Select"));
-		
-		flextable.setWidget(row, 0, selectPanel);*/
-		
-		
-		
 		widgetPanel.add(flextable);
 		 
 	}

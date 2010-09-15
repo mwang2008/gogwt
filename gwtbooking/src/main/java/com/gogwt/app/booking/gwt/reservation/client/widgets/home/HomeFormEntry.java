@@ -5,13 +5,12 @@ import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_SEARCH_
 
 import java.util.ArrayList;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
-import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
@@ -51,7 +50,7 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<HotelSea
 		
 		DestinationSuggestOracle oracle = new DestinationSuggestOracle();	 
 		TextBox destinationText = new TextBox();
-		destinationText.setText("Please enter city or full address");
+		//destinationText.setText("Please enter city or full address");
 		destinationText.setVisibleLength(30);
 		destinationText.setMaxLength(LENGTH_75);
 		destination = new SuggestBox(oracle, destinationText);

@@ -1,16 +1,17 @@
 package com.gogwt.app.booking.gwt.reservation.client.navigation;
 
 import com.gogwt.app.booking.gwt.reservation.client.widgets.home.HomeLayoutWidget;
-import com.gogwt.framework.arch.widgets.AbstractView;
+import com.gogwt.framework.arch.widgets.AbstractPage;
+ 
 
-public class HomeView extends AbstractView {
+public class HomeView extends AbstractPage {
 	private HomeLayoutWidget homeWidget;
 	
 	public HomeView() {
 		homeWidget = new HomeLayoutWidget();
 		
 		//add homeWidget to home viewPanel
-		viewPanel.add(homeWidget);		
+		pagePanel.add(homeWidget);		
 	}
 	
 	 

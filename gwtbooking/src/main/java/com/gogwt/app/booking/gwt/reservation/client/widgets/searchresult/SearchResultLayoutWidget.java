@@ -2,14 +2,11 @@ package com.gogwt.app.booking.gwt.reservation.client.widgets.searchresult;
 
 import com.gogwt.app.booking.dto.dataObjects.common.EnvMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
-import com.gogwt.app.booking.gwt.reservation.client.i18n.TagsReservationResources;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
-import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
-import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -79,6 +76,7 @@ public class SearchResultLayoutWidget extends AbstractWidget implements
 		tabPanel.add(new FlowPanel(), tags.searchresult_tabpanel_list_view());
 		tabPanel.getTabBar().setTabHTML(MAP_TAB, mapviewOn.toString());
 		tabPanel.getTabBar().setTabHTML(LIST_TAB, listviewOff.toString());
+		//tabPanel.addStyleName(style);
 		
 		tabPanel.selectTab(MAP_TAB);
 	 	 
