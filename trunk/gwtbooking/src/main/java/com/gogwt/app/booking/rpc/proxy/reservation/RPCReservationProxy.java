@@ -97,7 +97,7 @@ public final class RPCReservationProxy {
 	 * @param callback
 	 */
 	public void getReservationContainerBeanFromSession(final ProcessStatusEnum processStatusEnum, final CommandBean command,
-			final RPCProxyInterface<BaseBean> callback) {
+			final RPCProxyInterface<ReservationContainerBean> callback) {
         
 		ReservationProcessServiceAsync service = ReservationProcessServiceAsync.Util.getSeesionBackupAsync();
 		
