@@ -1,7 +1,7 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view;
 
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
-import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;

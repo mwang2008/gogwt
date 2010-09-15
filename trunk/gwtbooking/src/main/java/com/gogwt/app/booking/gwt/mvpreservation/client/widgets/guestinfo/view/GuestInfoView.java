@@ -2,8 +2,6 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.view;
 
 import java.util.ArrayList;
 
-import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 

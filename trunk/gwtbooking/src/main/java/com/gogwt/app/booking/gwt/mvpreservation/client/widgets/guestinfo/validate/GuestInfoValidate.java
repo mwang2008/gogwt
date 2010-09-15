@@ -3,8 +3,7 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.valida
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
-import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
-import com.gogwt.app.booking.gwt.mvpreservation.client.i18n.TagsReservationResources;
+import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.view.GuestInfoView;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
 import com.gogwt.framework.arch.widgets.AbstractValidate;
