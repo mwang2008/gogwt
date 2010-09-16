@@ -1,9 +1,14 @@
 package com.gogwt.framework.arch.navigation;
 
+
+
+import com.allen_sauer.gwt.log.client.Log;
 import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -31,9 +36,41 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	 * generation
 	 */
 	protected transient PageConfigAccessor pageAccessor;
+	private long startTimeMillis;
 
 	public final void onModuleLoad() {
 
+		/* Install an UncaughtExceptionHandler which will
+	     * produce <code>FATAL</code> log messages
+	     */
+	    Log.setUncaughtExceptionHandler();
+	    
+	    /* Use a deferred command so that the UncaughtExceptionHandler
+	     * catches any exceptions in onModuleLoad2()
+	     */
+	    DeferredCommand.addCommand(new Command() {
+	      public void execute() {
+	        onModuleLoad2();
+	      }
+	    });
+
+	    
+
+	}
+
+	private void onModuleLoad2() {
+		  if (Log.isDebugEnabled()) {
+		      startTimeMillis = System.currentTimeMillis();
+		    }
+
+		  Log.trace("This is a 'TRACE' test message");
+		    Log.debug("This is a 'DEBUG' test message");
+		    Log.info("This is a 'INFO' test message");
+		    Log.warn("This is a 'WARN' test message");
+		    Log.error("This is a 'ERROR' test message");
+		    Log.fatal("This is a 'FATAL' test message");
+
+		    
 		initializePageAccessor();
 		initializeHistoryListener();
 
@@ -43,7 +80,14 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 		
 		if (!isDefaultPageLoaded) {
 			History.fireCurrentHistoryState();
-		}
+		}	
+		
+	    if (Log.isDebugEnabled()) {
+	        long endTimeMillis = System.currentTimeMillis();
+	        float durationSeconds = (endTimeMillis - startTimeMillis) / 1000F;
+	        Log.debug("Duration: " + durationSeconds + " seconds");
+	     }
+
 	}
 
 	protected void addPagePanel(Panel panel) {
