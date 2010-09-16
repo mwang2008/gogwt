@@ -1,9 +1,11 @@
 package com.gogwt.app.booking.rpc.interfaces.reservation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
@@ -33,7 +35,7 @@ public interface ReservationProcessServiceAsync {
 	 * Define Async interfaces
 	 * 
 	 **************************************************************************/
-	void getLocationKeyWords(String destination, UserContextBean userContext, AsyncCallback<ArrayList<SuggestiveDestinationResponseBean>> callback);
+	void  getLocationKeyWords(String destination, UserContextBean userContext, AsyncCallback<List<KeywordBean>> callback);
 	
 	void  searchHotels(SearchFormBean hotelSearch, UserContextBean userContext, AsyncCallback<HotelSearchResponseBean> callback);
 	

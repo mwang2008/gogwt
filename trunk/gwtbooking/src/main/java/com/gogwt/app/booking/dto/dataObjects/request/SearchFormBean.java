@@ -1,10 +1,12 @@
 package com.gogwt.app.booking.dto.dataObjects.request;
 
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+import com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean;
 
 public class SearchFormBean extends BaseBean {
 	private String location;
     private int radius = 20;     //default set to 30 miles
+    private GeoCodeBean geoCode;
     
 	public String getLocation() {
 		return location;
@@ -21,6 +23,16 @@ public class SearchFormBean extends BaseBean {
 	public void setRadius(int radius) {
 		this.radius = radius;
 	}
+
+	public GeoCodeBean getGeoCode() {
+		return geoCode;
+	}
+
+	public void setGeoCode(GeoCodeBean geoCode) {
+		this.geoCode = geoCode;
+	}
+
+	
 
 	
 }

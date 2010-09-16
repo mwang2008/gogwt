@@ -2,7 +2,7 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view;
 
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
-import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.presenter.DestinationSuggestOracle;
+import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestOracle;
 import com.gogwt.framework.arch.widgets.AbstractRequestWidget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

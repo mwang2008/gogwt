@@ -9,7 +9,7 @@ import org.hibernate.classic.Session;
 import com.gogwt.app.booking.businessService.dataaccess.HotelSearchDAO;
 import com.gogwt.app.booking.businessService.geocode.EarthGeoUtils;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
-import com.gogwt.app.booking.dto.dataObjects.request.GeocodeBean;
+import com.gogwt.app.booking.dto.dataObjects.request.GeoSearchBean;
 import com.gogwt.app.booking.dto.dataObjects.request.ReservationBean;
 
 public class HibernateHotelSearchDAO implements HotelSearchDAO {
@@ -21,7 +21,7 @@ public class HibernateHotelSearchDAO implements HotelSearchDAO {
 	 * Search property
 	 */
  
-	public List<HotelBean> searchHotel(final GeocodeBean hotelSearchRequestBean) {
+	public List<HotelBean> searchHotel(final GeoSearchBean hotelSearchRequestBean) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 

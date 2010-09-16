@@ -10,8 +10,9 @@ import com.gogwt.app.booking.businessService.dataaccess.HotelSearchDAO;
 import com.gogwt.app.booking.businessService.geocode.EarthGeoUtils;
 import com.gogwt.app.booking.businessService.geocode.GeocodeFactory;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
+import com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
-import com.gogwt.app.booking.dto.dataObjects.request.GeocodeBean;
+import com.gogwt.app.booking.dto.dataObjects.request.GeoSearchBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.ReservationBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
@@ -19,6 +20,9 @@ import com.gogwt.app.booking.dto.dataObjects.response.GeocodeResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.GeocodeResultBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
+import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
+import com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException;
+import com.gogwt.app.booking.utils.StringUtils;
 
 public final class ReservationBusinessService {
    private static Logger logger = Logger.getLogger(ReservationBusinessService.class);
@@ -29,76 +33,104 @@ public final class ReservationBusinessService {
 	 * Search for hotels
 	 * @param searchFormBean
 	 */
-	public HotelSearchResponseBean findHotelsWithLocation(final SearchFormBean searchFormBean) {
-		HotelSearchResponseBean hotelSearchResponse = new HotelSearchResponseBean();
-			
-		//1. get geocode per location
-		GeocodeResponseBean geocodeResponseBean = null;
-		try {
-		  String location = searchFormBean.getLocation();
-		  geocodeResponseBean = GeocodeFactory.getGeocodeFactory().geocodeIt(location);
-		}
-		catch (Exception e) {
-			//todo: handle exception
-		}
-		
-		//2. process geocode result
-		
-		//2.1.1 no result
-		if (geocodeResponseBean == null || !geocodeResponseBean.hasValidGeocode()) {
-		
+	public HotelSearchResponseBean findHotelsWithLocation(final SearchFormBean searchFormBean) throws AppRemoteException {
+		 	
+		//1. search if location looks like lat, lng
+		GeoCodeBean geoCode = fillIfLocationIsLatLng(searchFormBean.getLocation());
+		if (geoCode != null) {
+			GeoSearchBean centerGeocode = new GeoSearchBean();
+			centerGeocode.setLat(geoCode.getLat());
+			centerGeocode.setLng(geoCode.getLng());
+			centerGeocode.setRadius(searchFormBean.getRadius());
+		    return findHotelsForGivenGeocode(centerGeocode);	  	
 		}
 		
-		//2.1.2 statusCode is not 200
-		if (geocodeResponseBean.getCode() != 200) {
-			//todo
+		//2. if SearchFormBean has geocode, use it 
+		if (searchFormBean.getGeoCode() != null) {
+			GeoSearchBean centerGeocode = new GeoSearchBean();
+			centerGeocode.setLat(searchFormBean.getGeoCode().getLat());
+			centerGeocode.setLng(searchFormBean.getGeoCode().getLng());
+			centerGeocode.setRadius(searchFormBean.getRadius());
+		    return findHotelsForGivenGeocode(centerGeocode);	
+		}
+ 		
+		//3. get geocode per location
+		final GeocodeResponseBean geocodeResponseBean = geocodeIt(searchFormBean.getLocation());
+				
+		//3.1. has multiple result
+		// Simplicity for DEMO, use the first one 
+		if (geocodeResponseBean.getGeocodeDataList().size()>1) {
+			logger.debug("has multiple geocde results for " + searchFormBean.getLocation());
 		}
 				
-		//2.2 has multiple result
-		if (geocodeResponseBean.getGeocodeDataList().size()>1) {
-			
-		}
+		//3.2 has only one geocode, search hotels with geocode and radius
+		final GeocodeResultBean centerGeocodeBean = geocodeResponseBean.getGeocodeDataList().get(0);
 		
-		//2.3 only one geocode, serch hotels with geocode and radius
-		GeocodeBean centerGeocode = new GeocodeBean();
-		
-		GeocodeResultBean centerGeocodeBean = geocodeResponseBean.getGeocodeDataList().get(0);
-		centerGeocode.setLat(centerGeocodeBean.getLat());
+		final GeoSearchBean centerGeocode = new GeoSearchBean();
+ 		centerGeocode.setLat(centerGeocodeBean.getLat());
 		centerGeocode.setLng(centerGeocodeBean.getLng());
 		centerGeocode.setRadius(searchFormBean.getRadius());
-		    
+	 	 
+		return findHotelsForGivenGeocode(centerGeocode);
+ 		 
+	}
+
+
+	public GeocodeResponseBean geocodeIt(final String location) throws AppRemoteException {
+		GeocodeResponseBean geocodeResponseBean = null;
+		
+		try {
+			geocodeResponseBean = GeocodeFactory.getGeocodeFactory().geocodeIt(location);
+		}
+		catch (Exception e) {
+			throw new InvalidateGeocodeException(location);
+		}
+		 	
+		// no result
+		if (geocodeResponseBean == null || !geocodeResponseBean.hasValidGeocode()) {
+			throw new InvalidateGeocodeException(location);
+		}
+			
+		// statusCode is not 200
+		if (geocodeResponseBean.getCode() != 200) {
+			throw new InvalidateGeocodeException(location);
+		}
+			
+		return geocodeResponseBean;
+	}
+	
+	public HotelSearchResponseBean findHotelsForGivenGeocode(final GeoSearchBean centerGeocode) {
+		HotelSearchResponseBean hotelSearchResponse = new HotelSearchResponseBean();
+		
 		List<HotelBean> result = getHotelSearchDAO().searchHotel(centerGeocode);
 		
-		 //3. return if hotel is not found.
+		 // return if hotel is not found.
         if (result == null || result.isEmpty()) {
             return hotelSearchResponse;
         }
         
-        
-		//4. remove the hotel which outside the radius
- 		double distance;
+		// remove the hotel which outside the radius
+		double distance;
 		if (result != null && !result.isEmpty()) {
 	 		for (HotelBean hotel : result) {
-			   distance = EarthGeoUtils.arcDistance(centerGeocodeBean.getLat(), centerGeocodeBean.getLng(), hotel.getLat(), hotel.getLng() );
-			   if (distance > searchFormBean.getRadius() ) {
+			   distance = EarthGeoUtils.arcDistance(centerGeocode.getLat(), centerGeocode.getLng(), hotel.getLat(), hotel.getLng() );
+			   hotel.setDistance(distance);
+			   //todo: remove outbound hotels later on when optimize using light version of hotels
+/*			   if (distance > searchFormBean.getRadius() ) {
 				   result.remove(hotel);
 				   continue;
 			   }
-			   hotel.setDistance(distance);
-			   
-			}
+*/ 			}
 			hotelSearchResponse.setHotelList(result);
 		}
 		
-		 //5. sort by distance.
+		// sort by distance.
         Collections.sort(result, new HotelDistanceComparator());
-        
+       
 		hotelSearchResponse.setCenterGeocode(centerGeocode);
-		
-		
 		return hotelSearchResponse;
 	}
-
+	
 	/**
 	 * Confirm reservation. 
 	 * Save confirmation 
@@ -139,5 +171,48 @@ public final class ReservationBusinessService {
 		this.hotelSearchDAO = hotelSearchDAO;
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////
+	///  PRIVATE
+	///
+	/**
+	 * test to see whether the location is with [lat, lng] 
+	 * ex. 33.754487, -84.389663
+	 * @param location
+	 * @return
+	 */ 
+	private GeoCodeBean fillIfLocationIsLatLng(final String location) {
+	   
+	   GeoCodeBean geoCode = new GeoCodeBean();
+	   
+	   if (!StringUtils.isSet(location)) {
+		   return null;
+	   }
+	   
+	   int commaPos = location.indexOf(",");
+	   if (commaPos == -1) {
+		   return null;
+	   }
+	   
+	   String latStr = location.substring(0, commaPos);
+	   String lngStr = location.substring(commaPos+1);
+	   
+	   try {
+		   double lat = Double.parseDouble(latStr.trim());
+		   geoCode.setLat(lat);
+	   }
+	   catch (NumberFormatException e) {
+		   return null;
+	   }
+	
+	   try {
+		   double lng = Double.parseDouble(lngStr.trim());
+		   geoCode.setLng(lng);
+	   }
+	   catch (NumberFormatException e) {
+		   return null;
+	   }
+	   
+	   return geoCode;
+	}
 	
 }

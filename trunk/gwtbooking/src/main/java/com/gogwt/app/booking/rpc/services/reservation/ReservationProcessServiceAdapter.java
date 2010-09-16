@@ -1,15 +1,15 @@
 package com.gogwt.app.booking.rpc.services.reservation;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
+import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
-import com.gogwt.app.booking.dto.dataObjects.response.SuggestiveDestinationResponseBean;
 import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
 import com.gogwt.app.booking.exceptions.clientserver.UnsupportedException;
 import com.gogwt.app.booking.rpc.interfaces.reservation.ReservationProcessService;
@@ -21,7 +21,7 @@ public abstract class ReservationProcessServiceAdapter extends BaseService imple
 		ReservationProcessService {
 
 	 
-	public ArrayList<SuggestiveDestinationResponseBean> getLocationKeyWords(
+	public List<KeywordBean> getLocationKeyWords(
 			String destination, UserContextBean userContext)
 			throws AppRemoteException {
 		throw new UnsupportedException();

@@ -6,21 +6,27 @@ import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_SEARCH_
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
+import com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
+import com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
+import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestOracle;
+import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestion;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
  
 
 /**
@@ -29,34 +35,38 @@ import com.google.gwt.user.client.ui.Widget;
  * @author WangM
  *
  */
-public class HomeFormEntry  implements ClickListener, RPCProxyInterface<HotelSearchResponseBean> {
+public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxyInterface<HotelSearchResponseBean> {
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance(); 
 	 
 	protected Button btnSelectDestination = new Button();
 	//private final TextBox destination = new TextBox();
 	private final ListBox radius = new ListBox();
 	protected SuggestBox destination = null;
+	private GeoCodeBean selectedGeoCodeBean;
+	private String selectedFromSuggetionValue;
 	
 	public HomeFormEntry() {
 		super();
 	 	
+		radius.addItem("1");
 		radius.addItem("10");
 		radius.addItem("20");
 		radius.addItem("30");
 		radius.addItem("40");
+		radius.setSelectedIndex(1);
 		
-		btnSelectDestination.setText("Search");
-		btnSelectDestination.addClickListener(this);
+		btnSelectDestination.setText(tags.button_Alt_FindHotel());
+		btnSelectDestination.addClickHandler(this);
 		
 		DestinationSuggestOracle oracle = new DestinationSuggestOracle();	 
 		TextBox destinationText = new TextBox();
 		//destinationText.setText("Please enter city or full address");
 		destinationText.setVisibleLength(30);
 		destinationText.setMaxLength(LENGTH_75);
-		destination = new SuggestBox(oracle, destinationText);
 		
- 		 
-	}
+		destination = new SuggestBox(oracle, destinationText);
+		destination.addSelectionHandler(this);
+ 	}
 
 	/**
 	 * Called from LayoutWidget. 
@@ -68,8 +78,9 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<HotelSea
 	/**
 	 * Action when user click the search button
 	 */
-	public void onClick(Widget eventWidget) {
-		if (eventWidget == btnSelectDestination) {
+ 
+	public void onClick(ClickEvent eventWidget) {
+ 		if (eventWidget.getSource() == btnSelectDestination) {
 			
 			if (GWTStringUtils.equals(destination.getText(), "tags.label_Search_box_colon")) {
 				destination.setText("");
@@ -84,10 +95,13 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<HotelSea
 			
 			//2. call RPC
 			SearchFormBean request = new SearchFormBean();
-			
 			int radiusValue = Integer.parseInt(radius.getValue(radius.getSelectedIndex()));
 			
-			request.setLocation(destination.getText());
+			if (GWTStringUtils.equals(selectedFromSuggetionValue, destination.getText())) {
+			   request.setGeoCode(selectedGeoCodeBean);
+			}
+			
+ 			request.setLocation(destination.getText());
 			request.setRadius(radiusValue);
 			
 			/*-------------------------------------------------
@@ -105,50 +119,61 @@ public class HomeFormEntry  implements ClickListener, RPCProxyInterface<HotelSea
 		
 	}
 	
+	/**
+	 * When suggestion is selected
+	 */
+	public void onSelection(SelectionEvent event) {
+		
+		DestinationSuggestion destinationSuggestion = (DestinationSuggestion)event.getSelectedItem();
+		if (destinationSuggestion != null) {
+			selectedFromSuggetionValue = destinationSuggestion.getReplacementString();
+			selectedGeoCodeBean = new GeoCodeBean(
+					destinationSuggestion.getKeywordBean().getLat(),
+					destinationSuggestion.getKeywordBean().getLng());
+		}
+	}
  
-	//@Override
+	 
 	public void handleRPCSuccess(HotelSearchResponseBean hotelSearchResponse, CommandBean command) {
 	 	
-		//1. if no result
-		
-		//2. if multiple result
-		
-		//3. only one result
-		// 4. save to session		
+		// if no result
+		if (hotelSearchResponse == null || !hotelSearchResponse.hasSearchResult()) {
+			ErrorPanel.getInstance().displayError(tags.error_no_search_result());
+			return;
+		}
+		 
+		// save result to session		
 		GWTSession.getCurrentReservationContainer().setHotelSearchResponse(hotelSearchResponse);
 
 		// 5. go to hotelsearchresult page
 		GWTExtClientUtils.forward(VIEW_SEARCH_RESULT);
-		 
-		
-	}
+ 	}
 
 	public void handleRPCError(Throwable caught, CommandBean command) {
-		// TODO Auto-generated method stub
+        if (caught instanceof InvalidateGeocodeException) {        	 
+			ErrorPanel.getInstance().displayError(tags.error_invalid_geocode());
+			return;
+        }
 		
 	}
+	
 	
 
 	public Button getBtnSelectDestination() {
 		return btnSelectDestination;
 	}
-
-
-	public void setBtnSelectDestination(Button btnSelectDestination) {
-		this.btnSelectDestination = btnSelectDestination;
-	}
-
+  	 
 	 
 	public SuggestBox getDestination() {
 		return destination;
 	}
 
-	public void setDestination(SuggestBox destination) {
-		this.destination = destination;
-	}
+	 
 
 	public ListBox getRadius() {
 		return radius;
 	}
-	
+
+
+ 
 }
