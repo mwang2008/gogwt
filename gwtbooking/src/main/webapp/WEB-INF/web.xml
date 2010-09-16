@@ -63,12 +63,12 @@
     <servlet-name>booking</servlet-name>
     <url-pattern>*.rpc</url-pattern>
    </servlet-mapping>
-   <!--
+    
   <servlet-mapping>
     <servlet-name>gwt-log-remote-logger-servlet</servlet-name>
-    <url-pattern>*gwt-log</url-pattern>
+    <url-pattern>/gwt-log</url-pattern>
   </servlet-mapping>
-    -->
+     
    <display-name>Booking hotel Web Application</display-name>
    <welcome-file-list>
       <welcome-file>index.jsp</welcome-file>
