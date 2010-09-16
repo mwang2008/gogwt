@@ -71,6 +71,11 @@
       <version>${gwt.version}</version>      
       <scope>provided</scope>
     </dependency>
+     <dependency>
+      <groupId>com.google.code.gwt-log</groupId>
+      <artifactId>gwt-log</artifactId>
+      <version>2.6.2</version>
+     </dependency>
       
     <!-- XML parser Jdom,xerces,jaxen, saxpath -->
     <dependency>
