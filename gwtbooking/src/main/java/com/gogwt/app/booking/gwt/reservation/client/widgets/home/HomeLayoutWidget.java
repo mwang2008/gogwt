@@ -52,7 +52,7 @@ public class HomeLayoutWidget extends AbstractWidget {
 		
 	 	String html = "<li>  Full Address </li>"
 			   + "<li>  City, State; example: Atlanta, GA </li>"
-			   + "<li>  Latitude,Longitude </li>"
+			   + "<li>  Latitude,Longitude. ex: 33.754487,-84.389663 </li>"
 			   + "<li>  Airport code</li>";
 		HTMLPanel htmlPanel = new HTMLPanel(html);
 		htmlPanel.addStyleName("destSubContainer");

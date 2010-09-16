@@ -4,19 +4,19 @@ import java.util.List;
 
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
-import com.gogwt.app.booking.dto.dataObjects.request.GeocodeBean;
+import com.gogwt.app.booking.dto.dataObjects.request.GeoSearchBean;
 
 public class HotelSearchResponseBean extends BaseBean {
- 	private GeocodeBean centerGeocode;
+ 	private GeoSearchBean centerGeocode;
 	private List<HotelBean> hotelList;
  
  
 
-	public GeocodeBean getCenterGeocode() {
+	public GeoSearchBean getCenterGeocode() {
 		return centerGeocode;
 	}
 
-	public void setCenterGeocode(GeocodeBean centerGeocode) {
+	public void setCenterGeocode(GeoSearchBean centerGeocode) {
 		this.centerGeocode = centerGeocode;
 	}
 

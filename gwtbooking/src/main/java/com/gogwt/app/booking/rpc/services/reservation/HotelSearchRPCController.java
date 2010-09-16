@@ -1,6 +1,5 @@
 package com.gogwt.app.booking.rpc.services.reservation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
@@ -10,7 +9,6 @@ import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
-import com.gogwt.app.booking.dto.dataObjects.response.SuggestiveDestinationResponseBean;
 import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
 
@@ -24,28 +22,19 @@ import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
  */
 public class HotelSearchRPCController extends ReservationProcessServiceAdapter {
 
-	public ArrayList<SuggestiveDestinationResponseBean> getLocationKeyWords(
+	public List<KeywordBean> getLocationKeyWords(
 			String destination, UserContextBean userContext)
 			throws AppRemoteException {
 		
 		List<KeywordBean> keywordList = 
 		    LookupBusinessService.getCommonBusinessService().getKeywordList(destination, 10);
 		
-		
-		ArrayList<SuggestiveDestinationResponseBean> retList = new ArrayList<SuggestiveDestinationResponseBean>();
-
+	  
 		if (keywordList == null || keywordList.isEmpty() ) {
 			return null;
 		}
-		
-		SuggestiveDestinationResponseBean suggestiveDestination = null;
-		for (KeywordBean keywordBean : keywordList) {
-			suggestiveDestination = new SuggestiveDestinationResponseBean();
-			suggestiveDestination.setSuggestedDestination(keywordBean.getKeyword());
-			retList.add(suggestiveDestination);
-		}
  		
-		return retList;
+		return keywordList;
 	}
 	
 	/**

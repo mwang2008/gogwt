@@ -16,6 +16,24 @@ public interface ErrorResources extends com.google.gwt.i18n.client.Messages {
   String error_empty_location();
 
   /**
+   * Translated "Could not find Latitude and Longitude for the given location ".
+   * 
+   * @return translated "Could not find Latitude and Longitude for the given location "
+   */
+  @DefaultMessage("Could not find Latitude and Longitude for the given location ")
+  @Key("error.invalid.geocode")
+  String error_invalid_geocode();
+
+  /**
+   * Translated "No result has been found, please try different criteria".
+   * 
+   * @return translated "No result has been found, please try different criteria"
+   */
+  @DefaultMessage("No result has been found, please try different criteria")
+  @Key("error.no.search.result")
+  String error_no_search_result();
+
+  /**
    * Translated "Session Timedout".
    * 
    * @return translated "Session Timedout"

@@ -1,16 +1,15 @@
 package com.gogwt.app.booking.rpc.interfaces.reservation;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
-import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
-import com.gogwt.app.booking.dto.dataObjects.response.SuggestiveDestinationResponseBean;
 import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -29,7 +28,7 @@ public interface ReservationProcessService extends RemoteService {
 	 * @return
 	 * @throws AppRemoteException
 	 */
-	ArrayList<SuggestiveDestinationResponseBean> getLocationKeyWords(String destination, UserContextBean userContext) throws AppRemoteException;
+	List<KeywordBean> getLocationKeyWords(String destination, UserContextBean userContext) throws AppRemoteException;
 	
 	/**
 	 * Search hotel with location and radius.

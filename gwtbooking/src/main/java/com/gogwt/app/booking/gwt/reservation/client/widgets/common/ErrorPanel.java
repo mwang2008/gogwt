@@ -30,6 +30,13 @@ public class ErrorPanel  extends Composite {
 		}
  	}
 	
+	public void displayError(String error) {
+		errorPanel.clear();
+		if (GWTStringUtils.isSet(error)) {
+			errorPanel.add(new HTML("<div class='text12red'><li>" +  error + "</li></div>"));			 
+		}
+ 	}
+	
 	public void initErrorPanel() {
 		errorPanel.clear();
 	}
