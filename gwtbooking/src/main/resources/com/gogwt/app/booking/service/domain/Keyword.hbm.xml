@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.gogwt.app.booking.dto.dataObjects.common">
 
-    <class name="KeywordBean" table="KEYWORD">
+    <class name="KeywordBean" table="keyword">
         <id name="keyword" column="keyword"/>        
         <property name="lat"/>
         <property name="lng"/>             
