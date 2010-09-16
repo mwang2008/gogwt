@@ -2,7 +2,7 @@ package com.gogwt.app.booking.dto.dataObjects.request;
 
 import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 
-public class GeocodeBean extends BaseBean {
+public class GeoSearchBean extends BaseBean {
 	private double lat;
 	private double lng;
 	private int radius;
