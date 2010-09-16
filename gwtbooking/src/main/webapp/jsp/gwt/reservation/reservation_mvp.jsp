@@ -18,7 +18,7 @@
    
    </script>
 
-   <script src="http://maps.google.com/maps?gwt=1&file=api&v=2&key=ABQIAAAAmdQW6A4k5xzDjjGKjkBoGxTNnYUpi0vJmWXtC66R5nqEvj2QuxSWoIfZsVFbr3by_GoWAub_tmLJLA"></script>  
+   <%@ include file="i_google_mapapi_key.jspf"%>
 
 </head>
 <body>
