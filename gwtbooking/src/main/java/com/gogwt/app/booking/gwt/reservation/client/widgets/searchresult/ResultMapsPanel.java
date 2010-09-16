@@ -102,7 +102,7 @@ public class ResultMapsPanel extends AbstractWidget  {
 	private void initializeAndShowMap(
 			final HotelSearchResponseBean hotelSearchResponseBean) {
 	 
-		Maps.loadMapsApi(GoogleUtils.GOOGLE_MAPKEY, "2", false, new Runnable() {
+		Maps.loadMapsApi(GoogleUtils.getGoogleMapKey(), "2", false, new Runnable() {
 		      public void run() {
 		    	  showMap(hotelSearchResponseBean);
 		      }
