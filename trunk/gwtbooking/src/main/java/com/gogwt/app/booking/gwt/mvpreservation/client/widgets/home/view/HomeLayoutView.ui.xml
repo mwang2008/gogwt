@@ -29,7 +29,7 @@
                  Validate input of destination: 
                  <li> Full Address; </li>
                  <li> City, State; example: Atlanta, GA </li>
-                 <li> Latitude,Longitude: </li>
+                 <li> Latitude, Longitude. ex: 33.754487, -84.389663 </li>
                  <li> Airport code </li>
            </g:HTMLPanel>
         </g:VerticalPanel> 
