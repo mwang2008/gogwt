@@ -11,4 +11,5 @@
    <extend-property name="log_level" values="FATAL,OFF"/>
     -->
     <extend-property name="log_level" values="INFO,OFF"/>
+    <set-property name="log_RemoteLogger" value="ENABLED" />
 </module>
