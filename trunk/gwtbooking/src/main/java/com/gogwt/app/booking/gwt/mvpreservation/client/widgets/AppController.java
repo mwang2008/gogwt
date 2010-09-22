@@ -8,6 +8,8 @@ import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_SEARCH_
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.event.GuestInfoEvent;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.event.GuestInfoEventHandler;
+import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.BackHomeEvent;
+import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.BackHomeEventHandler;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.HotelSearchEvent;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.HotelSearchEventHandler;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.event.HotelSelectEvent;
@@ -27,13 +29,14 @@ public class AppController {
  			public void searchHotel(HotelSearchEvent event) {
 				doSearch();				
 			}
-
-			public void backHome(HotelSearchEvent event) {
-				backHomePage();				
+		});
+		
+		eventBus.addHandler(BackHomeEvent.TYPE, new BackHomeEventHandler() {
+ 			public void backToHome(BackHomeEvent event) {
+				doSearch();				
 			}
 		});
 		
-	    
 		eventBus.addHandler(HotelSelectEvent.TYPE, new HotelSelectEventHandler() {
 			public void selectHotel(HotelSelectEvent event) {
                goGuestInfo();

@@ -1,6 +1,7 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.presenter;
 
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppHandlerManager;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.presenter.Presenter;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.event.HotelSelectEvent;
@@ -8,9 +9,9 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class SearchResultPresenter implements Presenter, SearchResultView.Presenter<HotelBean> {
-	private final SearchResultView<HotelBean> view; 
+	private final SearchResultView<HotelBean, HotelSearchResponseBean> view; 
 	
-	public SearchResultPresenter(SearchResultView<HotelBean> view) {
+	public SearchResultPresenter(SearchResultView<HotelBean, HotelSearchResponseBean> view) {
 		this.view = view;
 		this.view.setPresenter(this);		
 		 

@@ -1,5 +1,8 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client;
 
+import java.util.Map;
+
+import com.gogwt.app.booking.gwt.common.populator.PopulatorManager;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppController;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view.FooterLayoutWidget;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view.HeaderLayoutWidget;
@@ -41,10 +44,10 @@ public class ReservationMVPEntryPoint extends AbstractMVPEntryPoint {
 		return GWT.create(ReservationMVPProcessConfig.class);	
 	}
 
-	/*public void onModuleLoad() {
-		RootPanel.get().add(new Label("Hello, from MyFirstMVPEntryPoint")); 
+	@Override
+	protected void processPopulator(Map<String, String> populatorsMap) {
+		PopulatorManager.handlePopulators( populatorsMap );		
+	}
 
-	}*/
-
-	
+ 
 }

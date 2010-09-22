@@ -37,7 +37,10 @@ public class HeaderLayoutWidget extends AbstractWidget {
 		
 		//1. logo
 		Panel logoPanel = WidgetStyleUtils.createFlowPanelWithStyles( "logo" );		
-		String logoURL = GWTExtClientUtils.getMappingElem().getPrefix() + "/gwtreservation";
+		String logoURL = GWTExtClientUtils.getMappingElem().getPrefix() + "/mvpreservation";
+		if (Window.Location.getQueryString() != null) {
+			logoURL += Window.Location.getQueryString();
+		}
 		Anchor logoAnchor = WidgetStyleUtils.createExternalLink("gogwt logo", logoURL);		
 		logoAnchor.setText( "" );
 		
@@ -82,6 +85,7 @@ public class HeaderLayoutWidget extends AbstractWidget {
 				langLinks = WidgetStyleUtils.createHtmlLink(langName, langLink);
 				languagePanel.add(langLinks);
 				
+				/*
 				//for zh_CN, display not support message
  				if (GWTStringUtils.equalsIgnoreCase(lage_Region, "zh_CN")) {
 					langLinks.addClickHandler(new ClickHandler() {
@@ -91,7 +95,7 @@ public class HeaderLayoutWidget extends AbstractWidget {
 						}					 
 					});
 				}
-				
+				*/
 				if (++i != langRegions.length-1) {
 					languagePanel.add(WidgetStyleUtils.createStyledLabel( "|", "veritcalDivider" ));
 				}

@@ -9,11 +9,11 @@ import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.reservation.ReservationConfirmationLayoutWidget;
-import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
-import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
+import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
+import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
 import com.gogwt.framework.arch.widgets.AbstractPage;
 
-public class ReservationConfirmationView extends AbstractPage implements RPCProxyInterface<ReservationContainerBean> {
+public class ReservationConfirmationView extends AbstractPage implements SessionBackupProxyInterface<ReservationContainerBean> {
 
 	@Override
 	public void process() {
@@ -33,14 +33,14 @@ public class ReservationConfirmationView extends AbstractPage implements RPCProx
 		}
 
 		 // could not find, call session backup.	 	     
-	     RPCReservationProxy.getInstance()
+		SessionBackupProxy.getInstance()
 			.getReservationContainerBeanFromSession(
 					ProcessStatusEnum.CONFIRMATION, new CommandBean(),
 					this);
 	}
 
  
-	public void handleRPCSuccess(ReservationContainerBean reservationContainer,
+	public void handleSessionBackupRPCSuccess(ReservationContainerBean reservationContainer,
 			CommandBean command) {
 		 
 		 // update gwtsession
@@ -59,7 +59,7 @@ public class ReservationConfirmationView extends AbstractPage implements RPCProx
 	}
 
 
-	public void handleRPCError(Throwable caught, CommandBean command) {
+	public void handleSessionBackupRPCError(Throwable caught, CommandBean command) {
 		  // could not find in backend server session, redirect back to
 	    // hotelsearch/home page.
 		GWTExtClientUtils.redirect( VIEW_HOME );		

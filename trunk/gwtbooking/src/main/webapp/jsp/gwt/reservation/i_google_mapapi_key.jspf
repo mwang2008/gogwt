@@ -1,0 +1,15 @@
+<%--
+	i_google_mapapi_key.jspf
+--%>
+
+<%	 
+   String serverName = request.getServerName();
+%>
+  
+<% if (serverName.indexOf("allhotelmotel") != -1 )  {%>
+     <script src="http://maps.google.com/maps?gwt=1&file=api&v=2&key=ABQIAAAAmdQW6A4k5xzDjjGKjkBoGxRuL81oiDTDYRFw2ophuZYKEuHgiBS2WD2rY2gMxFpirkx_QeTPC8zx0A"></script>  
+<% } else if (serverName.indexOf("gogwt") != -1 )  {%>
+     <script src="http://maps.google.com/maps?gwt=1&file=api&v=2&key=ABQIAAAAmdQW6A4k5xzDjjGKjkBoGxTNnYUpi0vJmWXtC66R5nqEvj2QuxSWoIfZsVFbr3by_GoWAub_tmLJLA"></script>  
+<% } else { %>
+     <script src="http://maps.google.com/maps?gwt=1&file=api&v=2&key=ABQIAAAAmdQW6A4k5xzDjjGKjkBoGxTNnYUpi0vJmWXtC66R5nqEvj2QuxSWoIfZsVFbr3by_GoWAub_tmLJLA"></script>  
+<%}%>

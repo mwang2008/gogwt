@@ -12,8 +12,8 @@ import com.gogwt.app.booking.gwt.common.helper.DisplayHelper;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
-import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
-import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
+import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
+import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -22,7 +22,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ReservationConfirmationViewImpl extends AbstractWidget implements ReservationConfirmationView, RPCProxyInterface<ReservationContainerBean> {
+public class ReservationConfirmationViewImpl extends AbstractWidget implements ReservationConfirmationView <ReserveResponseBean>  {
 
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 
@@ -44,26 +44,7 @@ public class ReservationConfirmationViewImpl extends AbstractWidget implements R
  		initWidget(uiBinder.createAndBindUi(this)); 	
   	}
     
-	public void process() {
-		final ReservationContainerBean currentContainer = GWTSession.getCurrentReservationContainer();
-	 	
-		/*----------------------------------------------------------+
-		 * Session backup in case user click refersh button. 
-		 *----------------------------------------------------------*/
-		if (currentContainer != null
-				&& currentContainer.getReserveResponse() != null) {
-			displayConfirmation(currentContainer.getReserveResponse());
-			return;
-		}
-		
-		// could not find, call session backup.
-		RPCReservationProxy.getInstance()
-					.getReservationContainerBeanFromSession(
-							ProcessStatusEnum.CONFIRMATION, new CommandBean(),
-							this);
-		
-	}
-
+	 
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 		
@@ -75,32 +56,12 @@ public class ReservationConfirmationViewImpl extends AbstractWidget implements R
 
 
 	
-	public void handleRPCSuccess(ReservationContainerBean reservationContainer, CommandBean command) {
-		 // update gwtsession
-	    if ( reservationContainer != null
-	      && reservationContainer.getReserveResponse() != null ) {
-	    
-	      GWTSession.setCurrentReservationContainer( reservationContainer );
-	      
-	      displayConfirmation( reservationContainer.getReserveResponse() );
-	      
-	    } else {
-			// invoke event bus for target page
-			//todo: use eventBus.fireEvent(new HotelSearchEvent());	
-	    	GWTExtClientUtils.redirect( VIEW_HOME );
-	    } 
-		
-	}
 
-	public void handleRPCError(Throwable caught, CommandBean command) {
-		GWTExtClientUtils.redirect( VIEW_HOME );
-		
-	}
 	
 	/**
 	 * Display reservation result
 	 */
-	private void displayConfirmation(ReserveResponseBean reserveResponse) {
+	public void processDisplay(ReserveResponseBean reserveResponse) {
 		reservationNumberLabel.setText(tags.reservation_resnumber());
 		
 		reservationNumber.setText(DisplayHelper.dispReservationNum(reserveResponse.getReserveNum()));
@@ -116,4 +77,5 @@ public class ReservationConfirmationViewImpl extends AbstractWidget implements R
 		hotelAddress.setText(DisplayHelper.fullAddress(reservedHotel));
 		
 	}
+
 }

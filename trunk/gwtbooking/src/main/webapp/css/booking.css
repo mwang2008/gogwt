@@ -1271,9 +1271,16 @@ a, a:visited, a:hover {
  
 }
 
+
+#reservationFooter, #hotelDetailFooter {
+	clear: both;
+	padding: 90px 10px 0px 10px;
+}
+
 .foot_table { 
   //background-color:#548B54;
-  position:absolute;
+  //position:absolute;
+  position:relative;
   //border-style: solid;
   //border-width:1px;
   padding:2px;
@@ -1374,4 +1381,8 @@ a, a:visited, a:hover {
    color:#FF0000; 
    font-weight: bold;
    font-size: 12px;  
+}
+.guestInfoWidget {
+	width:300px;
+	padding:4px 2px;
 }

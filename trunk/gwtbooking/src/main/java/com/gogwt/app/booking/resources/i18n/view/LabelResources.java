@@ -151,20 +151,20 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String amenities_tennis();
 
   /**
-   * Translated "book the hotel".
+   * Translated "Book the Hotel".
    * 
-   * @return translated "book the hotel"
+   * @return translated "Book the Hotel"
    */
-  @DefaultMessage("book the hotel")
+  @DefaultMessage("Book the Hotel")
   @Key("button.Alt.Book")
   String button_Alt_Book();
 
   /**
-   * Translated "find hotels".
+   * Translated "Find Hotels".
    * 
-   * @return translated "find hotels"
+   * @return translated "Find Hotels"
    */
-  @DefaultMessage("find hotels")
+  @DefaultMessage("Find Hotels")
   @Key("button.Alt.FindHotel")
   String button_Alt_FindHotel();
 
@@ -248,6 +248,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Radius")
   @Key("label.radius")
   String label_radius();
+
+  /**
+   * Translated "Title".
+   * 
+   * @return translated "Title"
+   */
+  @DefaultMessage("Title")
+  @Key("lable.Title")
+  String lable_Title();
 
   /**
    * Translated "Reservation Number".

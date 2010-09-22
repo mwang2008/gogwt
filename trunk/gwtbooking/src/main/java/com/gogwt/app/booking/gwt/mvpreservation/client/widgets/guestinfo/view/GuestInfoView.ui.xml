@@ -18,7 +18,7 @@
              </td>
           </tr> 
           <tr class='{resStyle.item}'>
-             <td align="right">  Title: </td>  <td> <g:TextBox ui:field="title"/> </td>
+             <td align="right">  Title: </td>  <td> <g:ListBox ui:field="title"/> </td>
           </tr>  
           <tr class='{resStyle.item}'>
              <td align="right">  First Name: </td>  <td> <g:TextBox ui:field="firstName"/> </td>
@@ -33,7 +33,7 @@
              <td align="right">  City: </td>  <td> <g:TextBox ui:field="city"/> </td>
           </tr>
           <tr class='{resStyle.item}'>
-             <td align="right">  State: </td>  <td> <g:TextBox ui:field="stateId"/> </td>
+             <td align="right">  State: </td>  <td> <g:ListBox ui:field="stateId"/> </td>
           </tr>
           <tr class='{resStyle.item}'>
              <td align="right">  Zip Code: </td>  <td> <g:TextBox ui:field="zipCode"/> </td>

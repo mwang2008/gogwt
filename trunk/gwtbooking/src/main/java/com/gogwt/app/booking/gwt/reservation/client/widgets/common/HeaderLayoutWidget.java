@@ -38,6 +38,10 @@ public class HeaderLayoutWidget extends AbstractWidget {
 		//1. logo
 		Panel logoPanel = WidgetStyleUtils.createFlowPanelWithStyles( "logo" );		
 		String logoURL = GWTExtClientUtils.getMappingElem().getPrefix() + "/gwtreservation";
+		if (Window.Location.getQueryString() != null) {
+			logoURL += Window.Location.getQueryString();
+		}
+		
 		Anchor logoAnchor = WidgetStyleUtils.createExternalLink("gogwt logo", logoURL);		
 		logoAnchor.setText( "" );
 		

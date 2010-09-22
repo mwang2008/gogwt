@@ -10,7 +10,8 @@ public class HotelSearchEvent extends GwtEvent<HotelSearchEventHandler> {
 	protected void dispatch(HotelSearchEventHandler handler) {
 		 handler.searchHotel(this);
     }
-
+ 
+	
 	@Override
 	public com.google.gwt.event.shared.GwtEvent.Type<HotelSearchEventHandler> getAssociatedType() {
 		return TYPE;

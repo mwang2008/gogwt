@@ -2,12 +2,12 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.vie
 
 import com.google.gwt.user.client.ui.Widget;
 
-public interface SearchResultView<T> {
+public interface SearchResultView<T,V> {
 	public interface Presenter<T> {
 		void doSelect(int index, T t);
 	}
 	
-	public void process();
+	public void processDisplay(V v);
 	
 	/**
 	 * Connect to presenter

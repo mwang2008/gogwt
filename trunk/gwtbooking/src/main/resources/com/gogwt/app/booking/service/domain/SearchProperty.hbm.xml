@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.gogwt.app.booking.dto.dataObjects.common">
 
-    <class name="HotelBean" table="property">
+    <class name="HotelBean" table="g_property">
         <id name="id" column="id">
             <generator class="native"/>
         </id>
