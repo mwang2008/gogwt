@@ -32,30 +32,60 @@ public class ProgressBarWidget extends AbstractWidget {
 	 	//home link
 	 	final StringBuilder homeLink = new StringBuilder(GWTExtClientUtils.getMappingElem().getPrefix() + "/gwtreservation");
 	 	if (GWTStringUtils.isSet(query)) {
-	 		homeLink.append("?");
+	 		if (GWTStringUtils.equals(query, "?")) {
+	 		   homeLink.append("?");
+	 		}
 	 		homeLink.append(query);
 	 	}
-	 	 
+  		HTML home = WidgetStyleUtils.createHtmlLink(tags.Page_name_home(), homeLink.toString());
+ 		mainPanel.add(home);
+ 	    
+ 		mainPanel.add(new Label(" -> "));
+	 
 	 	//search result link
-	 	if (status == ProcessStatusEnum.SEARCH_RESULT) {
-	 		
-	 		final StringBuilder searchResultLink = new StringBuilder();
-	 		searchResultLink.append(GWTExtClientUtils.getMappingElem().getPrefix() + "/gwtreservation");
-	 		if (GWTStringUtils.isSet(query)) {
-	 			searchResultLink.append("?");
-	 			searchResultLink.append(query);
-	 		}
-	 		searchResultLink.append("#searchresult");
-	 		 
-	  		HTML home = WidgetStyleUtils.createHtmlLink(tags.Page_name_home(), homeLink.toString());
-	 		mainPanel.add(home);
-	 	    
-	 		mainPanel.add(new Label(" -> "));
-	 		
- 	 		HTML searchResult = WidgetStyleUtils.createHtmlLink(tags.Page_name_searchresult(), searchResultLink.toString());
+	 	if (status.compareTo(ProcessStatusEnum.SEARCH_RESULT) == 0) {
+	 		mainPanel.add(new Label(tags.Page_name_searchresult()));
+	 	}
+	 	else if (status.compareTo(ProcessStatusEnum.SEARCH_RESULT) > 0) {
+ 	 		
+	 		String url = getFullURL("searchresult");
+ 	 		HTML searchResult = WidgetStyleUtils.createHtmlLink(tags.Page_name_searchresult(), url);
 	 		
 	 		mainPanel.add(searchResult);
 	 	}
 	 	
+	 	//guest info
+	 	if (status.compareTo(ProcessStatusEnum.GUEST_INFO) ==0) {
+	 		mainPanel.add(new Label(" -> "));
+	 		mainPanel.add(new Label(tags.Page_name_guestinfo()));
+	 	}
+	 	if (status.compareTo(ProcessStatusEnum.GUEST_INFO)>0) {
+	 		mainPanel.add(new Label(" -> "));
+	 		String url = getFullURL("guestinfo");	 		 
+	  	 	
+ 	 		HTML searchResult = WidgetStyleUtils.createHtmlLink(tags.Page_name_guestinfo(), url);
+	 		
+	 		mainPanel.add(searchResult);
+	 	}
+	 	
+	 	
+	}
+	
+	private String getFullURL(String token) {
+		String query = GWTExtClientUtils.getMappingElem().getQueryParamter();
+		final StringBuilder linkUrl = new StringBuilder();
+		linkUrl.append(GWTExtClientUtils.getMappingElem().getPrefix() + "/gwtreservation");
+ 		if (GWTStringUtils.isSet(query)) {
+	 		if (GWTStringUtils.equals(query, "?")) {
+	 			linkUrl.append("?");
+		 	} 			
+ 			linkUrl.append(query);
+ 		}
+ 		if (GWTStringUtils.isSet(token)) {
+ 		  linkUrl.append("#");
+ 		  linkUrl.append(token);
+ 		}
+ 		
+ 		return linkUrl.toString();
 	}
 }

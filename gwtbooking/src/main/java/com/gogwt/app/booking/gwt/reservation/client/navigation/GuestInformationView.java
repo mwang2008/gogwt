@@ -14,7 +14,7 @@ public class GuestInformationView extends AbstractPage {
 		
 		 //1. add progress bar
 		 ProgressBarWidget progressBar = new ProgressBarWidget();
-		 progressBar.processDisplayProgressBar(ProcessStatusEnum.SEARCH_RESULT);
+		 progressBar.processDisplayProgressBar(ProcessStatusEnum.GUEST_INFO);
 		 pagePanel.add(progressBar);
 
 		 //2. add layout

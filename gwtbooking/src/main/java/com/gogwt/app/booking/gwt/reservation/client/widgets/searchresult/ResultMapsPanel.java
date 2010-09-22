@@ -7,9 +7,13 @@ import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GoogleUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
+import com.google.gwt.maps.client.InfoWindow;
+import com.google.gwt.maps.client.InfoWindowContent;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.Maps;
 import com.google.gwt.maps.client.control.LargeMapControl;
+import com.google.gwt.maps.client.event.MarkerClickHandler;
+import com.google.gwt.maps.client.event.MarkerClickHandler.MarkerClickEvent;
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.maps.client.geom.Point;
 import com.google.gwt.maps.client.geom.Size;
@@ -17,6 +21,7 @@ import com.google.gwt.maps.client.overlay.Icon;
 import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.MarkerOptions;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 
 /**
@@ -86,7 +91,7 @@ public class ResultMapsPanel extends AbstractWidget  {
 	    List<HotelBean> hotelList = hotelSearchResponseBean.getHotelList();
 	    for (int i=0; i<hotelList.size(); i++) {
 	    	hotel = hotelList.get(i);
-	    	hotelMarker = createHotelMarker(hotel, i, contextPath);
+	    	hotelMarker = createHotelMarker(map, hotel, i+1, contextPath);
 	    	
 	    	map.addOverlay(hotelMarker);
 	    }
@@ -116,7 +121,7 @@ public class ResultMapsPanel extends AbstractWidget  {
 	 * @param index
 	 * @return
 	 */
-	private Marker createHotelMarker(final HotelBean hotel, int index, String imagePathContext) {
+	private Marker createHotelMarker(final MapWidget map, final HotelBean hotel, int index, String imagePathContext) {
 			
 		    final String iconImage = imagePathContext + "/images/marker" + index + ".png";
 			final Icon hotelMarker = Icon.newInstance();
@@ -128,7 +133,24 @@ public class ResultMapsPanel extends AbstractWidget  {
 	 
 			LatLng point = LatLng.newInstance(hotel.getLat(), hotel.getLng());
 			
+			StringBuilder infoContent = new StringBuilder();
+			infoContent.append("<b>");
+			infoContent.append(index);
+			infoContent.append(", ");
+			infoContent.append(hotel.getName());
+			infoContent.append("</b>");
+			
+			HTML infoWindowWidget = new HTML(infoContent.toString());
+			
+			final InfoWindowContent content = new InfoWindowContent(infoWindowWidget);
 			final Marker marker = new Marker(point, mOptions);
+		    marker.addMarkerClickHandler( new MarkerClickHandler() {
+			    public void onClick( MarkerClickEvent event ) {
+				   InfoWindow info = map.getInfoWindow();
+				   info.open( marker, content );
+				}
+		    } );
+			 
 			
 			return marker;
 	}

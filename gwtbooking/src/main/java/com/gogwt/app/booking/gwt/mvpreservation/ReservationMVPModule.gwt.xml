@@ -9,8 +9,10 @@
    <inherits name="com.google.gwt.maps.GoogleMaps" />
    <inherits name="com.google.gwt.ajaxloader.AjaxLoader"/>
    
+   <!-- 
    <inherits name='com.google.gwt.user.theme.standard.Standard'/>
-   
+    -->
+    
    <!-- Internal Modules -->
    <inherits name="com.gogwt.app.booking.resources.i18n.I18NResources"/> 
     
@@ -19,6 +21,9 @@
    <inherits name="com.gogwt.app.booking.dto.DataObjects" />
    <inherits name="com.gogwt.app.booking.gwt.common.Common" />
    <inherits name="com.gogwt.app.booking.rpc.rpcInterfaces" />
+
+   <!-- Locale -->
+   <extend-property name="locale" values="en_us,es_es" />
 
 	<entry-point class="com.gogwt.app.booking.gwt.mvpreservation.client.ReservationMVPEntryPoint"/>
 	

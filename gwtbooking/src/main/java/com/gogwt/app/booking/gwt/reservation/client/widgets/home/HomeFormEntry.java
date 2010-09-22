@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -44,7 +45,7 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
 	protected SuggestBox destination = null;
 	private GeoCodeBean selectedGeoCodeBean;
 	private String selectedFromSuggetionValue;
-	
+	 
 	public HomeFormEntry() {
 		super();
 	 	
@@ -80,6 +81,7 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
 	 */
  
 	public void onClick(ClickEvent eventWidget) {
+		 
  		if (eventWidget.getSource() == btnSelectDestination) {
 			
 			if (GWTStringUtils.equals(destination.getText(), "tags.label_Search_box_colon")) {
@@ -153,12 +155,10 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
         if (caught instanceof InvalidateGeocodeException) {        	 
 			ErrorPanel.getInstance().displayError(tags.error_invalid_geocode());
 			return;
-        }
-		
+        }		
 	}
 	
 	
-
 	public Button getBtnSelectDestination() {
 		return btnSelectDestination;
 	}
@@ -168,12 +168,7 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
 		return destination;
 	}
 
-	 
-
 	public ListBox getRadius() {
 		return radius;
 	}
-
-
- 
 }

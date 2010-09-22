@@ -1,4 +1,4 @@
-/**
+
  * The file contains styles for GWT widgets in the standard theme.
  *
  */
@@ -889,7 +889,7 @@ html>body .gwt-SuggestBoxPopup .suggestPopupBottomRight {
 }
 .gwt-TabBar .gwt-TabBarItem-selected {
   cursor: default;
- // background: #92c1f0;
+  background: #92c1f0;
 } 
 .gwt-TabPanel {
 }
@@ -1271,16 +1271,9 @@ a, a:visited, a:hover {
  
 }
 
-
-#reservationFooter, #hotelDetailFooter {
-	clear: both;
-	padding: 90px 10px 0px 10px;
-}
-
 .foot_table { 
   //background-color:#548B54;
-  //position:absolute;
-  position:relative;
+  position:absolute;
   //border-style: solid;
   //border-width:1px;
   padding:2px;
@@ -1382,6 +1375,12 @@ a, a:visited, a:hover {
    font-weight: bold;
    font-size: 12px;  
 }
+
+#reservationFooter, #hotelDetailFooter {
+	clear: both;
+	padding: 90px 10px 0px 10px;
+}
+
 .guestInfoWidget {
 	width:300px;
 	padding:4px 2px;

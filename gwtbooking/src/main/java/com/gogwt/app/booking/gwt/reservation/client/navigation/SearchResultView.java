@@ -13,6 +13,7 @@ import com.gogwt.app.booking.gwt.reservation.client.widgets.searchresult.SearchR
 import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
 import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
  
@@ -87,6 +88,8 @@ public class SearchResultView extends AbstractPage implements SessionBackupProxy
 			 ProgressBarWidget progressBar = new ProgressBarWidget();
 			 progressBar.processDisplayProgressBar(ProcessStatusEnum.SEARCH_RESULT);
 			 pagePanel.add(progressBar);
+			 
+			 pagePanel.add(new HTML("<br/>"));
 			 
 			 //2. add layout
 			 pagePanel.add(layoutWidget);

@@ -8,10 +8,15 @@
 
 <html lang="${env.languageId}">
 <head>
+   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+   <meta name="gwt:property" content="locale=${env.languageId}_${fn:toLowerCase(env.countryId)}" /> 
+   
    <title> Reservation </title>
    <script type="text/javascript" language="javascript" src="${env.contextPath}/com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule/com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule.nocache.js"></script>
-    
+     
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
+   
+   
     
    <script type="text/javascript" >
       var envJson = '${fn:replace(envJson,"'","\\'")}';

@@ -7,6 +7,7 @@ import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * HomeWidget response to display home page.  
@@ -61,6 +62,7 @@ public class HomeLayoutWidget extends AbstractWidget {
  		return rightPanel;
 	}
 	 
+	 
 	private Panel buildAndInitFormPanel() {
 		Panel leftPanel = WidgetStyleUtils.createVerticalPanel();
 		leftPanel.getElement().setId("homeViewLeft");
@@ -73,7 +75,7 @@ public class HomeLayoutWidget extends AbstractWidget {
 				
 		theFormPanel.add(WidgetStyleUtils.createLabel(tags.Label_Destination(), "text12blue"));
 		theFormPanel.add(formEntry.getDestination());
-	 	
+		 
 	    WidgetStyleUtils.addIdStylesToWidget(formEntry.getDestination(),
 	            "destSubContainer", "quickResRow");
 	    

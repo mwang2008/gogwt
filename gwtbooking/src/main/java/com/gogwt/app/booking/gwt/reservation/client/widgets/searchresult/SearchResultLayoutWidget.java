@@ -74,8 +74,11 @@ public class SearchResultLayoutWidget extends AbstractWidget implements
 		// 1. map/list view
 		tabPanel.add(new FlowPanel(), tags.searchresult_tabpanel_map_view());
 		tabPanel.add(new FlowPanel(), tags.searchresult_tabpanel_list_view());
-		tabPanel.getTabBar().setTabHTML(MAP_TAB, mapviewOn.toString());
-		tabPanel.getTabBar().setTabHTML(LIST_TAB, listviewOff.toString());
+		//tabPanel.getTabBar().setTabHTML(MAP_TAB, mapviewOn.toString());
+		//tabPanel.getTabBar().setTabHTML(LIST_TAB, listviewOff.toString());
+		tabPanel.getTabBar().setTabHTML(MAP_TAB, tags.searchresult_tabpanel_map_view());
+		tabPanel.getTabBar().setTabHTML(LIST_TAB, tags.searchresult_tabpanel_list_view());
+
 		//tabPanel.addStyleName(style);
 		
 		tabPanel.selectTab(MAP_TAB);
@@ -94,11 +97,16 @@ public class SearchResultLayoutWidget extends AbstractWidget implements
 	
 	public void onSelection(SelectionEvent<Integer> event) {
 		if (event.getSelectedItem() == MAP_TAB) {
-		    tabPanel.getTabBar().setTabHTML( LIST_TAB, listviewOff.toString() );
-		    tabPanel.getTabBar().setTabHTML( MAP_TAB, mapviewOn.toString() );
+		    //tabPanel.getTabBar().setTabHTML( LIST_TAB, listviewOff.toString() );
+		    //tabPanel.getTabBar().setTabHTML( MAP_TAB, mapviewOn.toString() );
+		    tabPanel.getTabBar().setTabHTML( LIST_TAB, tags.searchresult_tabpanel_list_view() );
+		    tabPanel.getTabBar().setTabHTML( MAP_TAB, tags.searchresult_tabpanel_map_view() );
 		} else {
-		    tabPanel.getTabBar().setTabHTML( MAP_TAB, mapviewOff.toString() );
-		    tabPanel.getTabBar().setTabHTML( LIST_TAB, listviewOn.toString() );			
+		    //tabPanel.getTabBar().setTabHTML( MAP_TAB, mapviewOff.toString() );
+		    //tabPanel.getTabBar().setTabHTML( LIST_TAB, listviewOn.toString() );	
+		    tabPanel.getTabBar().setTabHTML( MAP_TAB, tags.searchresult_tabpanel_map_view() );
+		    tabPanel.getTabBar().setTabHTML( LIST_TAB, tags.searchresult_tabpanel_list_view() );			
+
 		}
 		
 		displayResult(event.getSelectedItem());
