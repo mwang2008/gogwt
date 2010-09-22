@@ -14,9 +14,7 @@ public class GWTHotelSearchController extends AbstractController {
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		if (StringUtils.equalsIgnoreCase("zh-cn",request.getServletPath())) {
-			return new ModelAndView("/gwt/reservation/reservation_cn");
-		}
+		 
 	    return new ModelAndView("/gwt/reservation/reservation");
 	}
 

@@ -12,14 +12,13 @@ public class GuestInfoPage extends AbstractPage {
 	    if (guestinfoView == null) {
 	    	guestinfoView = new GuestInfoViewImpl();           
          }
-         new GuestInfoPresenter(guestinfoView).go(pagePanel);
-         
  	}
 	
 	@Override
 	public void process() {
-		//this.pagePanel.add(new Label("GuestInfoPage"));
 		
+		new GuestInfoPresenter(guestinfoView).go(pagePanel);
+		//this.pagePanel.add(new Label("GuestInfoPage"));
 	}
 
 }

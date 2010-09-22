@@ -41,7 +41,8 @@ public class SearchResultItemWidget extends AbstractWidget {
 		String amenities = DisplayHelper.fillAmenities(hotel, tags);
 		
 		Panel hoteNamePanel = WidgetStyleUtils.createVerticalPanel();
-		hoteNamePanel.add( new HTML("&nbsp;&nbsp;<B>" + hotel.getName() + "</B>"));
+		
+		hoteNamePanel.add( new HTML("&nbsp;&nbsp;<B>" + (index+1) +", "+ hotel.getName() + "</B>"));
 		hoteNamePanel.add(new HTML("&nbsp;&nbsp;" + fullAddress));
 		hoteNamePanel.add(new HTML("&nbsp;&nbsp;<b>Amenities:</b> " + amenities));
 		

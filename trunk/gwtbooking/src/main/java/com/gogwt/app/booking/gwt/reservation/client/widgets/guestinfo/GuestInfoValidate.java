@@ -42,8 +42,13 @@ public class GuestInfoValidate extends BaseValidate {
 			errorList.add(tags.input_field_required(tags.Label_zip()));
 		}
 		
-		if (!GWTStringUtils.isSet(formEntry.getEmail().getText())) {
+		String email = formEntry.getEmail().getText();
+		if (!GWTStringUtils.isSet(email)) {
 			errorList.add(tags.input_field_required(tags.label_email()));
+		} else {
+			if (!isValidEmailFormat(email)) {
+				errorList.add(tags.error_invalid_email());
+			}
 		}
 		
 		return this.getErrorList();

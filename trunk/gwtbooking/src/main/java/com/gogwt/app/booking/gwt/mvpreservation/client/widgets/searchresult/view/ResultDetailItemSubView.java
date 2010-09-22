@@ -95,7 +95,7 @@ public class ResultDetailItemSubView extends AbstractWidget {
 	}
 
 	private void displayHotelItem(int index, HotelBean hotelBean) {
-		name.setInnerText(hotelBean.getName());
+		name.setInnerText(++index + ", " + hotelBean.getName());
 		address.setInnerText(DisplayHelper.fullAddress(hotelBean));
 		amenities.setInnerText(DisplayHelper.fillAmenities(hotelBean, tags));
 		distance.setInnerText(GWTFormatUtils.formatDistance(hotelBean.getDistance()) + " miles");

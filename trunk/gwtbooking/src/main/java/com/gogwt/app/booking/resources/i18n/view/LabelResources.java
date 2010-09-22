@@ -88,6 +88,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String Label_zip();
 
   /**
+   * Translated "Guest Info".
+   * 
+   * @return translated "Guest Info"
+   */
+  @DefaultMessage("Guest Info")
+  @Key("Page.name.guestinfo")
+  String Page_name_guestinfo();
+
+  /**
    * Translated "Home".
    * 
    * @return translated "Home"
@@ -95,6 +104,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Home")
   @Key("Page.name.home")
   String Page_name_home();
+
+  /**
+   * Translated "Reservation Confirmation".
+   * 
+   * @return translated "Reservation Confirmation"
+   */
+  @DefaultMessage("Reservation Confirmation")
+  @Key("Page.name.res.confirmation")
+  String Page_name_res_confirmation();
 
   /**
    * Translated "Search Result".

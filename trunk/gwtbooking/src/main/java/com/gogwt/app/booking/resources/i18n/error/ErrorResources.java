@@ -16,6 +16,15 @@ public interface ErrorResources extends com.google.gwt.i18n.client.Messages {
   String error_empty_location();
 
   /**
+   * Translated "Invalid Email Address".
+   * 
+   * @return translated "Invalid Email Address"
+   */
+  @DefaultMessage("Invalid Email Address")
+  @Key("error.invalid.email")
+  String error_invalid_email();
+
+  /**
    * Translated "Could not find Latitude and Longitude for the given location ".
    * 
    * @return translated "Could not find Latitude and Longitude for the given location "

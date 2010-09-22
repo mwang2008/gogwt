@@ -18,7 +18,9 @@
    <inherits name="com.gogwt.app.booking.gwt.common.Common" />
    <inherits name="com.gogwt.app.booking.rpc.rpcInterfaces" />
    
-
+   <!-- Locale -->
+   <extend-property name="locale" values="default,en_us,es_es" />
+  
 	<source path="client" />
 
 	<entry-point

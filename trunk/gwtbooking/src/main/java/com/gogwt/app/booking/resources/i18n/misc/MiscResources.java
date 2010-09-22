@@ -34,11 +34,11 @@ public interface MiscResources extends com.google.gwt.i18n.client.ConstantsWithL
   String language_selector_zh_CN();
 
   /**
-   * Translated "en_US,zh_CN,es_ES".
+   * Translated "en_US,es_ES".
    * 
-   * @return translated "en_US,zh_CN,es_ES"
+   * @return translated "en_US,es_ES"
    */
-  @DefaultStringValue("en_US,zh_CN,es_ES")
+  @DefaultStringValue("en_US,es_ES")
   @Key("language.support.list")
   String language_support_list();
 }

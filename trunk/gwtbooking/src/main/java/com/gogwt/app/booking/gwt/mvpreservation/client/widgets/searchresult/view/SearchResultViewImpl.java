@@ -9,8 +9,11 @@ import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.maps.client.InfoWindow;
+import com.google.gwt.maps.client.InfoWindowContent;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.control.LargeMapControl;
+import com.google.gwt.maps.client.event.MarkerClickHandler;
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.maps.client.geom.Point;
 import com.google.gwt.maps.client.geom.Size;
@@ -21,6 +24,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -168,7 +172,7 @@ public class SearchResultViewImpl extends AbstractWidget implements
 	    List<HotelBean> hotelList = hotelSearchResponseBean.getHotelList();
 	    for (int i=0; i<hotelList.size(); i++) {
 	    	hotel = hotelList.get(i);
-	    	hotelMarker = createHotelMarker(hotel, i, contextPath);
+	    	hotelMarker = createHotelMarker(hotel, i+1, contextPath);
 	    	
 	    	map.addOverlay(hotelMarker);
 	    }
@@ -182,12 +186,30 @@ public class SearchResultViewImpl extends AbstractWidget implements
 		hotelMarker.setIconAnchor(Point.newInstance(9, 34));
 		hotelMarker.setIconSize(Size.newInstance(20, 34));
 		hotelMarker.setInfoWindowAnchor(Point.newInstance(9, 2));
-		final MarkerOptions mOptions = MarkerOptions.newInstance(hotelMarker);			
- 
+		
+		final MarkerOptions mOptions = MarkerOptions.newInstance(hotelMarker);
+		 
+		 
 		LatLng point = LatLng.newInstance(hotel.getLat(), hotel.getLng());
 		
-		final Marker marker = new Marker(point, mOptions);
+		StringBuilder infoContent = new StringBuilder();
+		infoContent.append("<b>");
+		infoContent.append(index);
+		infoContent.append(", ");
+		infoContent.append(hotel.getName());
+		infoContent.append("</b>");
 		
+		HTML infoWindowWidget = new HTML(infoContent.toString());
+		
+		final InfoWindowContent content = new InfoWindowContent(infoWindowWidget);
+		final Marker marker = new Marker(point, mOptions);
+	    marker.addMarkerClickHandler( new MarkerClickHandler() {
+		    public void onClick( MarkerClickEvent event ) {
+			   InfoWindow info = map.getInfoWindow();
+			   info.open( marker, content );
+			}
+	    } );
+	    
 		return marker;
     }
 	

@@ -10,8 +10,6 @@ import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTML;
@@ -86,21 +84,13 @@ public class HeaderLayoutWidget extends AbstractWidget {
 				langLinks = WidgetStyleUtils.createHtmlLink(langName, langLink);
 				languagePanel.add(langLinks);
 				
-				//for zh_CN, display not support message
- 				if (GWTStringUtils.equalsIgnoreCase(lage_Region, "zh_CN")) {
-					langLinks.addClickHandler(new ClickHandler() {
-
-						public void onClick(ClickEvent arg0) {
-							Window.alert(" Not Support Yet, just demo how to switch languages ");							 
-						}					 
-					});
-				}
-				
-				if (++i != langRegions.length-1) {
-					languagePanel.add(WidgetStyleUtils.createStyledLabel( "|", "veritcalDivider" ));
-				}
+ 				languagePanel.add(WidgetStyleUtils.createStyledLabel( " | ", "veritcalDivider" ));
+				 
 			}
 		}
+		
+		//add current language
+		languagePanel.add(new Label(tagLookup.getString("language_selector_" + currentLangRegion)));
  
 		layoutPanel.add(languagePanel);
 	 
@@ -120,7 +110,9 @@ public class HeaderLayoutWidget extends AbstractWidget {
 		//add request if any
 		final String queryString = Window.Location.getQueryString();
 		if (GWTStringUtils.isSet(queryString)) {
-			//sbuilder.append("?");
+			if (!GWTStringUtils.containsString(queryString, "?")) {
+			  sbuilder.append("?");
+			}
 			sbuilder.append(queryString);
 		}
 		return sbuilder.toString();

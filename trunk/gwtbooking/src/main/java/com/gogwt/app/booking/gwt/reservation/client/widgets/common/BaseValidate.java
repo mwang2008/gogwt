@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BaseValidate {
+	private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+[A-Za-z0-9-]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
+
 	protected ArrayList<String> errorList;
 
 	public BaseValidate() {
@@ -36,4 +38,16 @@ public class BaseValidate {
 		}
 	}
 
+	/**
+	 * validate email address should have @ in it
+	 * 
+	 * @param errors
+	 * @param fieldValue
+	 */
+	protected boolean isValidEmailFormat(final String fieldValue) {
+ 		if (fieldValue != null && !(fieldValue.matches(EMAIL_REGEX))) {
+			return false;
+		}
+		return true;
+	}
 }
