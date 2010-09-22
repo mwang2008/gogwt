@@ -2,13 +2,12 @@ package com.gogwt.app.booking.gwt.reservation.client.widgets.common;
 
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
 public class FooterLayoutWidget extends AbstractWidget {
 	 
-	private Panel layoutPanel = new FlowPanel();
+	private Panel layoutPanel = WidgetStyleUtils.createFlowPanelWithId( "reservationFooter" ); //new FlowPanel();
 
 	public FooterLayoutWidget() {
 		super();

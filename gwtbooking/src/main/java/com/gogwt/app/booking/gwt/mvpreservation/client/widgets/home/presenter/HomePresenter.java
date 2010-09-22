@@ -2,7 +2,7 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.presenter;
 
 import java.util.ArrayList;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+import com.allen_sauer.gwt.log.client.Log;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
@@ -11,6 +11,7 @@ import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppHandlerManager;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.presenter.Presenter;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.HotelSearchEvent;
+import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.validate.SearchValidate;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view.HomeLayoutView;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
@@ -75,7 +76,7 @@ public class HomePresenter implements Presenter, HomeLayoutView.Presenter<Search
 	}
 
 	public void handleRPCError(Throwable caught, CommandBean command) {
-		// TODO Auto-generated method stub
+		Log.debug("Could not search hotel ");
 		
 	}
 

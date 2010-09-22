@@ -18,7 +18,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ResultDetailItemSubView<T> extends AbstractWidget {
+public class ResultDetailItemSubView extends AbstractWidget {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 

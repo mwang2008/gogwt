@@ -1,22 +1,11 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view;
 
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_HOME;
-
 import java.util.List;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
-import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
-import com.gogwt.app.booking.dto.dataObjects.common.EnvMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
-import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
-import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
-import com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
-import com.gogwt.app.booking.gwt.common.utils.GWTSession;
-import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
-import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -32,13 +21,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SearchResultViewImpl extends AbstractWidget implements
-		SearchResultView<HotelBean>, RPCProxyInterface<ReservationContainerBean> {
+		SearchResultView<HotelBean, HotelSearchResponseBean> {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 
@@ -56,7 +44,7 @@ public class SearchResultViewImpl extends AbstractWidget implements
 	@UiField (provided = true) MapWidget map;
 	@UiField ResultDetailListSubView itemDetailList;
 	
-	private Image mapviewOn, mapviewOff, listviewOn, listviewOff;
+	//private Image mapviewOn, mapviewOff, listviewOn, listviewOff;
 	
 	private TabItem tabItem;
 	
@@ -90,6 +78,10 @@ public class SearchResultViewImpl extends AbstractWidget implements
 		 map.addControl(new LargeMapControl());
     }
     
+    /**
+     * Click tab handler
+     * @param event
+     */
 	@UiHandler("tabPanel")
 	void selectTab(SelectionEvent<Integer>event) {
 	    
@@ -116,65 +108,13 @@ public class SearchResultViewImpl extends AbstractWidget implements
 		return this;
 	}
 
-	public void process() {
-		final ReservationContainerBean currentContainer = GWTSession
-				.getCurrentReservationContainer();
-
-		/*----------------------------------------------------------+
-		 * Session backup in case user click refersh button. 
-		 *----------------------------------------------------------*/
-		if (currentContainer != null
-				&& currentContainer.getHotelSearchRequest() != null
-				&& currentContainer.getHotelSearchResponse() != null) {
-			processDisplayHotelItems(currentContainer.getHotelSearchResponse());
-			return;
-		}
-		
-		// could not find, call session backup.
-		RPCReservationProxy.getInstance()
-					.getReservationContainerBeanFromSession(
-							ProcessStatusEnum.SEARCH_RESULT, new CommandBean(),
-							this);
-		
-
-	}
-	
-	
-	public void handleRPCSuccess(ReservationContainerBean reservationContainer, CommandBean command) {
-		 
-		 // update gwtsession
-	    if ( reservationContainer != null
-	      && reservationContainer.getHotelSearchRequest() != null 
-	      && reservationContainer.getHotelSearchResponse() != null) {
-	      GWTSession.setCurrentReservationContainer( reservationContainer );
-	      
-	      processDisplayHotelItems( reservationContainer.getHotelSearchResponse() );
-	      
-	    } else {
-			// invoke event bus for target page
-			//todo: use eventBus.fireEvent(new HotelSearchEvent());	
-	    	GWTExtClientUtils.redirect( VIEW_HOME );
-	    } 
-		
-	}
-
-	public void handleRPCError(Throwable caught, CommandBean command) {
-	    // could not find in backend session, redirect back to home page.
-		//todo: use eventBus
-		
-		if (caught instanceof SessionTimedoutException) {
-			GWTExtClientUtils.redirect(VIEW_HOME);
-			return;
-		}
-		
-		GWTExtClientUtils.redirect( VIEW_HOME );
- 	}
+ 	 
 	
 	/**
 	 * 
 	 * @param hotelSearchResponse
 	 */
-	private void processDisplayHotelItems(
+	public void processDisplay(
 			final HotelSearchResponseBean hotelSearchResponse) {
 
 		//1. display map if MAP VIEW is selected
@@ -251,26 +191,6 @@ public class SearchResultViewImpl extends AbstractWidget implements
 		return marker;
     }
 	
-	private void init() {	 
-		EnvMappingElem envMappingElem = GWTExtClientUtils.getMappingElem();
-
-		mapviewOn = new Image(envMappingElem.getContextPath() + "/images/"
-				+ envMappingElem.getLagnRegion() + "/mapviewOn.gif");
-		mapviewOn.setTitle("Map View");
-
-		mapviewOff = new Image(envMappingElem.getContextPath() + "/images/"
-				+ envMappingElem.getLagnRegion() + "/mapviewOff.gif");
-		mapviewOff.setTitle("Map View");
-
-		listviewOn = new Image(envMappingElem.getContextPath() + "/images/"
-				+ envMappingElem.getLagnRegion() + "/listviewOn.gif");
-		listviewOn.setTitle("List View");
-
-		listviewOff = new Image(envMappingElem.getContextPath() + "/images/"
-				+ envMappingElem.getLagnRegion() + "/listviewOff.gif");
-		listviewOn.setTitle("List View");
-	}
-
-	
+ 
  
 }

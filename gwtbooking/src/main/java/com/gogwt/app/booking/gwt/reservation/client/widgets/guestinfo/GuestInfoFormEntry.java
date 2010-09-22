@@ -5,10 +5,12 @@ import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.RESERVATION_
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
+import com.gogwt.app.booking.dto.dataObjects.common.PopulatorItem;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
+import com.gogwt.app.booking.gwt.common.populator.PopulatorDataCollection;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
@@ -27,13 +29,15 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 	
 	private HasFormEntry callback;
-	 
+	
+	private ListBox title = new ListBox();
 	private TextBox firstName = new TextBox();
 	private TextBox lastName = new TextBox();
 	private TextBox email = new TextBox();
 	private TextBox address = new TextBox();
 	private TextBox city = new TextBox();
 	private ListBox stateId = new ListBox();
+	
 	private TextBox zipCode = new TextBox();
 	private Hidden hotelId = new Hidden();
 	private Hidden selectedIndex = new Hidden();
@@ -52,9 +56,10 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	    zipCode.setMaxLength(30);
 	    email.setMaxLength(30);
 	    
-		stateId.addItem("GA", "Georgia");
-		stateId.addItem("NY", "New York");
+	    fillStatePopulator();
+	    fillTitlePopulator();
 	}
+
 
 	/**
 	 * 
@@ -124,6 +129,7 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 		
 		int hotelId = GWTSession.getCurrentReservationContainer().getSelectHotelItem();
 		request.setId(hotelId);
+		request.setTitle(title.getValue(title.getSelectedIndex()));
 		request.setFirstName(firstName.getText());
 		request.setLastName(lastName.getText());
 		request.setAddress(address.getText());
@@ -181,5 +187,26 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	}
 
 	 
+	public ListBox getTitle() {
+		return title;
+	}
 
+	private void fillStatePopulator() {
+		ArrayList<PopulatorItem> stateList = new PopulatorDataCollection().getStatePopulator();
+		stateId.addItem("", "");
+		if (stateList != null) {
+			for (PopulatorItem populator : stateList) {
+				stateId.addItem(populator.getDisplay(), populator.getCode());
+			}
+		}
+	}
+	
+	private void fillTitlePopulator() {
+		ArrayList<PopulatorItem> titleList = new PopulatorDataCollection().getTitlePopulator();
+		if (titleList != null) {
+			for (PopulatorItem populator : titleList) {
+				title.addItem(populator.getCode(), populator.getDisplay());
+			}
+		} 
+	}
  }

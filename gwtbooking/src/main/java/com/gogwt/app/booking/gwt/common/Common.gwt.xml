@@ -3,6 +3,7 @@
    <source path="i18n"/>  
    <source path="helper"/> 
    <source path="widget"/>  
+   <source path="populator"/>
    
    <!-- Logging -->
    <inherits name="com.allen_sauer.gwt.log.gwt-log"/>

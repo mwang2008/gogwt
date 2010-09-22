@@ -1,4 +1,4 @@
-package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.presenter;
+package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.validate;
 
 import java.util.ArrayList;
 

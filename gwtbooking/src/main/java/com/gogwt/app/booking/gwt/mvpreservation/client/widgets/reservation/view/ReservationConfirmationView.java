@@ -3,12 +3,12 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.reservation.view
 import com.google.gwt.user.client.ui.Widget;
 
 
-public interface ReservationConfirmationView  {
+public interface ReservationConfirmationView <T> {
 	public interface Presenter {
 		
 	}
 	
-	public void process();
+	public void processDisplay(T t);
 	
 	/**
 	 * Connect to presenter

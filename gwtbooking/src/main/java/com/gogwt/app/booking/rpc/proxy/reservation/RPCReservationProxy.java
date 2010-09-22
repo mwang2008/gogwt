@@ -90,29 +90,5 @@ public final class RPCReservationProxy {
 		});
  	}
 	
-	/**
-	 * Used for session backup
-	 * @param processStatusEnum
-	 * @param command
-	 * @param callback
-	 */
-	public void getReservationContainerBeanFromSession(final ProcessStatusEnum processStatusEnum, final CommandBean command,
-			final RPCProxyInterface<ReservationContainerBean> callback) {
-        
-		ReservationProcessServiceAsync service = ReservationProcessServiceAsync.Util.getSeesionBackupAsync();
-		
-		service.getReservationContainerBeanFromSession(processStatusEnum, new AsyncCallback<ReservationContainerBean>() {
- 		 
-			//@Override
-			public void onFailure(Throwable caught) {
-				callback.handleRPCError(caught, command);				
-			}
 
-			//@Override
-			public void onSuccess(ReservationContainerBean result) {
-				callback.handleRPCSuccess(result, command);				
-			}		 
-		});
-	   	
-	}
 }

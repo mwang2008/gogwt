@@ -18,6 +18,7 @@
 				<property name="populators">
 					<map>
 						<entry key="statesProvincesPopulator">com.gogwt.app.booking.populator.StatePopulator</entry>
+						<entry key="titlePopulator">com.gogwt.app.booking.populator.TitlePopulator</entry>
 		 			</map>
 				</property>
 			</properties>

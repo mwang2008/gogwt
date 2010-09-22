@@ -22,16 +22,30 @@
 
 </head>
 <body>
-
 <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
 
+<style type="text/css">
+.myfooter
+{
+position:relative;
+border:5px solid gray;
+margin:0px;
+top:150px;
+}
+div.ex
+{
+width:220px;
+padding:10px;
+border:5px solid gray;
+margin:0px;
+}
+</style>
 
 <div id="wrapper">
   <div id="container">
      <div id="header" style="position: relative"></div>
      <div id="menu" style="position: relative"></div>    
-     <div id="wrapperContent" style="position: relative"></div>
-   
+     <div id="wrapperContent" style="position: relative"></div>    
      <div id="footer" style="position: relative"></div>
   </div>
 </div>   

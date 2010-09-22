@@ -2,7 +2,13 @@
   min-height:336px;
   width:972px;
 }
-
+.foot_table { 
+   position:relative;
+   padding:2px;
+   left:0px;
+   width:972px;  
+   top:150px;
+}
 .text12blue {
    color:#4784BE; 
    font-weight: bold;
