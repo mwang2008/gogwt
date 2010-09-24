@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractValidate{
+	private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+[A-Za-z0-9-]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
+	
 	protected ArrayList<String> errorList;
 
 	//public abstract ArrayList<String> validate(T t);
@@ -41,5 +43,18 @@ public abstract class AbstractValidate{
 		if (errorList == null) {
 			errorList = new ArrayList<String>();
 		}
+	}
+	
+	/**
+	 * validate email address should have @ in it
+	 * 
+	 * @param errors
+	 * @param fieldValue
+	 */
+	protected boolean isValidEmailFormat(final String fieldValue) {
+ 		if (fieldValue != null && !(fieldValue.matches(EMAIL_REGEX))) {
+			return false;
+		}
+		return true;
 	}
 }

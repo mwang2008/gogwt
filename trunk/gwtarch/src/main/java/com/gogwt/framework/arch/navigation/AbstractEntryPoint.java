@@ -2,6 +2,8 @@ package com.gogwt.framework.arch.navigation;
 
 
 
+import java.util.Map;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.google.gwt.core.client.EntryPoint;
@@ -13,7 +15,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-
+ 
 
 
 /**
@@ -123,6 +125,9 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	 */
 	protected abstract AbstractPageConfigAccessor obtainPageAccessor();
 
+	
+	protected abstract void processPopulator(Map<String, String> populatorsMap);
+	
 	/**
 	 * <p>
 	 * Called by module entry point loadModule to load page manager
@@ -161,21 +166,24 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	    }
 
 	    AbstractPage page = null;
+	    PageConfig config = null;
 	    if ( pageAccessor.getPageConfigInstances().containsKey( token ) ) {
-	      //sLogger.info( "Show already instatiated view." );
-	      // show the view if already instantiated
-	      page = pageAccessor.lazyCreateOrGetPageConfig( token ).getInstance();
+	        Log.info( "Show already instatiated view." );
+	       // show the view if already instantiated
+	    	config = pageAccessor.lazyCreateOrGetPageConfig( token );
+	        page = config.getInstance();
 	      page.setVisible( true );
 	    } else {
-	      //sLogger.info( "Instatiate View " + token );
-	      // instantiate, add and show the view
-	      try {
-	        page = pageAccessor.lazyCreateOrGetPageConfig( token ).getInstance();
-	        pageContainer.add( page );
-	      } catch (Throwable t) {
+	    	Log.info( "Instatiate View " + token );
+	        // instantiate, add and show the view
+	        try {
+	           config = pageAccessor.lazyCreateOrGetPageConfig( token );
+	           page = config.getInstance();
+	           pageContainer.add( page );
+	        } catch (Throwable t) {
 	    	  t.printStackTrace();
-	        //sLogger.error("Error instantiating view in manageViewVisibility()"+t, t);
-	      }
+	    	  Log.fatal("Error instantiating view in manageViewVisibility()"+t, t);
+	        }
 	    }
 	    
 	    // Process Page
@@ -190,13 +198,23 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	        
 	    	  page.postProcess();
 	        
-	      } catch (Throwable t) {
-	    	  //todo: add log
-	        //sLogger.error("Error executing view.process();", t);
+	      } catch (Throwable t) {	    	  
+	         Log.fatal("Error executing view.process();", t);
 	      }
-	    }	      	        
+	      
+	      //start to process populator
+	      try {
+	         Map<String, String> populatorsMap = config.getProperties().get( "populators" );
+	         processPopulator(populatorsMap);
+	      }
+          catch( Throwable t ) {
+        	Log.fatal( "Error executing PopulatorManager.handlePopulators();", t );
+          }
+ 	    }	      	        
 	  }
  
+	  
+	  
 		/**
 		 * <p>
 		 * Initialize view accessor
