@@ -28,12 +28,11 @@ public class ReservationEntryPoint extends AbstractEntryPoint {
 		Log.info("loadModule"); 
 		  Log.trace("==This is a 'TRACE' test message");
 		    Log.debug("==This is a 'DEBUG' test message");
-		    Log.info("This is a 'INFO' test message");
-		    Log.warn("This is a 'WARN' test message");
+		    //Log.info("This is a 'INFO' test message");
+		    //Log.warn("This is a 'WARN' test message");
 		    Log.error("This is a 'ERROR' test message");
 		    Log.fatal("This is a 'FATAL' test message");
-
-		    
+    
 		// header
 		RootPanel.get("header").add(new HeaderLayoutWidget());
 		

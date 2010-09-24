@@ -1370,6 +1370,15 @@ a, a:visited, a:hover {
     width:100x;  
   }
 
+.btnSelect {  
+    border-width:1px;
+    padding:10px;
+    position:absolute;
+    top:18px;
+    right:15px;
+    width:100x;  
+}  
+
 .text12red {
    color:#FF0000; 
    font-weight: bold;
@@ -1380,6 +1389,7 @@ a, a:visited, a:hover {
 	clear: both;
 	padding: 90px 10px 0px 10px;
 }
+
 
 .guestInfoWidget {
 	width:300px;

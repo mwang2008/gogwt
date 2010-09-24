@@ -97,7 +97,7 @@ public class HotelSearchController extends SimpleFormController {
 		if (hotelSearchResponse != null && hotelSearchResponse.hasSearchResult()) {
 			SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setHotelSearchRequest(searchFormBean);
 			SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setHotelSearchResponse(hotelSearchResponse);
-			SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setStatus(ProcessStatusEnum.SEARCH_FORM);
+			SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().setStatus(ProcessStatusEnum.SEARCH_RESULT);
 			
 			String targetURL = getSuccessView();
 			return new ModelAndView(new RedirectView(targetURL));

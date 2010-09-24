@@ -10,7 +10,8 @@ import com.gogwt.framework.arch.widgets.AbstractValidate;
 
 public class GuestInfoValidate extends AbstractValidate {
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
-	 
+	//private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+[A-Za-z0-9-]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
+	
 	/**
      * Validate search form
      * Note: use ArrayList is for quick response, per Google document.
@@ -39,11 +40,18 @@ public class GuestInfoValidate extends AbstractValidate {
 			errorList.add(tags.input_field_required(tags.Label_zip()));
 		}
 		
-		if (!GWTStringUtils.isSet(view.getEmail().getValue())) {
+		String email = view.getEmail().getValue();
+		if (!GWTStringUtils.isSet(email)) {
 			errorList.add(tags.input_field_required(tags.label_email()));
+		} else {
+			if (!isValidEmailFormat(email)) {
+				errorList.add(tags.error_invalid_email());
+			}
 		}
 		
 		
 		return this.getErrorList();
 	}
+	
+	 
 }

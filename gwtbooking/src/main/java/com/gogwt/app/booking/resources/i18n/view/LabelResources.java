@@ -232,6 +232,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String label_Last_Name();
 
   /**
+   * Translated "Title".
+   * 
+   * @return translated "Title"
+   */
+  @DefaultMessage("Title")
+  @Key("label.Title")
+  String label_Title();
+
+  /**
    * Translated "Email".
    * 
    * @return translated "Email"
@@ -266,15 +275,6 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Radius")
   @Key("label.radius")
   String label_radius();
-
-  /**
-   * Translated "Title".
-   * 
-   * @return translated "Title"
-   */
-  @DefaultMessage("Title")
-  @Key("lable.Title")
-  String lable_Title();
 
   /**
    * Translated "Reservation Number".

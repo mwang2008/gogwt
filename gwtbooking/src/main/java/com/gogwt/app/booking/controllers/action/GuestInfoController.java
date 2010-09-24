@@ -15,7 +15,10 @@ import com.gogwt.app.booking.businessService.domainService.ReservationBusinessSe
 import com.gogwt.app.booking.controllers.BaseAbstractFormController;
 import com.gogwt.app.booking.controllers.ControllerHelper;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
+import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
+import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
+import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
  
 
@@ -97,12 +100,20 @@ public class GuestInfoController extends BaseAbstractFormController {
 	
 		//1. call domain service to search for hotel
 		ReservationBusinessService reservationBusinessService = LookupBusinessService.getReservationBusinessService();
-		//todo:
-		int index = 2;
+		 
+		int index = Integer.parseInt(request.getParameter("index")); //guestFormBean.getId();
 		HotelBean selectedHotel = SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean().getHotelSearchResponse().getHotelList().get(index);
 		
-		reservationBusinessService.confirmReservation(guestFormBean, selectedHotel, ControllerHelper.getUserContext(request));
-			
+		ReserveResponseBean reserveResponseBean = reservationBusinessService.confirmReservation(guestFormBean, selectedHotel, ControllerHelper.getUserContext(request));
+		
+		ReservationContainerBean reservationContainerBean = SessionBeanLookupService.getReservationSessionManager().getReservationContainerBean();
+		
+		//3. set request/response to session
+		reservationContainerBean.setStatus(ProcessStatusEnum.CONFIRMATION);
+		reservationContainerBean.setGuestInfoBean(guestFormBean);
+		reservationContainerBean.setReserveResponse(reserveResponseBean);
+		reservationContainerBean.setSelectHotelItem(index);
+
 		String targetURL = getSuccessView();
 		return new ModelAndView(new RedirectView(targetURL));
  		 

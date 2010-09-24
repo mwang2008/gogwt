@@ -5,7 +5,7 @@ import com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean;
 
 public class SearchFormBean extends BaseBean {
 	private String location;
-    private int radius = 20;     //default set to 30 miles
+    private int radius = 10;     //default set to 30 miles
     private GeoCodeBean geoCode;
     
 	public String getLocation() {

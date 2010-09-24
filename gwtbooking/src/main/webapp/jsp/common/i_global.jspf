@@ -11,3 +11,4 @@
 
 <%@ taglib uri="/WEB-INF/spring.tld" prefix="spring" %>
 <%@ taglib uri="/WEB-INF/spring-form.tld" prefix="form" %>
+<%@ taglib uri="/WEB-INF/goGWTUtils.tld" prefix="gogwtutil" %>

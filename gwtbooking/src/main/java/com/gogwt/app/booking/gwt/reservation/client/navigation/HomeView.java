@@ -20,6 +20,7 @@ public class HomeView extends AbstractPage {
 	 * Invoked by AbstractEntry
 	 */
 	public void process() {
+	
  		homeWidget.prepareEntryLayout();		
 		
 	}
