@@ -1,12 +1,25 @@
 <html>
 <body>
-<h2>Hello World!</h2>
-<a href="<%=request.getContextPath()%>/en-US/atlanta/home/goodPlace"> en-US home </a> <br>
-<a href="<%=request.getContextPath()%>/en-US/hotelsearch"> en-US Hotel Search</a> <br>
-<a href="<%=request.getContextPath()%>/es-ES/atlanta/home/goodPlace"> es-ES home</a> <br>
-<a href="<%=request.getContextPath()%>/es-ES/hotelsearch"> es-ES Hotel Search</a> <br>
-<a href="<%=request.getContextPath()%>/en-US/gwtreservation"> GWT en-US </a> <br>
-<a href="<%=request.getContextPath()%>/es-ES/gwtreservation"> GWT es-ES </a> <br>
+<h2>GoGWT Office Site</h2>
+<hr>
+<p>
+This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory cache of Ehcache.  Three versions are given list below:
+<p>
+<table>
+<tr> 
+  <td><a href="<%=request.getContextPath()%>/en-us/hotelsearch"> Spring MVC Version</a> </td>
+</tr>
+<tr>
+  <td>
+     <a href="<%=request.getContextPath()%>/en-us/gwtreservation"> GWT Widgets Version </a> <br>
+  </td>
+</tr>   
+<tr>
+  <td>
+     <a href="<%=request.getContextPath()%>/en-us/mvpreservation"> GWT uiBinder MVP Version </a> <b
+  </td>
+</tr>
+</table>   
 
 
 </body>

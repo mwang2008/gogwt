@@ -8,11 +8,9 @@
    <inherits name="com.google.gwt.xml.XML" />
    <inherits name="com.google.gwt.maps.GoogleMaps" />
    <inherits name="com.google.gwt.ajaxloader.AjaxLoader"/>
-   
-   <!-- 
-   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
-    -->
     
+   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+     
    <!-- Internal Modules -->
    <inherits name="com.gogwt.app.booking.resources.i18n.I18NResources"/> 
     

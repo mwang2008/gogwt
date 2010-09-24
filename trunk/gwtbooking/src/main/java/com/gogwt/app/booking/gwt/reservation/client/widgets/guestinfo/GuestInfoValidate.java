@@ -3,10 +3,10 @@ package com.gogwt.app.booking.gwt.reservation.client.widgets.guestinfo;
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
-import com.gogwt.app.booking.gwt.reservation.client.widgets.common.BaseValidate;
 import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.widgets.AbstractValidate;
 
-public class GuestInfoValidate extends BaseValidate {
+public class GuestInfoValidate extends AbstractValidate {//BaseValidate {
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();	
 	
     /**
@@ -18,10 +18,6 @@ public class GuestInfoValidate extends BaseValidate {
 	public ArrayList<String> validate(GuestInfoFormEntry formEntry) {
 		
 		this.resetError();
-		
-		if (!GWTStringUtils.isSet(formEntry.getFirstName().getText())) {
-			this.addError("Please type in First name field");
-		}
 		
 		if (!GWTStringUtils.isSet(formEntry.getFirstName().getText())) {
 			errorList.add(tags.input_field_required(tags.label_First_Name()));

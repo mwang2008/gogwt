@@ -55,6 +55,7 @@
   
     <!-- ========================= POPULATOR ========================= -->
     <bean name="name=populator/StatePopulator" class="com.gogwt.app.booking.populator.StatePopulator"/>
+    <bean name="name=populator/TitlePopulator" class="com.gogwt.app.booking.populator.TitlePopulator"/>
   
 	<!-- ========================= CONTROLLER DEFINITIONS ========================= --> 
     <!-- HomeController" -->
@@ -73,16 +74,16 @@
     
     <bean name="name=controller/reservation/GuestInfoController" class="com.gogwt.app.booking.controllers.action.GuestInfoController">
        <property name="populators">
-			<map>
-		 		<entry key="statePopulator"><ref bean="name=populator/StatePopulator"/> </entry>
-		 	</map>
-	   </property>
-	   
- 		<property name="bindOnNewForm"><value>true</value></property>
-		<property name="commandName"><value>guestInfoFormBean</value></property>		
-	 	<property name="validator"><ref bean="name=validator/reservation/GuestInfoFormValidator"/></property>
-		<property name="formView"><value>/reservation/guest_info_form</value></property>
-		<property name="successView"><value>confirmed</value></property> 	 
+	   <map>
+	        <entry key="statePopulator"><ref bean="name=populator/StatePopulator"/> </entry>
+		<entry key="titlePopulator"><ref bean="name=populator/TitlePopulator"/> </entry>		 		
+	   </map>
+      </property>	   
+      <property name="bindOnNewForm"><value>true</value></property>
+      <property name="commandName"><value>guestInfoFormBean</value></property>		
+      <property name="validator"><ref bean="name=validator/reservation/GuestInfoFormValidator"/></property>
+      <property name="formView"><value>/reservation/guest_info_form</value></property>
+      <property name="successView"><value>confirmed</value></property> 	 
        
     </bean> 
     

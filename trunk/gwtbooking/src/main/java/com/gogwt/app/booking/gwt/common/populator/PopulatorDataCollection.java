@@ -30,6 +30,7 @@ public class PopulatorDataCollection  {
 	
 	public ArrayList<PopulatorItem> getTitlePopulator() {
 		ArrayList<PopulatorItem> titleList = new ArrayList<PopulatorItem>();
+		titleList.add(new PopulatorItem("", "-- Title --"));
 		titleList.add(new PopulatorItem("Mr", "Mr"));
 		titleList.add(new PopulatorItem("Ms", "Ms"));
 		titleList.add(new PopulatorItem("Dr", "Dr"));
@@ -40,6 +41,7 @@ public class PopulatorDataCollection  {
 	
 	public ArrayList<PopulatorItem> getStatePopulator() {
 		ArrayList<PopulatorItem> stateList = new ArrayList<PopulatorItem>();
+		stateList.add(new PopulatorItem("", "-- State --"));
 		stateList.add(new PopulatorItem("AK", "ALASKA"));
 		stateList.add(new PopulatorItem("AL", "ALABAMA"));
 		stateList.add(new PopulatorItem("AR", "ARKANSAS"));

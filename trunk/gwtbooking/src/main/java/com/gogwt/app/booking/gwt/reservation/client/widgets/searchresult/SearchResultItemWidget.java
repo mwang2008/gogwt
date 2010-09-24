@@ -1,9 +1,10 @@
 package com.gogwt.app.booking.gwt.reservation.client.widgets.searchresult;
 
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.*;
+import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.GUEST_INFO;
 
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
+import com.gogwt.app.booking.gwt.common.helper.DisplayAmenitiesGWTHelper;
 import com.gogwt.app.booking.gwt.common.helper.DisplayHelper;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
@@ -38,7 +39,7 @@ public class SearchResultItemWidget extends AbstractWidget {
 		flextable.setWidth("100%");
 		
 		String fullAddress = DisplayHelper.fullAddress(hotel);
-		String amenities = DisplayHelper.fillAmenities(hotel, tags);
+		String amenities = DisplayAmenitiesGWTHelper.fillAmenities(hotel, tags);
 		
 		Panel hoteNamePanel = WidgetStyleUtils.createVerticalPanel();
 		

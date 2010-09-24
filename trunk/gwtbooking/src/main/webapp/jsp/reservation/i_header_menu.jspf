@@ -1,0 +1,75 @@
+  <div id="container">
+
+  <div id="header" style="position: relative;">
+     <table class="header" cellpadding="0" cellspacing="0">
+       <tbody>
+        <tr>
+           <td style="vertical-align: top;" align="left">
+             <div class="logo">
+               <a title="gogwt logo" href="${env.prefix}/hotelsearch" class="gwt-Anchor" tabindex="0">
+                  <img src="${env.contextPath}/images/logo.JPG" class="gwt-Image">
+               </a>
+            </div>
+          </td>
+          <td style="vertical-align: top;" align="left">
+             <table class="headerText" cellpadding="0" cellspacing="0">
+             <tbody>
+             <tr>
+               <td style="vertical-align: top;" align="left">
+                  <div class="gwt-Label rightLabel"> GWT, Spring MVC, Hibernate, AOP, SEO, Performance Tuneup </div>
+               </td>
+             </tr>
+             </tbody>
+             </table>
+          </td>
+          <td style="vertical-align: top;" align="left">
+            <table class="headerLanguage" cellpadding="0" cellspacing="0">
+               <tbody>
+               <tr>
+                  <td style="vertical-align: top;" align="left">
+                    <div class="gwt-HTML">
+                     <a href="${env.contextPath}/en-us/hotelsearch" title="US English">US English</a>
+                    </div>
+                  </td>
+                  <td style="vertical-align: top;" align="left">
+                    <div style="white-space: normal;" class="gwt-Label veritcalDivider"> | </div>
+                  </td>
+                  <td style="vertical-align: top;" align="left">
+                    <div class="gwt-Label"><a href="${env.contextPath}/es-es/hotelsearch" title="Español">Español</a> </div>
+                  </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+       </table>
+     </div>
+     
+     <div id="menu" style="position: relative;">
+         <table class="menu_table" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                 <td style="vertical-align: top;" align="left">
+                    <table class="menu_inner" cellpadding="0" cellspacing="0">
+                       <tbody>
+                       <tr>
+                          <td style="vertical-align: top;" align="left">
+                             <div class="gwt-Label bw_top_menu"><fmt:message key='Label.Address'/> </div>
+                          </td>
+                          <td style="vertical-align: top;" align="left">
+                            <div class="gwt-Label bw_top_menu">|</div>
+                          </td>
+                          <td style="vertical-align: top;" align="left">
+                             <div class="gwt-Label bw_top_menu"><fmt:message key='Label.AlongRoute'/></div>
+                          </td>
+                           
+                       </tr>
+                       </tbody>
+                    </table>
+                 </td>
+              </tr>
+            </tbody>
+         </table>
+      </div> 
+   </div>

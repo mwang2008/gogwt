@@ -2,6 +2,7 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.vie
 
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
+import com.gogwt.app.booking.gwt.common.helper.DisplayAmenitiesGWTHelper;
 import com.gogwt.app.booking.gwt.common.helper.DisplayHelper;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
@@ -97,7 +98,7 @@ public class ResultDetailItemSubView extends AbstractWidget {
 	private void displayHotelItem(int index, HotelBean hotelBean) {
 		name.setInnerText(++index + ", " + hotelBean.getName());
 		address.setInnerText(DisplayHelper.fullAddress(hotelBean));
-		amenities.setInnerText(DisplayHelper.fillAmenities(hotelBean, tags));
+		amenities.setInnerText(DisplayAmenitiesGWTHelper.fillAmenities(hotelBean, tags));
 		distance.setInnerText(GWTFormatUtils.formatDistance(hotelBean.getDistance()) + " miles");
 		btnSelect.setText("Select");
 		

@@ -4,6 +4,8 @@ import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 
 public class GuestInfoFormBean extends BaseBean {
 	private int id;  //propety Id
+	private int index; //selected index in hotel serch result page.
+	
 	private String title;
 	private String firstName;
 	private String lastName;
@@ -52,6 +54,14 @@ public class GuestInfoFormBean extends BaseBean {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	public String getAddress() {

@@ -8,7 +8,7 @@
   
      <g:HTMLPanel>
          <br/>
-         <table> <tr> <td> <b> <g:Label ui:field="reservationNumberLabel"/></b></td> <g:Label ui:field="reservationNumber"/> <td> </td></tr></table>
+         <table> <tr> <td> <b> <g:Label ui:field="reservationNumberLabel"/></b></td>  <td><g:Label ui:field="reservationNumber"/> </td></tr></table>
          <table> 
             <tr>
                 <td class="text12blue"> Guest Information  </td>  

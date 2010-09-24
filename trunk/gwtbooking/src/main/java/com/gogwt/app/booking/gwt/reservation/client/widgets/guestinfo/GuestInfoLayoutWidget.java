@@ -81,7 +81,7 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 		FlexTable flexTable = WidgetStyleUtils.createFlexTable();
 		flexTable.addStyleName( "guestInfoFormTable" );
 		
-		fillNewRow(flexTable, tags.lable_Title(), REQUIRED_STYLE, formEntry.getTitle(), WIDGET_STYLE, VISIBLE );
+		fillNewRow(flexTable, tags.label_Title(), REQUIRED_STYLE, formEntry.getTitle(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.label_First_Name(), REQUIRED_STYLE, formEntry.getFirstName(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.label_Last_Name(), REQUIRED_STYLE, formEntry.getLastName(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.Label_Address(), REQUIRED_STYLE, formEntry.getAddress(), WIDGET_STYLE, VISIBLE );

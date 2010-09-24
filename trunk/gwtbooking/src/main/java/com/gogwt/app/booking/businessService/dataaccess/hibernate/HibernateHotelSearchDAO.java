@@ -69,16 +69,18 @@ public class HibernateHotelSearchDAO implements HotelSearchDAO {
 	/**
 	 * Save reservation
 	 */
-	public int confirmReservation(ReservationBean reservation) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
+	public int confirmReservation(ReservationBean reservation) /*throws DataAccessException*/ {
 		
-		session.save(reservation);
+		   Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		   session.beginTransaction();
+		
+		   session.save(reservation);
 
-		session.getTransaction().commit();
+		   session.getTransaction().commit();
 		
-		return reservation.getId();
+		   return reservation.getId();
 		
+		 
 	}
 
 }

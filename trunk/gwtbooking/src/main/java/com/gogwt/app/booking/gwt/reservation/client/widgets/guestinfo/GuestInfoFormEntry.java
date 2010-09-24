@@ -192,8 +192,7 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	}
 
 	private void fillStatePopulator() {
-		ArrayList<PopulatorItem> stateList = new PopulatorDataCollection().getStatePopulator();
-		stateId.addItem("", "");
+		ArrayList<PopulatorItem> stateList = new PopulatorDataCollection().getStatePopulator();		 
 		if (stateList != null) {
 			for (PopulatorItem populator : stateList) {
 				stateId.addItem(populator.getDisplay(), populator.getCode());
