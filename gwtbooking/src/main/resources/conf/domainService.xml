@@ -5,18 +5,22 @@
 
        	<!-- 
 	      This file will hold all the domain service definitions.
-	    -->
+	-->
 	    
-	    <!--  reservation -->
+	<!--  reservation -->
         <bean name="Booking:name=domain/reservation/ReservationBusinessService" class="com.gogwt.app.booking.businessService.domainService.ReservationBusinessService">
            <property name="hotelSearchDAO"><ref bean="name=dao/HotelSearchDAO" /></property>                  
         </bean>
  
- 	    <!--  reservation -->
+ 	<!--  common -->
         <bean name="Booking:name=domain/reservation/CommonBusinessService" class="com.gogwt.app.booking.businessService.domainService.CommonBusinessService">
            <property name="commonDAO"><ref bean="name=dao/CommonDAO" /></property>                  
         </bean>
        
+ 	<!--  hoteldetail -->
+        <bean name="Booking:name=domain/hoteldetail/HotelDetailBusinessService" class="com.gogwt.app.booking.businessService.domainService.HotelDetailBusinessService">
+           <property name="commonDAO"><ref bean="name=dao/CommonDAO" /></property>                  
+        </bean>
         
 	    
 </beans>

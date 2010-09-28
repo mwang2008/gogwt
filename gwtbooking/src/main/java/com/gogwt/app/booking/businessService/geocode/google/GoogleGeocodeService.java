@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.gogwt.app.booking.businessService.geocode.GeocodeService;
 import com.gogwt.app.booking.dto.dataObjects.response.GeocodeResponseBean;
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 
 public class GoogleGeocodeService implements GeocodeService {     
     private static final String GOOGLE_KEY = "ABQIAAAAmdQW6A4k5xzDjjGKjkBoGxSpsivlna89iOWRa_hFT1LNgvW_6hSu0P4mGO5Amrxbesv6A4dCyHhueQ";

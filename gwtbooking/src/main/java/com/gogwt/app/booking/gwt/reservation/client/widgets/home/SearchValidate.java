@@ -2,10 +2,10 @@ package com.gogwt.app.booking.gwt.reservation.client.widgets.home;
 
 import java.util.ArrayList;
 
-import com.gogwt.app.booking.gwt.reservation.client.widgets.common.BaseValidate;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
+import com.gogwt.framework.arch.widgets.AbstractValidate;
 
-public class SearchValidate extends BaseValidate {
+public class SearchValidate extends AbstractValidate {
 	
 	
     /**
@@ -18,7 +18,7 @@ public class SearchValidate extends BaseValidate {
 		
 		this.resetError();
 		
-		if (!GWTStringUtils.isSet(formEntry.getDestination().getText())) {
+		if (!StringUtils.isSet(formEntry.getDestination().getText())) {
 			this.addError("Please type in Destination field");
 		}
 		

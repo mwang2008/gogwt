@@ -5,7 +5,7 @@ import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -129,11 +129,11 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 	    table.setText( row, 0, fieldName + ": " );
 	    table.getFlexCellFormatter().setAlignment(row, 0, HasHorizontalAlignment.ALIGN_RIGHT, HasVerticalAlignment.ALIGN_MIDDLE);
 	    
-	    if (GWTStringUtils.isSet( fieldNameStyle )) {
+	    if (StringUtils.isSet( fieldNameStyle )) {
 	      table.getFlexCellFormatter().addStyleName( row, 0, fieldNameStyle );
 	    }
 	    table.setWidget( row, 1, widget );
-	    if (GWTStringUtils.isSet( widgetStyle )) {
+	    if (StringUtils.isSet( widgetStyle )) {
 	      table.getFlexCellFormatter().addStyleName( row, 1, widgetStyle );
 	    }
 	    table.getRowFormatter().setVisible( row, isRowVisible );

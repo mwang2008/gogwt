@@ -1,10 +1,8 @@
 package com.gogwt.app.booking.rpc.interfaces.reservation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
-import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
@@ -12,7 +10,6 @@ import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
-import com.gogwt.app.booking.dto.dataObjects.response.SuggestiveDestinationResponseBean;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;

@@ -5,11 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.app.booking.controllers.BaseAbstractController;
 
-public class GWTHotelSearchController extends AbstractController {
+public class GWTHotelSearchController extends BaseAbstractController {
 	private static Logger logger = Logger.getLogger(GWTHotelSearchController.class);
 	 
 	@Override

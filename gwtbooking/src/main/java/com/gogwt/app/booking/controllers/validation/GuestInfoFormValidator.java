@@ -3,11 +3,10 @@ package com.gogwt.app.booking.controllers.validation;
 import org.springframework.validation.Errors;
 
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
-import com.gogwt.app.booking.utils.MessageUtils;
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 
 public class GuestInfoFormValidator extends BaseValidateAdapter {
-	private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+[A-Za-z0-9-]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
+	
 
 	public boolean supports(Class clazz) {
 		return GuestInfoFormBean.class.isAssignableFrom(clazz);
@@ -34,16 +33,5 @@ public class GuestInfoFormValidator extends BaseValidateAdapter {
 		}
  	}
 
-	/**
-	 * validate email address should have @ in it
-	 * 
-	 * @param errors
-	 * @param fieldValue
-	 */
-	protected boolean isValidEmailFormat(final String fieldValue) {
- 		if (fieldValue != null && !(fieldValue.matches(EMAIL_REGEX))) {
-			return false;
-		}
-		return true;
-	} 
+	
 }

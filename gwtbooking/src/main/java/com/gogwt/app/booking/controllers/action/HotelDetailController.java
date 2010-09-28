@@ -5,16 +5,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.gogwt.app.booking.businessService.domainService.CommonBusinessService;
 import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
+import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.controllers.ControllerHelper;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 
-public class HotelDetailController extends AbstractController {
+public class HotelDetailController extends BaseAbstractController {
 
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,

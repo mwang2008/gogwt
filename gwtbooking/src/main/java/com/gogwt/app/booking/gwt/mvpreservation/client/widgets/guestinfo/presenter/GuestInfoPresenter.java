@@ -17,7 +17,7 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.validat
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.guestinfo.view.GuestInfoView;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class GuestInfoPresenter implements Presenter, GuestInfoView.Presenter<GuestInfoFormBean>, RPCProxyInterface<ReserveResponseBean> {
@@ -42,7 +42,7 @@ public class GuestInfoPresenter implements Presenter, GuestInfoView.Presenter<Gu
         
 		//1. validate form
 		ArrayList<String> errorList = new GuestInfoValidate().validate(view);
-		if (GWTStringUtils.isSet(errorList)) {
+		if (StringUtils.isSet(errorList)) {
  			view.dispErrorMsg(errorList);
 			return;
 		}

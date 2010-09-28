@@ -8,7 +8,7 @@ import com.gogwt.app.booking.gwt.common.i18n.TagsReservationLookupResources;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
@@ -77,7 +77,7 @@ public class HeaderLayoutWidget extends AbstractWidget {
 		
 		int i=0;
 		for (String lage_Region : langRegions) {
-			if (!GWTStringUtils.equalsIgnoreCase(currentLangRegion, lage_Region)) {
+			if (!StringUtils.equalsIgnoreCase(currentLangRegion, lage_Region)) {
 				String langName = tagLookup.getString("language_selector_" + lage_Region);
 				String langLink = contructLanguageLink(lage_Region);
 			 
@@ -109,8 +109,8 @@ public class HeaderLayoutWidget extends AbstractWidget {
 		
 		//add request if any
 		final String queryString = Window.Location.getQueryString();
-		if (GWTStringUtils.isSet(queryString)) {
-			if (!GWTStringUtils.containsString(queryString, "?")) {
+		if (StringUtils.isSet(queryString)) {
+			if (!StringUtils.containsString(queryString, "?")) {
 			  sbuilder.append("?");
 			}
 			sbuilder.append(queryString);

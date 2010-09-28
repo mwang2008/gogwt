@@ -2,7 +2,7 @@ package com.gogwt.app.booking.controllers.helper;
 
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.utils.MessageUtils;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 
 public class DisplayAmenitiesJSPHelper {
 	private static final String amenities_tennis = MessageUtils.getMessage("amenities.tennis");
@@ -24,27 +24,27 @@ public class DisplayAmenitiesJSPHelper {
 		StringBuilder amenities = new StringBuilder();
 
 		boolean hasAmenities = false;
-		if (GWTStringUtils.equalsIgnoreCase("Y", hotelBean.getHasTennisCourt())) {
+		if (StringUtils.equalsIgnoreCase("Y", hotelBean.getHasTennisCourt())) {
 			amenities.append(hasAmenities == true ? ", " : "");
 			amenities.append(amenities_tennis);
 			hasAmenities = true;
 		}
-		if (GWTStringUtils.equalsIgnoreCase("Y", hotelBean.getHasPetsAllowed())) {
+		if (StringUtils.equalsIgnoreCase("Y", hotelBean.getHasPetsAllowed())) {
 			amenities.append(hasAmenities == true ? ", " : "");
 			amenities.append(amenities_pet_allowed);
 			hasAmenities = true;
 		}
-		if (GWTStringUtils.equalsIgnoreCase("Y", hotelBean.getHasIndoorPool())) {
+		if (StringUtils.equalsIgnoreCase("Y", hotelBean.getHasIndoorPool())) {
 			amenities.append(hasAmenities == true ? ", " : "");
 			amenities.append(amenities_indoor_pool);
 			hasAmenities = true;
 		}
-		if (GWTStringUtils.equalsIgnoreCase("Y", hotelBean.getHasOutdoorPool())) {
+		if (StringUtils.equalsIgnoreCase("Y", hotelBean.getHasOutdoorPool())) {
 			amenities.append(hasAmenities == true ? ", " : "");
 			amenities.append(amenities_outdoor_pool);
 			hasAmenities = true;
 		}
-		if (GWTStringUtils.equalsIgnoreCase("Y", hotelBean.getHasKitchen())) {
+		if (StringUtils.equalsIgnoreCase("Y", hotelBean.getHasKitchen())) {
 			amenities.append(hasAmenities == true ? ", " : "");
 			amenities.append(amenities_kitchen);
 			hasAmenities = true;

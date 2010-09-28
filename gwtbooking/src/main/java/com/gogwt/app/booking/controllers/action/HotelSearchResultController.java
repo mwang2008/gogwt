@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
+import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
 
@@ -19,7 +19,7 @@ import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
  * @author WangM
  *
  */
-public class HotelSearchResultController extends AbstractController {
+public class HotelSearchResultController extends BaseAbstractController {
 
 	private static Logger logger = Logger.getLogger(HotelSearchResultController.class);
 	

@@ -11,6 +11,8 @@ import com.gogwt.app.booking.utils.BeanLookupService;
 
 public abstract class BaseValidateAdapter implements Validator {
 
+	//private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+[A-Za-z0-9-]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
+	private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
 	 /**
 	   * <p>
 	   * Validate required Field
@@ -57,4 +59,16 @@ public abstract class BaseValidateAdapter implements Validator {
 	    return labelValue;
 	  }
 
+	  /**
+		 * validate email address should have @ in it
+		 * 
+		 * @param errors
+		 * @param fieldValue
+		 */
+		protected boolean isValidEmailFormat(final String fieldValue) {
+	 		if (fieldValue != null && !(fieldValue.matches(EMAIL_REGEX))) {
+				return false;
+			}
+			return true;
+		} 
 }

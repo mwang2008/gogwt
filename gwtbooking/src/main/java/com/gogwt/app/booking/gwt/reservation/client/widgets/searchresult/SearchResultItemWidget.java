@@ -10,7 +10,7 @@ import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
-import com.gogwt.framework.arch.utils.GWTFormatUtils;
+import com.gogwt.framework.arch.utils.FormatUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -51,7 +51,7 @@ public class SearchResultItemWidget extends AbstractWidget {
 		flextable.getFlexCellFormatter().setAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT, HasVerticalAlignment.ALIGN_MIDDLE);
 		
 		Panel rightPanelInsider = WidgetStyleUtils.createVerticalPanel();
-		rightPanelInsider.add(new HTML(GWTFormatUtils.formatDistance(hotel.getDistance()) + " miles &nbsp;&nbsp;"));
+		rightPanelInsider.add(new HTML(FormatUtils.formatDistance(hotel.getDistance()) + " miles &nbsp;&nbsp;"));
 		
 		final Button selectButton = new Button("&nbsp;Select&nbsp;");
 		selectButton.getElement().setAttribute("index", Integer.toString(index));

@@ -4,7 +4,7 @@ import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -31,8 +31,8 @@ public class ProgressBarWidget extends AbstractWidget {
 	 	
 	 	//home link
 	 	final StringBuilder homeLink = new StringBuilder(GWTExtClientUtils.getMappingElem().getPrefix() + "/gwtreservation");
-	 	if (GWTStringUtils.isSet(query)) {
-	 		if (GWTStringUtils.equals(query, "?")) {
+	 	if (StringUtils.isSet(query)) {
+	 		if (StringUtils.equals(query, "?")) {
 	 		   homeLink.append("?");
 	 		}
 	 		homeLink.append(query);
@@ -75,13 +75,13 @@ public class ProgressBarWidget extends AbstractWidget {
 		String query = GWTExtClientUtils.getMappingElem().getQueryParamter();
 		final StringBuilder linkUrl = new StringBuilder();
 		linkUrl.append(GWTExtClientUtils.getMappingElem().getPrefix() + "/gwtreservation");
- 		if (GWTStringUtils.isSet(query)) {
-	 		if (GWTStringUtils.equals(query, "?")) {
+ 		if (StringUtils.isSet(query)) {
+	 		if (StringUtils.equals(query, "?")) {
 	 			linkUrl.append("?");
 		 	} 			
  			linkUrl.append(query);
  		}
- 		if (GWTStringUtils.isSet(token)) {
+ 		if (StringUtils.isSet(token)) {
  		  linkUrl.append("#");
  		  linkUrl.append(token);
  		}

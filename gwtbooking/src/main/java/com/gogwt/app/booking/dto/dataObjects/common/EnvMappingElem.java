@@ -19,6 +19,7 @@ public class EnvMappingElem {
     private boolean isSecure;
     private String domainName;
     private String queryParamter; 
+    private String hotelId;
     
 	public String getLagnRegion() {
     	return getLanguageId() + "-" + getCountryId().toUpperCase();
@@ -95,6 +96,12 @@ public class EnvMappingElem {
 	}
 	public void setQueryParamter(String queryParamter) {
 		this.queryParamter = queryParamter;
+	}
+	public String getHotelId() {
+		return hotelId;
+	}
+	public void setHotelId(String hotelId) {
+		this.hotelId = hotelId;
 	}	
 	
 	

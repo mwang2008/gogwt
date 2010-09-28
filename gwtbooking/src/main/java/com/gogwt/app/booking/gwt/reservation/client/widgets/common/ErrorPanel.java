@@ -3,7 +3,7 @@ package com.gogwt.app.booking.gwt.reservation.client.widgets.common;
  
 import java.util.ArrayList;
 
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
@@ -23,7 +23,7 @@ public class ErrorPanel  extends Composite {
 	
 	public void displayError(ArrayList<String> errorList) {
 		errorPanel.clear();
-		if (GWTStringUtils.isSet(errorList)) {
+		if (StringUtils.isSet(errorList)) {
 			for (String error : errorList) {
 				errorPanel.add(new HTML("<div class='text12red'><li>" +  error + "</li></div>"));
 			}
@@ -32,7 +32,7 @@ public class ErrorPanel  extends Composite {
 	
 	public void displayError(String error) {
 		errorPanel.clear();
-		if (GWTStringUtils.isSet(error)) {
+		if (StringUtils.isSet(error)) {
 			errorPanel.add(new HTML("<div class='text12red'><li>" +  error + "</li></div>"));			 
 		}
  	}

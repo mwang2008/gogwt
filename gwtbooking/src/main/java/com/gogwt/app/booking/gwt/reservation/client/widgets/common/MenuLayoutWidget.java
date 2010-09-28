@@ -26,15 +26,15 @@ private TagsReservationResources tags = TagsReservationResources.Util.getInstanc
 		menuPanel.setStyleName("menu_inner");
 		
 		//address
-		Label address = WidgetStyleUtils.createLabel(tags.Label_Address(), "bw_top_menu");		 
-		Label alongRoute = WidgetStyleUtils.createLabel(tags.Label_AlongRoute(), "bw_top_menu");
+		Label address = WidgetStyleUtils.createLabel(tags.menu_findhotel(), "bw_top_menu");		 
+//		Label alongRoute = WidgetStyleUtils.createLabel(tags.Label_AlongRoute(), "bw_top_menu");
 		 
 	 	
 		menuPanel.add(address);
-		menuPanel.add(WidgetStyleUtils.createLabel("|", "bw_top_menu"));
+/*		menuPanel.add(WidgetStyleUtils.createLabel("|", "bw_top_menu"));
 		menuPanel.add(alongRoute);
 		menuPanel.add(WidgetStyleUtils.createLabel("|", "bw_top_menu"));
-		
+*/		
 		 
 		layoutPanel.add(menuPanel);
 	}

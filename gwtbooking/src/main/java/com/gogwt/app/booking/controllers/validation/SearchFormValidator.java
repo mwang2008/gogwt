@@ -1,10 +1,9 @@
 package com.gogwt.app.booking.controllers.validation;
 
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 
 public class SearchFormValidator extends BaseValidateAdapter {
 

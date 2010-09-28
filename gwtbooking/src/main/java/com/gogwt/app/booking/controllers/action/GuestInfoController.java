@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
 import com.gogwt.app.booking.businessService.domainService.ReservationBusinessService;
-import com.gogwt.app.booking.controllers.BaseAbstractFormController;
+import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.controllers.ControllerHelper;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
@@ -27,7 +27,7 @@ import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
  * @author WangM
  *
  */
-public class GuestInfoController extends BaseAbstractFormController {
+public class GuestInfoController extends BaseAbstractController {
 	private static Logger logger = Logger.getLogger(GuestInfoController.class);
 	
 	@Override

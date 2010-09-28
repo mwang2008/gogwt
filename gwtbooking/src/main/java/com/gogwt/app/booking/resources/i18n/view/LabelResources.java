@@ -70,6 +70,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String Label_city();
 
   /**
+   * Translated "miles".
+   * 
+   * @return translated "miles"
+   */
+  @DefaultMessage("miles")
+  @Key("Label.miles")
+  String Label_miles();
+
+  /**
    * Translated "State".
    * 
    * @return translated "State"
@@ -187,6 +196,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String button_Alt_FindHotel();
 
   /**
+   * Translated "Select".
+   * 
+   * @return translated "Select"
+   */
+  @DefaultMessage("Select")
+  @Key("button.Alt.Select")
+  String button_Alt_Select();
+
+  /**
    * Translated "Submit".
    * 
    * @return translated "Submit"
@@ -275,6 +293,24 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Radius")
   @Key("label.radius")
   String label_radius();
+
+  /**
+   * Translated "Find Hotel".
+   * 
+   * @return translated "Find Hotel"
+   */
+  @DefaultMessage("Find Hotel")
+  @Key("menu.findhotel")
+  String menu_findhotel();
+
+  /**
+   * Translated "Hotel Detail".
+   * 
+   * @return translated "Hotel Detail"
+   */
+  @DefaultMessage("Hotel Detail")
+  @Key("menu.hoteldetail")
+  String menu_hoteldetail();
 
   /**
    * Translated "Reservation Number".
