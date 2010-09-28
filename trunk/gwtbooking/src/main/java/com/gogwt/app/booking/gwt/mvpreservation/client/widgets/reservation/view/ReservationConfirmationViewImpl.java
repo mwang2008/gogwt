@@ -1,19 +1,10 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.reservation.view;
 
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_HOME;
-
-import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
-import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
-import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.gwt.common.helper.DisplayHelper;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
-import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
-import com.gogwt.app.booking.gwt.common.utils.GWTSession;
-import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
-import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -53,11 +44,7 @@ public class ReservationConfirmationViewImpl extends AbstractWidget implements R
 	public Widget asWidget() {
 		return this;
 	}
-
-
-	
-
-	
+ 	
 	/**
 	 * Display reservation result
 	 */

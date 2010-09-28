@@ -1,13 +1,15 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view;
 
+import com.gogwt.app.booking.dto.dataObjects.common.EnvMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.gwt.common.helper.DisplayAmenitiesGWTHelper;
 import com.gogwt.app.booking.gwt.common.helper.DisplayHelper;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
+import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view.SearchResultView.Presenter;
-import com.gogwt.framework.arch.utils.GWTFormatUtils;
+import com.gogwt.framework.arch.utils.FormatUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -96,11 +98,18 @@ public class ResultDetailItemSubView extends AbstractWidget {
 	}
 
 	private void displayHotelItem(int index, HotelBean hotelBean) {
-		name.setInnerText(++index + ", " + hotelBean.getName());
+		EnvMappingElem  env = GWTExtClientUtils.getMappingElem();
+		StringBuilder nameBuilder = new StringBuilder();
+		nameBuilder.append("<a href=\"" + env.getPrefix() + "/mvphoteldetail/" + hotelBean.getId() +"\"");
+		nameBuilder.append(">");
+		nameBuilder.append(hotelBean.getName());
+		nameBuilder.append("</a>");
+		
+		name.setInnerHTML(++index + ", " + nameBuilder.toString());
 		address.setInnerText(DisplayHelper.fullAddress(hotelBean));
 		amenities.setInnerText(DisplayAmenitiesGWTHelper.fillAmenities(hotelBean, tags));
-		distance.setInnerText(GWTFormatUtils.formatDistance(hotelBean.getDistance()) + " miles");
-		btnSelect.setText("Select");
+		distance.setInnerText(FormatUtils.formatDistance(hotelBean.getDistance()) + " " + tags.Label_miles());
+		btnSelect.setText(tags.button_Alt_Select());
 		
 		//Note: as button title is used for SEO, so set attribute
 		//btnSelect.setTitle(index+"");

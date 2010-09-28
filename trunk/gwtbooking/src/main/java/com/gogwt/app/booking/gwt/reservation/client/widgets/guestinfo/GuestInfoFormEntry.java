@@ -17,7 +17,7 @@ import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -84,7 +84,7 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	private void doReservation() {
 		// 1. validate: not
 		ArrayList<String> errorList = new GuestInfoValidate().validate(this);
-		if (GWTStringUtils.isSet(errorList)) {
+		if (StringUtils.isSet(errorList)) {
 			ErrorPanel.getInstance().displayError(errorList);
 			return;
 		}

@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
+ 
 public class FooterLayoutWidget extends AbstractWidget {
 	 
 	private Panel layoutPanel = new FlowPanel();

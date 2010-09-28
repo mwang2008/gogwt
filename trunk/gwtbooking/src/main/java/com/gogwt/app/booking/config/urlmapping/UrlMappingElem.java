@@ -13,6 +13,7 @@ public class UrlMappingElem implements Serializable {
     
     private String domainName;
 	private boolean isSecure;
+	private String hotelId;
 	
 	public String getLanguageId() {
 		return languageId;
@@ -76,6 +77,14 @@ public class UrlMappingElem implements Serializable {
 
 	public void setSecure(boolean isSecure) {
 		this.isSecure = isSecure;
+	}
+
+	public String getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(String hotelId) {
+		this.hotelId = hotelId;
 	}
 
 	

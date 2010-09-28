@@ -15,7 +15,7 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.validate.Sea
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view.HomeLayoutView;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 
@@ -46,7 +46,7 @@ public class HomePresenter implements Presenter, HomeLayoutView.Presenter<Search
 		
 		//2. validate form value
 		ArrayList<String> errorList = new SearchValidate().validate(formBean);
-		if (GWTStringUtils.isSet(errorList)) {
+		if (StringUtils.isSet(errorList)) {
  			view.dispErrorMsg(errorList);
 			return;
 		}

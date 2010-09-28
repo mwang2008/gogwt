@@ -18,7 +18,7 @@ import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestion;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -84,13 +84,13 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
 		 
  		if (eventWidget.getSource() == btnSelectDestination) {
 			
-			if (GWTStringUtils.equals(destination.getText(), "tags.label_Search_box_colon")) {
+			if (StringUtils.equals(destination.getText(), "tags.label_Search_box_colon")) {
 				destination.setText("");
 			}
 		 
 			//1. validate: not 
 			ArrayList<String> errorList = new SearchValidate().validate(this);
-			if (GWTStringUtils.isSet(errorList)) {
+			if (StringUtils.isSet(errorList)) {
 				ErrorPanel.getInstance().displayError(errorList);
 				return;
 			}
@@ -99,7 +99,7 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
 			SearchFormBean request = new SearchFormBean();
 			int radiusValue = Integer.parseInt(radius.getValue(radius.getSelectedIndex()));
 			
-			if (GWTStringUtils.equals(selectedFromSuggetionValue, destination.getText())) {
+			if (StringUtils.equals(selectedFromSuggetionValue, destination.getText())) {
 			   request.setGeoCode(selectedGeoCodeBean);
 			}
 			

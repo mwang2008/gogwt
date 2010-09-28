@@ -1,26 +1,43 @@
 <html>
 <body>
-<h2>GoGWT Office Site</h2>
+<h2>GoGWT Official Site</h2>
 <hr>
 <p>
+<h3>
 This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory cache of Ehcache.  Three versions are given list below:
+</h3>
 <p>
 <table>
 <tr> 
-  <td><a href="<%=request.getContextPath()%>/en-us/hotelsearch"> Spring MVC Version</a> </td>
+  <td>
+     <a href="<%=request.getContextPath()%>/en-us/hotelsearch"> Spring MVC Reservation</a> <br>
+     &nbsp;&nbsp;&nbsp; Purly Spring MVC, Spring IOC with Hibernate.
+     <br>
+  </td>
 </tr>
 <tr>
   <td>
-     <a href="<%=request.getContextPath()%>/en-us/gwtreservation"> GWT Widgets Version </a> <br>
+     <a href="<%=request.getContextPath()%>/en-us/gwtreservation"> GWT Widgets Reservation </a> <br>
+     &nbsp;&nbsp;&nbsp; GWT widgets, Spring MVC, Spring IOC with Hibernate.
+     <br>
   </td>
 </tr>   
 <tr>
   <td>
-     <a href="<%=request.getContextPath()%>/en-us/mvpreservation"> GWT uiBinder MVP Version </a> <b
+     <a href="<%=request.getContextPath()%>/en-us/mvpreservation"> GWT uiBinder MVP Reservation </a> <br>
+     &nbsp;&nbsp;&nbsp; GWT uiBinder, GWT MVP pattern, Spring MVC, Spring IOC with Hibernate.
+     <br>
+  </td>
+</tr>
+
+<tr>
+  <td>
+     <a href="<%=request.getContextPath()%>/en-us/mvphoteldetail/120284"> GWT uiBinder MVP Hoteldetail </a> <br>
+     &nbsp;&nbsp;&nbsp; GWT uiBinder, GWT MVP pattern, Spring MVC, Spring IOC with Hibernate.
   </td>
 </tr>
 </table>   
 
-
+<h4>Please note: it is under development.</h4>
 </body>
 </html>

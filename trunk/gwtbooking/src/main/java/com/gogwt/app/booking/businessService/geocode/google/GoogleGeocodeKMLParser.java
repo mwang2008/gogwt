@@ -14,7 +14,8 @@ import org.w3c.dom.NodeList;
 
 import com.gogwt.app.booking.dto.dataObjects.response.GeocodeResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.GeocodeResultBean;
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
+ 
 
 public final class GoogleGeocodeKMLParser {
 	private static Logger logger = Logger

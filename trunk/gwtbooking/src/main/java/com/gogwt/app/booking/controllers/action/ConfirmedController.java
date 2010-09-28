@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
+import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
 
-public class ConfirmedController extends AbstractController  {
+public class ConfirmedController extends BaseAbstractController  {
 
 	@Override
 	protected ModelAndView handleRequestInternal(

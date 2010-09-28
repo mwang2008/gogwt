@@ -22,7 +22,8 @@ import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
 import com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException;
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
+ 
 
 public final class ReservationBusinessService {
    private static Logger logger = Logger.getLogger(ReservationBusinessService.class);

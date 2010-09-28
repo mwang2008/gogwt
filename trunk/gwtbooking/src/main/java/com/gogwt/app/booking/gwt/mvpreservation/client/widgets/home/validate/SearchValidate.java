@@ -3,7 +3,7 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.validate;
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.gogwt.framework.arch.widgets.AbstractValidate;
 
 public class SearchValidate extends AbstractValidate {
@@ -19,7 +19,7 @@ public class SearchValidate extends AbstractValidate {
 		
 		this.resetError();
 		
-		if (!GWTStringUtils.isSet(formBean.getLocation())) {
+		if (!StringUtils.isSet(formBean.getLocation())) {
 			this.addError("Please type in Destination field");			
 		}
 		

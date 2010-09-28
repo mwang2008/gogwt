@@ -2,7 +2,7 @@ package com.gogwt.app.booking.gwt.common.utils;
 
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.EnvMappingElem;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
@@ -43,7 +43,7 @@ public final class GWTExtClientUtils {
 		final String envJson = GWTJSUtils.getEnvJson();
 
 		// envJson is not defined in JSP, return null.
-		if (!GWTStringUtils.isSet(envJson)) {
+		if (!StringUtils.isSet(envJson)) {
 			return null;
 		}
 
@@ -89,7 +89,11 @@ public final class GWTExtClientUtils {
 			envMappingElem.setSecure(parseBooleanValue(jsonObj.get("isSecure")));
 		}
 		
-		if (GWTStringUtils.isSet(Location.getQueryString())) {
+		if (jsonObj.get("hotelId") != null) {
+			envMappingElem.setHotelId(parseStringValue(jsonObj.get("hotelId")));
+		}
+		
+		if (StringUtils.isSet(Location.getQueryString())) {
 		    envMappingElem.setQueryParamter(Location.getQueryString());
 		}
 		

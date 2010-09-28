@@ -2,33 +2,33 @@ package com.gogwt.app.booking.gwt.common.helper;
 
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
-import com.gogwt.framework.arch.utils.GWTStringUtils;
+import com.gogwt.framework.arch.utils.StringUtils;
 
 public final class DisplayHelper {
  	
 	public static String fullAddress(final HotelBean hotelBean) {
 		StringBuilder addressBuilder = new StringBuilder();
 		addressBuilder.append(hotelBean.getAddress());
-		if (GWTStringUtils.isSet(hotelBean.getAddress2())) {
+		if (StringUtils.isSet(hotelBean.getAddress2())) {
 			addressBuilder.append(" ");
 			addressBuilder.append(hotelBean.getAddress2());
 		}
-		if (GWTStringUtils.isSet(hotelBean.getCity())) {
+		if (StringUtils.isSet(hotelBean.getCity())) {
 			addressBuilder.append(", ");
 			addressBuilder.append(hotelBean.getCity());
 		}
 		
-		if (GWTStringUtils.isSet(hotelBean.getState())) {
+		if (StringUtils.isSet(hotelBean.getState())) {
 			addressBuilder.append(", ");
 			addressBuilder.append(hotelBean.getState());
 		}
 
-		if (GWTStringUtils.isSet(hotelBean.getZipCode())) {
+		if (StringUtils.isSet(hotelBean.getZipCode())) {
 			addressBuilder.append(" ");
 			addressBuilder.append(hotelBean.getZipCode());
 		}
 
-		if (GWTStringUtils.isSet(hotelBean.getCountry())) {
+		if (StringUtils.isSet(hotelBean.getCountry())) {
 			addressBuilder.append(", ");
 			addressBuilder.append(hotelBean.getCountry());
 		}
@@ -39,21 +39,21 @@ public final class DisplayHelper {
 	public static String fullAddress(final GuestInfoFormBean guestInfo) {
 		StringBuilder addressBuilder = new StringBuilder();
  
-		if (GWTStringUtils.isSet(guestInfo.getAddress())) {
+		if (StringUtils.isSet(guestInfo.getAddress())) {
 			addressBuilder.append(" ");
 			addressBuilder.append(guestInfo.getAddress());
 		}
-		if (GWTStringUtils.isSet(guestInfo.getCity())) {
+		if (StringUtils.isSet(guestInfo.getCity())) {
 			addressBuilder.append(", ");
 			addressBuilder.append(guestInfo.getCity());
 		}
 		
-		if (GWTStringUtils.isSet(guestInfo.getStateId())) {
+		if (StringUtils.isSet(guestInfo.getStateId())) {
 			addressBuilder.append(", ");
 			addressBuilder.append(guestInfo.getStateId());
 		}
 
-		if (GWTStringUtils.isSet(guestInfo.getZipCode())) {
+		if (StringUtils.isSet(guestInfo.getZipCode())) {
 			addressBuilder.append(" ");
 			addressBuilder.append(guestInfo.getZipCode());
 		}

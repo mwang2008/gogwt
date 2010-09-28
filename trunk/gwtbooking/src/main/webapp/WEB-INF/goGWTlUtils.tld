@@ -26,7 +26,7 @@
   
   <function>
     <name>fullGuestAddress</name>
-    <function-class>com.gogwt.app.booking.gwt.common.helper.DisplayFullAddressHelper</function-class>
+    <function-class>com.gogwt.app.booking.gwt.common.helper.DisplayHelper</function-class>
     <function-signature>String fullAddress(com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean)</function-signature>
   </function>
 </taglib>
