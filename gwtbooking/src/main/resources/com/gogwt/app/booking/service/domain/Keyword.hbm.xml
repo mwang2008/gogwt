@@ -8,12 +8,14 @@
     <class name="KeywordBean" table="g_keyword">
         <id name="keyword" column="keyword"/>        
         <property name="lat"/>
-        <property name="lng"/>             
+        <property name="lng"/>    
+        <property name="searchkey"/> 
+        <property name="type"/>          
     </class>
     
     <sql-query name="selectKeyword" cacheable="true">
 		<![CDATA[
-           from KeywordBean where keyword like :keyword limit :number ORDER BY keyword ASC
+           from KeywordBean where searchkey like :searchkey limit :number ORDER BY keyword ASC
         ]]>
 	</sql-query>
 	

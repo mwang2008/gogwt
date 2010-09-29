@@ -6,7 +6,9 @@ public class KeywordBean extends BaseBean {
 	private String keyword;
 	private double lat;
 	private double lng;
-
+    private String searchkey;
+    private String type;
+    
 	public String getKeyword() {
 		return keyword;
 	}
@@ -31,4 +33,19 @@ public class KeywordBean extends BaseBean {
 		this.lng = lng;
 	}
 
+	public String getSearchkey() {
+		return searchkey;
+	}
+
+	public void setSearchkey(String searchkey) {
+		this.searchkey = searchkey;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }
