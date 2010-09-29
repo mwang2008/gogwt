@@ -84,7 +84,8 @@
            
            <modules>          
               <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
-              <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>              
+              <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
+              <module>com.gogwt.app.booking.gwt.hoteldetail.HotelDetailModule</module>                           
            </modules>
            
              <!--               
@@ -131,18 +132,25 @@
 	<executions>
 	   <execution>
          <goals>
-		      <goal>native2ascii</goal>
+	     <goal>native2ascii</goal>
          </goals>
-	      <configuration>
+	 <configuration>
              <encoding>utf-8</encoding>
              <src>src/main/resources</src>
-		       <dest>target/classes</dest>
-		       <includes>
-		          **/*_ja.properties,**/*_zh.properties
+             <dest>target/classes</dest>
+	     <includes>
+	         **/*_ja.properties,**/*_zh.properties
              </includes>
           </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
       </plugin>
     </plugins>     
   </build>
