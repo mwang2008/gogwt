@@ -9,8 +9,6 @@ import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -42,21 +40,20 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 
 	public final void onModuleLoad() {
 
-		/* Install an UncaughtExceptionHandler which will
-	     * produce <code>FATAL</code> log messages
-	     */
+/*		
+        // Install an UncaughtExceptionHandler which will
+	    // produce <code>FATAL</code> log messages
 	    Log.setUncaughtExceptionHandler();
 	    
-	    /* Use a deferred command so that the UncaughtExceptionHandler
-	     * catches any exceptions in onModuleLoad2()
-	     */
+	    // Use a deferred command so that the UncaughtExceptionHandler
+	    // catches any exceptions in onModuleLoad2()
 	    DeferredCommand.addCommand(new Command() {
 	      public void execute() {
-	        onModuleLoad2();
+	    	  onModuleLoad2();
 	      }
 	    });
-
-	    
+*/
+	    onModuleLoad2();
 
 	}
 
