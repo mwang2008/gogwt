@@ -7,11 +7,13 @@ import java.util.List;
 /**
  * <code><B>GWTStringUtils<code><B>
  * <p/>
- * String Utilities for the String
+ * String Utilities for the String, it is meant to be used by GWT client.
+ * SO NO REFECTION, IO ETC.
+ * 
  * <p/>
  */
 
-public abstract class GWTStringUtils {
+public abstract class StringUtils {
 
 	public static final String PROPERTY_NAME_DELIMITER = ".";
 	public static final String NULL = "null";
@@ -527,11 +529,11 @@ public abstract class GWTStringUtils {
 	 public static String verifyAndRemoveSpecialChar(String value) {
 		    if (isSet(value)) {
 		    	value = value.trim();
-		      if (!GWTStringUtils.hasNoDigits(value)) {
+		      if (!StringUtils.hasNoDigits(value)) {
 		        return null;
 		      }
-		      if (!GWTStringUtils.hasNoWhiteSpace(value)) {
-		    	  value = GWTStringUtils.removeWhiteSpace(value);
+		      if (!StringUtils.hasNoWhiteSpace(value)) {
+		    	  value = StringUtils.removeWhiteSpace(value);
 		      }
 		      value = removeApostrophe(value);
 		      char[] c = value.toCharArray();

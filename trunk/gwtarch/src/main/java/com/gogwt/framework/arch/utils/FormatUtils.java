@@ -37,7 +37,7 @@ public abstract class FormatUtils
     */
    public static Date parseDate(String date, String pattern) throws IllegalArgumentException {
      DateTimeFormat formatter = DateTimeFormat.getFormat(pattern);
-     if (!GWTStringUtils.isSet(pattern)) {
+     if (!StringUtils.isSet(pattern)) {
        formatter = DateTimeFormat.getMediumDateFormat();
      }
      return formatter.parseStrict( date );      
