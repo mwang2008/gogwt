@@ -56,8 +56,8 @@ public class HibernateCommonDAO implements CommonDAO {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
         
-		Query query = session.createQuery("from KeywordBean where keyword like :keyword ORDER BY keyword ASC");
-		query.setParameter("keyword", keyword + "%" );		
+		Query query = session.createQuery("from KeywordBean where searchkey like :searchkey ORDER BY keyword ASC");
+		query.setParameter("searchkey", keyword.toUpperCase() + "%" );		
 		query.setFirstResult(0);
 		query.setMaxResults(10);
 
