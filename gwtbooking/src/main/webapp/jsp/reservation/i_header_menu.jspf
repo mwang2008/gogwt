@@ -6,7 +6,10 @@
         <tr>
            <td style="vertical-align: top;" align="left">
              <div class="logo">
+             <%--
                <a title="gogwt logo" href="${env.prefix}/hotelsearch" class="gwt-Anchor" tabindex="0">
+             --%>
+              <a title="gogwt logo" href="${env.contextPath}" class="gwt-Anchor" tabindex="0">
                   <img src="${env.contextPath}/images/logo.JPG" class="gwt-Image">
                </a>
             </div>
@@ -55,13 +58,13 @@
                        <tbody>
                        <tr>
                           <td style="vertical-align: top;" align="left">
-                             <div class="gwt-Label bw_top_menu"><fmt:message key='Label.Address'/> </div>
+                             <div class="gwt-Label bw_top_menu"><fmt:message key='menu.findhotel'/> </div>
                           </td>
                           <td style="vertical-align: top;" align="left">
-                            <div class="gwt-Label bw_top_menu">|</div>
+                            
                           </td>
                           <td style="vertical-align: top;" align="left">
-                             <div class="gwt-Label bw_top_menu"><fmt:message key='Label.AlongRoute'/></div>
+                              
                           </td>
                            
                        </tr>

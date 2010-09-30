@@ -35,7 +35,8 @@ public class HeaderLayoutWidget extends AbstractWidget {
 		
 		//1. logo
 		Panel logoPanel = WidgetStyleUtils.createFlowPanelWithStyles( "logo" );		
-		String logoURL = GWTExtClientUtils.getMappingElem().getPrefix() + "/mvpreservation";
+		//String logoURL = GWTExtClientUtils.getMappingElem().getPrefix() + "/mvpreservation";
+		String logoURL = GWTExtClientUtils.getMappingElem().getContextPath();
 		if (Window.Location.getQueryString() != null) {
 			logoURL += Window.Location.getQueryString();
 		}

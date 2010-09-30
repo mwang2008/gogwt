@@ -16,6 +16,8 @@ import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
+import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
+import com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
  
 
@@ -90,8 +92,19 @@ public class HotelSearchController extends BaseAbstractController {
 			final SearchFormBean searchFormBean, final BindException errors) throws Exception {
 		
 		//1. call domain service to search for hotel
-		ReservationBusinessService reservationBusinessService = LookupBusinessService.getReservationBusinessService();
-		HotelSearchResponseBean hotelSearchResponse = reservationBusinessService.findHotelsWithLocation(searchFormBean);
+		ReservationBusinessService reservationBusinessService = null;
+		HotelSearchResponseBean hotelSearchResponse = null;
+		try {
+		   reservationBusinessService = LookupBusinessService.getReservationBusinessService();
+		   hotelSearchResponse = reservationBusinessService.findHotelsWithLocation(searchFormBean);
+		}
+		catch (AppRemoteException e) {
+			if (e instanceof InvalidateGeocodeException) {
+				errors.reject("error.invalid.geocode");
+				return super.showForm(request, response, errors, null);
+			}
+		}
+		
 		
 		//2. has result, redirect to result page
 		if (hotelSearchResponse != null && hotelSearchResponse.hasSearchResult()) {
@@ -103,6 +116,8 @@ public class HotelSearchController extends BaseAbstractController {
 			return new ModelAndView(new RedirectView(targetURL));
 		}
 		
+		//display error message
+		errors.reject("error.no.search.result");
 		return super.showForm(request, response, errors, null);
 		 
 	}

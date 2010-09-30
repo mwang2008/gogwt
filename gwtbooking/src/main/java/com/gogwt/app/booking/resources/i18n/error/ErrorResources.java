@@ -16,6 +16,15 @@ public interface ErrorResources extends com.google.gwt.i18n.client.Messages {
   String error_empty_location();
 
   /**
+   * Translated "System has problem currently, please try again.".
+   * 
+   * @return translated "System has problem currently, please try again."
+   */
+  @DefaultMessage("System has problem currently, please try again.")
+  @Key("error.generic.message")
+  String error_generic_message();
+
+  /**
    * Translated "Invalid Email Address".
    * 
    * @return translated "Invalid Email Address"
@@ -34,11 +43,11 @@ public interface ErrorResources extends com.google.gwt.i18n.client.Messages {
   String error_invalid_geocode();
 
   /**
-   * Translated "No result has been found, please try different criteria".
+   * Translated "No result has been found, please try different location (US only)".
    * 
-   * @return translated "No result has been found, please try different criteria"
+   * @return translated "No result has been found, please try different location (US only)"
    */
-  @DefaultMessage("No result has been found, please try different criteria")
+  @DefaultMessage("No result has been found, please try different location (US only)")
   @Key("error.no.search.result")
   String error_no_search_result();
 

@@ -8,7 +8,8 @@ import org.apache.log4j.Logger;
 
 import com.gogwt.app.booking.businessService.dataaccess.hibernate.HibernateCommonDAO;
 import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
-import com.gogwt.app.booking.utils.StringUtils;
+import com.gogwt.app.booking.utils.ToStringUtils;
+ 
 
 /**
  * mvn test -Dtest=LookupTestCase
@@ -48,7 +49,7 @@ public class LookupTestCase extends TestCase {
 		List<KeywordBean> keywordList = commonDAO.getKeywordList(keyword, 10);
 		
 		for (KeywordBean theKeyword : keywordList) {
-			System.out.println(StringUtils.toString(theKeyword));
+			System.out.println(ToStringUtils.toString(theKeyword));
 			
 		}
 	}
