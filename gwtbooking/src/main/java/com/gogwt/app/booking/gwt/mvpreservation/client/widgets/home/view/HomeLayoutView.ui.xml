@@ -26,7 +26,7 @@
         <g:VerticalPanel styleName="{resStyle.homeViewRight}">
            <g:HTMLPanel styleName="{resStyle.destSubContainer}">
                  <br/>
-                 Validate input of destination: 
+                 Valid input of destination (Location in the USA): 
                  <li> Full Address; </li>
                  <li> City, State; example: Atlanta, GA </li>
                  <li> Latitude, Longitude. ex: 33.754487, -84.389663 </li>
