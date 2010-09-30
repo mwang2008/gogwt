@@ -49,7 +49,7 @@ public class HomeLayoutWidget extends AbstractWidget {
 		Panel rightPanel = WidgetStyleUtils.createVerticalPanel("homeViewRight");
 		rightPanel.getElement().setId("homeViewRight");
 		
-		rightPanel.add(new Label("Validate input of destination:"));
+		rightPanel.add(new Label("Valid input of destination (Location in the USA):"));
 		
 	 	String html = "<li>  Full Address </li>"
 			   + "<li>  City, State; example: Atlanta, GA </li>"

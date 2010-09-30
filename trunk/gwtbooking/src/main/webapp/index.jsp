@@ -15,6 +15,12 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
      <br>
   </td>
 </tr>
+<tr> 
+  <td>
+     &nbsp;&nbsp;&nbsp; 
+     <br>
+  </td>
+</tr>
 <tr>
   <td>
      <a href="<%=request.getContextPath()%>/en-us/gwtreservation"> GWT Widgets Reservation </a> <br>
@@ -22,10 +28,23 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
      <br>
   </td>
 </tr>   
+<tr> 
+  <td>
+     &nbsp;&nbsp;&nbsp; 
+     <br>
+  </td>
+</tr>
+
 <tr>
   <td>
      <a href="<%=request.getContextPath()%>/en-us/mvpreservation"> GWT uiBinder MVP Reservation </a> <br>
      &nbsp;&nbsp;&nbsp; GWT uiBinder, GWT MVP pattern, Spring MVC, Spring IOC with Hibernate.
+     <br>
+  </td>
+</tr>
+<tr> 
+  <td>
+     &nbsp;&nbsp;&nbsp; 
      <br>
   </td>
 </tr>

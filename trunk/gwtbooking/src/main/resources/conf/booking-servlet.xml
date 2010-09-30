@@ -17,7 +17,9 @@
    <!-- GWT RPC remote call section -->
    <import resource="classpath:conf/rpcConfig.xml"/>
 	
-	
+   <!-- pipeline mapping -->
+   <import resource="classpath:conf/pipeline.xml"/>	
+
    <!-- ========================= BEAN DEFINITIONS ============================== -->     
    <!-- bean lookup service -->
    <bean class="com.gogwt.app.booking.utils.BeanLookupService"/>

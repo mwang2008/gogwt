@@ -1,11 +1,16 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view;
 
+ 
+import com.allen_sauer.gwt.log.client.Log;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestOracle;
+import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestion;
 import com.gogwt.framework.arch.widgets.AbstractRequestWidget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -17,14 +22,14 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HomeLayoutViewImpl extends AbstractRequestWidget implements HomeLayoutView<SearchFormBean> {
+public class HomeLayoutViewImpl extends AbstractRequestWidget implements SelectionHandler, HomeLayoutView<SearchFormBean> {
 	private TagsReservationResources tags = TagsReservationResources.Util
 			.getInstance();
 
 	@UiTemplate("HomeLayoutView.ui.xml")
 	interface HomeLayoutViewUiBinder extends UiBinder<Widget, HomeLayoutViewImpl> {}
 	private static HomeLayoutViewUiBinder uiBinder = GWT.create(HomeLayoutViewUiBinder.class);
-
+	
 	private Presenter<SearchFormBean> presenter;
 	
  	@UiField Label destinationLabel;
@@ -46,7 +51,8 @@ public class HomeLayoutViewImpl extends AbstractRequestWidget implements HomeLay
 		destinationText.setMaxLength(75);
 		
 		destination = new SuggestBox(oracle, destinationText);
-         
+		destination.addSelectionHandler(this);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		destinationLabel.setText(tags.Label_Destination());
@@ -61,15 +67,20 @@ public class HomeLayoutViewImpl extends AbstractRequestWidget implements HomeLay
  	}
 
 	public void prepareEntryLayout() {
-		//destinationLabel = new Label(tags.Label_Destination());
+		Log.debug("prepareEntryLayout");
 	}
 
-
-/*	@UiHandler("destination")
-	void suggestionDestinationKeyDown(KeyDownEvent event) {
-		destination.setText("");
-	}
-*/	
+	/**
+	 * invoke when user select from suggestion list
+	 */
+	public void onSelection(SelectionEvent event) {
+		DestinationSuggestion destinationSuggestion = (DestinationSuggestion)event.getSelectedItem();
+		
+	    if (destinationSuggestion != null && presenter != null) {		   
+			   presenter.handlerSuggestionSelection(destinationSuggestion);
+	    }	
+	}   
+	
 	@UiHandler("btnSearch")
 	void doSearch(ClickEvent event) {
  	   if (presenter != null) {		   
@@ -88,7 +99,8 @@ public class HomeLayoutViewImpl extends AbstractRequestWidget implements HomeLay
 
 	public SearchFormBean toValue() {
 		SearchFormBean formBean = new SearchFormBean();
-		formBean.setLocation(destination.getText());		
+		formBean.setLocation(destination.getText());	
+		
 		int radiusValue = Integer.parseInt(radius.getValue(radius.getSelectedIndex()));
 		formBean.setRadius(radiusValue);
 		
@@ -98,7 +110,8 @@ public class HomeLayoutViewImpl extends AbstractRequestWidget implements HomeLay
 	public void fromValue(SearchFormBean t) {
 		// TODO Auto-generated method stub
 		
-	}   
+	}
+
 
 
 

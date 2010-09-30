@@ -2,11 +2,13 @@ package com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view;
 
 import java.util.ArrayList;
 
+import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestion;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface HomeLayoutView<T> {
 	public interface Presenter<T> {
 		void doSearch();
+		void handlerSuggestionSelection(DestinationSuggestion destinationSuggestion);
 	}
 
 	/**

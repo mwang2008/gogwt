@@ -1,5 +1,9 @@
 package com.gogwt.app.booking.aop;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,7 +13,9 @@ import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
+import com.gogwt.app.booking.pipeline.PipelineThreadExecutor;
 
+import static com.gogwt.app.booking.pipeline.PipelineConstants.*;
  
 /**
  * <code><B>ReservationAspectJ<code><B>
@@ -39,7 +45,7 @@ public class ReservationAspectJ {
 	 * @return the confirmed reservation object
 	 */
 	@Around(value = "execution(* com.gogwt.app.booking.businessService.domainService.ReservationBusinessService.confirmReservation(..)) && args(guestInfo, selectHotel, userContext)")
-	public ReserveResponseBean offlineProcessForNewReservation(
+	public ReserveResponseBean newReservationPipelineProcess(
 			final ProceedingJoinPoint joinPoint,			 
 			final GuestInfoFormBean guestInfo, final HotelBean selectHotel,
 			UserContextBean userContext) throws Throwable {
@@ -53,7 +59,17 @@ public class ReservationAspectJ {
 			return reservation;
 		}
  
-
+ 		PipelineThreadExecutor pipeLineThread = new PipelineThreadExecutor();
+ 		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(RESERVATION, reservation);
+		params.put(CONTEXT, userContext);
+		
+		// 2.2 add pipeline processor defined in pipeline.xml
+		params.put(PIPELINE_PATH, "name=pipeline/reservation/ReservationPipeline");
+ 		
+ 		pipeLineThread.execute(params);
+ 		
+ 		 
 		// 2. start pipeline
 		//ReservationPipelineAdapter.startCreateReservationPipeline(reservation,
 		//		confirmReservationRequestBean, invocationContext);
