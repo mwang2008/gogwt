@@ -48,13 +48,16 @@ CREATE TABLE `g_state` (
   PRIMARY KEY  (`id`)
 )
 
-
 CREATE TABLE `g_keyword` (
   `keyword` varchar(50) NOT NULL default '',
   `lat` decimal(10,6) default NULL,
   `lng` decimal(10,6) default NULL,
+  `searchkey` varchar(50) NOT NULL,
+  `type` varchar(5) NOT NULL,
    PRIMARY KEY  (`keyword`)
 )
 CREATE INDEX id_index ON g_keyword(keyword)
+CREATE INDEX searchkey_index ON g_keyword(searchkey)
+
  
 

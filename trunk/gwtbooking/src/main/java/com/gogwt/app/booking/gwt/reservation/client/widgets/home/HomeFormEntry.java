@@ -155,6 +155,10 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
 			ErrorPanel.getInstance().displayError(tags.error_invalid_geocode());
 			return;
         }		
+        
+        //generic error
+        ErrorPanel.getInstance().displayError(tags.error_generic_message());
+		 		
 	}
 	
 	

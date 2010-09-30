@@ -7,6 +7,7 @@ import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
 import com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
+import com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
@@ -96,7 +97,17 @@ public class HomePresenter implements Presenter, HomeLayoutView.Presenter<Search
 
 	public void handleRPCError(Throwable caught, CommandBean command) {
 		Log.debug("Could not search hotel ");
+		ArrayList<String> errorList = new ArrayList<String>();
 		
+		if (caught instanceof InvalidateGeocodeException) {
+			errorList.add(tags.error_invalid_geocode());
+			view.dispErrorMsg(errorList);			
+			return;
+		}
+		
+        //generic error
+		errorList.add(tags.error_generic_message());
+		view.dispErrorMsg(errorList);							
 	}
 
 	public void handlerSuggestionSelection(
