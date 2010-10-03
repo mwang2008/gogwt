@@ -105,6 +105,11 @@
               <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
               <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
               <module>com.gogwt.app.booking.gwt.hoteldetail.HotelDetailModule</module>                           
+               <!--
+              <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
+              <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
+              <module>com.gogwt.app.booking.gwt.hoteldetail.HotelDetailModule</module>                           
+              -->
            </modules>
            
              <!--               
@@ -348,7 +353,7 @@
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
-      <version>1.6.5</version>
+      <version>1.6.7</version>
       <scope>compile</scope>
    </dependency>
    
