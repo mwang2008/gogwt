@@ -9,4 +9,6 @@ public class GWTPageConstant {
     public static String HYPHON = "-";
     public static String UNDER_SCORE = "_";
     public static String SLASH = "/";
+    
+    public static final String POPULATOR_SERIALIZED_ITEMS = "serializedPopulatorItems";
 }

@@ -21,4 +21,13 @@ public final class GWTJSUtils {
 	public static native String getEnvJson() /*-{ 
 	    return $wnd.envJson; 
 	  }-*/;
+	
+	/**
+	 * <p> Get serializedPopulator value set in JSP from server </p>
+	 * 
+	 * @return
+	 */
+	public static native String getPopulatorsFromJS() /*-{ 
+	    return $wnd.serializedPopulator; 
+	  }-*/;
 }

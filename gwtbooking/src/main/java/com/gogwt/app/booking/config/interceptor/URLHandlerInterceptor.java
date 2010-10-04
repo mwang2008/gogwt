@@ -5,7 +5,8 @@ import static com.gogwt.app.booking.BookingConstants.ENV_JSON;
 import static com.gogwt.app.booking.BookingConstants.FORWARD_SLASH;
 import static com.gogwt.app.booking.BookingConstants.SUPPORTED_LANG_REGIONS;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -18,8 +19,13 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.gogwt.app.booking.config.interceptor.bean.ConfigPage;
+import com.gogwt.app.booking.config.parser.PageConfigXMLParser;
 import com.gogwt.app.booking.config.urlmapping.UrlMappingElem;
 import com.gogwt.app.booking.controllers.BaseAbstractController;
+import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
+import com.gogwt.app.booking.dto.dataObjects.common.PopulatorItem;
+import com.gogwt.app.booking.utils.ToStringUtils;
 import com.gogwt.framework.arch.utils.StringUtils;
 
 /**
@@ -30,10 +36,22 @@ import com.gogwt.framework.arch.utils.StringUtils;
  */
 public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 
-	private static Logger logger = Logger
-			.getLogger(URLHandlerInterceptor.class);
+	private static Logger logger = Logger.getLogger(URLHandlerInterceptor.class);
+	
 	private Map<String, String> supportedLangRegion;
+	//private Map<String, List<ConfigPage>> gwtPageMap;
+	private Map<String, Map<String, List<PopulatorItem>>> ctrlKeyPopulators;
+	
+	/* defined in -servlet.xml URLHandlerInterceptor section */
+	private Map<String, String> controllerGWTConfigMap;
 
+	
+	public URLHandlerInterceptor() {
+		super();
+		ctrlKeyPopulators = new HashMap<String, Map<String, List<PopulatorItem>>>();
+	}
+
+	
 	/**
 	 * Executed every request before handler.
 	 * 
@@ -49,9 +67,13 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		try {
-			final UrlMappingElem urlMappingElem = fillRequestAttributes(
-					request, response, handler);
 
+			//basic element
+			final UrlMappingElem urlMappingElem = fillRequestAttributes(request, response, handler);
+
+			//populator
+			processPopulator(request, urlMappingElem.getControllerName(), urlMappingElem);
+			
 			// save urlMappingElem to request
 			request.setAttribute(ENV, urlMappingElem);
 			request.setAttribute(SUPPORTED_LANG_REGIONS,
@@ -69,6 +91,43 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 		return false;
 	}
 
+	/*************************************************************************
+	 * PRIVATE METHOD
+	 ************************************************************************/
+ 
+	/**
+	 * 
+	 */
+	private void processPopulator(final HttpServletRequest request, final String controllerName, UrlMappingElem urlMappingElem) throws Exception {
+		if (!StringUtils.isSet(controllerName)) {
+			return;
+		}
+	   	
+		UserContextBean userContext = contructUserContext(urlMappingElem);
+		String key = controllerName + "_" + userContext.getLanguageId().toLowerCase() + "_" + userContext.getCountryId().toLowerCase();
+ 		
+		logger.debug("key="+key);
+		
+		if (!ctrlKeyPopulators.containsKey(key)){
+			final Map<String, String> controllerViewMap = getControllerGWTConfigMap();	
+			final Map<String, List<ConfigPage>> gwtPageMap =  PageConfigXMLParser.parserGwtConfig(controllerViewMap);				 
+			final Map<String, List<PopulatorItem>> retrivePopulatorsForGivenController = PopulatorProcessor.retrivePopulatorsForGivenController(userContext, gwtPageMap, controllerName);
+			ctrlKeyPopulators.put(key, retrivePopulatorsForGivenController);
+		}
+		 
+		final Map<String, List<PopulatorItem>> populatorsMap = ctrlKeyPopulators.get(key);
+		PopulatorProcessor.gwtSerialized(request, key, populatorsMap);
+	}
+	
+
+	private UserContextBean contructUserContext(final UrlMappingElem urlMappingElem) {
+		UserContextBean userContext = new UserContextBean();
+		userContext.setCountryId(urlMappingElem.getCountryId());
+		userContext.setLanguageId(urlMappingElem.getLanguageId());
+		
+		return userContext;
+	}
+	
 	private UrlMappingElem fillRequestAttributes(
 			final HttpServletRequest request,
 			final HttpServletResponse response, final Object handler)
@@ -84,6 +143,7 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 		// find hotelId if hotelDetail page.
 		fillHotelId(request, urlMappingElem);
 
+		 
 		return urlMappingElem;
 
 	}
@@ -168,5 +228,15 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 	public void setSupportedLangRegion(Map<String, String> supportedLangRegion) {
 		this.supportedLangRegion = supportedLangRegion;
 	}
+ 
+	public Map<String, String> getControllerGWTConfigMap() {
+		return controllerGWTConfigMap;
+	}
 
+	public void setControllerGWTConfigMap(Map<String, String> controllerGWTConfigMap) {
+		this.controllerGWTConfigMap = controllerGWTConfigMap;
+	}
+
+	
+ 
 }

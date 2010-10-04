@@ -14,10 +14,10 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.gogwt.app.booking.config.urlmapping.UrlMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
-import com.gogwt.app.booking.populator.BasePopulator;
+import com.gogwt.app.booking.populator.Populator;
 
 public class BaseAbstractFormController extends SimpleFormController {
-	private Map<String, BasePopulator> populators;
+	private Map<String, Populator> populators;
 
 	/**
 	 * <p>
@@ -42,7 +42,7 @@ public class BaseAbstractFormController extends SimpleFormController {
 			final Set<String> keySet = populators.keySet();
 			final Iterator<String> iterator = keySet.iterator();
 
-			BasePopulator populator = null;
+			Populator populator = null;
 			while (iterator.hasNext()) {
 				key = iterator.next();
 				populator = populators.get(key);
@@ -54,11 +54,11 @@ public class BaseAbstractFormController extends SimpleFormController {
 
 
 	
-	public Map<String, BasePopulator> getPopulators() {
+	public Map<String, Populator> getPopulators() {
 		return populators;
 	}
 
-	public void setPopulators(Map<String, BasePopulator> populators) {
+	public void setPopulators(Map<String, Populator> populators) {
 		this.populators = populators;
 	}
 

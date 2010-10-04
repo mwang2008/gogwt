@@ -82,13 +82,16 @@ public class GuestInfoLayoutWidget extends AbstractWidget implements HasFormEntr
 		flexTable.addStyleName( "guestInfoFormTable" );
 		
 		fillNewRow(flexTable, tags.label_Title(), REQUIRED_STYLE, formEntry.getTitle(), WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, tags.label_First_Name(), REQUIRED_STYLE, formEntry.getFirstName(), WIDGET_STYLE, VISIBLE );
+ 		fillNewRow(flexTable, tags.label_First_Name(), REQUIRED_STYLE, formEntry.getFirstName(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.label_Last_Name(), REQUIRED_STYLE, formEntry.getLastName(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.Label_Address(), REQUIRED_STYLE, formEntry.getAddress(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.Label_city(), REQUIRED_STYLE, formEntry.getCity(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.Label_state(), REQUIRED_STYLE, formEntry.getStateId(), WIDGET_STYLE, VISIBLE );
-		fillNewRow(flexTable, tags.Label_zip(), REQUIRED_STYLE, formEntry.getZipCode(), WIDGET_STYLE, VISIBLE );
+	 	fillNewRow(flexTable, tags.Label_zip(), REQUIRED_STYLE, formEntry.getZipCode(), WIDGET_STYLE, VISIBLE );
 		fillNewRow(flexTable, tags.label_email(), REQUIRED_STYLE, formEntry.getEmail(), WIDGET_STYLE, VISIBLE );
+		
+		
+		
 		fillNewRow(flexTable, "", REQUIRED_STYLE, formEntry.btnReserve, WIDGET_STYLE, VISIBLE );
 		
 		theFormPanel.add(formEntry.getSelectedIndex());

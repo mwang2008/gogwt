@@ -3,7 +3,7 @@ package com.gogwt.app.booking.gwt.reservation.client;
 import java.util.Map;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.gogwt.app.booking.gwt.common.populator.PopulatorManager;
+import com.gogwt.app.booking.gwt.common.widget.populator.PopulatorManager;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.FooterLayoutWidget;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HeaderLayoutWidget;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.MenuLayoutWidget;
@@ -60,9 +60,7 @@ public class ReservationEntryPoint extends AbstractEntryPoint {
 
 	@Override
 	protected void processPopulator(Map<String, String> populatorsMap) {
-		PopulatorManager.handlePopulators( populatorsMap );
-		
-		
+		PopulatorManager.handlePopulators( populatorsMap );				
 	}
 
 }
