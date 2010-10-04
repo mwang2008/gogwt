@@ -1,4 +1,4 @@
-<%--
+﻿<%--
    reservation.jsp
 --%>
 
@@ -60,3 +60,4 @@ margin:0px;
 </body>
 </html>
 
+<%@ include file="/jsp/common/i_analytics.jspf"%>
