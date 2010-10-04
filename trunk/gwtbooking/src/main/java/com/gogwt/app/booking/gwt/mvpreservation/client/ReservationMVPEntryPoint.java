@@ -2,7 +2,7 @@ package com.gogwt.app.booking.gwt.mvpreservation.client;
 
 import java.util.Map;
 
-import com.gogwt.app.booking.gwt.common.populator.PopulatorManager;
+import com.gogwt.app.booking.gwt.common.widget.populator.PopulatorManager;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppController;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view.FooterLayoutWidget;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view.HeaderLayoutWidget;

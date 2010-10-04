@@ -13,6 +13,8 @@ import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.populator.PopulatorDataCollection;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
+import com.gogwt.app.booking.gwt.common.widget.populator.ExtendedListBox;
+import com.gogwt.app.booking.gwt.common.widget.populator.PopulatorUtils;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
@@ -30,18 +32,23 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	
 	private HasFormEntry callback;
 	
-	private ListBox title = new ListBox();
+	//private ListBox title = new ListBox();
 	private TextBox firstName = new TextBox();
 	private TextBox lastName = new TextBox();
 	private TextBox email = new TextBox();
 	private TextBox address = new TextBox();
 	private TextBox city = new TextBox();
-	private ListBox stateId = new ListBox();
+	//private ListBox stateId = new ListBox();
 	
 	private TextBox zipCode = new TextBox();
 	private Hidden hotelId = new Hidden();
 	private Hidden selectedIndex = new Hidden();
 	Button btnReserve = new Button(tags.button_Alt_Submit());
+
+	private final ExtendedListBox title = 
+		PopulatorUtils.createPopulatorListBox( "titlePopulator", tags.label_Title(), " ", "-- Title --");
+    private final ExtendedListBox stateId = 
+    	PopulatorUtils.createPopulatorListBox( "statesProvincesPopulator", tags.Label_state(), " ", "-------- State --------"  );
 
 	 
 
@@ -55,9 +62,9 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	    city.setMaxLength(30); 	    
 	    zipCode.setMaxLength(30);
 	    email.setMaxLength(30);
-	    
-	    fillStatePopulator();
-	    fillTitlePopulator();
+ 	    
+	    //fillStatePopulator();
+	    //fillTitlePopulator();
 	}
 
 
@@ -95,7 +102,13 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 		final ReservationContainerBean currentContainer = GWTSession
 		.getCurrentReservationContainer();
 		   
-		guestInfo.setId(currentContainer.getSelectedHotel().getId());
+		if (currentContainer != null && currentContainer.getSelectedHotel() != null) {
+		   guestInfo.setId(currentContainer.getSelectedHotel().getId());
+		}
+		else {
+		   //bug, will fix later
+		   guestInfo.setId(1);
+		}
 		
 		// 3. RPC call, the response under handleRPCSuccess,  handleRPCError
   		CommandBean passCommand = new CommandBean();
@@ -130,12 +143,16 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 		int hotelId = GWTSession.getCurrentReservationContainer().getSelectHotelItem();
 		request.setId(hotelId);
 		request.setTitle(title.getValue(title.getSelectedIndex()));
+		request.setTitle(title.getSelectedValue());
+		
 		request.setFirstName(firstName.getText());
 		request.setLastName(lastName.getText());
 		request.setAddress(address.getText());
 		request.setCity(city.getText());
-		int selectedItem = stateId.getSelectedIndex();
-		request.setStateId(stateId.getValue(selectedItem));
+		//int selectedItem = stateId.getSelectedIndex();
+		//request.setStateId(stateId.getValue(selectedItem));
+		request.setStateId(stateId.getSelectedValue());
+		
 		request.setZipCode(zipCode.getText());
 		request.setEmail(email.getText());
 		
@@ -166,10 +183,7 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	}
 
 	 
-	public ListBox getStateId() {
-		return stateId;
-	}
-
+	 
  
 	public TextBox getZipCode() {
 		return zipCode;
@@ -187,25 +201,15 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	}
 
 	 
-	public ListBox getTitle() {
+	 
+
+	public ExtendedListBox getTitle() {
 		return title;
 	}
 
-	private void fillStatePopulator() {
-		ArrayList<PopulatorItem> stateList = new PopulatorDataCollection().getStatePopulator();		 
-		if (stateList != null) {
-			for (PopulatorItem populator : stateList) {
-				stateId.addItem(populator.getDisplay(), populator.getCode());
-			}
-		}
+
+	public ExtendedListBox getStateId() {
+		return stateId;
 	}
-	
-	private void fillTitlePopulator() {
-		ArrayList<PopulatorItem> titleList = new PopulatorDataCollection().getTitlePopulator();
-		if (titleList != null) {
-			for (PopulatorItem populator : titleList) {
-				title.addItem(populator.getCode(), populator.getDisplay());
-			}
-		} 
-	}
+ 
  }

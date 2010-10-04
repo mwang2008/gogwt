@@ -19,7 +19,7 @@ import static com.gogwt.app.booking.BookingConstants.*;
  * @author WangM
  *
  */
-public class StatePopulator implements BasePopulator {
+public class StatePopulator implements Populator {
 
 	public List<PopulatorItem> getPopulator(final HttpServletRequest request) {
 	    UrlMappingElem urlMappingElem = (UrlMappingElem)request.getAttribute(ENV);
@@ -42,6 +42,23 @@ public class StatePopulator implements BasePopulator {
 		
 		return populatorList;
 	}
+
+	public List<PopulatorItem> getPopulator(UserContextBean userContext) {
+        List<StateBean> stateList = LookupBusinessService.getCommonBusinessService().getStateList(userContext);
+		
+		List<PopulatorItem> populatorList = new ArrayList<PopulatorItem>();
+		PopulatorItem populatorItem = null;
+		for (StateBean state : stateList) {
+			populatorItem = new PopulatorItem();
+			populatorItem.setCode(state.getStateId());
+			populatorItem.setDisplay(state.getStateName());
+			
+			populatorList.add(populatorItem);
+		}
+		
+		return populatorList;
+	}
+	
 	
 	
 }
