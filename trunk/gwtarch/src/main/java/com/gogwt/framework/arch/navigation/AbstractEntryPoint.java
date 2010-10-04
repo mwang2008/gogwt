@@ -58,6 +58,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	}
 
 	private void onModuleLoad2() {
+		preLoadModule();
 		  if (Log.isDebugEnabled()) {
 		      startTimeMillis = System.currentTimeMillis();
 		    }
@@ -72,10 +73,8 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 		    
 		initializePageAccessor();
 		initializeHistoryListener();
-
-		preLoadModule();
-		loadModule();
-		postLoadModule();
+		
+		loadModule();		
 		
 		if (!isDefaultPageLoaded) {
 			History.fireCurrentHistoryState();
@@ -87,6 +86,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	        Log.debug("Duration: " + durationSeconds + " seconds");
 	     }
 
+	    postLoadModule();
 	}
 
 	protected void addPagePanel(Panel panel) {

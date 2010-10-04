@@ -5,13 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractValidate{
-	private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+[A-Za-z0-9-]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
+	private String EMAIL_REGEX = "^[_A-Za-z0-9-']+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]*(\\.[A-Za-z0-9-]+)*[A-Za-z0-9]+(\\.[_A-Za-z0-9-]+)";
 	
 	protected ArrayList<String> errorList;
 
-	//public abstract ArrayList<String> validate(T t);
-		
-	
+ 	
 	public AbstractValidate() {
 		errorList = new ArrayList<String>();
 	}
