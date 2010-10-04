@@ -1,4 +1,4 @@
-<%--
+﻿<%--
    hotel_detail.jsp
 --%>
 
@@ -40,3 +40,4 @@
 </body>
 </html>
 
+<%@ include file="/jsp/common/i_analytics.jspf"%>

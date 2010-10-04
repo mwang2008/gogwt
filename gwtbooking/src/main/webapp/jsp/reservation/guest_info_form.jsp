@@ -78,3 +78,5 @@
 </div>
 </body>
 </html>
+
+<%@ include file="/jsp/common/i_analytics.jspf"%>

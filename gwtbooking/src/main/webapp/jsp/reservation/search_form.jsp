@@ -1,4 +1,4 @@
-<%--
+﻿<%--
  search_form.jsp
 --%>
 <%@ include file="/jsp/common/i_global.jspf"%>
@@ -45,3 +45,5 @@
   </div>
 </body>
 </html>
+
+<%@ include file="/jsp/common/i_analytics.jspf"%>

@@ -1,4 +1,4 @@
-<%--
+﻿<%--
    reservation.jsp
 --%>
 
@@ -42,5 +42,20 @@
  
 
 </body>
-</html>
 
+
+<script type="text/javascript" >
+   function getPopulators() {
+     var populator = '${serializedPopulatorItems}'; 
+     return populator;
+   }
+   
+   var serializedPopulator = '';
+   if (window.getPopulators) {
+      serializedPopulator =  getPopulators();
+   }
+</script>
+
+<%@ include file="/jsp/common/i_analytics.jspf"%>
+
+</html>
