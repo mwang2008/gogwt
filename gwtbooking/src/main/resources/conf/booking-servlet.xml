@@ -37,8 +37,16 @@
            <entry key="es-ES"><value>Español</value></entry>     
          </map>
        </property>
+       <property name="controllerGWTConfigMap">
+         <map>
+           <entry key="gwtreservation"><value>conf/gwt/ReservationProcessConfig.xml</value></entry>
+           <entry key="mvpreservation"><value>conf/gwt/ReservationMVPProcessConfig.xml</value></entry>
+           <entry key="mvphoteldetail"><value>conf/gwt/HotelDetailMVPProcessConfig.xml</value></entry>
+         </map>
+       </property>     
     </bean>
 
+             
     <!-- ========================= INTERNAL RESOURCE RESOLVER ========================= -->
     <bean name="localeResolver" class="com.gogwt.app.booking.config.resolver.BookLocaleResolver"> 
        <property name="defaultLocale"><value>en_US</value></property>
@@ -59,18 +67,22 @@
     <bean name="name=populator/StatePopulator" class="com.gogwt.app.booking.populator.StatePopulator"/>
     <bean name="name=populator/TitlePopulator" class="com.gogwt.app.booking.populator.TitlePopulator"/>
   
-	<!-- ========================= CONTROLLER DEFINITIONS ========================= --> 
+    <!-- ========================= CONTROLLER DEFINITIONS ========================= --> 
+    
+    <bean name="name=controller/common/ErrorController" class="com.gogwt.app.booking.controllers.action.ErrorController"/> 
+    
+    
     <!-- HomeController" -->
     <bean name="name=controller/reservation/HomeController" class="com.gogwt.app.booking.controllers.HomePageController"/> 
 
     <!-- HotelSearchController -->
- 	<bean name="name=controller/reservation/HotelSearchController" class="com.gogwt.app.booking.controllers.action.HotelSearchController">    
- 		<property name="bindOnNewForm"><value>true</value></property>
-		<property name="commandName"><value>searchFormBean</value></property>		
-	 	<property name="validator"><ref bean="name=validator/reservation/SearchFormValidator"/></property>
-		<property name="formView"><value>/reservation/search_form</value></property>
-		<property name="successView"><value>searchresult</value></property> 	 
-	</bean>   
+    <bean name="name=controller/reservation/HotelSearchController" class="com.gogwt.app.booking.controllers.action.HotelSearchController">    
+	<property name="bindOnNewForm"><value>true</value></property>
+	<property name="commandName"><value>searchFormBean</value></property>		
+ 	<property name="validator"><ref bean="name=validator/reservation/SearchFormValidator"/></property>
+	<property name="formView"><value>/reservation/search_form</value></property>
+	<property name="successView"><value>searchresult</value></property> 	 
+    </bean>   
 
     <bean name="name=controller/reservation/HotelSearchResultController" class="com.gogwt.app.booking.controllers.action.HotelSearchResultController"/> 
     
@@ -94,8 +106,12 @@
 
 
     <!-- ========================= GWT CONTROLLER ========================= -->
-    <bean name="name=controller/reservation/GWTHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTHotelSearchController"/>
-    <bean name="name=controller/reservation/GWTMVPHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTMVPHotelSearchController"/>
+    <bean name="name=controller/reservation/GWTHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTHotelSearchController">
+      <property name="controllerName"><value>gwtreservation</value></property>
+    </bean>
+    <bean name="name=controller/reservation/GWTMVPHotelSearchController" class="com.gogwt.app.booking.controllers.action.gwt.GWTMVPHotelSearchController">
+     <property name="controllerName"><value>mvpreservation</value></property>
+    </bean>
     <bean name="name=controller/reservation/GWTHotelDetailController" class="com.gogwt.app.booking.controllers.action.gwt.GWTHotelDetailController">
         <property name="controllerName"><value>mvphoteldetail</value></property>
     </bean>
@@ -121,7 +137,9 @@
               <prop key="/**/hoteldetail/**/">name=controller/property/HotelDetailController</prop>      
               <prop key="/**/gwtreservation/**/">name=controller/reservation/GWTHotelSearchController</prop>
               <prop key="/**/mvpreservation/**/">name=controller/reservation/GWTMVPHotelSearchController</prop> 
-              <prop key="/**/mvphoteldetail/**/">name=controller/reservation/GWTHotelDetailController</prop>             
+              <prop key="/**/mvphoteldetail/**/">name=controller/reservation/GWTHotelDetailController</prop>        
+              <prop key="/**/errorPage/**/">name=controller/common/ErrorController</prop>        
+                   
            </props>
        </property>
      </bean>
