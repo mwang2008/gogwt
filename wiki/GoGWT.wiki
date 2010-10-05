@@ -1,8 +1,12 @@
 GoGWT is the demo site to use GWT.
 
-= Introduction =
+= Foreword / How to read this doc =
+This document was written for developers who have worked with Java before and want to start developing GWT application and/or who already work on GWT and try to tune up the GWT application to run with high performance.
 
-Add your content here.
+= What was/am I doing for GWT
+During the last two years, I have been working as a lead consultant/architecture to prototype, layout the framework, design and implement high traffic (multiple million traffic hits per day), high volume and high competitive, multi-language website with GWT.
+
+
 
 
 = Details =
