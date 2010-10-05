@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#GoGWT is the demo site to use GWT. 
 
 = Introduction =
 
