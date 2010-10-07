@@ -1,4 +1,4 @@
-
+/*
  * The file contains styles for GWT widgets in the standard theme.
  *
  */
@@ -1238,8 +1238,9 @@ a, a:visited, a:hover {
 }
 
 #homeViewId {   
-  min-height:336px;
+  height:300px;
   width:972px;
+  margin: 10px 0 0 0;
 }
 
 #homeViewRight {
@@ -1256,7 +1257,7 @@ a, a:visited, a:hover {
 }
 
 .homeSearchPanel {
-  position:absolute;
+  //position:absolute;
   top:10px;
   padding:8px 0 0;
 }

@@ -33,15 +33,10 @@
   <div id="container">
      <div id="header" style="position: relative"></div>
      <div id="menu" style="position: relative"></div>    
-     <div id="wrapperContent" style="position: relative"></div>
-   
-     <div id="footer" style="position: relative"></div>
+     <div id="wrapperContent" style="position: relative"></div>  
+     <div id="footer" style="margin-top: 25px; position: relative"></div>
   </div>
 </div>   
-
- 
-
-</body>
 
 
 <script type="text/javascript" >
@@ -58,4 +53,5 @@
 
 <%@ include file="/jsp/common/i_analytics.jspf"%>
 
+</body>
 </html>

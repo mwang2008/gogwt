@@ -76,7 +76,8 @@
 				
 </form:form>
 </div>
+
+ <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>
 </html>
 
-<%@ include file="/jsp/common/i_analytics.jspf"%>

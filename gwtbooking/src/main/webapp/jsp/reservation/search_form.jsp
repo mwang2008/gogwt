@@ -29,7 +29,7 @@
   <form:input id="location" path="location" size="30" maxlength="100"/>
 </div>
 
-<div id="FormLabel"><label for="location"><fmt:message key='label.location'/></label></div>
+<div id="FormLabel"><label for="radius"><fmt:message key='label.radius'/></label></div>
 <div id="ContentCopy">
 <form:select id="radius" path="radius" size="1">
   <c:forEach var="index" begin="1" end="30">
@@ -43,7 +43,8 @@
 				
 </form:form>
   </div>
+  
+   <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>
 </html>
 
-<%@ include file="/jsp/common/i_analytics.jspf"%>
