@@ -1267,19 +1267,14 @@ a, a:visited, a:hover {
   border-width:1px;
   padding:1px;
   left:0px;
+  top:6px;
   width:972px;  
  
 }
 
 .foot_table { 
-  //background-color:#548B54;
-  position:absolute;
-  //border-style: solid;
-  //border-width:1px;
   padding:2px;
-  left:0px;
   width:972px;  
-  top:250px;
 }
 
 /* homepage: search form   */
