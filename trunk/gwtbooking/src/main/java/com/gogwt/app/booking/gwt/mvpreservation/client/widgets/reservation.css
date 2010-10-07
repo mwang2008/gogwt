@@ -1,6 +1,7 @@
 .homeViewId {   
-  min-height:336px;
+  height:300px;
   width:972px;
+  margin: 10px 0 0 0;
 }
 .foot_table { 
    position:relative;
@@ -21,11 +22,7 @@
    font-size: 12px;  
 }
 .homeViewRight {
-  float:right;
-  position:absolute;
-  left:48%;
-  //top:17em;
-  top:17px;
+   margin: 15px 0 0 30%;
 }
 
 .homeViewLeft {
@@ -34,7 +31,7 @@
 }
 
 .homeSearchPanel {
-  position:absolute;
+  //position:absolute;
   top:10px;
   padding:8px 0 0;
 }
