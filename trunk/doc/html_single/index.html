@@ -488,10 +488,11 @@ functions.</strong></em></p>
 <p><strong>Description</strong>: user fills in address and radius, then click
 Find A Hotel button. GoGWT server will first find geocode with Google Geocode
 service, then use that geocode to look at GoGWT database to find the hotels
-with the radius around that specific geocode. If found, then redirect to
-searchresult page., else display error message.</p>
+with the radius around that specific geocode. If found, save result to session
+with session manager, then redirect to searchresult page., else display error
+message.</p>
 
-<p>Hibernate is used to deal with database call. </p>
+<p>Hibernate is used to invoke with database call. </p>
 
 <p><img alt="search" src="images/mvc_hotelsearch.jpg" width="1222"
 height="446"></p>
@@ -627,7 +628,90 @@ more information.</p>
 <p>Following, I will list some components of Spring MVC and give example of how
 to use them.</p>
 
-<h4><strong>Interceptors:</strong></h4>
+<h4>Bean Creation</h4>
+
+<p>Spring define beans in xml file. GoGWT Spring configuration can be found in
+\src\main\resources\conf</p>
+
+<p>Spring IOC or dependency injection mainly through Constructor Injection,
+Setter Injection. For most case, I use setter injection with no particular
+reason. However for this document, I change my code ofURLHandlerInterceptor to
+use construction. So URLHandlerInterceptor has both constuction and setter
+injection. </p>
+
+<p>booking-servlet.xml bean definition:</p>
+<pre class="programlisting"><span style="font-size: 10pt">   &lt;!-- ========================= INTERCEPTOR ========================= --&gt;
+   &lt;bean name="Booking:name=interceptor/config/URLHandlerInterceptor" class="com.gogwt.app.booking.config.interceptor.URLHandlerInterceptor"&gt;
+       &lt;property name="supportedLangRegion"&gt;
+         &lt;map&gt;
+           &lt;entry key="en-US"&gt;&lt;value&gt;US English&lt;/value&gt;&lt;/entry&gt;
+           &lt;entry key="es-ES"&gt;&lt;value&gt;Español&lt;/value&gt;&lt;/entry&gt;     
+         &lt;/map&gt;
+       &lt;/property&gt;
+       
+       <strong>&lt;constructor-arg index="0"&gt;
+         &lt;map&gt;
+            &lt;entry key="gwtreservation"&gt;&lt;value&gt;conf/gwt/ReservationProcessConfig.xml&lt;/value&gt;&lt;/entry&gt;
+            &lt;entry key="mvpreservation"&gt;&lt;value&gt;conf/gwt/ReservationMVPProcessConfig.xml&lt;/value&gt;&lt;/entry&gt;
+            &lt;entry key="mvphoteldetail"&gt;&lt;value&gt;conf/gwt/HotelDetailMVPProcessConfig.xml&lt;/value&gt;&lt;/entry&gt;
+         &lt;/map&gt;
+       &lt;/constructor-arg&gt; 
+</strong>       
+       &lt;!-- repleace with above contruction IOC
+       &lt;property name="controllerGWTConfigMap"&gt;
+         &lt;map&gt;
+           &lt;entry key="gwtreservation"&gt;&lt;value&gt;conf/gwt/ReservationProcessConfig.xml&lt;/value&gt;&lt;/entry&gt;
+           &lt;entry key="mvpreservation"&gt;&lt;value&gt;conf/gwt/ReservationMVPProcessConfig.xml&lt;/value&gt;&lt;/entry&gt;
+           &lt;entry key="mvphoteldetail"&gt;&lt;value&gt;conf/gwt/HotelDetailMVPProcessConfig.xml&lt;/value&gt;&lt;/entry&gt;
+         &lt;/map&gt;
+       &lt;/property&gt;     
+       --&gt;
+    &lt;/bean&gt;
+
+</span></pre>
+
+<h4>Bean Instance Retrieval</h4>
+
+<p>Bean instance is created inside application context. There are two ways to
+get bean reference:</p>
+<ol>
+  <li>Through bean xml definition, bean is injected with IOC.</li>
+  <li>Through bean lookup. </li>
+</ol>
+
+<p>BeanLookupService.java is convinence class to lookup bean with bean name.</p>
+
+<p><em>BeanLookupService</em></p>
+<pre class="programlisting"><span style="font-size: 10pt">public class BeanLookupService extends ApplicationObjectSupport {
+   ...
+   public static Object getBean(final String beanName) throws NoSuchBeanDefinitionException {
+
+      if (mApplicationContext == null) {
+         return null;
+      }
+
+     return mApplicationContext.getBean(beanName);
+   }
+   ...
+}</span></pre>
+
+<p>Example of using bean lookup, GoGWT has session bean scope
+ReservationSessionManager which contains value of user input such as location,
+radius, geocode, selected hotel etc. It is not convenience to inject to each
+class with ReservationSessionManager. Use bean lookup is applied when
+ReservationSessionManager is used.</p>
+
+<p><em>SessionBeanLookupService</em></p>
+<pre class="programlisting"><span style="font-size: 10pt">public class SessionBeanLookupService {
+ private static final String RESERVATION_MANAGER = "reservationSessionManager";
+ 
+  public static ReservationSessionManager getReservationSessionManager()
+  {
+    return (ReservationSessionManager)BeanLookupService.getBean(RESERVATION_MANAGER );
+  }
+}</span></pre>
+
+<p><strong>Interceptors</strong></p>
 
 <p>Spring MVC has the concept of interceptors that allow requests to the site
 to be incepted. A Spring interceptor will intercept every request and perform
@@ -703,12 +787,12 @@ following:</p>
 
 <p>GoGWT URLHandlerInterceptor config for Spring MVC app.</p>
 <pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt">    &lt;!-- ========================= INTERNAL RESOURCE RESOLVER ========================= --&gt;
-    &lt;bean name="localeResolver" class="com.gogwt.app.booking.config.resolver.BookLocaleResolver"&gt; 
+    &lt;bean name="<strong>localeResolver</strong>" class="com.gogwt.app.booking.config.resolver.BookLocaleResolver"&gt; 
        &lt;property name="defaultLocale"&gt;&lt;value&gt;en_US&lt;/value&gt;&lt;/property&gt;
     &lt;/bean&gt;
 
     &lt;!-- ========================= RESOURCE BUNDLE DEFINITIONS ========================= --&gt;
-    &lt;bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"&gt;
+    &lt;bean name="<strong>messageSource</strong>" class="org.springframework.context.support.ResourceBundleMessageSource"&gt;
       &lt;property name="basenames"&gt;
        &lt;list&gt;
          &lt;value&gt;com.gogwt.app.booking.resources.i18n.view.LabelResources&lt;/value&gt;
@@ -716,8 +800,7 @@ following:</p>
          &lt;value&gt;com.gogwt.app.booking.resources.i18n.misc.MiscResources&lt;/value&gt;
        &lt;/list&gt;
      &lt;/property&gt;
-    &lt;/bean&gt;</span>
-</span></span></pre>
+    &lt;/bean&gt;</span></span></span></pre>
 
 <p>Where the default locale is set to en_US.</p>
 
@@ -745,13 +828,14 @@ and state. </p>
     &lt;bean name="name=populator/StatePopulator" class="com.gogwt.app.booking.populator.StatePopulator"/&gt;
     &lt;bean name="name=populator/TitlePopulator" class="com.gogwt.app.booking.populator.TitlePopulator"/&gt;
 
+    &lt;!-- ========================= CONTROLLER ========================= --&gt;
     &lt;bean name="name=controller/reservation/GuestInfoController"
            class="com.gogwt.app.booking.controllers.action.GuestInfoController"&gt;
        &lt;property name="populators"&gt;
-         &lt;map&gt;
+         <strong>&lt;map&gt;
            &lt;entry key="statePopulator"&gt;&lt;ref bean="name=populator/StatePopulator"/&gt; &lt;/entry&gt;
            &lt;entry key="titlePopulator"&gt;&lt;ref bean="name=populator/TitlePopulator"/&gt; &lt;/entry&gt; 
-         &lt;/map&gt;
+         &lt;/map&gt;</strong>
       &lt;/property&gt;    
       &lt;property name="bindOnNewForm"&gt;&lt;value&gt;true&lt;/value&gt;&lt;/property&gt;
       &lt;property name="commandName"&gt;&lt;value&gt;guestInfoFormBean&lt;/value&gt;&lt;/property&gt;
@@ -777,7 +861,7 @@ value with populator key. </p>
       ...
       &lt;form:select id="stateId" path="stateId"&gt;
          &lt;form:option value=""&gt;-- &lt;fmt:message key='Label.state'/&gt; --&lt;/form:option&gt;
-         &lt;form:options items="${statePopulator}" itemLabel="display" itemValue="code"/&gt;
+         <strong>&lt;form:options items="${statePopulator}" itemLabel="display" itemValue="code"/&gt;</strong>
       &lt;/form:select&gt;
      ...
   &lt;/form:form&gt;</span></span></pre>
@@ -798,6 +882,7 @@ with name=validator/reservation/GuestInfoFormValidator.</p>
     &lt;bean name="name=validator/reservation/GuestInfoFormValidator"
             class="com.gogwt.app.booking.controllers.validation.GuestInfoFormValidator"/&gt;
 
+    &lt;!-- ========================= CONTROLLER ========================= --&gt;
     &lt;bean name="name=controller/reservation/GuestInfoController"
            class="com.gogwt.app.booking.controllers.action.GuestInfoController"&gt;
        &lt;property name="populators"&gt;
@@ -808,13 +893,13 @@ with name=validator/reservation/GuestInfoFormValidator.</p>
       &lt;/property&gt;    
       &lt;property name="bindOnNewForm"&gt;&lt;value&gt;true&lt;/value&gt;&lt;/property&gt;
       &lt;property name="commandName"&gt;&lt;value&gt;guestInfoFormBean&lt;/value&gt;&lt;/property&gt;
-      &lt;property name="validator"&gt;&lt;ref bean="name=validator/reservation/GuestInfoFormValidator"/&gt;&lt;/property&gt;
+      <strong>&lt;property name="validator"&gt;&lt;ref bean="name=validator/reservation/GuestInfoFormValidator"/&gt;&lt;/property&gt;</strong>
       &lt;property name="formView"&gt;&lt;value&gt;/reservation/guest_info_form&lt;/value&gt;&lt;/property&gt;
       &lt;property name="successView"&gt;&lt;value&gt;confirmed&lt;/value&gt;&lt;/property&gt;  
        
     &lt;/bean&gt; </span></span></pre>
 
-<p>GuestInfoFormValidator.java</p>
+<p><em>GuestInfoFormValidator</em>.java</p>
 <pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt">public class GuestInfoFormValidator extends BaseValidateAdapter {
 
    public boolean supports(Class clazz) {
@@ -844,20 +929,46 @@ with name=validator/reservation/GuestInfoFormValidator.</p>
 
 <h4><span style="font-size: 10pt">Scope</span></h4>
 
-<p>Spring MVC has four type scopes: singleton, prototype, request, session,
-where request, session are only valid for web context. </p>
+<p>Spring MVC has four type scopes: singleton, prototype, request, session </p>
+
+<table border="1" style="width: 100%">
+  <caption></caption>
+  <col>
+  <col>
+  <tbody>
+    <tr>
+      <td>singleton</td>
+      <td>Scopes a single bean definition to a single object instance per
+        Spring IoC container.</td>
+    </tr>
+    <tr>
+      <td>prototype</td>
+      <td>Scopes a single bean definition to any number of object instances</td>
+    </tr>
+    <tr>
+      <td>request</td>
+      <td>Scopes a single bean definition to the lifecycle of a single HTTP
+        request; i.e. each and every HTTP request will have its own instance of
+        a bean created off the back of a single bean definition. Only valid in
+        the context of a web-aware Spring ApplicationContext</td>
+    </tr>
+    <tr>
+      <td>session</td>
+      <td>Scopes a single bean definition to the lifecycle of a HTTP Session.
+        Only valid in the context of a web-aware Spring ApplicationContext.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>GoGWT uses session scope to save and retrive reservation information such as
 search criteria, selected hotel etc. </p>
 
-<p>GoGWT Sessoin definiation: </p>
+<p>GoGWT Sessoin definition: </p>
 
-<p>&lt;import resource="classpath:conf/scopeBeans.xml"/&gt;</p>
-
-<p>web.xml</p>
+<p><em> web.xml</em></p>
 <pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt">   &lt;filter&gt; 
        &lt;filter-name&gt;requestContextFilter&lt;/filter-name&gt; 
-       &lt;filter-class&gt;org.springframework.web.filter.RequestContextFilter&lt;/filter-class&gt;
+       <strong>&lt;filter-class&gt;org.springframework.web.filter.RequestContextFilter&lt;/filter-class&gt;</strong>
    &lt;/filter&gt;      
    &lt;servlet&gt;
    &lt;servlet-name&gt;booking&lt;/servlet-name&gt;
@@ -869,11 +980,11 @@ search criteria, selected hotel etc. </p>
    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
    &lt;/servlet&gt; </span></span></span></pre>
 
-<p><span> booking-servlet.xml</span></p>
+<p><span><em>booking-servlet.xml</em></span></p>
 <pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"> &lt;!-- scope beans: session, flash --&gt;
- &lt;import resource="classpath:conf/scopeBeans.xml"/&gt;  </span></span></span></pre>
+ &lt;import resource="classpath:conf/scopeBeans.xml"/&gt; </span></span></span></pre>
 
-<p><span>scopeBeans.xml</span></p>
+<p><span><em>scopeBeans.xml</em></span></p>
 <pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"><span style="font-size: 10pt">&lt;beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
@@ -881,22 +992,321 @@ search criteria, selected hotel etc. </p>
 
     &lt;!-- ========================= SESSION ============================== --&gt;
     &lt;!-- reservation session manager --&gt;
-   &lt;bean name="reservationSessionManager" class="com.gogwt.app.booking.scopeManager.session.ReservationSessionManager" scope="session"&gt;       
+   <strong>&lt;bean name="reservationSessionManager" class="com.gogwt.app.booking.scopeManager.session.ReservationSessionManager" scope="session"&gt;       
       &lt;aop:scoped-proxy/&gt;
-   &lt;/bean&gt;       
-&lt;/beans&gt;</span></span></span></span></pre>
+   &lt;/bean&gt;</strong>       
+&lt;/beans&gt;
+</span></span></span></span></pre>
 
-<p><span></span></p>
+<h4>
+AOP </h4>
+
+<p>Per wiki<sup>[2]</sup> aspect-oriented programming (<em>AOP</em>) is a
+programming paradigm which isolates secondary or supporting functions from the
+main program's business logic. It aims to increase modularity by allowing the
+separation of cross-cutting concerns, forming a basis for aspect-oriented
+software development.</p>
+
+<p><span>GoGWT use AOP, after successfully make a reseravation, some functions,
+such as sending email etc, are invoked. As sending email is supporting
+function, it is suitable to use AOP. </span></p>
+
+<p><em>ReservationAspectJ</em><em></em>.java</p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"><strong>@Aspect</strong>
+public class ReservationAspectJ {
+   private static Logger logger = Logger.getLogger(ReservationAspectJ.class);
+ 
+<strong>@Around(value ="execution(*
+   com.gogwt.app.booking.businessService.domainService.ReservationBusinessService.confirmReservation(..)) &amp;&amp;
+   args(guestInfo, selectHotel, userContext)")</strong>
+public ReserveResponseBean newReservationPipelineProcess(
+   <strong>final ProceedingJoinPoint joinPoint</strong>, 
+   final GuestInfoFormBean guestInfo, final HotelBean selectHotel,
+   UserContextBean userContext) throws Throwable {
+
+   logger.debug("==== before point cut ====");
+
+   // 1. join point
+   <strong>ReserveResponseBean reservation = (ReserveResponseBean)joinPoint.proceed();</strong>
+     
+   if (reservation == null) {
+     return reservation;
+   }
+ 
+   //2. prepare pipeline
+   PipelineThreadExecutor pipeLineThread = new PipelineThreadExecutor();
+   Map&lt;String, Object&gt; params = new HashMap&lt;String, Object&gt;();
+   params.put(RESERVATION, reservation);
+   params.put(CONTEXT, userContext);
+
+   // 2.1 add pipeline processor defined in pipeline.xml
+   params.put(PIPELINE_PATH, RESERVATION_PIPELINE_NAME);
+ 
+   pipeLineThread.execute(params);
+
+   logger.debug("==== after point cut ====");
+
+   return reservation;
+  }
+}</span></span></span></pre>
+
+<p>Note: AOP makes compilation longer.</p>
+
+<h4>Multi-Thread and Pipeline</h4>
+
+<p>GoGWT creates separated thread to send email so that the user will get the
+reservation response quickly. ThreadPoolExecutor function is the features
+provided by Java 1.5 to handle task with pooled threads in order to improved
+performance. </p>
+
+<p><em>PipelineThreadExecutor</em><em></em>.java</p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt">public class PipelineThreadExecutor {
+   private ThreadPoolExecutor threadPoolExecutor;
+
+   private static final int POOL_SIZE = 5;
+   private static final int MAX_POOL_SIZE = 5;
+   private static final int KEEP_ALIVE_TIME = 500;
+   private static final int QUEUE_SIZE = 50;
+   private static final int TIMEOUT = 10;
+
+   public PipelineThreadExecutor() {
+       threadPoolExecutor = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE,
+                                    KEEP_ALIVE_TIME, TimeUnit.MILLISECONDS,
+                                    new LinkedBlockingQueue&lt;Runnable&gt;(QUEUE_SIZE));
+   }
+
+
+   public void execute(final Map&lt;String, Object&gt; params) {
+
+      threadPoolExecutor.execute(new Runnable() {
+         public void run() {
+           String path = (String)params.get("pipelinePath");
+
+           ExecutePipeline executePipeline = (ExecutePipeline)BeanLookupService.getBean(path);
+           executePipeline.executePipelineProcessors(params);
+         }
+      });
+
+      //shutdowm
+      try {
+         threadPoolExecutor.shutdown();
+         threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.SECONDS);
+      }
+      catch (Throwable e) {
+         logger.fatal("Timeout exceeded getting content.", e);
+      }
+   }
+}</span></span></span></pre>
+
+<p>PipelineThreadExecutor is invoked by AOP class ReservationAspectJ. Inside
+execute method, ExecutePipeline is located by BeanLookupService.getBean(path).
+Pipeline is created for the cases there are more functions to be executed in
+the thread. pipeline.xml is the config file for pipeline, where Processor(s)
+are the actual functions to be executed. Here GoGWT defines two dummy
+functions: SendCreatedEmailProcessor and ReservationDemoProcessor.</p>
+
+<p><em>pipeline.xml</em></p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt">&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"&gt;
+
+       &lt;!-- This file will hold all the PIPELINE &amp; PROCESSOR definitions.--&gt;
+    
+        &lt;!-- ConfirmedReservationProcesssors --&gt;
+        &lt;bean name="name=pipeline/reservation/ReservationPipeline"
+                 class="com.gogwt.app.booking.pipeline.ExecutePipeline"&gt;
+           &lt;property name="processors"&gt;
+              &lt;list&gt;
+                  &lt;ref bean="name=processor/reservation/SendCreatedEmailProcessor"/&gt;
+                  &lt;ref bean="name=processor/reservation/ReservationDemoProcessor"/&gt;
+              &lt;/list&gt;
+           &lt;/property&gt; 
+        &lt;/bean&gt;
+        
+        &lt;bean name="name=processor/reservation/SendCreatedEmailProcessor"
+                 class="com.gogwt.app.booking.pipeline.reservation.SendCreatedEmailProcessor"/&gt;
+   
+        &lt;bean name="name=processor/reservation/ReservationDemoProcessor"
+               class="com.gogwt.app.booking.pipeline.reservation.ReservationDemoProcessor"&gt;
+        &lt;/bean&gt;    
+&lt;/beans&gt;</span></span></span></pre>
+
+<p>Following shows class diagram and sequence diagram in order to understand
+AOP-Thread-Pipeline better.</p>
+
+<p>Class diagram</p>
+
+<p><img alt="AOP class diagram" src="images/UML_aop_pipeline_class.png"
+width="1076"></p>
 
 <p></p>
 
+<p>Sequence diagram</p>
+
+<p><img alt="aop sequence" src="images/UML_aop_pipeline_sequence.png"
+width="873" height="325"></p>
+
 <p></p>
 
-<p>Reference:</p>
+<h4>Hibernate</h4>
+
+<p>Hibernate<sup>[3]</sup> is an Object/Relational Mapping tool for Java
+environments. GoGWT apply Hibernate for database mapping. </p>
+
+<p>GoGWT uses four tables: </p>
+
+<p>Table <em>g_property</em> contains properties data</p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"><span style="font-size: 8pt"><span style="font-size: 10pt">CREATE TABLE `g_property` (
+  `id` mediumint(9) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL,
+  `property_description` varchar(2000) default NULL,
+  `address` varchar(100) NOT NULL,
+  `address2` varchar(100) default NULL,
+  `city` varchar(40) NOT NULL,
+  `state` varchar(40) default NULL,
+  `zip_code` varchar(10) default NULL,
+  `country` varchar(40) default NULL,
+  `lat` decimal(10,6) default NULL,
+  `lng` decimal(10,6) default NULL,
+  `NumberOfRooms` varchar(10) default NULL,
+  `NumberOfSuites` varchar(10) default NULL,
+  `NumberOfFloors` varchar(10) default NULL,
+  `CheckInTime` varchar(20) default NULL,
+  `CheckOutTime` varchar(20) default NULL,
+  `HasTennisCourt` varchar(5) default NULL,
+  `HasPetsAllowed` varchar(5) default NULL,
+  `HasIndoorPool` varchar(5) default NULL,
+  `HasOutdoorPool` varchar(5) default NULL,
+  `HasKitchen` varchar(5) default NULL,
+  PRIMARY KEY  (`id`)
+)</span>
+</span>  
+Sample data:
+105900|Comfort Inn &amp; Suites Atlanta Airport North|The Comfort Inn &amp; Suites Atlanta Airport North is located 5 minutes from Hartsfield International Airport and is near the Chattahoochee River, Chastain Park, Heritage Golf, Lenox Square, Stone Mountain, Georgia Dome, World of Coca Cola, Atlanta Zoo, Six Flags and Lake Lanier. In addition to a convenient location, hotel guests also enjoy beautiful accommodations and attentive service. &lt;br&gt; Guestrooms have been renovated and tastefully appointed, adding a new, vibrant flair to the pre existing style and elegance. The hotel offers an authentic Mexican restaurant, and an American Cafe, for the dining pleasure of its guests. For the business traveler the hotel features meeting and banquet facilities, making any business trip a little more pleasant. Non smoking guest rooms are available upon request. The final touch to this all inclusive hotel is the staff, amiable and professional, with a genuine interest and concern for the guest's satisfaction. The hotel is minutes to fine dining, shopping and entertainment.  |1419 Virginia Avenue| |ATLANTA|GA|30337|US|33.659340|-84.435180|247|0|6|3:00 PM   |12:00 PM  | |Y| | | 
+
+111579|Comfort Inn Buckhead North|&lt;b&gt;Location.&lt;/b&gt;&lt;br&gt; &lt;UL&gt;&lt;LI&gt;The Comfort Inn Buckhead North is located in Atlanta, Ga.&lt;/LI&gt; &lt;li&gt;Less than four miles from the Chastain Park Amphitheater&lt;/li&gt; &lt;li&gt;Four miles from the Perimeter Mall&lt;/li&gt;&lt;/ul&gt;&lt;br&gt; &lt;b&gt;Hotel Features.&lt;/b&gt;&lt;br&gt; &lt;UL&gt;&lt;li&gt;Complimentary continental breakfasts&lt;/li&gt; &lt;li&gt;Complimentary wireless Internet access&lt;/li&gt; &lt;li&gt;24 hour Landmark Diner Restaurant serves breakfast, lunch and dinner&lt;/li&gt;&lt;/UL&gt;&lt;br&gt; &lt;b&gt;Guestrooms.&lt;/b&gt;&lt;br&gt; &lt;UL&gt;&lt;li&gt;Complimentary wireless Internet access&lt;/li&gt; &lt;li&gt;Microwave ovens and refrigerators&lt;/li&gt; &lt;li&gt;Walk out balconies&lt;/li&gt;&lt;/UL&gt; |5793 Roswell Rd Ne| |ATLANTA|GA|30328|US|33.913360|-84.379030|80|0|5|2 p.m.    |11 a.m.   |Y|Y| | |   </span></span></span></pre>
+
+<p></p>
+
+<p>Table <em>g_state</em> contains state list of United States. It has two
+language versions, one is English and one is Spanish, to demo the retrival of
+multi-language.</p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"><span style="font-size: 8pt"><span style="font-size: 10pt">CREATE TABLE `g_state` (
+  `id` mediumint(9) NOT NULL auto_increment,
+  `state` varchar(12) NOT NULL default '',
+  `languageId` varchar(5) NOT NULL default '',
+  `state_name` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+)
+
+Sample Data:
+1|AK|en|ALASKA
+8|DC|en|DISTRICT OF COLUMBIA
+52|AK|es|ALASKA
+59|DC|es|DISTRITO DE COLUMBIA</span></span>  </span></span></span></pre>
+
+<p></p>
+
+<p>Table <em>g_keyword</em> contains US city and airport, used for GWT app
+suggestion list. </p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"><span style="font-size: 8pt"><span style="font-size: 10pt">CREATE TABLE `g_keyword` (
+  `keyword` varchar(50) NOT NULL default '',
+  `lat` decimal(10,6) default NULL,
+  `lng` decimal(10,6) default NULL,
+  `searchkey` varchar(50) NOT NULL,
+  `type` varchar(5) NOT NULL,
+   PRIMARY KEY  (`keyword`)
+)
+CREATE INDEX id_index ON g_keyword(keyword)
+CREATE INDEX searchkey_index ON g_keyword(searchkey)
+
+Sample Data:
+Tampa, Florida, United States|27.947201|-82.458603|TAMPA FLORIDA UNITED STATES|B
+JFK - New York Ny/Newark Kennedy Airport, NY, United States|40.64296|-73.78968|JFK NEW YORK NY/NEWARK KENNEDY AIRPORT NY UNITED STATES|A</span></span></span></span></span></pre>
+
+<p>Table <em>g_reservation</em> is the table record all the reservation.</p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"><span style="font-size: 8pt"><span style="font-size: 10pt">CREATE TABLE `g_reservation` (
+  `id` mediumint(9) NOT NULL auto_increment,
+  `property_id` int(11) default NULL,
+  `first_name` varchar(10) NOT NULL,
+  `last_name` varchar(10) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `state` varchar(100) NOT NULL,
+  `zip` varchar(10) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `language_id` varchar(10) NOT NULL,
+  `country_id` varchar(10) NOT NULL,
+  `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+)
+</span></span></span></span></span></pre>
+
+<p>Hibernate startes with hibernate.cfg.xml, where it has following major
+sections: Connection setting, Database selection, Cache setting and O/R
+Mappings </p>
+
+<p>hibernate.cfg.xml,</p>
+<pre class="programlisting"><span style="font-size: 10pt"><span style="font-size: 10pt"><span style="font-size: 11pt"><span style="font-size: 8pt"><span style="font-size: 10pt">&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd"&gt;
+
+&lt;hibernate-configuration&gt;
+
+    &lt;session-factory&gt;
+         
+        &lt;property name="connection.datasource"&gt;java:DefaultDS&lt;/property&gt;
+           
+        &lt;!-- SQL dialect --&gt;
+        &lt;property name="dialect"&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt;
+        
+        &lt;!-- Enable Hibernate's automatic session context management --&gt;
+        &lt;property name="current_session_context_class"&gt;thread&lt;/property&gt;
+
+        &lt;!-- Drop and re-create the database schema on startup --&gt;
+        &lt;property name="hbm2ddl.auto"&gt;update&lt;/property&gt;
+        
+        &lt;!-- Enable the second-level cache  --&gt;
+        &lt;property name="cache.provider_class"&gt;net.sf.ehcache.hibernate.EhCacheProvider&lt;/property&gt;
+        
+        &lt;property name="cache.use_query_cache"&gt;true&lt;/property&gt;
+        &lt;property name="cache.use_second_level_cache"&gt;true&lt;/property&gt;
+        &lt;property name="hibernate.cache.use_structured_entries"&gt;true&lt;/property&gt;        
+        
+        &lt;!-- Echo all executed SQL to stdout --&gt;
+        &lt;property name="show_sql"&gt;true&lt;/property&gt;
+        
+        &lt;mapping resource="com/gogwt/app/booking/service/domain/SearchProperty.hbm.xml"/&gt;
+        &lt;mapping resource="com/gogwt/app/booking/service/domain/State.hbm.xml"/&gt;
+        &lt;mapping resource="com/gogwt/app/booking/service/domain/Reservation.hbm.xml"/&gt;
+        &lt;mapping resource="com/gogwt/app/booking/service/domain/Keyword.hbm.xml"/&gt;
+        
+    &lt;/session-factory&gt;
+
+&lt;/hibernate-configuration&gt;
+</span></span></span></span></span></pre>
+
+<p>Please note: MySQL with JBoss has problem with connection, for details
+perfer to http://forums.mysql.com/read.php?39,373129,389350#msg-389350</p>
+
+<p></p>
+
+<h4>JSTL Function</h4>
+
+<p></p>
+
+<h4>Summary</h4>
+
+<h3>Reference:</h3>
 
 <p>1. http://code.google.com/webtoolkit/overview.html</p>
 
-<p></p>
+<p>2. http://en.wikipedia.org/wiki/Aspect-oriented_programming</p>
+
+<p>3.
+http://docs.jboss.org/hibernate/stable/core/reference/en/html/preface.html</p>
 </div>
 </div>
 
