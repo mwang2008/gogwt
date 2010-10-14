@@ -4,11 +4,14 @@
 	<pages>
       <page name="home" 
 			class="com.gogwt.app.booking.gwt.reservation.client.navigation.HomeView">
-        </page>
+		   
+		   <forward name="success" token="searchresult"/> 	
+       </page>
       		
 		<!-- hotelsearchresult -->
 		<page name="searchresult"
-			class="com.gogwt.app.booking.gwt.reservation.client.navigation.SearchResultView">           			
+			class="com.gogwt.app.booking.gwt.reservation.client.navigation.SearchResultView"> 
+			<forward name="success" token="guestinfo"/>          			
 		</page>
 
       <!--  guestinfo -->
@@ -22,11 +25,19 @@
 		 			</map>
 				</property>
 			</properties>
+			<forward name="success" token="resconfirmation"/>
+			<!-- <forward name="failure" token="dummy"/>  -->
+			
 		</page> 
 		
 		<!--  resconfirmation -->   
 		<page name="resconfirmation"
          class="com.gogwt.app.booking.gwt.reservation.client.navigation.ReservationConfirmationView">
+      </page> 
+      
+      <!--  test page -->   
+      <page name="testpage"
+         class="com.gogwt.app.booking.gwt.reservation.client.navigation.TestPageView">
       </page> 
       
 	</pages>

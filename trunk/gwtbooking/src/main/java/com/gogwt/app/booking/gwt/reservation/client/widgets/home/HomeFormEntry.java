@@ -1,7 +1,6 @@
 package com.gogwt.app.booking.gwt.reservation.client.widgets.home;
 
 import static com.gogwt.app.booking.BookingConstants.LENGTH_75;
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_SEARCH_RESULT;
 
 import java.util.ArrayList;
 
@@ -18,6 +17,7 @@ import com.gogwt.app.booking.gwt.common.widget.DestinationSuggestion;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
+import com.gogwt.framework.arch.utils.ActionForward;
 import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -146,8 +146,8 @@ public class HomeFormEntry  implements ClickHandler, SelectionHandler,  RPCProxy
 		// save result to session		
 		GWTSession.getCurrentReservationContainer().setHotelSearchResponse(hotelSearchResponse);
 
-		// 5. go to hotelsearchresult page
-		GWTExtClientUtils.forward(VIEW_SEARCH_RESULT);
+		// 5. go to hotelsearchresult page 
+		ActionForward.forward("success");
  	}
 
 	public void handleRPCError(Throwable caught, CommandBean command) {

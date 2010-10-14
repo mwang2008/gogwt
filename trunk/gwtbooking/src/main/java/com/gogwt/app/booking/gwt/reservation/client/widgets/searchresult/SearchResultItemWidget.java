@@ -10,6 +10,7 @@ import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.common.utils.WidgetStyleUtils;
+import com.gogwt.framework.arch.utils.ActionForward;
 import com.gogwt.framework.arch.utils.FormatUtils;
 import com.gogwt.framework.arch.widgets.AbstractWidget;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -72,7 +73,8 @@ public class SearchResultItemWidget extends AbstractWidget {
 					currentContainer.setSelectedHotel(selectHotel);
 					currentContainer.setSelectHotelItem(selectedIndex);
 					
-					GWTExtClientUtils.forward( GUEST_INFO );
+					//GWTExtClientUtils.forward( GUEST_INFO );
+					ActionForward.forward("success");
 				}
 				 				
 			}			

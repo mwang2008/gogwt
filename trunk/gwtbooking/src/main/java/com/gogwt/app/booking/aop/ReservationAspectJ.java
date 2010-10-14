@@ -32,16 +32,18 @@ public class ReservationAspectJ {
 
 	/**
 	 * <p>
-	 * Injected into makeReservation. And prepare for async pipeline call with
+	 * Injected into confirmReservation. And prepare for async pipeline call with
 	 * thread pool.
 	 * </p>
 	 * 
 	 * @param joinPoint
 	 *            The join point that gives access to the execution context
-	 * @param confirmReservationFormBean
-	 *            the form bean of confirm reservation
-	 * @param invocationContext
-	 *            current invocation context
+	 * @param guestInfo
+	 *            the form bean of guest info
+	 * @param selectHotel
+	 *            the hotel user wants to reserve           
+	 * @param userContext
+	 *            current user context
 	 * @return the confirmed reservation object
 	 */
 	@Around(value = "execution(* com.gogwt.app.booking.businessService.domainService.ReservationBusinessService.confirmReservation(..)) && args(guestInfo, selectHotel, userContext)")
@@ -59,21 +61,17 @@ public class ReservationAspectJ {
 			return reservation;
 		}
  
+ 		//2. prepare pipeline
  		PipelineThreadExecutor pipeLineThread = new PipelineThreadExecutor();
  		Map<String, Object> params = new HashMap<String, Object>();
 		params.put(RESERVATION, reservation);
 		params.put(CONTEXT, userContext);
 		
-		// 2.2 add pipeline processor defined in pipeline.xml
-		params.put(PIPELINE_PATH, "name=pipeline/reservation/ReservationPipeline");
+		// 2.1 add pipeline processor defined in pipeline.xml
+		params.put(PIPELINE_PATH, RESERVATION_PIPELINE_NAME);
  		
  		pipeLineThread.execute(params);
- 		
- 		 
-		// 2. start pipeline
-		//ReservationPipelineAdapter.startCreateReservationPipeline(reservation,
-		//		confirmReservationRequestBean, invocationContext);
-
+   
 		logger.debug("==== after point cut ====");
 
 		return reservation;

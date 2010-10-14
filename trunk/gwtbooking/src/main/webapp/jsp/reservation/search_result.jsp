@@ -72,14 +72,16 @@
                  <div class='item'> <b>Amenities:</b> ${gogwtutil:fillHotelAmenities(hotel)} </div>
                  <div class='btnSelect'> 
                     <a href="${env.prefix}/guestinfo?id=${hotel.id}&index=${status.count}">
-                      <img width="63" height="24" border="0" align="top" name="reserve_9" alt="Reservar" src="${env.contextPath}/images/${env.languageId}-${fn:toUpperCase(env.countryId)}/reserve.gif"/> 
+                      <img width="63" height="24" border="0" align="top" name="reserve_9" alt="Reservar" src="${env.contextPath}/images/${env.languageId}-${fn:toUpperCase(env.countryId)}/reserve.png"/> 
                     </a>
                  </div>
              </div>
           </c:forEach>
       </div>    
-          
-       </hr>       
+      <div id="container">
+          <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
+      </div>    
+             
        
   <%@ include file="/jsp/common/i_analytics.jspf"%>
   </body>

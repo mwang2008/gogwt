@@ -12,7 +12,7 @@ import com.gogwt.app.booking.utils.BeanLookupService;
 public class PipelineThreadExecutor {
 	private static Logger logger = Logger.getLogger(PipelineThreadExecutor.class);
 
-	ThreadPoolExecutor threadPoolExecutor;
+	private ThreadPoolExecutor threadPoolExecutor;
 
 	private static final int POOL_SIZE = 5;
 	private static final int MAX_POOL_SIZE = 5;

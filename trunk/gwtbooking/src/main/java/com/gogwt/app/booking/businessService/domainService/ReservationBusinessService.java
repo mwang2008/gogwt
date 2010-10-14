@@ -133,28 +133,24 @@ public final class ReservationBusinessService {
 	}
 	
 	/**
-	 * Confirm reservation. 
-	 * Save confirmation 
-	 * @param guestInfo
-	 * @param userContext
+	 * <p>confirmReservation
+	 * Create reservation with guest information, selected hotels.  
+	 *  
+	 * AOP is injected to this class defined ReservationAspectJ
+	 * 
+	 * @param guestInfo   guest info
+	 * @param selectHotel the hotel user selected.
+	 * @param userContext the user context.
 	 */
 	public ReserveResponseBean confirmReservation(final GuestInfoFormBean guestInfo, final HotelBean selectHotel, final UserContextBean userContext) {
-		 ReservationBean reservationBean = new ReservationBean();
+		 ReservationBean reservationBean = constructReservationBean(guestInfo, selectHotel, userContext);
 		 
-		 reservationBean.setPropertyId(guestInfo.getId());
-		 reservationBean.setFirstName(guestInfo.getFirstName());
-		 reservationBean.setLastName(guestInfo.getLastName());
-		 reservationBean.setAddress(guestInfo.getAddress());
-		 reservationBean.setCity(guestInfo.getCity());
-		 reservationBean.setState(guestInfo.getStateId());
-		 reservationBean.setZip(guestInfo.getZipCode());
-		 reservationBean.setLanguageId(userContext.getLanguageId());
-		 reservationBean.setCountryId(userContext.getCountryId());
-		 reservationBean.setEmail(guestInfo.getEmail());
-		 reservationBean.setCreateDate(new Date());
+		 logger.debug("=== confirmReservation ===");
+		 logger.debug("=== input: " + reservationBean.toString());
 		 
 		 int reservationId = getHotelSearchDAO().confirmReservation(reservationBean);
-		 logger.debug("=== reservationid="+reservationId);
+		 
+		 logger.debug("=== reservationId="+reservationId);
 		 
 		 ReserveResponseBean reserveResponseBean = new ReserveResponseBean();
 		 reserveResponseBean.setReserveNum(reservationId);
@@ -175,6 +171,24 @@ public final class ReservationBusinessService {
 	///////////////////////////////////////////////////////////////////////////////////
 	///  PRIVATE
 	///
+	
+	private ReservationBean constructReservationBean(final GuestInfoFormBean guestInfo, final HotelBean selectHotel, final UserContextBean userContext) {
+		ReservationBean reservationBean = new ReservationBean();
+		 
+		 reservationBean.setPropertyId(guestInfo.getId());
+		 reservationBean.setFirstName(guestInfo.getFirstName());
+		 reservationBean.setLastName(guestInfo.getLastName());
+		 reservationBean.setAddress(guestInfo.getAddress());
+		 reservationBean.setCity(guestInfo.getCity());
+		 reservationBean.setState(guestInfo.getStateId());
+		 reservationBean.setZip(guestInfo.getZipCode());
+		 reservationBean.setLanguageId(userContext.getLanguageId());
+		 reservationBean.setCountryId(userContext.getCountryId());
+		 reservationBean.setEmail(guestInfo.getEmail());
+		 reservationBean.setCreateDate(new Date());
+		 
+		 return reservationBean;
+	}
 	/**
 	 * test to see whether the location is with [lat, lng] 
 	 * ex. 33.754487, -84.389663

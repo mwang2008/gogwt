@@ -71,11 +71,14 @@
    </div>
 
    <div id="ContentCopy">
-      <input type="image" name="continue" src="${env.contextPath}/images/${env.languageId}-${fn:toUpperCase(env.countryId)}/confirm.gif" alt="<fmt:message key='button.Alt.Book'/>"  border="0" align="center">
+      <input type="image" name="continue" src="${env.contextPath}/images/${env.languageId}-${fn:toUpperCase(env.countryId)}/confirm.png" alt="<fmt:message key='button.Alt.Book'/>"  border="0" align="center">     
    </div>
 				
 </form:form>
 </div>
+      <div id="container">
+          <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
+      </div>    
 
  <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>

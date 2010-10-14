@@ -46,8 +46,9 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 	private Map<String, String> controllerGWTConfigMap;
 
 	
-	public URLHandlerInterceptor() {
+	public URLHandlerInterceptor(Map<String, String> controllerGWTConfigMapArg) {
 		super();
+		controllerGWTConfigMap = controllerGWTConfigMapArg;
 		ctrlKeyPopulators = new HashMap<String, Map<String, List<PopulatorItem>>>();
 	}
 
@@ -109,7 +110,7 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 		logger.debug("key="+key);
 		
 		if (!ctrlKeyPopulators.containsKey(key)){
-			final Map<String, String> controllerViewMap = getControllerGWTConfigMap();	
+			final Map<String, String> controllerViewMap = controllerGWTConfigMap; //getControllerGWTConfigMap();	
 			final Map<String, List<ConfigPage>> gwtPageMap =  PageConfigXMLParser.parserGwtConfig(controllerViewMap);				 
 			final Map<String, List<PopulatorItem>> retrivePopulatorsForGivenController = PopulatorProcessor.retrivePopulatorsForGivenController(userContext, gwtPageMap, controllerName);
 			ctrlKeyPopulators.put(key, retrivePopulatorsForGivenController);
@@ -228,14 +229,14 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 	public void setSupportedLangRegion(Map<String, String> supportedLangRegion) {
 		this.supportedLangRegion = supportedLangRegion;
 	}
- 
+	/* 
 	public Map<String, String> getControllerGWTConfigMap() {
 		return controllerGWTConfigMap;
 	}
 
 	public void setControllerGWTConfigMap(Map<String, String> controllerGWTConfigMap) {
 		this.controllerGWTConfigMap = controllerGWTConfigMap;
-	}
+	}*/
 
 	
  

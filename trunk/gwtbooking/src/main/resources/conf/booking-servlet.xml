@@ -37,13 +37,15 @@
            <entry key="es-ES"><value>Español</value></entry>     
          </map>
        </property>
-       <property name="controllerGWTConfigMap">
-         <map>
-           <entry key="gwtreservation"><value>conf/gwt/ReservationProcessConfig.xml</value></entry>
-           <entry key="mvpreservation"><value>conf/gwt/ReservationMVPProcessConfig.xml</value></entry>
-           <entry key="mvphoteldetail"><value>conf/gwt/HotelDetailMVPProcessConfig.xml</value></entry>
+       
+       <constructor-arg index="0">
+	  <map>
+            <entry key="gwtreservation"><value>conf/gwt/ReservationProcessConfig.xml</value></entry>
+            <entry key="mvpreservation"><value>conf/gwt/ReservationMVPProcessConfig.xml</value></entry>
+            <entry key="mvphoteldetail"><value>conf/gwt/HotelDetailMVPProcessConfig.xml</value></entry>
          </map>
-       </property>     
+       </constructor-arg> 
+     
     </bean>
 
              
