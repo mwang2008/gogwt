@@ -9,17 +9,8 @@
          
         <property name="connection.datasource">java:DefaultDS</property>
         
-        <!-- Database connection settings 
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/ebooking</property>
-        <property name="connection.username">myUser</property>
-        <property name="connection.password">myPassword</property>
-        -->
         
-        <!-- JDBC connection pool (use the built-in) 
-        <property name="connection.pool_size">3</property>
-        -->
-        
+         
         <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         

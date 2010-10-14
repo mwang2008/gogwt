@@ -1,16 +1,12 @@
 package com.gogwt.app.booking.gwt.reservation.client.widgets.guestinfo;
 
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.RESERVATION_CONFIRMATION;
-
 import java.util.ArrayList;
 
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
-import com.gogwt.app.booking.dto.dataObjects.common.PopulatorItem;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
-import com.gogwt.app.booking.gwt.common.populator.PopulatorDataCollection;
 import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.common.widget.populator.ExtendedListBox;
@@ -19,12 +15,12 @@ import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ErrorPanel;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HasFormEntry;
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
+import com.gogwt.framework.arch.utils.ActionForward;
 import com.gogwt.framework.arch.utils.StringUtils;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hidden;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<ReserveResponseBean> {
@@ -62,10 +58,7 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	    city.setMaxLength(30); 	    
 	    zipCode.setMaxLength(30);
 	    email.setMaxLength(30);
- 	    
-	    //fillStatePopulator();
-	    //fillTitlePopulator();
-	}
+  	}
 
 
 	/**
@@ -74,10 +67,6 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 	 */
 	public void prepareFormEntry(HasFormEntry fromLayout) {
 		callback = fromLayout;
-		
-		//set hidden fields
-		
-
 	}
 
 	// @Override
@@ -126,15 +115,18 @@ public class GuestInfoFormEntry implements ClickHandler, RPCProxyInterface<Reser
 		GWTSession.getCurrentReservationContainer().setGuestInfoBean(guestInfo);
 		GWTSession.getCurrentReservationContainer().setReserveResponse(reserveResponseBean);		 
 		
-		// 5. go to hotelsearchresult page
-		GWTExtClientUtils.forward(RESERVATION_CONFIRMATION);
+		// go to confirm page
+		//GWTExtClientUtils.forward(RESERVATION_CONFIRMATION);
+		ActionForward.forward("success");
  	}
 
 	 
 	public void handleRPCError(Throwable caught, CommandBean command) {
-		// TODO Auto-generated method stub
-		caught.fillInStackTrace();
-		return;
+		//caught.fillInStackTrace();
+		
+        //generic error
+        ErrorPanel.getInstance().displayError(tags.error_generic_message());
+
 	}
 
 	private GuestInfoFormBean fillFormData() {

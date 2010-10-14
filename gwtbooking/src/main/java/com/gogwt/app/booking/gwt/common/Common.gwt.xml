@@ -5,9 +5,10 @@
    <source path="widget"/>  
    <source path="populator"/>
    
-   <!-- Logging -->
+   <!-- Logging  -->
    <inherits name="com.allen_sauer.gwt.log.gwt-log"/>
    
+    
    <!-- 
     <extend-property name="log_level" values="FATAL,OFF"/>   
     <extend-property name="log_level" values="INFO,OFF"/>

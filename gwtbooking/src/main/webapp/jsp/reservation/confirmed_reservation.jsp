@@ -49,7 +49,9 @@
     </table>
    
 </div>
-
+      <div id="container">
+          <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
+      </div> 
  <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>
 </html>
