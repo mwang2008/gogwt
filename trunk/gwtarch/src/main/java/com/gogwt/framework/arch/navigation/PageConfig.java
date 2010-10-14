@@ -8,6 +8,7 @@ public class PageConfig {
 	private String name;	 
 	private AbstractPage instance;
 	private Map<String, Map<String, String>> properties;
+	private Map<String, String> forward;
 	
 	public PageConfig() {
 	}
@@ -47,6 +48,16 @@ public class PageConfig {
 	public void setProperties(Map<String, Map<String, String>> properties) {
 		this.properties = properties;
 	}
-	
-	
+
+
+	public Map<String, String> getForward() {
+		return forward;
+	}
+
+
+	public void setForward(Map<String, String> forward) {
+		this.forward = forward;
+	}
+ 
+	 
 }

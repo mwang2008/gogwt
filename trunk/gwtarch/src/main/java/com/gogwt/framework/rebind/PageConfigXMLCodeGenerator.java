@@ -11,7 +11,6 @@ import org.jdom.Parent;
 import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 
-import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.google.gwt.user.rebind.SourceWriter;
 
 
@@ -83,6 +82,24 @@ public class PageConfigXMLCodeGenerator {
 	  }
 
 	  /**
+	   * Generate forward attribute
+	   * @param sw
+	   * @param parentElement
+	   * @param destination
+	   * @throws Exception
+	   */
+	  private static void generateForward(SourceWriter sw, Parent parentElement, String destination) throws Exception {
+	      List<Element> forwardList = XPath.selectNodes(parentElement, "forward");
+	      if (forwardList != null && !forwardList.isEmpty()) {
+	    	  for (Element forward : forwardList) {
+	 	         String name = "\"" + forward.getAttributeValue("name") + "\"";
+		         String token = "\"" + forward.getAttributeValue("token") + "\"";
+ 		         sw.println( "addForwardValue("+ name +", " +token+ ", "+destination+");" );
+ 	    	  }	         
+	      } 
+	  }
+	  
+	  /**
 	   * <p>
 	   * Generate code related to properties provided in the xml file
 	   * </p>
@@ -114,7 +131,7 @@ public class PageConfigXMLCodeGenerator {
 	    
 	    // get child nodes, and display their id attribute values
 	    sw.println( "public PageConfig lazyCreateOrGetPageConfig( String token ) {");
-	    sw.println( AbstractPage.class.getSimpleName() + " pageInstance = null;");
+	    //sw.println( AbstractPage.class.getSimpleName() + " pageInstance = null;");
 	    sw.println( "PageConfig pageConfigInstance = pageConfigInstances.get(token);");
 	    sw.println( "if ( pageConfigInstance != null ) ");
 	    sw.println( " return pageConfigInstance; ");
@@ -125,10 +142,11 @@ public class PageConfigXMLCodeGenerator {
 	    String nameValue =""; 
 	    String classValue="";
 	    boolean isDefault;
-	    boolean seoCrawlable;
-	    
+	      
 	    sw.println( "Map<String,Map<String,String>> properties = new HashMap<String,Map<String,String>>();" );
-	    //todo: what's that
+	    sw.println( "Map<String,String> forward = new HashMap<String,String>();" );
+	    
+	    //skip the first one
 	    sw.println( "if (1 != 1) ;" );
 	    
 	    for (Iterator<Element> iter = views.iterator(); iter.hasNext(); ) {
@@ -149,6 +167,11 @@ public class PageConfigXMLCodeGenerator {
 	        tokens.add(0, view.getAttributeValue( "name" ).toLowerCase() );
 	      else 
 	        tokens.add(view.getAttributeValue( "name" ).toLowerCase() );
+	      
+	      // generate forward
+	      generateForward(sw, view, "forward");
+	      sw.println( "pageConfigInstance.setForward(forward);" );
+	
 	      sw.println( "}" );
 	    }
 	    sw.println( "pageConfigInstances.put(token,pageConfigInstance);");

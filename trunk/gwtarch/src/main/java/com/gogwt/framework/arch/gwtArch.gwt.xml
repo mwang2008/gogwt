@@ -4,14 +4,8 @@
   <source path="widgets"/>
   <source path="utils"/>
   
-   <!-- ViewConfigAccessor Code Generation       
-     <generate-with class="com.gogwt.framework.rebind.ViewConfigAccessorInterfaceGenerator">
-         <when-type-assignable class="com.gogwt.framework.arch.navigation.ViewConfigAccessor"/>
-     </generate-with>
-   -->
-   
-   <!-- PageConfigAccessor Code Generation -->  
-     <generate-with class="com.gogwt.framework.rebind.PageConfigAccessorInterfaceGenerator">
-         <when-type-assignable class="com.gogwt.framework.arch.navigation.PageConfigAccessor"/>
-     </generate-with>
+  <!-- PageConfigAccessor Code Generation -->  
+  <generate-with class="com.gogwt.framework.rebind.PageConfigAccessorInterfaceGenerator">
+      <when-type-assignable class="com.gogwt.framework.arch.navigation.PageConfigAccessor"/>
+  </generate-with>
 </module>

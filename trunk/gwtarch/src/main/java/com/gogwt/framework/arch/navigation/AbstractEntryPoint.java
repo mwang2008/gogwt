@@ -5,6 +5,7 @@ package com.gogwt.framework.arch.navigation;
 import java.util.Map;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.gogwt.framework.arch.utils.ActionForward;
 import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -169,7 +170,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	       // show the view if already instantiated
 	    	config = pageAccessor.lazyCreateOrGetPageConfig( token );
 	        page = config.getInstance();
-	      page.setVisible( true );
+	        page.setVisible( true );
 	    } else {
 	    	Log.info( "Instatiate View " + token );
 	        // instantiate, add and show the view
@@ -182,6 +183,9 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	    	  Log.fatal("Error instantiating view in manageViewVisibility()"+t, t);
 	        }
 	    }
+	    
+	    //save forward context
+	    ActionForward.setCurrentPageForward(config.getForward());
 	    
 	    // Process Page
 	    if ( page != null ) {

@@ -26,11 +26,17 @@ public abstract class AbstractPageConfigAccessor implements PageConfigAccessor{
 			String propVal, Map<String, Map<String, String>> properties) {
 		if (properties.containsKey(propName)) {
 			properties.get(propName).put(propValName, propVal);
-		} else {
+		} 
+		else {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put(propValName, propVal);
 			properties.put(propName, values);
 		}
 	}
 	
+	protected static void addForwardValue(String name, String token, Map<String, String> forward) {
+		if (forward != null) {
+			forward.put(name, token);
+		}
+	}
 }
