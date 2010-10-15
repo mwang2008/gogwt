@@ -1,4 +1,4 @@
-#The framework of using gogwt 
+#summary The framework of using gogwt
 
 = Introduction =
 
