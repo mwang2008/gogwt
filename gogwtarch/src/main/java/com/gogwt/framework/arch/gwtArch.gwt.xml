@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <source path="navigation"/>
+  <source path="widgets"/>
+  <source path="utils"/>
+  
+  <!-- PageConfigAccessor Code Generation -->  
+  <generate-with class="com.gogwt.framework.rebind.PageConfigAccessorInterfaceGenerator">
+      <when-type-assignable class="com.gogwt.framework.arch.navigation.PageConfigAccessor"/>
+  </generate-with>
+</module>
