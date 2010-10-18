@@ -24,6 +24,7 @@ public class PageConfig {
 	private AbstractPage instance;
 	private Map<String, Map<String, String>> properties;
 	private Map<String, String> forward;
+	private Map<String, String> globalForward;
 	
 	public PageConfig() {
 	}
@@ -73,6 +74,16 @@ public class PageConfig {
 	public void setForward(Map<String, String> forward) {
 		this.forward = forward;
 	}
+
+
+	public Map<String, String> getGlobalForward() {
+		return globalForward;
+	}
+
+
+	public void setGlobalForward(Map<String, String> globalForward) {
+		this.globalForward = globalForward;
+	}
  
-	 
+	
 }

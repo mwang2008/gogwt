@@ -18,24 +18,26 @@ package com.gogwt.framework.arch.utils;
 
 import java.util.Map;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.History;
 
 public final class ActionForward {
 	private static Map<String, String> currentPageForward;
-
+    private static Map<String, String> currentGlobalForward;
     
 	public static Map<String, String> getCurrentPageForward() {
 		return currentPageForward;
 	}
 
 
-	public static void setCurrentPageForward(Map<String, String> currentPageForward) {
+	public static void setCurrentPageForward(Map<String, String> currentPageForward, Map<String, String> currentGlobalForward) {
 		ActionForward.currentPageForward = currentPageForward;
+		ActionForward.currentGlobalForward = currentGlobalForward;
 	}
 
 
 	/**
-	 * display token page, no refreshed.
+	 * forward to token page.
 	 * 
 	 * @param token
 	 */
@@ -46,9 +48,23 @@ public final class ActionForward {
 		
 		String forwardTO;
 		if (currentPageForward != null && !currentPageForward.isEmpty()) {
-			forwardTO = currentPageForward.get(forwardName);
-			History.newItem(forwardTO);
+			if (currentPageForward.containsKey(forwardName)) {
+			   forwardTO = currentPageForward.get(forwardName);
+			   History.newItem(forwardTO);
+			   return;
+			}
 		}
+		
+		if (currentGlobalForward != null && !currentGlobalForward.isEmpty()) {
+			if (currentGlobalForward.containsKey(forwardName)) {
+			   forwardTO = currentGlobalForward.get(forwardName);
+			   History.newItem(forwardTO);			
+			   return;
+			}
+		}
+		
+		//todo: revisit -->  what to do if could not find  
+		Log.fatal("Could not find token in config to forward for the token of: " + forwardName);
 	}
 	
 }

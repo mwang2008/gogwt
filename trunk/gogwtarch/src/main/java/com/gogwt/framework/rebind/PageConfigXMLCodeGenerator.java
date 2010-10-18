@@ -106,10 +106,11 @@ public class PageConfigXMLCodeGenerator {
 	   */
 	  private static void generateForward(SourceWriter sw, Parent parentElement, String destination) throws Exception {
 	      List<Element> forwardList = XPath.selectNodes(parentElement, "forward");
+	      String name, token;
 	      if (forwardList != null && !forwardList.isEmpty()) {
 	    	  for (Element forward : forwardList) {
-	 	         String name = "\"" + forward.getAttributeValue("name") + "\"";
-		         String token = "\"" + forward.getAttributeValue("token") + "\"";
+	 	         name = "\"" + forward.getAttributeValue("name") + "\"";
+		         token = "\"" + forward.getAttributeValue("token") + "\"";
  		         sw.println( "addForwardValue("+ name +", " +token+ ", "+destination+");" );
  	    	  }	         
 	      } 
@@ -143,7 +144,7 @@ public class PageConfigXMLCodeGenerator {
 	   * @throws Exception
 	   */
 	  private static void generateLazyCreateOrGetPageConfigMethod(SourceWriter sw, Document jdomDocument) throws Exception {
-	    List<String> tokens = new ArrayList<String>();
+		  List<String> tokens = new ArrayList<String>();
 	    
 	    // get child nodes, and display their id attribute values
 	    sw.println( "public PageConfig lazyCreateOrGetPageConfig( String token ) {");
@@ -153,43 +154,12 @@ public class PageConfigXMLCodeGenerator {
 	    sw.println( " return pageConfigInstance; ");
 	    sw.println( "pageConfigInstance = new PageConfig();");
 
-	    // for each view
-	    List<Element> views = XPath.selectNodes(jdomDocument, "/application/pages//page");
-	    String nameValue =""; 
-	    String classValue="";
-	    boolean isDefault;
-	      
-	    sw.println( "Map<String,Map<String,String>> properties = new HashMap<String,Map<String,String>>();" );
-	    sw.println( "Map<String,String> forward = new HashMap<String,String>();" );
+	    // for each page
+	    parseAndGeneratePage(sw, jdomDocument, tokens);
 	    
-	    //skip the first one
-	    sw.println( "if (1 != 1) ;" );
-	    
-	    for (Iterator<Element> iter = views.iterator(); iter.hasNext(); ) {
-	      Element view = (Element) iter.next();
-	      nameValue = "\""+view.getAttributeValue( "name" ).toLowerCase()+"\"";
-	      classValue = view.getAttributeValue( "class" );
+	    // for global forward
+	    parseGlobalForward(sw, jdomDocument, tokens);
 
-	      isDefault = Boolean.parseBoolean( view.getAttributeValue( "isDefault" ) );
-	       
-	      sw.println( "else if (token.equals("+nameValue+")) {" );
-	      sw.println( "pageConfigInstance = new PageConfig("+nameValue+", new "+classValue+"());" );
-	       
-	      // generate properties
-	      generateProperties(sw,view, "properties");
-	      sw.println( "pageConfigInstance.setProperties(properties);" );
-	      
-	      if (isDefault) 
-	        tokens.add(0, view.getAttributeValue( "name" ).toLowerCase() );
-	      else 
-	        tokens.add(view.getAttributeValue( "name" ).toLowerCase() );
-	      
-	      // generate forward
-	      generateForward(sw, view, "forward");
-	      sw.println( "pageConfigInstance.setForward(forward);" );
-	
-	      sw.println( "}" );
-	    }
 	    sw.println( "pageConfigInstances.put(token,pageConfigInstance);");
 	    sw.println( "return pageConfigInstance; ");
 	    sw.println( "}" );
@@ -198,6 +168,64 @@ public class PageConfigXMLCodeGenerator {
 	    generateStaticPageTokensArray(sw, jdomDocument, tokens);
 	  }
 	  
+
+	  
+	  private static void parseAndGeneratePage(SourceWriter sw, Document jdomDocument, List<String> tokens) throws Exception {
+		    List<Element> views = XPath.selectNodes(jdomDocument, "/application/pages//page");
+		    String nameValue =""; 
+		    String classValue="";
+		    boolean isDefault;
+		      
+		    sw.println( "Map<String,Map<String,String>> properties = new HashMap<String,Map<String,String>>();" );
+		    sw.println( "Map<String,String> forward = new HashMap<String,String>();" );
+		    
+		    //skip the first one
+		    sw.println( "if (1 != 1) ;" );
+		    
+		    for (Iterator<Element> iter = views.iterator(); iter.hasNext(); ) {
+		      Element view = (Element) iter.next();
+		      nameValue = "\""+view.getAttributeValue( "name" ).toLowerCase()+"\"";
+		      classValue = view.getAttributeValue( "class" );
+
+		      isDefault = Boolean.parseBoolean( view.getAttributeValue( "isDefault" ) );
+		       
+		      sw.println( "else if (token.equals("+nameValue+")) {" );
+		      sw.println( "pageConfigInstance = new PageConfig("+nameValue+", new "+classValue+"());" );
+		       
+		      // generate properties
+		      generateProperties(sw,view, "properties");
+		      sw.println( "pageConfigInstance.setProperties(properties);" );
+		      
+		      if (isDefault) 
+		        tokens.add(0, view.getAttributeValue( "name" ).toLowerCase() );
+		      else 
+		        tokens.add(view.getAttributeValue( "name" ).toLowerCase() );
+		      
+		      // generate forward
+		      generateForward(sw, view, "forward");
+		      sw.println( "pageConfigInstance.setForward(forward);" );
+		
+		      sw.println( "}" );
+		    }		    
+	  }
+	  
+	  private static void parseGlobalForward(SourceWriter sw, Document jdomDocument, List<String> tokens) throws Exception {
+		  sw.println( "Map<String,String> globalForward = new HashMap<String,String>();" );
+		  String destination = "globalForward";
+		  
+		  List<Element> forwardList = XPath.selectNodes(jdomDocument, "/application/global-forwards/forward");
+		  String name, token;
+		  if (forwardList != null && !forwardList.isEmpty()) {
+			  if (forwardList != null && !forwardList.isEmpty()) {
+		    	  for (Element forward : forwardList) {
+		 	         name = "\"" + forward.getAttributeValue("name") + "\"";
+			         token = "\"" + forward.getAttributeValue("token") + "\"";			        
+	  		         sw.println( "addGlobalForwardValue("+ name +", " +token+ ", "+destination+");" );
+	 	    	  }
+ 		    	  sw.println( "pageConfigInstance.setGlobalForward(" + destination + ");" );
+		      } 
+		  }		  
+	  }
 	  /**
 	   * <p>
 	   * Initializes the pageTokens static variable in a static block
