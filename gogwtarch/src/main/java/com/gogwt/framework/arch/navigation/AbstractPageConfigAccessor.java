@@ -55,4 +55,10 @@ public abstract class AbstractPageConfigAccessor implements PageConfigAccessor{
 			forward.put(name, token);
 		}
 	}
+	
+	protected static void addGlobalForwardValue(String name, String token, Map<String, String> globalForward) {
+		if (globalForward != null) {
+			globalForward.put(name, token);
+		}
+	}
 }

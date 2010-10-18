@@ -191,7 +191,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	    }
 	    
 	    //save forward context
-	    ActionForward.setCurrentPageForward(config.getForward());
+	    ActionForward.setCurrentPageForward(config.getForward(), config.getGlobalForward());
 	    
 	    // Process Page
 	    if ( page != null ) {
