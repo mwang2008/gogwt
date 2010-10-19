@@ -3,6 +3,7 @@
   <source path="navigation"/>
   <source path="widgets"/>
   <source path="utils"/>
+  <source path="dto"/>
   
   <!-- PageConfigAccessor Code Generation -->  
   <generate-with class="com.gogwt.framework.rebind.PageConfigAccessorInterfaceGenerator">
