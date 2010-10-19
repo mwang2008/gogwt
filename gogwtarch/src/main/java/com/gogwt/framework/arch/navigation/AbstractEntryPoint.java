@@ -24,6 +24,8 @@ import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -89,6 +91,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	     }
 
 	    postLoadModule();
+	    
 	}
 
 	protected void addPagePanel(Panel panel) {
@@ -156,14 +159,14 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	/****************************************************************
 	 * Private methods
 	 *****************************************************************/
+
 	 /**
 	   * <p> Manage the visibility for the various views that are part of this
 	   * module </p>
 	   * @param token
 	   *          - name of the view to be made visible
 	   */
-	  private void managePageVisibility( final String token )
-	  {
+	  private void managePageVisibility( final String token ) {
 	    // hide all views
 	    for( final PageConfig pageConfig : pageAccessor.getPageConfigInstances().values()) {
 	      pageConfig.getInstance().setVisible( false );
@@ -217,9 +220,21 @@ public abstract class AbstractEntryPoint implements EntryPoint,
           catch( Throwable t ) {
         	Log.fatal( "Error executing PopulatorManager.handlePopulators();", t );
           }
+          
+  	      //finish moduleLoad
+          final AbstractPage finalPage = page;
+  	      DeferredCommand.addCommand(new Command() {
+  	         public void execute() {
+  	        	onCompletePageLoad(finalPage);
+  	         }
+  	      });
  	    }	      	        
 	  }
- 
+     
+	  private void onCompletePageLoad(AbstractPage page) {
+		 //set page title, meta description, meta keyword etc
+		  page.setPageMetaInfo();
+	  }
 	  
 	  
 		/**
@@ -249,6 +264,8 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 
 			return true;
 		}
+		
+		
 }
 
 

@@ -16,23 +16,111 @@
 
 package com.gogwt.framework.arch.widgets;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.gogwt.framework.arch.utils.StringUtils;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.MetaElement;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
 public abstract class AbstractPage extends Composite {
 	protected final Panel pagePanel;
-	 
+
 	public AbstractPage() {
 		pagePanel = new FlowPanel();
-		  initWidget(pagePanel);
-    }
-	
+		initWidget(pagePanel);
+	}
+
 	/**
-	 *  sub class should implemente it
+	 * sub class should implemente it
 	 */
 	public abstract void process();
+
+	public void preProcess() {
+	}
+
+	public void postProcess() {
+	}
+
+	public abstract void fillMetaInfo(final PageMetaInfo pageInfo);
+
+	protected String getCurrentToken() {
+		return History.getToken();
+	}
 	
-	public void preProcess() {}
-	public void postProcess() {}
+	/**
+	 * Called from AbstractEntry to set page title, keywords, description
+	 */
+	public final void setPageMetaInfo() {
+		// 1. get page info
+		PageMetaInfo pageInfo = new PageMetaInfo();
+		fillMetaInfo(pageInfo);
+
+		// 2. set page title section
+		if (StringUtils.isSet(pageInfo.getTitle())) {
+			Window.setTitle(pageInfo.getTitle());
+		}
+
+		// 3. rewrite meta: description, keywords
+		
+		rewriteMetaContent("description", pageInfo.getDescription());
+		rewriteMetaContent("keywords", pageInfo.getKeywords());
+		
+		addMetaData(pageInfo.getMetaMap());
+	}
+	
+	 /**
+	   * Rewrite meta content
+	   * @param key
+	   * @param value
+	   * @param nodeList
+	   */
+	  private void rewriteMetaContent( final String key, final String value ) {
+		final NodeList<Element> nodeList = Document.get().getElementsByTagName("meta");
+	    if ( nodeList == null ) {
+	      return;
+	    }
+
+	    for( int i = 0; i < nodeList.getLength(); i++ ) {
+	      Element element = nodeList.getItem( i );
+	      if ( key.equalsIgnoreCase( element.getAttribute( "name" ) ) ) {
+	        element.setAttribute( "content", value );
+	        return;
+	      }
+	    }
+	    
+	    //not found, add new one
+	    addNewMetaData(key, value);
+ 	  }
+	  
+	  private void addNewMetaData(final String key, final String value) {
+		  final NodeList<Element> headerList = Document.get().getElementsByTagName("head");
+		  Element head = headerList.getItem(0);
+		  
+		  MetaElement metaElement = Document.get().createMetaElement();
+		  metaElement.setName(key);
+		  metaElement.setContent(value);
+		  
+		  head.appendChild(metaElement);
+ 	  }
+	  
+	  private void addMetaData(final HashMap<String, String>  metaMap) {
+		  if (metaMap == null || metaMap.isEmpty()) {
+			  return;
+		  }
+		  
+		  String key, value;
+		  for (Map.Entry<String, String> entry : metaMap.entrySet()) {
+			  key = entry.getKey();
+			  value = entry.getValue();
+			  rewriteMetaContent(key, value);			 
+		  }		  
+	  }
 }
