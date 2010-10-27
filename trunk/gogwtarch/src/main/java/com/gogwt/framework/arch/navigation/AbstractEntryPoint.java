@@ -254,6 +254,12 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 		   if (!isSet(token)) {
 			   token = pageAccessor.getPageTokens()[0];
 		   }
+		   
+		   //to compromise Google AJAX crawl with #!
+		   if (token.startsWith( "!" )) {
+			   token = token.substring( 1 );
+		   }
+		   
 		   return token;
 		}
 		

@@ -79,6 +79,19 @@ public abstract class StringUtils {
 		}
 		return true;
 	}
+	
+	/**
+	 * isSet <p> Return false if list is null or empty </p>
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static boolean isSet(final String[] value) {
+		if (value == null || value.length == 0) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Returns true if the string value passed equals "true" or "yes".
