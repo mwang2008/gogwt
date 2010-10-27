@@ -49,7 +49,11 @@ public abstract class AbstractPage extends Composite {
 	public void postProcess() {
 	}
 
-	public abstract void fillMetaInfo(final PageMetaInfo pageInfo);
+	/**
+	 * subclass needs to provide PageMetaInfo, such as title, description, keyword. 
+	 * @param pageInfo 
+	 */
+	protected abstract void fillMetaInfo(final PageMetaInfo pageInfo);
 
 	protected String getCurrentToken() {
 		return History.getToken();
@@ -69,10 +73,15 @@ public abstract class AbstractPage extends Composite {
 		}
 
 		// 3. rewrite meta: description, keywords
+		if (StringUtils.isSet(pageInfo.getDescription())) {
+		   rewriteMetaContent("description", pageInfo.getDescription());
+		}
 		
-		rewriteMetaContent("description", pageInfo.getDescription());
-		rewriteMetaContent("keywords", pageInfo.getKeywords());
+		if (StringUtils.isSet(pageInfo.getKeywords())) {
+		   rewriteMetaContent("keywords", pageInfo.getKeywords());
+		}
 		
+		// 4. set other meta data
 		addMetaData(pageInfo.getMetaMap());
 	}
 	
