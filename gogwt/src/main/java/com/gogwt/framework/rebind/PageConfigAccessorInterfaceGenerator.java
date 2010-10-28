@@ -45,11 +45,14 @@ public class PageConfigAccessorInterfaceGenerator extends Generator {
 	private transient String packageName = null;
 
 	private transient JClassType pageAccessorInterfaceClassType = null;
+	private String path;
 	
 	@Override
 	public String generate(TreeLogger logger, GeneratorContext context,
 			String typeName) throws UnableToCompleteException {
 
+		long startTime = System.currentTimeMillis();
+		
 		try {
 			final TypeOracle typeOracle = context.getTypeOracle();
 			// get classType and save instance variables
@@ -65,6 +68,11 @@ public class PageConfigAccessorInterfaceGenerator extends Generator {
 			logger.log(TreeLogger.ERROR,"Code Generation Error: PageConfigAccessorInterfaceGenerator", e);
 		}
 
+		long duration = System.currentTimeMillis()-startTime;
+		if (duration > 0) {
+		   logger.log( TreeLogger.INFO, "Parsing " + path + " used " + duration +  "ms");
+		}
+		
 		// return the fully qualifed name of the class generated
 		return packageName + "." + generatedImplClassName;
 
@@ -155,9 +163,9 @@ public class PageConfigAccessorInterfaceGenerator extends Generator {
 	   */
 	  private void generateViewConfigMethodsByXML(final TreeLogger logger, final SourceWriter writer) {
 	    try {
-	      final String path = ROOT_CONF_PATH + this.pageAccessorInterfaceClassType.getSimpleSourceName() + ".xml";
+	      path = ROOT_CONF_PATH + this.pageAccessorInterfaceClassType.getSimpleSourceName() + ".xml";
 	      
-	      logger.log( TreeLogger.INFO, path );
+	      //logger.log( TreeLogger.INFO, path );
 	      
 	      PageConfigXMLCodeGenerator.createPageConfigAccessorMethods( writer, path );
 	    } catch (Exception e) {
