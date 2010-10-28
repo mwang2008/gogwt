@@ -9,4 +9,8 @@
   <generate-with class="com.gogwt.framework.rebind.PageConfigAccessorInterfaceGenerator">
       <when-type-assignable class="com.gogwt.framework.arch.navigation.PageConfigAccessor"/>
   </generate-with>
+  
+  <define-linker name="permutation" class="com.gogwt.framework.linker.PermutationLinker" />
+  <add-linker name="permutation" />
+  
 </module>
