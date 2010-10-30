@@ -36,8 +36,8 @@ import com.google.gwt.core.ext.linker.SyntheticArtifact;
  */
 
 @LinkerOrder(LinkerOrder.Order.POST)
-public class PermutationLinker extends AbstractLinker {
-	public static final String PERMUTATION_FILE = "permutation.properties";
+public class PermutationLinker extends AbstractLinker implements PermutationConstants {
+	
 
 	@Override
 	public String getDescription() {
@@ -54,11 +54,12 @@ public class PermutationLinker extends AbstractLinker {
 
 		artifacts = new ArtifactSet(artifacts);
 
+		
 		StringBuilder permutationBuilder = new StringBuilder();
 
 		 
 		String permutation = null;
-
+        String moduleName = null;
 		StringBuilder keyBuilder = null;
 		StringBuilder keyNamePattern = null;
 		boolean hasPatternCollected = false;
@@ -66,7 +67,8 @@ public class PermutationLinker extends AbstractLinker {
 		int outIndex = 0;
 		for (CompilationResult result : artifacts.find(CompilationResult.class)) {
 			permutation = result.getStrongName();
-
+			moduleName = context.getModuleName();
+ 			
 			if (!hasPatternCollected) {
 				keyNamePattern = new StringBuilder();
 			}
@@ -81,10 +83,10 @@ public class PermutationLinker extends AbstractLinker {
 				for (Map.Entry<SelectionProperty, String> e : sm.entrySet()) {
 
 					if (!hasPatternCollected) {
-						keyNamePattern.append(e.getKey());
+						keyNamePattern.append(e.getKey());	
 						if (index < sm.entrySet().size() - 1) {
-							keyNamePattern.append("||");						
-						}						
+						   keyNamePattern.append(" " + PERMUTATION_DELIMITER + " ");
+						}
 					}
 
 					keyBuilder.append(e.getValue());
@@ -100,7 +102,7 @@ public class PermutationLinker extends AbstractLinker {
 				if (!hasPatternCollected) {
 					logger.log(TreeLogger.INFO, " #pattern -->  "+ keyNamePattern.toString());
 					
-					permutationBuilder.append("pattern="+ keyNamePattern.toString());
+					permutationBuilder.append("pattern="+ keyNamePattern.toString().toLowerCase());
 					permutationBuilder.append("\n");
 					
 					hasPatternCollected = true;
@@ -108,7 +110,7 @@ public class PermutationLinker extends AbstractLinker {
 
 				//logger.log(TreeLogger.INFO, "  " + keyBuilder.toString() + "="	+ permutation);
 
-				permutationBuilder.append(keyBuilder.toString());
+				permutationBuilder.append(keyBuilder.toString().toLowerCase());
 				permutationBuilder.append("=");
 				permutationBuilder.append(permutation);
 				permutationBuilder.append("\n");				
@@ -116,14 +118,18 @@ public class PermutationLinker extends AbstractLinker {
 			outIndex++;
  		}
 
-		
-		SyntheticArtifact a = emitString(logger, permutationBuilder.toString(), PERMUTATION_FILE);
- 		artifacts.add(a);
 		 
- 
+		String filePath = "../" + WEB_INF + "/" + moduleName + "/" + PERMUTATION_FILE;
+ 		 
+		SyntheticArtifact syntheticArtifact = emitString(logger, permutationBuilder.toString(), filePath);
+		  
+ 		artifacts.add(syntheticArtifact);
+		 
+ 		logger.log(TreeLogger.INFO,
+				" used "
+						+ (System.currentTimeMillis() - startTime) + "ms save to " + filePath );
 		logger.log(TreeLogger.INFO,
-				"end PermutationLinker : used "
-						+ (System.currentTimeMillis() - startTime) + "ms save to " + PERMUTATION_FILE );
+				"end PermutationLinker");
 
 		return artifacts;
 

@@ -715,4 +715,45 @@ public abstract class StringUtils {
 	  }
 	  return null;
 	}
+	
+	 /**
+	   * Returns boolean indicating if String has ONLY digits and dot.
+	   * @param pValue
+	   *          - the value.
+	   * @return boolean indicating if String has ONLY digits and dot.
+	   */
+	  public static boolean hasOnlyDigitsWithDot( final String pValue )
+	  {
+	    if ( pValue == null ) {
+	      return true;
+	    }
+
+	    final char chars[] = pValue.toCharArray();
+
+	    for( final char element : chars ) {
+	      if ( !( Character.isDigit( element ) || element == '.' ) ) {
+	        return false;
+	      }
+	    }
+	    return true;
+	  }
+	  
+	    /**
+	   * Returns string with non digit characters removed.
+	   * @param pValue
+	   *          - the value.
+	   * @return string with characters removed.
+	   */
+	  public static String removeNonDigitsExceptDot( final String pValue )
+	  {
+	    final StringBuilder returnValue = new StringBuilder();
+	    final char chars[] = pValue.toCharArray();
+
+	    for( final char element : chars ) {
+	      if ( Character.isDigit( element ) || element == '.' ) {
+	        returnValue.append( element );
+	      }
+	    }
+	    return returnValue.toString();
+	  }
 }

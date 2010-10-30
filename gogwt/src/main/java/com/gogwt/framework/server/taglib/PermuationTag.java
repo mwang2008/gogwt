@@ -16,9 +16,8 @@
 
 package com.gogwt.framework.server.taglib;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -27,72 +26,130 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.log4j.Logger;
 
 import com.gogwt.framework.arch.utils.StringUtils;
+import com.gogwt.framework.linker.PermutationConstants;
+import com.gogwt.framework.server.permutation.PermutationObject;
+import com.gogwt.framework.server.permutation.PermutationSelector;
+import com.gogwt.framework.server.utils.google.PermutationUtil;
+import com.ihg.dec.apps.webframework.taglib.NameValueTag;
 
-public class PermuationTag extends TagSupport {
+public class PermuationTag extends TagSupport implements PermutationConstants, NameValueTag {
 	private static Logger logger = Logger.getLogger(PermuationTag.class);
-	
-	public static final String PERMUTATION_FILE = "permutation.properties";
 
-	private String gwtBase;
-
+    private String base;
+    private Map<String, String> params;
+    
+    /**
+     * <p>
+     * Create a new instance of PermuationTag.
+     * </p>
+     */
+    public PermuationTag()
+    {
+    	params = new HashMap<String, String>();
+    }
+    
 	public int doEndTag() throws JspException {
 
-		final HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-		
-		try {
-			String theString = pageContext.getServletContext().getRealPath(
-					getGwtBase() + "/" + PERMUTATION_FILE);
-			System.out.println("  === theString="+ theString);
-			
-			String path = getPermuationFilePath();
-			
-			Properties props = new Properties();
-			props.load(new FileInputStream(theString));
+		final HttpServletRequest request = (HttpServletRequest) pageContext
+				.getRequest();
 
-		 	String permutation = props.getProperty("en_us|OFF|gecko");
-		 	String pattern = props.getProperty("pattern");
-		 	System.out.println("pattern="+pattern);
-		 	System.out.println("permutation="+permutation);
-		 	
+		try {
+		 
+			String filePath = WEB_INF + "/" + getBase() + "/" + PERMUTATION_FILE;
+			final PermutationObject permutationObject = PermutationSelector
+					.getInstance().processProperty(filePath);
+
+			Map<String, String> userSettingMap = (Map<String, String>) request
+					.getAttribute(REQ_PERMUTATION);
+			if (userSettingMap == null) {
+				throw new Exception(
+						" Development problem: the permutaion map is not set in http request. "
+								+ "The permutation map would be something like: {locale,en_us} {user.agent, geoko}, etc");
+			}
+
+			Map<String, String> permutationMap = permutationObject.getPatternMap();
+			logger.debug(permutationObject.toString());
+
+			String userAgent = PermutationUtil.getUserAgent(request);
+			
+			String permutationKey = getPermutationKey(userSettingMap, permutationObject, userAgent);
+			String permutation = permutationObject.getProperty().getProperty(permutationKey);
+
+			logger.debug("permutationKey="+permutationKey + ", permutation="+permutation);
+ 
 		} catch (Exception e) {
-			logger.error("could not load file: " + PERMUTATION_FILE, e);
+			logger.fatal("errors when process permutation ", e);
 		}
 		return EVAL_PAGE;
 	}
 
-	private String getPermuationFilePath() throws Exception {
-		String base = getGwtBase();
-		if (!StringUtils.isSet(base)) {
-			throw new Exception("require gwtBase");
+	private String getPermutationKey(final Map<String, String> userSettingMap, final PermutationObject permutationObject, String userAgent) throws Exception {
+		
+		
+		Map<String, String> patternMap = permutationObject.getPatternMap();
+		
+		String key, value, userValue;
+		StringBuilder permutationKey = new StringBuilder();
+		int index = 0;
+		for (Map.Entry<String, String> pattern : patternMap.entrySet()) {
+			key = pattern.getKey();
+			value = pattern.getValue();
+			
+			if (userSettingMap.containsKey(key)) {
+				//if value is inside the values like
+				userValue = userSettingMap.get(key);
+				
+				if (value.contains(userValue)) {
+				   permutationKey.append(userValue);
+				}
+				else {
+				    throw new Exception("The value for the key=["+ key + "] with value=[" + value + "] does not in the list of : " + pattern.getValue());
+				}
+			}
+			else {
+				//does not find key in userSetting
+				if (StringUtils.equalsIgnoreCase(key, "user.agent")) {
+					permutationKey.append(userAgent);
+				}
+				else {
+					throw new Exception("Could not find specific value for the key= " + key);
+				}
+			}
+			
+			if (index < patternMap.size()-1) {
+				permutationKey.append("|");
+			}
+		    
+			index++;
 		}
 		
-		if (base.charAt(0) == '/') {
-			base = base.substring(1);
-		}
+		return permutationKey.toString();
 		
-		if (base.charAt(base.length() -1) == '/') {
-			base = base.substring(0, base.length()-2);
-		}
-		
-		String path = pageContext.getServletContext().getRealPath(
-				"/" + base + "/" + PERMUTATION_FILE);
-		
-		return path;
 	}
+
+	 
+
 	/**
 	 * release this tag
 	 */
 	public void release() {
 		super.release();
-
+		base = null;
+		params = new HashMap<String, String>();
 	}
 
-	public String getGwtBase() {
-		return gwtBase;
+	public String getBase() {
+		return base;
 	}
 
-	public void setGwtBase(String gwtBase) {
-		this.gwtBase = gwtBase;
+	public void setBase(String base) {
+		this.base = base;
 	}
+
+	public void addParam(String name, String value) {
+		params.put( name, value );		
+	}
+ 
+	
 
 }
