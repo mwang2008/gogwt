@@ -5,6 +5,11 @@
   <source path="utils"/>
   <source path="dto"/>
   
+    <!-- Inherit the core Web Toolkit stuff. -->
+   <inherits name='com.google.gwt.user.User'/>
+   <inherits name="com.google.gwt.i18n.I18N"/>
+   <inherits name="com.allen_sauer.gwt.log.gwt-log"/>
+  
   <!-- PageConfigAccessor Code Generation -->  
   <generate-with class="com.gogwt.framework.rebind.PageConfigAccessorInterfaceGenerator">
       <when-type-assignable class="com.gogwt.framework.arch.navigation.PageConfigAccessor"/>
