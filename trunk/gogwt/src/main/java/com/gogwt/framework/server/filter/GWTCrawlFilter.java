@@ -156,6 +156,7 @@ public class GWTCrawlFilter implements Filter {
 				// servlet (filters)
 				chain.doFilter(request, response);
 			} catch (ServletException e) {
+				e.printStackTrace();
 				logger.error("error doing SEL filter " + e.getMessage(), e);
 			}
 		}

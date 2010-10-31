@@ -6,4 +6,6 @@ public interface PermutationConstants {
 	public static final String PERMUTATION_DELIMITER = "$$";
 	public static final String PATTERN = "pattern";
 	public static final String REQ_PERMUTATION = "req.permutationMap";
+	public static final String USER_AGENT = "user.agent";
+	
 }
