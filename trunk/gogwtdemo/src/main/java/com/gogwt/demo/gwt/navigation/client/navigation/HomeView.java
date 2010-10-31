@@ -16,8 +16,10 @@
 
 package com.gogwt.demo.gwt.navigation.client.navigation;
 
+import com.gogwt.demo.gwt.navigation.client.i18n.TagNavigationResources;
 import com.gogwt.framework.arch.utils.ActionForward;
 import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.PageMetaInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -27,6 +29,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class HomeView extends AbstractPage {
 
+	 	
 	@Override
 	public void process() {
 		pagePanel.clear();
@@ -42,6 +45,19 @@ public class HomeView extends AbstractPage {
 		
 		this.pagePanel.add(new Label("Welcome to Demo Page"));
 		this.pagePanel.add(toDetail);	
+		
+	}
+
+	@Override
+	public void fillMetaInfo(PageMetaInfo pageInfo) {
+		 
+		//todo: those values can be from resource bundle. 
+		pageInfo.setTitle("GoGWT demo home");
+		pageInfo.setDescription("GoGWT home description");
+		pageInfo.setKeywords("GWT, home, demo");
+		
+		pageInfo.addMetaMap("robots", "NOODP, NOYDIR");
+		pageInfo.addMetaMap("currentToken", this.getCurrentToken());
 		
 	}
 }

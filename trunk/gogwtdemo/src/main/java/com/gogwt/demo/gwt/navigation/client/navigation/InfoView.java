@@ -18,6 +18,7 @@ package com.gogwt.demo.gwt.navigation.client.navigation;
 
 import com.gogwt.demo.gwt.navigation.client.widgets.info.InfoWidget;
 import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
 public class InfoView extends AbstractPage {
 
@@ -29,6 +30,18 @@ public class InfoView extends AbstractPage {
 		this.pagePanel.add(infoWidget);	
 		
 		infoWidget.display();
+	}
+
+	@Override
+	public void fillMetaInfo(PageMetaInfo pageInfo) {
+		//todo: those values can be from resource bundle. 
+		pageInfo.setTitle("GoGWT demo info");
+		pageInfo.setDescription("GoGWT info description");
+		pageInfo.setKeywords("GWT, info, demo");
+		
+		pageInfo.addMetaMap("robots", "NOODP, NOYDIR");
+		pageInfo.addMetaMap("currentToken", this.getCurrentToken());
+		
 	}
 
 }
