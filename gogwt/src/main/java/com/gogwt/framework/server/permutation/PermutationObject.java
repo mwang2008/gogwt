@@ -28,19 +28,23 @@ import java.util.Set;
  */
 
 public class PermutationObject {
-	private Properties property;
+	private Properties properties;
 	private Map<String, String> patternMap;
 
 	public PermutationObject() {
 		patternMap = new LinkedHashMap<String, String>();
 	}
-	public Properties getProperty() {
-		return property;
+	 
+
+	public Properties getProperties() {
+		return properties;
 	}
 
-	public void setProperty(Properties property) {
-		this.property = property;
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
 	}
+
 
 	public Map<String, String> getPatternMap() {
 		return patternMap;
@@ -64,15 +68,15 @@ public class PermutationObject {
 			sbud.append(linked.getKey()+ "=" + linked.getValue());
 		}
 		
-		if (property != null) {
+		if (properties != null) {
 			sbud.append("\n ==== property ====\n");
 		
-			Set keys = property.keySet();
+			Set keys = properties.keySet();
 			Iterator itr = keys.iterator();
 			String key;
 			while(itr.hasNext()) {
 				key = (String) itr.next();  		
-				sbud.append( key + "=" + property.getProperty(key));
+				sbud.append( key + "=" + properties.getProperty(key));
 				sbud.append("\n");
 			}
 		}

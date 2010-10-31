@@ -57,14 +57,14 @@ public class PermutationSelector implements PermutationConstants  {
 		InputStream inStream = classloader.getResourceAsStream(path);
 		if (inStream == null) {
 			throw new IOException(
-					"could not find WEB-INF/permutation.properties file, make sure it is generated during gwt compile: mvn clean install");
+					"could not find permutation.properties file under WEB-INF, the path="+ path + " make sure it is generated during gwt compile: mvn clean install");
 		}
 
 		permutationObject = new PermutationObject();
 
 		Properties props = new Properties();
 		props.load(inStream);
-		permutationObject.setProperty(props);
+		permutationObject.setProperties(props);
 
 		String pattern = props.getProperty(PATTERN);
 		fillPattern(pattern, permutationObject);

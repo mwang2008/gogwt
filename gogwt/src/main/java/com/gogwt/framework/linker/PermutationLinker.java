@@ -127,7 +127,7 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 		 
  		logger.log(TreeLogger.INFO,
 				" used "
-						+ (System.currentTimeMillis() - startTime) + "ms save to " + filePath );
+						+ (System.currentTimeMillis() - startTime) + "ms; save to " + filePath );
 		logger.log(TreeLogger.INFO,
 				"end PermutationLinker");
 
