@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application> 
+  
+   <global-forwards>
+      <forward name="mvpToHome"  token="home"/>
+      <forward name="mvpToDetail"  token="detail"/>
+   </global-forwards>
+   
+   <pages>
+       <!--  home -->
+       <page name="home" 
+         class="com.gogwt.demo.gwt.mvp.client.navigation.HomePage">         
+         <forward name="success" token="detail"/> 
+       </page>
+       
+       <!--  detail -->
+       <page name="detail" 
+         class="com.gogwt.demo.gwt.mvp.client.navigation.DetailPage">
+                  
+         <forward name="success" token="info"/>  
+         <forward name="backToHome" token="home"/>                           
+       </page>  
+    
+        <!--  info -->
+        <page name="info"
+           class="com.gogwt.demo.gwt.mvp.client.navigation.InfoPage">                     
+         </page>
+    </pages>
+</application>

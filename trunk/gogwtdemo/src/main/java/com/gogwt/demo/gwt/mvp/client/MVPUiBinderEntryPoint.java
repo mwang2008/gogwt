@@ -1,14 +1,27 @@
 package com.gogwt.demo.gwt.mvp.client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.Label;
+import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
+import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class MVPUiBinderEntryPoint implements EntryPoint {
+public class MVPUiBinderEntryPoint extends AbstractEntryPoint {
 
-	public void onModuleLoad() {
-		RootPanel.get().add(new Label("hi there"));
+ 
+	@Override
+	protected void loadModule() {
+		RootPanel.get("header").add(new HTML("  Common  Header <hr> "));
+		
+		addPageManagerToRootPanel("wrapperContent");
+		
+		RootPanel.get("footer").add(new HTML("   <hr> Common Footer  "));
+		
+	}
 
+	@Override
+	protected AbstractPageConfigAccessor obtainPageAccessor() {
+		return GWT.create(MVPDemoProgressConfig.class);
 	}
 
 }

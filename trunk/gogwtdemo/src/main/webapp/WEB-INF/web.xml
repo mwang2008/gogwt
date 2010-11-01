@@ -9,12 +9,20 @@
 		<servlet-name>show</servlet-name>
 		<servlet-class>com.gogwt.demo.servlet.DemoServlet</servlet-class>
 	</servlet>
-
+   <servlet>
+      <servlet-name>mvpshow</servlet-name>
+      <servlet-class>com.gogwt.demo.servlet.MVPDemoServlet</servlet-class>
+   </servlet>
+	
 	<servlet-mapping>
 		<servlet-name>show</servlet-name>
 		<url-pattern>/show</url-pattern>
 	</servlet-mapping>
-
+   <servlet-mapping>
+      <servlet-name>mvpshow</servlet-name>
+      <url-pattern>/mvpshow</url-pattern>
+   </servlet-mapping>
+   
 	<!-- GWTCrawlFilter filter -->
 	<filter>
 		<filter-name>GWTCrawlFilter</filter-name>

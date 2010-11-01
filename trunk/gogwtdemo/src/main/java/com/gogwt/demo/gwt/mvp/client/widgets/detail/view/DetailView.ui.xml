@@ -1,0 +1,29 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+     xmlns:g="urn:import:com.google.gwt.user.client.ui">
+     
+     <ui:style field='resStyle' src="../../gogwt_mvp.css"/>
+     
+     <g:HorizontalPanel>
+           
+        <!-- Left res search form -->
+        <g:VerticalPanel styleName="{resStyle.homeViewLeft}">
+           <g:HTMLPanel>
+              <b> in Detail page. </b>                
+              <div  styleName="{resStyle.text12blue}"> You type in:  <g:Label styleName="{resStyle.text12blue}" ui:field="userInputText"/> </div>
+              
+              <br/>
+              <g:HTML ui:field="backToHome"></g:HTML>
+              
+              <br/>
+              <g:Button  ui:field="toInfoBtn"/> 
+              
+           </g:HTMLPanel>
+                           
+           
+             
+        </g:VerticalPanel>
+        
+    
+     </g:HorizontalPanel>
+</ui:UiBinder>
