@@ -13,39 +13,38 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+package com.gogwt.demo.gwt.mvp.client.navigation;
 
-package com.gogwt.demo.gwt.navigation.client.navigation;
-
-import com.gogwt.demo.gwt.navigation.client.widgets.home.HomeWidget;
+import com.gogwt.demo.gwt.mvp.client.widgets.detail.presenter.DetailPresenter;
+import com.gogwt.demo.gwt.mvp.client.widgets.detail.view.DetailView;
+import com.gogwt.demo.gwt.mvp.client.widgets.detail.view.DetailViewImpl;
 import com.gogwt.framework.arch.widgets.AbstractPage;
 import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
+/**
+ * <code><B>DetailPage<code><B>
+ * 
+ * <p/>
+ */
 
-public class HomeView extends AbstractPage {
+public class DetailPage extends AbstractPage {
+	private DetailView view;	 
 
-	 	
 	@Override
 	public void process() {
 		pagePanel.clear();
-		
-		HomeWidget homeWidget = new HomeWidget();
-		this.pagePanel.add(homeWidget);	
-		
-		homeWidget.display();
-		
+ 		
+		if (view == null) {
+			view = new DetailViewImpl();
+		}
+
+		new DetailPresenter(view).go(pagePanel);
+	} 
+
+	@Override
+	protected void fillMetaInfo(PageMetaInfo pageInfo) {
+		pageInfo.setTitle("Detail");
 		
 	}
 
-	@Override
-	public void fillMetaInfo(PageMetaInfo pageInfo) {
-		 
-		//todo: those values can be from resource bundle. 
-		pageInfo.setTitle("GoGWT demo home");
-		pageInfo.setDescription("GoGWT home description");
-		pageInfo.setKeywords("GWT, home, demo");
-		
-		pageInfo.addMetaMap("robots", "NOODP, NOYDIR");
-		pageInfo.addMetaMap("currentToken", this.getCurrentToken());
-		
-	}
 }

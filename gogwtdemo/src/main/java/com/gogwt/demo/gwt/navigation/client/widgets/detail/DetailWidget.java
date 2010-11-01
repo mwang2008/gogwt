@@ -16,6 +16,7 @@
 
 package com.gogwt.demo.gwt.navigation.client.widgets.detail;
 
+import com.gogwt.demo.gwt.navigation.client.common.GWTSession;
 import com.gogwt.framework.arch.utils.ActionForward;
 import com.gogwt.framework.arch.utils.WidgetStyleUtils;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -39,8 +41,12 @@ public class DetailWidget extends Composite {
 		//add label
 		layoutPanel.add(new HTML(" <b>in Detail page.</b> "));
 		
+		final String detail = GWTSession.getDetail();
+		
+		layoutPanel.add(new HTML(" You type in: <b>" + detail +"</b><br>"));
+		
 		//add home link
-		Anchor toHome = WidgetStyleUtils.createAnchor("Back To home "); //new Anchor("Back To home ");
+		Anchor toHome = new Anchor("Back To home ");  
 		toHome.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
 				ActionForward.forward("backToHome");				

@@ -24,5 +24,12 @@
       <page name="info"
          class="com.gogwt.demo.gwt.navigation.client.navigation.InfoView">                     
       </page>
+      
+      <!--  info -->
+      <page name="test"
+         class="com.gogwt.demo.gwt.navigation.client.navigation.TestView">                     
+      </page>
+      
+      
     </pages>
 </application>
