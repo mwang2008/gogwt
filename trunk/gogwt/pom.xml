@@ -4,7 +4,7 @@
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.gogwt.framework</groupId>
-   <artifactId>gogwtarch</artifactId>
+   <artifactId>gogwt</artifactId>
    <version>1.0</version>
    <packaging>jar</packaging>
    <name>gogwt (jar)</name>
@@ -40,7 +40,8 @@
            <artifactId>maven-jar-plugin</artifactId>
            <configuration>
                    <includes>
-                    <include>**/*.java</include>
+                    <include>**/framework/arch/**/*.java</include>
+                    <include>**/*.tld</include>
                     <include>**/*.xml</include>
                     <include>**/*.class</include>
                   </includes>                      
