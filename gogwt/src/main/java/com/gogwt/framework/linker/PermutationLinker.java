@@ -60,6 +60,7 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 		 
 		String permutation = null;
         String moduleName = null;
+        String moduleFunctionName = null;
 		StringBuilder keyBuilder = null;
 		StringBuilder keyNamePattern = null;
 		boolean hasPatternCollected = false;
@@ -68,7 +69,8 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 		for (CompilationResult result : artifacts.find(CompilationResult.class)) {
 			permutation = result.getStrongName();
 			moduleName = context.getModuleName();
- 			
+			moduleFunctionName = context.getModuleFunctionName();
+			
 			if (!hasPatternCollected) {
 				keyNamePattern = new StringBuilder();
 			}
@@ -104,7 +106,10 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 					
 					permutationBuilder.append("pattern="+ keyNamePattern.toString().toLowerCase());
 					permutationBuilder.append("\n");
-					
+					permutationBuilder.append("moduleFunctionName="+ moduleFunctionName);
+					permutationBuilder.append("\n");
+					permutationBuilder.append("moduleName="+ moduleName);
+					permutationBuilder.append("\n");
 					hasPatternCollected = true;
 				}
 
