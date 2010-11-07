@@ -30,7 +30,9 @@ import java.util.Set;
 public class PermutationObject {
 	private Properties properties;
 	private Map<String, String> patternMap;
-
+    private String moduleName;
+    private String moduleFunctionName;
+    
 	public PermutationObject() {
 		patternMap = new LinkedHashMap<String, String>();
 	}
@@ -59,11 +61,36 @@ public class PermutationObject {
 		patternMap.put(name, value);
 	}
 
+	
+	public String getModuleName() {
+		return moduleName;
+	}
+
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
+
+
+	public String getModuleFunctionName() {
+		return moduleFunctionName;
+	}
+
+
+	public void setModuleFunctionName(String moduleFunctionName) {
+		this.moduleFunctionName = moduleFunctionName;
+	}
+
+
 	public String toString() {
 		StringBuilder sbud = new StringBuilder();
 		
 		sbud.append(this.getClass().getSimpleName());
 		sbud.append(" [ ");
+		
+		sbud.append(" moduleName = " + getModuleName());
+		sbud.append(", moduleFunctionName = " + getModuleFunctionName());
+		sbud.append("\n");
 		for (Map.Entry<String,String> linked : patternMap.entrySet()) {
 			sbud.append(linked.getKey()+ "=" + linked.getValue());
 		}

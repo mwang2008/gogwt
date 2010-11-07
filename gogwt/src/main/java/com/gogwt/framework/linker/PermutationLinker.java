@@ -15,6 +15,8 @@
  */
 package com.gogwt.framework.linker;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -68,8 +70,6 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 		int outIndex = 0;
 		for (CompilationResult result : artifacts.find(CompilationResult.class)) {
 			permutation = result.getStrongName();
-			moduleName = context.getModuleName();
-			moduleFunctionName = context.getModuleFunctionName();
 			
 			if (!hasPatternCollected) {
 				keyNamePattern = new StringBuilder();
@@ -104,12 +104,22 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 				if (!hasPatternCollected) {
 					logger.log(TreeLogger.INFO, " #pattern -->  "+ keyNamePattern.toString());
 					
+					moduleName = context.getModuleName();
+					moduleFunctionName = context.getModuleFunctionName();
+
 					permutationBuilder.append("pattern="+ keyNamePattern.toString().toLowerCase());
 					permutationBuilder.append("\n");
 					permutationBuilder.append("moduleFunctionName="+ moduleFunctionName);
 					permutationBuilder.append("\n");
 					permutationBuilder.append("moduleName="+ moduleName);
 					permutationBuilder.append("\n");
+					
+					String noCachefile = retriveGeneralNoCache(logger, moduleFunctionName, moduleName);
+					 
+					SyntheticArtifact jspFile = emitString(logger, noCachefile, PERMUTATION_JSP_FILE);
+					  
+			 		artifacts.add(jspFile);
+			 		
 					hasPatternCollected = true;
 				}
 
@@ -130,6 +140,9 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 		  
  		artifacts.add(syntheticArtifact);
 		 
+ 
+
+ 		
  		logger.log(TreeLogger.INFO,
 				" used "
 						+ (System.currentTimeMillis() - startTime) + "ms; save to " + filePath );
@@ -139,5 +152,51 @@ public class PermutationLinker extends AbstractLinker implements PermutationCons
 		return artifacts;
 
 	}
+	/**
+	 * Get general.nocache.js file and replace moduleFunctionName and moduleName
+	 * @param permutationObject
+	 * @return
+	 * @throws Exception
+	 */
+	private String retriveGeneralNoCache(TreeLogger logger, final String moduleFunctionName, final String moduleName) throws UnableToCompleteException {
+		
+		String packageName = this.getClass().getPackage().getName();
+ 		
+		packageName = packageName.replaceAll("\\.","/");
+ 		
+		String path = packageName + "/" + GENERAL_NOCACHE_TEMPLATE;		
+		
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		InputStream inStream = classloader.getResourceAsStream(path);
+		if (inStream == null) {
+			logger.log(TreeLogger.ERROR, "could not find " + path + " file.");
+			throw new UnableToCompleteException();
+					 
+		}
+		
+		String generalNocahe = parseISToString(inStream);
+		generalNocahe = generalNocahe.replaceAll("%%moduleFunctionName%%", moduleFunctionName);
+		generalNocahe = generalNocahe.replaceAll("%%moduleName%%", moduleName);
+		
+		return generalNocahe;
+	}
 
+	 public String parseISToString(java.io.InputStream is){
+	      
+	        java.io.BufferedReader din = new java.io.BufferedReader(new InputStreamReader(is));
+	        StringBuffer sb = new StringBuffer();
+	        try{
+	            String line = null;
+	            while((line=din.readLine()) != null){
+	                sb.append(line+"\n");
+	            }
+	        }catch(Exception ex){
+	            ex.getMessage();
+	        }finally{
+	            try{
+	                is.close();
+	            }catch(Exception ex){}
+	        }
+	        return sb.toString();
+	    }
 }

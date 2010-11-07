@@ -69,6 +69,11 @@ public class PermutationSelector implements PermutationConstants  {
 		String pattern = props.getProperty(PATTERN);
 		fillPattern(pattern, permutationObject);
 
+		String moduleName = props.getProperty(MODULE_NAME);
+		String moduleFunctionName = props.getProperty(MODULE_FUNC_NAME);
+		permutationObject.setModuleName(moduleName);
+		permutationObject.setModuleFunctionName(moduleFunctionName);
+		
 		permutationMap.put(path, permutationObject);
 
 		return permutationObject;
