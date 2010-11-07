@@ -30,9 +30,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public class MVPDemoServlet extends HttpServlet {
+	
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-
+		
 		String nextJSP = "/gogwt_mvp_demo.jsp";
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher(nextJSP);
