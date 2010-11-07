@@ -1,0 +1,104 @@
+<script type="text/javascript" language="javascript">        
+function %%moduleFunctionName%%(){
+  var $intern_0 = '', $intern_92 = 'DOMContentLoaded', $intern_3 = 'bootstrap', $intern_91 = 'gwt-log.css', $intern_5 = 'gwt.codesvr=', $intern_6 = 'gwt.hosted=', $intern_7 = 'gwt.hybrid', $intern_85 = 'gwt/standard/standard.css',   $intern_90 = 'head',  $intern_89 = 'href',    $intern_86 = 'link', $intern_60 = 'loadExternalRefs', $intern_34 = 'locale', $intern_36 = 'locale=', $intern_41 = 'log_level',    $intern_8 = 'moduleStartup',   $intern_87 = 'rel',   $intern_2 = 'startup', $intern_88 = 'stylesheet';
+  var $wnd = window, $doc = document, $stats = $wnd.__gwtStatsEvent?function(a){
+    return $wnd.__gwtStatsEvent(a);
+  }
+  :null, $sessionId = $wnd.__gwtStatsSessionId?$wnd.__gwtStatsSessionId:null, scriptsDone, loadDone, bodyDone, base = $intern_0, metaProps = {}, values = [], providers = [], answers = [], onLoadErrorFunc, propertyErrorFunc;
+  //$stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_3, millis:(new Date).getTime(), type:$intern_4});
+  if (!$wnd.__gwt_stylesLoaded) {
+    $wnd.__gwt_stylesLoaded = {};
+  }
+  if (!$wnd.__gwt_scriptsLoaded) {
+    $wnd.__gwt_scriptsLoaded = {};
+  }
+  
+  function isHostedMode(){
+    var result = false;
+    try {
+      var query = $wnd.location.search;
+      return (query.indexOf($intern_5) != -1 || (query.indexOf($intern_6) != -1 || $wnd.external && $wnd.external.gwtOnLoad)) && query.indexOf($intern_7) == -1;
+    }
+     catch (e) {
+    }
+    isHostedMode = function(){
+      return result;
+    }
+    ;
+    return result;
+  }
+
+  function maybeStartModule(){
+    if (scriptsDone && loadDone) {
+      var iframe = $doc.getElementById($intern_1);
+      var frameWnd = iframe.contentWindow;
+      if (isHostedMode()) {
+        frameWnd.__gwt_getProperty = function(name){
+          return computePropValue(name);
+        }
+        ;
+      }
+     
+      frameWnd.gwtOnLoad(onLoadErrorFunc, $intern_1, base);
+      $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_8, millis:(new Date).getTime(), type:$intern_9});
+    }
+  }
+
+     
+  var onBodyDoneTimerId;
+  function onBodyDone(){
+    if (!bodyDone) {
+      bodyDone = true;
+      
+      maybeStartModule();
+      if ($doc.removeEventListener) {
+        $doc.removeEventListener($intern_92, onBodyDone, false);
+      }
+      if (onBodyDoneTimerId) {
+        clearInterval(onBodyDoneTimerId);
+      }
+    }
+  }
+
+  if ($doc.addEventListener) {
+    $doc.addEventListener($intern_92, function(){
+       onBodyDone();
+    }
+    , false);
+  }
+  
+   %%moduleFunctionName%%.onScriptLoad = function(){  
+      loadDone = true;
+      maybeStartModule();
+    
+  }
+  ;
+  
+  %%moduleFunctionName%%.onInjectionDone = function(){
+    scriptsDone = true;
+   
+    maybeStartModule();
+  }
+  ;
+  
+  var $intern_1 = '%%moduleName%%';
+  var $intern_61 = 'hosted.html?%%moduleFunctionName%%'; 
+  var $intern_93 = '<script defer="defer">%%moduleFunctionName%%.onInjectionDone(\'%%moduleName%%\')<\/script>';
+  $doc.write($intern_93);
+}
+
+%%moduleFunctionName%%();
+
+</script>
+
+<%-- include cache.html --%>
+<%
+   String mp = request.getParameter("mp");
+   String cacheHtml  = mp + ".cache.html";
+%>
+<%-- <jsp:include page="<%=mp%>" />  --%>
+
+<iframe src="<%=request.getContextPath()%>/%%moduleName%%/<%=cacheHtml%>" 
+     id="%%moduleName%%" tabIndex="-1" style="position:absolute;width:0;height:0;border:none">
+</iframe>
+

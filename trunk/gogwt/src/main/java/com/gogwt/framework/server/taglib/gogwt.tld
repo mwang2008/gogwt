@@ -23,7 +23,7 @@
 		</description>
 
 		<attribute>
-			<name>base</name>
+			<name>module</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>Decide which gwt permutation, GWT module name</description>

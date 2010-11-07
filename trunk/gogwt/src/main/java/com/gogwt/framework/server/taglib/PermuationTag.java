@@ -16,11 +16,15 @@
 
 package com.gogwt.framework.server.taglib;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -37,7 +41,7 @@ public class PermuationTag extends TagSupport implements PermutationConstants,
 		NameValueTag {
 	private static Logger logger = Logger.getLogger(PermuationTag.class);
 
-	private String base;
+	private String module;
 	private Map<String, String> params;
 	private boolean inline;
 
@@ -49,13 +53,13 @@ public class PermuationTag extends TagSupport implements PermutationConstants,
 	public PermuationTag() {
 		params = new HashMap<String, String>();
 		inline = false;
-		base = null;
+		module = null;
 	}
 
 	public int doStartTag() throws JspException {
 
-		if (!StringUtils.isSet(base)) {
-			logger.fatal("base is not set, please provide base: ");
+		if (!StringUtils.isSet(module)) {
+			logger.fatal("module is not set, please provide base: ");
 			return SKIP_BODY;
 		}
 		return EVAL_BODY_INCLUDE;
@@ -64,6 +68,7 @@ public class PermuationTag extends TagSupport implements PermutationConstants,
 	public int doEndTag() throws JspException {
 		final HttpServletRequest request = (HttpServletRequest) pageContext
 				.getRequest();
+		final HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
 
 		JspWriter out = null;
 		try {
@@ -77,52 +82,34 @@ public class PermuationTag extends TagSupport implements PermutationConstants,
 				userSettingMap.put(USER_AGENT, userAgent);
 			}
 
-			String cacheHtmlFileName = getCacheHtmlFileName(userSettingMap);
+			final PermutationObject permutationObject = getPermutationObjectFromPermutationFile();
+			final String cacheHtmlFileName = getCacheHtmlFileName(
+					permutationObject, userSettingMap);
 
-			String contextPath = request.getContextPath();
-			String cacheFilePathName = contextPath + "/" + base + "/" + cacheHtmlFileName + ".cache.html";
-			//<iframe src="javascript:''" id="com.gogwt.demo.gwt.navigation.NavigationModule" tabIndex='-1' style="position:absolute;width:0;height:0;border:none"></iframe>
-
+			// locate general.nocache.js
+			//final String generalNocacheJs = retriveGeneralnoCache(permutationObject);
+            //System.out.println(" generalNocacheJs=" + generalNocacheJs);
+            //out.print(generalNocacheJs);
+            
+			final String contextPath = request.getContextPath();
+			//final String cacheFilePathName = contextPath + "/" + base + "/"	+ cacheHtmlFileName + ".cache.html";
 			
 			if (isInline()) {
-				System.out.println(" inline true " + cacheFilePathName);
-				//out.print("inline true." + cacheFilePathName);
-				
-				StringBuilder iframeBuilder = new StringBuilder();
-				
-				iframeBuilder.append("<iframe src=\"javascript:''\"");				 
-				iframeBuilder.append(" id=\"");
-				iframeBuilder.append(base);
-				iframeBuilder.append("\" tabIndex=\"-1\" style=\"position:absolute;width:0;height:0;border:none\">");
-				
-				//out.print(iframeBuilder.toString());
-				try {
-				    String path = base + "/" + cacheHtmlFileName + ".cache.html";
-			        final RequestDispatcher requestDispatcher = request.getRequestDispatcher(path );
-			        requestDispatcher.include( request, pageContext.getResponse() );
-				}
-				catch (Throwable e) {
-					e.printStackTrace();
-				}
-				//iframeBuilder.append(cacheFilePathName);
-				//iframeBuilder.append("</iframe>");
 
-				//out.print("</iframe>");
+				logger.fatal(" not support yet for inline cache.html");
 
 			} else {
-				StringBuilder iframeBuilder = new StringBuilder();
-			
-				iframeBuilder.append("<iframe src=\"");
-				iframeBuilder.append(cacheFilePathName);
-				iframeBuilder.append("\" id=\"");
-				iframeBuilder.append(base);
-				iframeBuilder.append("\" tabIndex=\"-1\" style=\"position:absolute;width:0;height:0;border:none\">");
-				iframeBuilder.append("</iframe>");
-
-				out.print(iframeBuilder.toString());
-				System.out.println(" inline false " + cacheFilePathName);
-				out.print("inline false." + cacheFilePathName);
-
+				
+				String cacheFilePathName ="/"+ module + "/permutation.jsp?mp="	+ cacheHtmlFileName;
+				System.out.println("cacheFilePathName= "+cacheFilePathName);
+				
+				/* it is generated on top of the html file. so it is not working.*/				
+				final RequestDispatcher requestDispatcher = request.getRequestDispatcher(cacheFilePathName);
+		        requestDispatcher.include(pageContext.getRequest(), pageContext.getResponse());
+		        
+				
+				//cacheFilePathName = contextPath + cacheFilePathName;
+		        //out.print("<jsp:include page=\"" + cacheFilePathName + "\" />");			
 			}
 
 		} catch (Exception e) {
@@ -134,21 +121,65 @@ public class PermuationTag extends TagSupport implements PermutationConstants,
 		return EVAL_PAGE;
 	}
 
-	private String getCacheHtmlFileName(Map<String, String> userSettingMap)
-			throws Exception {
+	/**
+	 * Get general.nocache.js file and replace moduleFunctionName and moduleName
+	 * @param permutationObject
+	 * @return
+	 * @throws Exception
+	 */
+	private String retriveGeneralnoCache(
+			final PermutationObject permutationObject) throws Exception {
+		
+		String path = "com/gogwt/framework/server/taglib/" + GENERAL_NOCACHE_TEMPLATE;
+		System.out.println(" -- path==" + path);
+		
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		InputStream inStream = classloader.getResourceAsStream(path);
+		if (inStream == null) {
+			throw new IOException(
+					"could not find " + GENERAL_NOCACHE_TEMPLATE + "file under resources.");
+		}
+		
+		String generalNocahe = parseISToString(inStream);
+		generalNocahe = generalNocahe.replaceAll("$moduleFunctionName$", permutationObject.getModuleFunctionName());
+		generalNocahe = generalNocahe.replaceAll("$moduleName$", permutationObject.getModuleName());
+		
+		return generalNocahe;
+	}
 
-		final String filePath = WEB_INF + "/" + getBase() + "/"
+	 public String parseISToString(java.io.InputStream is){
+	      
+	        java.io.BufferedReader din = new java.io.BufferedReader(new InputStreamReader(is));
+	        StringBuffer sb = new StringBuffer();
+	        try{
+	            String line = null;
+	            while((line=din.readLine()) != null){
+	                sb.append(line+"\n");
+	            }
+	        }catch(Exception ex){
+	            ex.getMessage();
+	        }finally{
+	            try{
+	                is.close();
+	            }catch(Exception ex){}
+	        }
+	        return sb.toString();
+	    }
+
+	private PermutationObject getPermutationObjectFromPermutationFile()
+			throws Exception {
+		final String filePath = WEB_INF + "/" + module + "/"
 				+ PERMUTATION_FILE;
 		final PermutationObject permutationObject = PermutationSelector
 				.getInstance().processProperty(filePath);
-
-		if (userSettingMap == null) {
-			throw new Exception(
-					" Development problem: the permutaion map is not set in http request. "
-							+ "The permutation map would be something like: {locale,en_us} {user.agent, geoko}, etc");
-		}
-
 		logger.debug(permutationObject.toString());
+
+		return permutationObject;
+	}
+
+	private String getCacheHtmlFileName(
+			final PermutationObject permutationObject,
+			final Map<String, String> userSettingMap) throws Exception {
 
 		Map<String, String> patternMap = permutationObject.getPatternMap();
 
@@ -196,18 +227,12 @@ public class PermuationTag extends TagSupport implements PermutationConstants,
 	 */
 	public void release() {
 		super.release();
-		base = null;
+		module = null;
 		inline = false;
 		params = new HashMap<String, String>();
 	}
 
-	public String getBase() {
-		return base;
-	}
-
-	public void setBase(String base) {
-		this.base = base;
-	}
+	 
 
 	public void addParam(String name, String value) {
 		params.put(name, value);
@@ -215,6 +240,15 @@ public class PermuationTag extends TagSupport implements PermutationConstants,
 
 	public Map<String, String> getParams() {
 		return params;
+	}
+
+	
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 
 	public void setParams(Map<String, String> params) {
