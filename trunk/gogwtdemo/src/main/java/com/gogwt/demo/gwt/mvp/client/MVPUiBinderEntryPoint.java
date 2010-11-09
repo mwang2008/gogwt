@@ -1,7 +1,7 @@
 package com.gogwt.demo.gwt.mvp.client;
 
+import com.gogwt.framework.arch.navigation.AbstractControllerConfigAccessor;
 import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
-import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -20,7 +20,7 @@ public class MVPUiBinderEntryPoint extends AbstractEntryPoint {
 	}
 
 	@Override
-	protected AbstractPageConfigAccessor obtainPageAccessor() {
+	protected AbstractControllerConfigAccessor obtainPageAccessor() {
 		return GWT.create(MVPDemoProgressConfig.class);
 	}
 

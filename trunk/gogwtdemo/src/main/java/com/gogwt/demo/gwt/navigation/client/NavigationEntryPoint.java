@@ -16,8 +16,8 @@
 
 package com.gogwt.demo.gwt.navigation.client;
 
+import com.gogwt.framework.arch.navigation.AbstractControllerConfigAccessor;
 import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
-import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -34,7 +34,7 @@ public class NavigationEntryPoint extends AbstractEntryPoint {
 	}
 
 	@Override
-	protected AbstractPageConfigAccessor obtainPageAccessor() {
+	protected AbstractControllerConfigAccessor obtainPageAccessor() {
 		return GWT.create(NavigationProcessConfig.class);	
 	}
 }

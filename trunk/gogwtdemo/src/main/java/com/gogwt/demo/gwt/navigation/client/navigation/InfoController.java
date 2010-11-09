@@ -17,17 +17,17 @@
 package com.gogwt.demo.gwt.navigation.client.navigation;
 
 import com.gogwt.demo.gwt.navigation.client.widgets.info.InfoWidget;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
 import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
-public class InfoView extends AbstractPage {
+public class InfoController extends AbstractController {
 
 	@Override
 	public void process() {
-		this.pagePanel.clear();
+		this.controlPanel.clear();
 		
 		InfoWidget infoWidget = new InfoWidget();
-		this.pagePanel.add(infoWidget);	
+		this.controlPanel.add(infoWidget);	
 		
 		infoWidget.display();
 	}
