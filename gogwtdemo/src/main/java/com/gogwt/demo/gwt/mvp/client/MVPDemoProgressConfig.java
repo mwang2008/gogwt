@@ -1,7 +1,7 @@
 package com.gogwt.demo.gwt.mvp.client;
 
-import com.gogwt.framework.arch.navigation.PageConfigAccessor;
+import com.gogwt.framework.arch.navigation.ControllerConfigAccessor;
 
-public interface MVPDemoProgressConfig extends PageConfigAccessor {
+public interface MVPDemoProgressConfig extends ControllerConfigAccessor {
 
 }

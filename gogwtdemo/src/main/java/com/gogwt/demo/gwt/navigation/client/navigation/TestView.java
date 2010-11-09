@@ -1,14 +1,14 @@
 package com.gogwt.demo.gwt.navigation.client.navigation;
 
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
 import com.gogwt.framework.arch.widgets.PageMetaInfo;
 import com.google.gwt.user.client.ui.Label;
 
-public class TestView extends AbstractPage {
+public class TestView extends AbstractController {
 
 	@Override
 	public void process() {
-		this.pagePanel.add(new Label("test view"));
+		this.controlPanel.add(new Label("test view"));
 
 	}
 

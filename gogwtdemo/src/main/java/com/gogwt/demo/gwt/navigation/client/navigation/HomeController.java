@@ -16,33 +16,36 @@
 
 package com.gogwt.demo.gwt.navigation.client.navigation;
 
-import com.gogwt.demo.gwt.navigation.client.widgets.detail.DetailWidget;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.demo.gwt.navigation.client.widgets.home.HomeWidget;
+import com.gogwt.framework.arch.widgets.AbstractController;
 import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
-public class DetailView extends AbstractPage {
 
+public class HomeController extends AbstractController {
+
+	 	
 	@Override
 	public void process() {
-		pagePanel.clear();
+		controlPanel.clear();
 		
-		DetailWidget detailWidget = new DetailWidget();
-		this.pagePanel.add(detailWidget);	
+		HomeWidget homeWidget = new HomeWidget();
+		this.controlPanel.add(homeWidget);	
 		
-		detailWidget.display();
+		homeWidget.display();
+		
+		
 	}
 
 	@Override
 	public void fillMetaInfo(PageMetaInfo pageInfo) {
+		 
 		//todo: those values can be from resource bundle. 
-		pageInfo.setTitle("GoGWT demo detail");
-		pageInfo.setDescription("GoGWT detail description");
-		pageInfo.setKeywords("GWT, detail, demo");
+		pageInfo.setTitle("GoGWT demo home");
+		pageInfo.setDescription("GoGWT home description");
+		pageInfo.setKeywords("GWT, home, demo");
 		
 		pageInfo.addMetaMap("robots", "NOODP, NOYDIR");
 		pageInfo.addMetaMap("currentToken", this.getCurrentToken());
 		
 	}
-
-	 
 }

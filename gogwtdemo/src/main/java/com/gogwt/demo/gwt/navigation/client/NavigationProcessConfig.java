@@ -16,13 +16,13 @@
 
 package com.gogwt.demo.gwt.navigation.client;
 
-import com.gogwt.framework.arch.navigation.PageConfigAccessor;
+import com.gogwt.framework.arch.navigation.ControllerConfigAccessor;
 
 /**
  * 
  * NavigationProcessConfig must be the same name for the xml file defined 
  * under resources/conf/gwt/NavigationProcessConfig.xml
  */
-public interface NavigationProcessConfig extends PageConfigAccessor {
+public interface NavigationProcessConfig extends ControllerConfigAccessor {
 
 }

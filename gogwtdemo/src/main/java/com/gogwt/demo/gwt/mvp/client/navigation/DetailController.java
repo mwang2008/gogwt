@@ -18,7 +18,7 @@ package com.gogwt.demo.gwt.mvp.client.navigation;
 import com.gogwt.demo.gwt.mvp.client.widgets.detail.presenter.DetailPresenter;
 import com.gogwt.demo.gwt.mvp.client.widgets.detail.view.DetailView;
 import com.gogwt.demo.gwt.mvp.client.widgets.detail.view.DetailViewImpl;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
 import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
 /**
@@ -27,18 +27,18 @@ import com.gogwt.framework.arch.widgets.PageMetaInfo;
  * <p/>
  */
 
-public class DetailPage extends AbstractPage {
+public class DetailController extends AbstractController {
 	private DetailView view;	 
 
 	@Override
 	public void process() {
-		pagePanel.clear();
+		controlPanel.clear();
  		
 		if (view == null) {
 			view = new DetailViewImpl();
 		}
 
-		new DetailPresenter(view).go(pagePanel);
+		new DetailPresenter(view).go(controlPanel);
 	} 
 
 	@Override
