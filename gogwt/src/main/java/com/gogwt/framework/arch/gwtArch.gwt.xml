@@ -12,7 +12,7 @@
   
   <!-- PageConfigAccessor Code Generation -->  
   <generate-with class="com.gogwt.framework.rebind.PageConfigAccessorInterfaceGenerator">
-      <when-type-assignable class="com.gogwt.framework.arch.navigation.PageConfigAccessor"/>
+      <when-type-assignable class="com.gogwt.framework.arch.navigation.ControllerConfigAccessor"/>
   </generate-with>
   
   <define-linker name="permutation" class="com.gogwt.framework.linker.PermutationLinker" />
