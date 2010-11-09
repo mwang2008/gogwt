@@ -20,7 +20,7 @@ import java.util.Map;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.gogwt.framework.arch.utils.ActionForward;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -43,10 +43,10 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	private final transient Panel pageContainer = new FlowPanel();
 
 	/**
-	 * viewAccessor - ViewAccessor Provides a way to instantiate views via code
+	 * pageAccessor - Provides a way to instantiate views via code
 	 * generation
 	 */
-	protected transient PageConfigAccessor pageAccessor;
+	protected transient ControllerConfigAccessor pageAccessor;
 	private long startTimeMillis;
 
 	public final void onModuleLoad() {
@@ -125,7 +125,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	 * 
 	 * @return
 	 */
-	protected abstract AbstractPageConfigAccessor obtainPageAccessor();
+	protected abstract AbstractControllerConfigAccessor obtainPageAccessor();
 
 	
 	protected void processPopulator(Map<String, String> populatorsMap) {
@@ -168,12 +168,12 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 	   */
 	  private void managePageVisibility( final String token ) {
 	    // hide all views
-	    for( final PageConfig pageConfig : pageAccessor.getPageConfigInstances().values()) {
+	    for( final ControllerConfig pageConfig : pageAccessor.getPageConfigInstances().values()) {
 	      pageConfig.getInstance().setVisible( false );
 	    }
 
-	    AbstractPage page = null;
-	    PageConfig config = null;
+	    AbstractController page = null;
+	    ControllerConfig config = null;
 	    if ( pageAccessor.getPageConfigInstances().containsKey( token ) ) {
 	        Log.info( "Show already instatiated view." );
 	       // show the view if already instantiated
@@ -222,7 +222,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
           }
           
   	      //finish moduleLoad
-          final AbstractPage finalPage = page;
+          final AbstractController finalPage = page;
   	      DeferredCommand.addCommand(new Command() {
   	         public void execute() {
   	        	onCompletePageLoad(finalPage);
@@ -231,7 +231,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
  	    }	      	        
 	  }
      
-	  private void onCompletePageLoad(AbstractPage page) {
+	  private void onCompletePageLoad(AbstractController page) {
 		 //set page title, meta description, meta keyword etc
 		  page.setPageMetaInfo();
 	  }

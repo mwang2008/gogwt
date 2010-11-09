@@ -147,12 +147,12 @@ public class PageConfigXMLCodeGenerator {
 		  List<String> tokens = new ArrayList<String>();
 	    
 	    // get child nodes, and display their id attribute values
-	    sw.println( "public PageConfig lazyCreateOrGetPageConfig( String token ) {");
+	    sw.println( "public ControllerConfig lazyCreateOrGetPageConfig( String token ) {");
 	    //sw.println( AbstractPage.class.getSimpleName() + " pageInstance = null;");
-	    sw.println( "PageConfig pageConfigInstance = pageConfigInstances.get(token);");
+	    sw.println( "ControllerConfig pageConfigInstance = pageConfigInstances.get(token);");
 	    sw.println( "if ( pageConfigInstance != null ) ");
 	    sw.println( " return pageConfigInstance; ");
-	    sw.println( "pageConfigInstance = new PageConfig();");
+	    sw.println( "pageConfigInstance = new ControllerConfig();");
 
 	    // for each page
 	    parseAndGeneratePage(sw, jdomDocument, tokens);
@@ -190,7 +190,7 @@ public class PageConfigXMLCodeGenerator {
 		      isDefault = Boolean.parseBoolean( view.getAttributeValue( "isDefault" ) );
 		       
 		      sw.println( "else if (token.equals("+nameValue+")) {" );
-		      sw.println( "pageConfigInstance = new PageConfig("+nameValue+", new "+classValue+"());" );
+		      sw.println( "pageConfigInstance = new ControllerConfig("+nameValue+", new "+classValue+"());" );
 		       
 		      // generate properties
 		      generateProperties(sw,view, "properties");

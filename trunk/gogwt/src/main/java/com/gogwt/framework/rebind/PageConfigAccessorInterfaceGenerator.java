@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
-import com.gogwt.framework.arch.navigation.PageConfig;
-import com.gogwt.framework.arch.navigation.PageConfigAccessor;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.navigation.AbstractControllerConfigAccessor;
+import com.gogwt.framework.arch.navigation.ControllerConfig;
+import com.gogwt.framework.arch.navigation.ControllerConfigAccessor;
+import com.gogwt.framework.arch.widgets.AbstractController;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -101,12 +101,12 @@ public class PageConfigAccessorInterfaceGenerator extends Generator {
 		composer.addImport(List.class.getCanonicalName());
 		composer.addImport(Map.class.getCanonicalName());
 		composer.addImport(HashMap.class.getCanonicalName());
-		composer.addImport(AbstractPageConfigAccessor.class.getCanonicalName());
-		composer.addImport(AbstractPage.class.getCanonicalName());
-		composer.addImport(PageConfig.class.getCanonicalName());
+		composer.addImport(AbstractControllerConfigAccessor.class.getCanonicalName());
+		composer.addImport(AbstractController.class.getCanonicalName());
+		composer.addImport(ControllerConfig.class.getCanonicalName());
 
-		composer.setSuperclass(AbstractPageConfigAccessor.class.getSimpleName());
-		composer.addImplementedInterface(PageConfigAccessor.class.getCanonicalName());
+		composer.setSuperclass(AbstractControllerConfigAccessor.class.getSimpleName());
+		composer.addImplementedInterface(ControllerConfigAccessor.class.getCanonicalName());
 
 		// source code generator
 		SourceWriter sourceWriter = null;
@@ -147,7 +147,7 @@ public class PageConfigAccessorInterfaceGenerator extends Generator {
 	    sourceWriter.println( "public " + generatedImplClassName + "() { " );
 	    sourceWriter.indent();
 	    sourceWriter.println( "super();" );
-	    sourceWriter.println( "pageConfigInstances = new HashMap<String, PageConfig>();" );
+	    sourceWriter.println( "pageConfigInstances = new HashMap<String, ControllerConfig>();" );
 
 	    // end constructor source generation
 	    sourceWriter.outdent();
