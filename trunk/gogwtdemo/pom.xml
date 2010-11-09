@@ -14,7 +14,7 @@
 		<!-- convenience to define GWT version in one place -->
 		<gwt.version>2.1.0</gwt.version>
 		<gwt-pluginVersion>2.1.0</gwt-pluginVersion>
-		<gwt-module-compile-style>OBF</gwt-module-compile-style>
+		<gwt-module-compile-style>PRETTY</gwt-module-compile-style>
 
 		<!-- tell the compiler we can use 1.5 -->
 		<maven.compiler.source>1.5</maven.compiler.source>
@@ -103,7 +103,7 @@
 							<logLevel>INFO</logLevel>
 							<style>${gwt-module-compile-style}</style>
 							<modules>          
-                      <!-- <module>com.gogwt.demo.gwt.navigation.NavigationModule</module> -->
+                        <module>com.gogwt.demo.gwt.navigation.NavigationModule</module>
 								<module>com.gogwt.demo.gwt.mvp.MVPUiBinderModule</module>
 							</modules>
 
