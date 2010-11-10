@@ -1,0 +1,24 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+     xmlns:g="urn:import:com.google.gwt.user.client.ui">
+     
+     <ui:style field='resStyle' src="../../gogwt_mvp.css"/>
+     
+     <g:HorizontalPanel>
+           
+        <!-- Left res search form -->
+        <g:VerticalPanel styleName="{resStyle.homeViewLeft}">
+             
+           
+              <g:Label styleName="{resStyle.text12blue}" ui:field="pageDescLabel"/>
+              <g:Label styleName="{resStyle.text12blue}" ui:field="welcomeLabel"/>
+              
+              <g:TextBox ui:field="detailText"/>
+              
+              <g:Button  ui:field="toDetailBtn"/>               
+             
+        </g:VerticalPanel>
+        
+    
+     </g:HorizontalPanel>
+</ui:UiBinder>
