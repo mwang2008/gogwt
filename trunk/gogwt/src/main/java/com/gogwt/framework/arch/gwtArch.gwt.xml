@@ -15,6 +15,12 @@
       <when-type-assignable class="com.gogwt.framework.arch.navigation.ControllerConfigAccessor"/>
   </generate-with>
   
+  <!-- FormBindingManager Code Generation -->  
+  <generate-with class="com.gogwt.framework.rebind.FormBindingInterfaceGenerator">
+      <when-type-assignable class="com.gogwt.framework.arch.widgets.FormBindingManager"/>
+  </generate-with>
+  
+  
   <define-linker name="permutation" class="com.gogwt.framework.linker.PermutationLinker" />
   <add-linker name="permutation" />
   

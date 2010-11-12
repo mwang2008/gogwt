@@ -16,28 +16,7 @@
 
 package com.gogwt.framework.arch.widgets;
 
-/**
- * <code><B>View<code><B>
- * <p>
- * Marker interface used to indicate a "view" (i.e. page) in a GWT application
- * </p>
- *
- */
-public interface View<T>  {
-	
-	/**
-	 * Set widget value to value object
-	 * 
-	 * @return the value object
-	 */
-	T toValue();
-	
-	/**
-	 * Fill widget with value object
-	 * 
-	 * @param t  
-	 *            the value object
-	 */
-	void fromValue(T t);
-   
+public interface FormBindingManager<T>  {
+	public T toValue(FormBindingManager<T> src);
+	public void fromValue(T src, FormBindingManager<T> dest);	 	
 }
