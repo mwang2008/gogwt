@@ -16,9 +16,10 @@
 
 package com.gogwt.demo.gwt.mvp.client.widgets.home.view;
 
+import com.gogwt.framework.arch.widgets.View;
 import com.google.gwt.user.client.ui.Widget;
 
-public interface HomeView<T> {
+public interface HomeView<T> extends View<T>{
 	public interface Presenter<T> {
 		void toDetail();
 	}
@@ -35,18 +36,5 @@ public interface HomeView<T> {
 	 */
 	Widget asWidget();
 	
-	/**
-	 * Set widget value to value object
-	 * 
-	 * @return the value object
-	 */
-	T toValue();
-	
-	/**
-	 * Fill widget with value object
-	 * 
-	 * @param t  
-	 *            the value object
-	 */
-	void fromValue(T t);
+
 }

@@ -1,8 +1,9 @@
 package com.gogwt.demo.gwt.mvp.client.common;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import java.io.Serializable;
 
-public class FormBean implements IsSerializable {
+
+public class FormBean implements Serializable {
 	private String detail;
 
 	public String getDetail() {

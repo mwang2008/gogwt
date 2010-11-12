@@ -13,7 +13,7 @@
               <g:Label styleName="{resStyle.text12blue}" ui:field="pageDescLabel"/>
               <g:Label styleName="{resStyle.text12blue}" ui:field="welcomeLabel"/>
               
-              <g:TextBox ui:field="detailText"/>
+              <g:TextBox ui:field="detail"/>
               
               <g:Button  ui:field="toDetailBtn"/>               
              
