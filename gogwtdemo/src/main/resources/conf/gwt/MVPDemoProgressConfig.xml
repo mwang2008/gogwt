@@ -26,5 +26,6 @@
         <page name="info"
            class="com.gogwt.demo.gwt.mvp.client.navigation.InfoController">                     
          </page>
+         
     </pages>
 </application>

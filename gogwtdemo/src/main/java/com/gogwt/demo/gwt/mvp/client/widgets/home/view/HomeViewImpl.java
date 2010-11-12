@@ -17,6 +17,8 @@
 package com.gogwt.demo.gwt.mvp.client.widgets.home.view;
 
 import com.gogwt.demo.gwt.mvp.client.common.FormBean;
+import com.gogwt.framework.arch.widgets.AbstractFormComposite;
+import com.gogwt.framework.arch.widgets.FormBindingManager;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -24,13 +26,14 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+ 
 
-public class HomeViewImpl extends Composite implements HomeView<FormBean> {
-
+//public class HomeViewImpl extends Composite implements HomeView<FormBean> {
+public class HomeViewImpl extends AbstractFormComposite<FormBean> implements HomeView<FormBean> {
+	
 	@UiTemplate("HomeView.ui.xml")
 	interface HomeViewUiBinder extends UiBinder<Widget, HomeViewImpl> {
 	}
@@ -43,7 +46,7 @@ public class HomeViewImpl extends Composite implements HomeView<FormBean> {
 	@UiField Label pageDescLabel;
 	@UiField Label welcomeLabel;
 	@UiField Button toDetailBtn;
-	@UiField TextBox detailText;
+	@UiField TextBox detail;
 	
 	public HomeViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -71,9 +74,9 @@ public class HomeViewImpl extends Composite implements HomeView<FormBean> {
 	}
  
 
-	public FormBean toValue() {
+/*	public FormBean toValue() {
 		FormBean formBean = new FormBean();
-		formBean.setDetail(detailText.getText());
+		formBean.setDetail(detail.getText());
 		
 		return formBean;
 	}
@@ -81,5 +84,10 @@ public class HomeViewImpl extends Composite implements HomeView<FormBean> {
 	public void fromValue(FormBean t) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
+
+	@Override
+	protected FormBindingManager<FormBean> obtainFromBindingManager() {
+		return GWT.create(HomeViewImpl.class);
+	}	
 }
