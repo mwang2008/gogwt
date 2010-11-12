@@ -54,7 +54,7 @@ public class PageConfigXMLCodeGenerator {
 	    final Document doc = readXml(xmlFilePath);
 	    
 	    //2. process views
-	    generateLazyCreateOrGetPageConfigMethod(sw, readXml(xmlFilePath));
+	    generateLazyCreateOrGetPageConfigMethod(sw, doc);
 	    
 	  }
 	  
