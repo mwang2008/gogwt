@@ -43,7 +43,12 @@ public class HomePresenter implements Presenter, HomeView.Presenter<FormBean> {
 	 */
 	public void go(HasWidgets container) {
 	    container.clear();
-	    container.add(view.asWidget());		    
+	    container.add(view.asWidget());	
+	    
+	    //pretend to call RPC and get formBean back. and set to widget
+	    FormBean form = new FormBean();
+	    form.setDetail("hi GWT");	    
+	    ((HomeViewImpl)view).fromValue(form);
 	}
 
 

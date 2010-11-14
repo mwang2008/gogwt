@@ -74,18 +74,6 @@ public class HomeViewImpl extends AbstractFormComposite<FormBean> implements Hom
 	}
  
 
-/*	public FormBean toValue() {
-		FormBean formBean = new FormBean();
-		formBean.setDetail(detail.getText());
-		
-		return formBean;
-	}
-
-	public void fromValue(FormBean t) {
-		// TODO Auto-generated method stub
-		
-	}*/
-
 	@Override
 	protected FormBindingManager<FormBean> obtainFromBindingManager() {
 		return GWT.create(HomeViewImpl.class);
