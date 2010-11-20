@@ -8,15 +8,31 @@
            
         <!-- Left res search form -->
         <g:VerticalPanel styleName="{resStyle.homeViewLeft}">
-             
+           <g:HTMLPanel>
            
               <g:Label styleName="{resStyle.text12blue}" ui:field="pageDescLabel"/>
               <g:Label styleName="{resStyle.text12blue}" ui:field="welcomeLabel"/>
               
-              <g:TextBox ui:field="detail"/>
               
-              <g:Button  ui:field="toDetailBtn"/>               
-             
+               
+              <table> 
+                  <tr class='{resStyle.item}'>
+                     <td align="right">  Greeting: </td>  <td> <g:TextBox ui:field="detail"/> </td>
+                  </tr>  
+                  <tr class='{resStyle.item}'>
+                     <td align="right">  Title: </td>  <td> <g:ListBox ui:field="title"/> </td>
+                  </tr>  
+                  <tr>         
+                     <td align="right">  First Name: </td>  <td> <g:TextBox ui:field="firstName"/> </td>                     
+                  </tr>
+                  <tr>         
+                     <td align="right">  Last Name: </td>  <td> <g:TextBox ui:field="lastName"/> </td>                     
+                  </tr>                 
+                   <tr>         
+                     <td align="right" colspan="2">  <g:Button  ui:field="toDetailBtn"/> </td>                     
+                  </tr>                
+               </table>               
+            </g:HTMLPanel>  
         </g:VerticalPanel>
         
     

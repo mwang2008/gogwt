@@ -20,6 +20,7 @@ import com.gogwt.demo.gwt.mvp.client.widgets.home.view.HomeView;
 import com.gogwt.demo.gwt.mvp.client.widgets.home.view.HomeViewImpl;
 import com.gogwt.framework.arch.widgets.AbstractController;
 import com.gogwt.framework.arch.widgets.PageMetaInfo;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * <code><B>HomePage<code><B>
@@ -44,8 +45,18 @@ public class HomeController extends AbstractController {
 
 	@Override
 	protected void fillMetaInfo(PageMetaInfo pageInfo) {
-		pageInfo.setTitle("Home");
-
+		 
+		pageInfo.setTitle("GoGWT demo home");
+		pageInfo.setDescription("GoGWT home description");
+		pageInfo.setKeywords("GWT, home, demo");
+		
+		pageInfo.addMetaMap("robots", "NOODP, NOYDIR");
+		pageInfo.addMetaMap("currentToken", this.getCurrentToken());
 	}
 
+	@Override
+	public void postProcess() {
+		//add crwal section
+		controlPanel.add(new HTML(ControllerHelper.constructSEOURL()));
+	}
 }

@@ -15,7 +15,7 @@
  */
 package com.gogwt.demo.gwt.mvp.client.widgets.detail.view;
 
-import com.gogwt.demo.gwt.mvp.client.common.FormBean;
+import com.gogwt.demo.gwt.mvp.client.dataobject.FormBean;
 import com.google.gwt.user.client.ui.Widget;
 
 /**

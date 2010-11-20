@@ -18,8 +18,12 @@ package com.gogwt.demo.gwt.mvp.client.navigation;
 import com.gogwt.demo.gwt.mvp.client.widgets.detail.presenter.DetailPresenter;
 import com.gogwt.demo.gwt.mvp.client.widgets.detail.view.DetailView;
 import com.gogwt.demo.gwt.mvp.client.widgets.detail.view.DetailViewImpl;
+import com.gogwt.framework.arch.utils.StringUtils;
 import com.gogwt.framework.arch.widgets.AbstractController;
 import com.gogwt.framework.arch.widgets.PageMetaInfo;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * <code><B>DetailPage<code><B>
@@ -43,8 +47,20 @@ public class DetailController extends AbstractController {
 
 	@Override
 	protected void fillMetaInfo(PageMetaInfo pageInfo) {
-		pageInfo.setTitle("Detail");
+		//todo: those values can be from resource bundle. 
+		pageInfo.setTitle("GoGWT demo detail");
+		pageInfo.setDescription("GoGWT detail description");
+		pageInfo.setKeywords("GWT, detail, demo");
 		
+		pageInfo.addMetaMap("robots", "NOODP, NOYDIR");
+		pageInfo.addMetaMap("currentToken", this.getCurrentToken());		
 	}
 
+	@Override
+	public void postProcess() {
+		//add crwal section
+		controlPanel.add(new HTML(ControllerHelper.constructSEOURL()));
+	}
+	
+	
 }

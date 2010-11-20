@@ -15,10 +15,9 @@
  */
 package com.gogwt.demo.gwt.mvp.client.widgets.home.presenter;
 
-import com.gogwt.demo.gwt.mvp.client.common.FormBean;
 import com.gogwt.demo.gwt.mvp.client.common.GWTSession;
+import com.gogwt.demo.gwt.mvp.client.dataobject.FormBean;
 import com.gogwt.demo.gwt.mvp.client.widgets.home.view.HomeView;
-import com.gogwt.demo.gwt.mvp.client.widgets.home.view.HomeViewImpl;
 import com.gogwt.framework.arch.utils.ActionForward;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -48,7 +47,7 @@ public class HomePresenter implements Presenter, HomeView.Presenter<FormBean> {
 	    //pretend to call RPC and get formBean back. and set to widget
 	    FormBean form = new FormBean();
 	    form.setDetail("hi GWT");	    
-	    ((HomeViewImpl)view).fromValue(form);
+	    view.fromValue(form);
 	}
 
 
@@ -56,8 +55,9 @@ public class HomePresenter implements Presenter, HomeView.Presenter<FormBean> {
 	 * button action
 	 */
 	public void toDetail() {
-		//1. get form value; todo: need to find a better way to avoid cast. 
-		FormBean formBean = ((HomeViewImpl)view).toValue();
+		//1. get form value
+		//retrieve form value
+		FormBean formBean = view.toValue();
 		
 		GWTSession.setFormBean(formBean);
 		
