@@ -16,7 +16,9 @@
 package com.gogwt.framework.arch.utils;
 
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -62,11 +64,30 @@ public class GWTParamValueUtils {
 		}
 	}
 
+	
+	public static void setValue(RadioButton w, String value) {
+		if (StringUtils.isSet(value)) {
+			 		 
+		}
+	}
+	*/
+	
 	public static void setValue(ListBox w, String value) {
 		if (StringUtils.isSet(value)) {
-			w.setSelectedValue(value);
+			if (w.getItemCount()>0) {
+				for (int i=0; i<w.getItemCount(); i++) {
+					if (StringUtils.equals(w.getValue(i), value)) {
+						w.setItemSelected(i, true);
+						return;
+					}
+				}
+			}			 
 		}
-	}*/
+	}
+	
+	public static String getValue(ListBox w) {
+		return w.getValue(w.getSelectedIndex());
+	}
 
 	public static void setValue(SuggestBox w, String value) {
 		if (StringUtils.isSet(value)) {

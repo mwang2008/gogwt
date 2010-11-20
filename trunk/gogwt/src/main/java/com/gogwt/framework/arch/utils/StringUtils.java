@@ -36,7 +36,10 @@ public abstract class StringUtils {
 	public static final String TRUE_VALUE = "true";
 	public static final String YES_TRUE_VALUE = "yes";
 	public static final String SPACE = " ";
-	
+	private static final char QUESTION_MARK = '?';
+	private static final char AMPERSAND = '&';
+	private static final char EQUALS = '=';
+	private static final String DEFAULT_ENCODE = "UTF-8";
 
 	/**
 	 * <p> Return "" if parameter = null </p>
@@ -666,6 +669,24 @@ public abstract class StringUtils {
 
 	}
 
+	public static String firstLetterToUpper(String pString) {
+		if (!isSet(pString)) {
+			return pString;
+		}
+		
+		String formattedString = "";
+		String firstLetter = pString.substring(0, 1);
+		firstLetter = firstLetter.toUpperCase();
+		if (pString.length() > 1) {
+			formattedString = firstLetter + pString.substring(1, pString.length());
+		}
+		else {
+			formattedString = firstLetter;
+		}
+		
+		return formattedString;
+	}
+	
 	/**
 	 * 
 	 * Returns the string converted to title case or null if the value passed
@@ -756,4 +777,66 @@ public abstract class StringUtils {
 	    }
 	    return returnValue.toString();
 	  }
+	  
+		/**
+		 * Add a parameter to a URL - encoding both the name and value of the
+		 * parameter.
+		 * 
+		 * @param pURL
+		 *            the URL to add the parameter to - if null, it will return a
+		 *            ?param=value as the result.
+		 * @param pName
+		 *            the name of the parameter to add - if null, it will not do
+		 *            anything.
+		 * @param pValue
+		 *            the value of the parameter to add - if null, it will be added
+		 *            as an empty value (not the word "null")
+		 * @return the URL with the encoded parameter added.
+		 */
+		public static String addURLParam(final String pURL, final String pName,
+				final String pValue) {
+			String myURL = pURL;
+
+			if (pName != null) {
+				if (myURL == null) {
+					myURL = "";
+				}
+				String paramValue = pValue;
+				if (paramValue == null) {
+					paramValue = "";
+				}
+				final StringBuffer newURL = new StringBuffer(myURL.length()
+						+ pName.length() + paramValue.length() + 1/*
+																 * 1=length of param
+																 * seperator
+																 */);
+				newURL.append(myURL);
+
+				final int posQuestionMark = myURL.indexOf(QUESTION_MARK);
+				// Test to see if there is a question mark to start adding
+				// parameters
+				// after.
+				if (posQuestionMark < 0) {
+					newURL.append(QUESTION_MARK);
+				}
+				// Do not add an ampersand if the only value after the URL is a
+				// question
+				// mark.
+				else if (myURL.length() - posQuestionMark > 1) {
+					newURL.append(AMPERSAND);
+				}
+
+				try {
+					newURL.append(pName);
+					newURL.append(EQUALS);
+					newURL.append(paramValue);
+				} catch (Exception e) {
+					//do nothing. 					
+				}
+
+				myURL = newURL.toString();
+			}
+			return myURL;
+		}
+
 }

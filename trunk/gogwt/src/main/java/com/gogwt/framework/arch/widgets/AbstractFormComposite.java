@@ -19,15 +19,15 @@ package com.gogwt.framework.arch.widgets;
 import com.google.gwt.user.client.ui.Composite;
 
 public abstract class AbstractFormComposite<T> extends Composite implements
-		FormBindingManager<T> {
+		FormBindingManager<T>, View<T> {
 	private final FormBindingManager<T> formBindingManager;
 
 	public AbstractFormComposite() {
-		formBindingManager = obtainFromBindingManager();
+		formBindingManager = obtainFormBindingManager();
 	}
 
-	protected abstract FormBindingManager<T> obtainFromBindingManager();
-
+	protected abstract FormBindingManager<T> obtainFormBindingManager();
+	
 	public FormBindingManager<T> getFormBindingManager() {
 		return formBindingManager;
 	}
@@ -35,7 +35,7 @@ public abstract class AbstractFormComposite<T> extends Composite implements
 	public T toValue() {
 		return toValue(AbstractFormComposite.this);
 	}
-
+	 
 	public void fromValue(T src) {
 		fromValue(src, AbstractFormComposite.this);
 	}

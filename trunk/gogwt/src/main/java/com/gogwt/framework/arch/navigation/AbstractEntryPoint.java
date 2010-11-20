@@ -250,7 +250,7 @@ public abstract class AbstractEntryPoint implements EntryPoint,
 		 * if history token is empty, then take first one as viewName
 		 * @return
 		 */
-		private String getCurrentPageName(String token) {	    
+		protected String getCurrentPageName(String token) {	    
 		   if (!isSet(token)) {
 			   token = pageAccessor.getPageTokens()[0];
 		   }
