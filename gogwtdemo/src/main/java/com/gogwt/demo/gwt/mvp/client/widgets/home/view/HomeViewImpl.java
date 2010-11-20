@@ -16,17 +16,20 @@
 
 package com.gogwt.demo.gwt.mvp.client.widgets.home.view;
 
-import com.gogwt.demo.gwt.mvp.client.common.FormBean;
+import com.gogwt.demo.gwt.mvp.client.dataobject.FormBean;
 import com.gogwt.framework.arch.widgets.AbstractFormComposite;
 import com.gogwt.framework.arch.widgets.FormBindingManager;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
  
@@ -48,19 +51,36 @@ public class HomeViewImpl extends AbstractFormComposite<FormBean> implements Hom
 	@UiField Button toDetailBtn;
 	@UiField TextBox detail;
 	
+	@UiField ListBox title;
+	@UiField TextBox firstName;
+	@UiField TextBox lastName;
+	//@UiField RadioButton favColor;
+	
 	public HomeViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
  	
 		pageDescLabel.setText("in Home page.");		
 		welcomeLabel.setText("Welcome to Demo Page");
 		toDetailBtn.setText("To Detail");
+		
+		fillTitlePopulator();
+		
 	}
 
 	@UiHandler("toDetailBtn")
 	void onToDetailClicked(ClickEvent event) {
-         if (presenter != null) {
-        	 presenter.toDetail();
-         }         
+		//splitting the code
+		GWT.runAsync(new RunAsyncCallback() {
+	          public void onFailure(Throwable caught) {
+	            Window.alert("Code download failed");
+	          }
+
+	          public void onSuccess() {
+	        	  if (presenter != null) {
+	             	 presenter.toDetail();
+	              }    
+	          }
+	        });           
 	}
 	
 	 
@@ -73,9 +93,15 @@ public class HomeViewImpl extends AbstractFormComposite<FormBean> implements Hom
 		return this;
 	}
  
-
-	@Override
-	protected FormBindingManager<FormBean> obtainFromBindingManager() {
+ 
+	protected FormBindingManager<FormBean> obtainFormBindingManager() {
 		return GWT.create(HomeViewImpl.class);
 	}	
+	 
+	private void fillTitlePopulator() {
+		title.addItem("", "--- Title ---");
+		title.addItem("Mr.", "Mr.");
+		title.addItem("Dr.", "Dr.");
+		title.addItem("Ms.", "Ms.");
+	}
 }

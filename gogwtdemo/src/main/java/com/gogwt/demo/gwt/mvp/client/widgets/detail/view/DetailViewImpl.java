@@ -15,7 +15,7 @@
  */
 package com.gogwt.demo.gwt.mvp.client.widgets.detail.view;
 
-import com.gogwt.demo.gwt.mvp.client.common.FormBean;
+import com.gogwt.demo.gwt.mvp.client.dataobject.FormBean;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -66,9 +66,13 @@ public class DetailViewImpl extends Composite implements DetailView {
 
 
 	public void display(FormBean formBean) {
-		userInputText.setText(formBean.getDetail());
-		
-		
+	    if (formBean != null) {
+		   userInputText.setText(formBean.toString());
+	    }
+	    else {
+	    	userInputText.setText(" please go to home page and try again");
+	    }
+				
 	}
 	
 	@UiHandler("backToHome")

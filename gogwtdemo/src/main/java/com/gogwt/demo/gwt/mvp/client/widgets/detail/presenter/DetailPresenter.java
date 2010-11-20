@@ -15,8 +15,8 @@
  */
 package com.gogwt.demo.gwt.mvp.client.widgets.detail.presenter;
 
-import com.gogwt.demo.gwt.mvp.client.common.FormBean;
 import com.gogwt.demo.gwt.mvp.client.common.GWTSession;
+import com.gogwt.demo.gwt.mvp.client.dataobject.FormBean;
 import com.gogwt.demo.gwt.mvp.client.widgets.detail.view.DetailView;
 import com.gogwt.demo.gwt.mvp.client.widgets.home.presenter.Presenter;
 import com.gogwt.framework.arch.utils.ActionForward;
