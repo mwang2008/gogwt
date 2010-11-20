@@ -181,23 +181,31 @@ public class FormBindingInterfaceGenerator extends Generator {
 		writer.println("public " + genericClassName + " toValue(final " + FormBindingManager.class.getCanonicalName() + " view) {");
 		writer.println("   " + genericClassName + " formBean = new "
 				+ genericClassName + "();");
+		writer.println( "   String userInput = null;");
 
 		JClassType fieldType;
 		JField[] instanceFields = instanceClassType.getFields();
+		
+		boolean hasViewInstance = false;
+		
 		for (int i = 0; i < instanceFields.length; i++) {
 			fieldType = (JClassType) instanceFields[i].getType();
 
-			UiField uiField = instanceFields[i].getAnnotation(UiField.class);
-			if (uiField != null) {
+			//todo: revisit
+			//UiField uiField = instanceFields[i].getAnnotation(UiField.class);
+			//if (uiField != null) {
  				String widgetClassType = fieldType.getQualifiedSourceName();
 				if ( supportedWidgetTypesWithGetValueMethodMap.containsKey( widgetClassType ) ) {
-					 writer.println( "   " + this.instanceClassType.getQualifiedSourceName() + " viewImpl = ("
+					if (!hasViewInstance) { 
+					   writer.println( "   " + this.instanceClassType.getQualifiedSourceName() + " viewImpl = ("
 						      + this.instanceClassType.getQualifiedSourceName() + ") view; " );
-					 
-					writer.println( "   String userInput = GWTParamValueUtils.getValue(viewImpl." + instanceFields[i].getName() + ");");
-					writer.println( "   formBean.set" +StringUtils.firstLetterCapital(instanceFields[i].getName()) + "(userInput);");
+					   hasViewInstance = true;
+					}
+					
+					writer.println( "   userInput = GWTParamValueUtils.getValue(viewImpl." + instanceFields[i].getName() + ");");
+					writer.println( "   formBean.set" +StringUtils.firstLetterToUpper(instanceFields[i].getName()) + "(userInput);");
 				}				 
-			}
+			//}
 		}
 
 		writer.println("   return  formBean;   ");
@@ -209,21 +217,26 @@ public class FormBindingInterfaceGenerator extends Generator {
 
 		writer.println("public void fromValue(final " + genericClassName
 				+ " formBean, " + FormBindingManager.class.getCanonicalName() + " view) {");
-
+		writer.println( "   String userInput = null;");
+		
+		boolean hasViewInstance = false;
 		JClassType fieldType;
 		JField[] instanceFields = instanceClassType.getFields();
 		for (int i = 0; i < instanceFields.length; i++) {
 			fieldType = (JClassType) instanceFields[i].getType();
 			
-			UiField uiField = instanceFields[i].getAnnotation(UiField.class);
-			if (uiField != null) {
+			//UiField uiField = instanceFields[i].getAnnotation(UiField.class);
+			//if (uiField != null) {
 				String widgetClassType = fieldType.getQualifiedSourceName();
 				if ( supportedWidgetTypesWithSetValueMethodMap.containsKey( widgetClassType ) ) {
+					if (!hasViewInstance) { 
 					 writer.println( "   " + this.instanceClassType.getQualifiedSourceName() + " viewImpl = ("
 						      + this.instanceClassType.getQualifiedSourceName() + ") view; " );
- 					 writer.println( "   GWTParamValueUtils.setValue(viewImpl." +  instanceFields[i].getName() + ", formBean.get" + StringUtils.firstLetterCapital(instanceFields[i].getName()) + "());");
+					 hasViewInstance = true;
+					}
+ 					writer.println( "   GWTParamValueUtils.setValue(viewImpl." +  instanceFields[i].getName() + ", formBean.get" + StringUtils.firstLetterToUpper(instanceFields[i].getName()) + "());");
 				}
-			}
+			//}
 		}
 		writer.println("}");
 	}
@@ -238,12 +251,7 @@ public class FormBindingInterfaceGenerator extends Generator {
 		generateFromValueMethod(logger, writer);
 
 	}
-
-	private static String getPackageForType(JType type) {
-		return type.getQualifiedSourceName().replace(
-				type.getSimpleSourceName(), "");
-	}
-
+ 
 	/**
 	 * <p>
 	 * Get map of classes that can be used in the parameters for
