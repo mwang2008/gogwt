@@ -1,6 +1,7 @@
 package com.gogwt.app.booking.gwt.hoteldetail.client;
 
-import com.gogwt.framework.arch.navigation.PageConfigAccessor;
+import com.gogwt.framework.arch.navigation.ControllerConfigAccessor;
+
 
 /**
  * 
@@ -10,6 +11,6 @@ import com.gogwt.framework.arch.navigation.PageConfigAccessor;
  * @author WangM
  *
  */
-public interface HotelDetailMVPProcessConfig extends PageConfigAccessor  {
+public interface HotelDetailMVPProcessConfig extends ControllerConfigAccessor  {
 
 }

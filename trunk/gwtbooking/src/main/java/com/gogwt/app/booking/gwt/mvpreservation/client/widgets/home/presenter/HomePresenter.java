@@ -20,8 +20,6 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.view.HomeLay
 import com.gogwt.app.booking.rpc.proxy.RPCProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.RPCReservationProxy;
 import com.gogwt.framework.arch.utils.StringUtils;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 

@@ -1,16 +1,10 @@
 package com.gogwt.app.booking.gwt.mvpreservation.client.navigation;
 
-import static com.gogwt.app.booking.dto.dataObjects.GWTPageConstant.VIEW_HOME;
-
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
-import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
-import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
-import com.gogwt.app.booking.gwt.common.helper.DisplayHelper;
 import com.gogwt.app.booking.gwt.common.i18n.TagsReservationResources;
-import com.gogwt.app.booking.gwt.common.utils.GWTExtClientUtils;
 import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppHandlerManager;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.home.event.BackHomeEvent;
@@ -19,9 +13,10 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.reservation.view.
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.reservation.view.ReservationConfirmationViewImpl;
 import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
+import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
-public class ReservationConfirmationPage extends AbstractPage implements SessionBackupProxyInterface<ReservationContainerBean>{
+public class ReservationConfirmationPage extends AbstractController implements SessionBackupProxyInterface<ReservationContainerBean>{
 	private TagsReservationResources tags = TagsReservationResources.Util.getInstance();
 	
 	private ReservationConfirmationView<ReserveResponseBean> theView;
@@ -83,8 +78,15 @@ public class ReservationConfirmationPage extends AbstractPage implements Session
 	 * Display reservation result
 	 */
 	private void displayConfirmation(ReserveResponseBean reserveResponse) {
-		new ReservationConfirmationPresenter(theView).go(pagePanel);
+		new ReservationConfirmationPresenter(theView).go(controlPanel);
 		theView.processDisplay(reserveResponse);
+		
+	}
+
+
+	@Override
+	protected void fillMetaInfo(PageMetaInfo pageInfo) {
+		// TODO Auto-generated method stub
 		
 	}
 }

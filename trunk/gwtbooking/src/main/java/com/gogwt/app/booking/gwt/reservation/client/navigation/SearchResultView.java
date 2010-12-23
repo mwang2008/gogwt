@@ -12,19 +12,20 @@ import com.gogwt.app.booking.gwt.reservation.client.widgets.common.ProgressBarWi
 import com.gogwt.app.booking.gwt.reservation.client.widgets.searchresult.SearchResultLayoutWidget;
 import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
+import com.gogwt.framework.arch.widgets.PageMetaInfo;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
  
-public class SearchResultView extends AbstractPage implements SessionBackupProxyInterface<ReservationContainerBean> {
+public class SearchResultView extends AbstractController implements SessionBackupProxyInterface<ReservationContainerBean> {
 	//private SearchResultLayoutWidget layoutWidget = new SearchResultLayoutWidget();
 	
 	@Override
 	public void process() {
-		 this.pagePanel.add(new Label("SearchResultView "));
+		 this.controlPanel.add(new Label("SearchResultView "));
 		 
-		 pagePanel.clear();
+		 controlPanel.clear();
 	 	 
 		 final ReservationContainerBean currentContainer = GWTSession.getCurrentReservationContainer();
 		 
@@ -87,11 +88,17 @@ public class SearchResultView extends AbstractPage implements SessionBackupProxy
 			 //1. add progress bar
 			 ProgressBarWidget progressBar = new ProgressBarWidget();
 			 progressBar.processDisplayProgressBar(ProcessStatusEnum.SEARCH_RESULT);
-			 pagePanel.add(progressBar);
+			 controlPanel.add(progressBar);
 			 
-			 pagePanel.add(new HTML("<br/>"));
+			 controlPanel.add(new HTML("<br/>"));
 			 
 			 //2. add layout
-			 pagePanel.add(layoutWidget);
+			 controlPanel.add(layoutWidget);
 	  }
+
+	@Override
+	protected void fillMetaInfo(PageMetaInfo pageInfo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

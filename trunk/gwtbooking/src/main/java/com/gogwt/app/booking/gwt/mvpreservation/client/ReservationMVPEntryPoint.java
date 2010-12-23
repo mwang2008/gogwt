@@ -7,8 +7,8 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.AppController;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view.FooterLayoutWidget;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view.HeaderLayoutWidget;
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.common.view.MenuLayoutWidget;
+import com.gogwt.framework.arch.navigation.AbstractControllerConfigAccessor;
 import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
-import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -40,7 +40,7 @@ public class ReservationMVPEntryPoint extends AbstractEntryPoint {
 	}
 
 	@Override
-	protected AbstractPageConfigAccessor obtainPageAccessor() {
+	protected AbstractControllerConfigAccessor obtainPageAccessor() {
 		return GWT.create(ReservationMVPProcessConfig.class);	
 	}
 

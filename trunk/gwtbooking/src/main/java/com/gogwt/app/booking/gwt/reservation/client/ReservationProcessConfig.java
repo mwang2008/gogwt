@@ -1,6 +1,6 @@
 package com.gogwt.app.booking.gwt.reservation.client;
 
-import com.gogwt.framework.arch.navigation.PageConfigAccessor;
+import com.gogwt.framework.arch.navigation.ControllerConfigAccessor;
 
 /**
  * 
@@ -11,6 +11,6 @@ import com.gogwt.framework.arch.navigation.PageConfigAccessor;
  *
  */
 
-public interface ReservationProcessConfig extends PageConfigAccessor {
+public interface ReservationProcessConfig extends ControllerConfigAccessor {
 
 }

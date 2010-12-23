@@ -7,8 +7,8 @@ import com.gogwt.app.booking.gwt.common.widget.populator.PopulatorManager;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.FooterLayoutWidget;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.HeaderLayoutWidget;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.common.MenuLayoutWidget;
+import com.gogwt.framework.arch.navigation.AbstractControllerConfigAccessor;
 import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
-import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -46,7 +46,7 @@ public class ReservationEntryPoint extends AbstractEntryPoint {
 	
 	
 	@Override
-	protected AbstractPageConfigAccessor obtainPageAccessor() {
+	protected AbstractControllerConfigAccessor obtainPageAccessor() {
 		return GWT.create(ReservationProcessConfig.class);		 
 	}
 

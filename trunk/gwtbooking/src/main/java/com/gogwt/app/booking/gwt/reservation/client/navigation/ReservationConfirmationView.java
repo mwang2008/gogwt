@@ -11,14 +11,15 @@ import com.gogwt.app.booking.gwt.common.utils.GWTSession;
 import com.gogwt.app.booking.gwt.reservation.client.widgets.reservation.ReservationConfirmationLayoutWidget;
 import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
+import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
-public class ReservationConfirmationView extends AbstractPage implements SessionBackupProxyInterface<ReservationContainerBean> {
+public class ReservationConfirmationView extends AbstractController implements SessionBackupProxyInterface<ReservationContainerBean> {
 
 	@Override
 	public void process() {
 		
-		this.pagePanel.clear();
+		this.controlPanel.clear();
 		
  	 	final ReservationContainerBean currentContainer = GWTSession
 				.getCurrentReservationContainer();
@@ -71,9 +72,16 @@ public class ReservationConfirmationView extends AbstractPage implements Session
 	private void displayConfirmation(ReserveResponseBean reserveResponseBean) {
 		ReservationConfirmationLayoutWidget layout = new ReservationConfirmationLayoutWidget();
 
-		this.pagePanel.add(layout);
+		this.controlPanel.add(layout);
 
 		layout.prepareEntryLayout(reserveResponseBean);
+		
+	}
+
+
+	@Override
+	protected void fillMetaInfo(PageMetaInfo pageInfo) {
+		// TODO Auto-generated method stub
 		
 	}
  

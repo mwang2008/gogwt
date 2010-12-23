@@ -19,7 +19,7 @@
    <inherits name="com.gogwt.app.booking.rpc.rpcInterfaces" />
    
    <!-- Locale : values="en_us,es_es"-->
-   <extend-property name="locale" values="en_us,es_es" />
+   <extend-property name="locale" values="en_us, es_es" />
    
    <!--  Logger Level 
    <extend-property name="log_level" values="FATAL,OFF"/>  
@@ -30,8 +30,8 @@
 	<entry-point
 		class="com.gogwt.app.booking.gwt.reservation.client.ReservationEntryPoint" />
 
-   <!--  DEVELOPMENT: use following line for quick compile  
+   <!--  DEVELOPMENT: use following line for quick compile   -->
      <set-property name="user.agent" value="gecko1_8"/> 
-   -->
+  
 
 </module>
