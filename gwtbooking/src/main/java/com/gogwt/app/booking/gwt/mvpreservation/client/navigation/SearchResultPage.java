@@ -14,9 +14,10 @@ import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view
 import com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view.SearchResultViewImpl;
 import com.gogwt.app.booking.rpc.proxy.SessionBackupProxyInterface;
 import com.gogwt.app.booking.rpc.proxy.reservation.SessionBackupProxy;
-import com.gogwt.framework.arch.widgets.AbstractPage;
+import com.gogwt.framework.arch.widgets.AbstractController;
+import com.gogwt.framework.arch.widgets.PageMetaInfo;
 
-public class SearchResultPage extends AbstractPage implements
+public class SearchResultPage extends AbstractController implements
 		SessionBackupProxyInterface<ReservationContainerBean> {
 	
 	private SearchResultView<HotelBean, HotelSearchResponseBean> searchResultView;
@@ -86,8 +87,14 @@ public class SearchResultPage extends AbstractPage implements
 	private void processDisplayHotelItems(
 			final HotelSearchResponseBean hotelSearchResponse) {
 
-		new SearchResultPresenter(searchResultView).go(pagePanel);
+		new SearchResultPresenter(searchResultView).go(controlPanel);
 		searchResultView.processDisplay(hotelSearchResponse);
 
+	}
+
+	@Override
+	protected void fillMetaInfo(PageMetaInfo pageInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 }

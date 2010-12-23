@@ -5,8 +5,8 @@ import java.util.Map;
 import com.gogwt.app.booking.gwt.hoteldetail.client.widgets.common.view.FooterLayoutWidget;
 import com.gogwt.app.booking.gwt.hoteldetail.client.widgets.common.view.HeaderLayoutWidget;
 import com.gogwt.app.booking.gwt.hoteldetail.client.widgets.common.view.MenuLayoutWidget;
+import com.gogwt.framework.arch.navigation.AbstractControllerConfigAccessor;
 import com.gogwt.framework.arch.navigation.AbstractEntryPoint;
-import com.gogwt.framework.arch.navigation.AbstractPageConfigAccessor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -30,7 +30,7 @@ public class HotelDetailEntryPoint extends AbstractEntryPoint {
 	}
 
 	@Override
-	protected AbstractPageConfigAccessor obtainPageAccessor() {
+	protected AbstractControllerConfigAccessor obtainPageAccessor() {
 		return GWT.create(HotelDetailMVPProcessConfig.class);
 	}
 
