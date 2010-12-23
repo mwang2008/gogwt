@@ -1,7 +1,8 @@
 package com.gogwt.app.booking.dto.dataObjects.request;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+
 import com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean;
+import com.gogwt.framework.arch.dto.BaseBean;
 
 public class SearchFormBean extends BaseBean {
 	private String location;

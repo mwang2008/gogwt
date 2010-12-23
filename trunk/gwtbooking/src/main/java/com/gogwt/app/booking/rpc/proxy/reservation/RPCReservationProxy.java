@@ -1,12 +1,9 @@
 package com.gogwt.app.booking.rpc.proxy.reservation;
 
   
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.CommandBean;
-import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
-import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
-import com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;

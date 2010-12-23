@@ -1,6 +1,8 @@
 package com.gogwt.app.booking.dto.dataObjects.request;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+import com.gogwt.framework.arch.dto.BaseBean;
+
+
 
 public class GuestInfoFormBean extends BaseBean {
 	private int id;  //propety Id

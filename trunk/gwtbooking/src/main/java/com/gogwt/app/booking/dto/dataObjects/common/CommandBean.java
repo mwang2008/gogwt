@@ -3,7 +3,7 @@ package com.gogwt.app.booking.dto.dataObjects.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+import com.gogwt.framework.arch.dto.BaseBean;
 
 
 /**

@@ -2,7 +2,7 @@ package com.gogwt.app.booking.dto.dataObjects.response;
 
 import java.util.List;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+import com.gogwt.framework.arch.dto.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GeoSearchBean;
 

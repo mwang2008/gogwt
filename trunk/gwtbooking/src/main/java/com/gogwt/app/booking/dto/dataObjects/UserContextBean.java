@@ -1,5 +1,6 @@
 package com.gogwt.app.booking.dto.dataObjects;
 
+import com.gogwt.framework.arch.dto.BaseBean;
 
 public class UserContextBean extends BaseBean {
 	private String languageId; // en

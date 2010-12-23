@@ -1,8 +1,9 @@
 package com.gogwt.app.booking.dto.dataObjects.response;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
+import com.gogwt.framework.arch.dto.BaseBean;
 
 public class ReserveResponseBean extends BaseBean {
 	private int reserveNum;
