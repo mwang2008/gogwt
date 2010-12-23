@@ -12,6 +12,7 @@
     1. mvn resources:resources
     2. mvn clean package
     3. copy war file to server deploy directory
+    gwt compile style:  OBF, PRETTY, or DETAILED
   ==================================================================== -->  
   <properties>
     <gwt.version>2.0.3</gwt.version>
@@ -27,23 +28,7 @@
     <finalName>${artifactId}</finalName>
     
     
-     <plugins>
-        <!-- deploy jboss runtime -->
-        <!--
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>2.1-alpha-2</version>
-          <configuration>
-	     <packagingExcludes>${warExclude}</packagingExcludes>
-	     <outputDirectory> ${JBOSS_HOME}/server/default/deploy </outputDirectory>
-	     <outputFileNameMapping>	     	  	      
-		@{artifactId}@@{classifier}@.@{extension}@
-             </outputFileNameMapping>
-	  </configuration>
-       </plugin>
-       -->
-
+     <plugins>   
       <plugin>
          <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -68,8 +53,7 @@
             <goals>
               <goal>run</goal>
             </goals>
-          </execution>
- 
+          </execution> 
         </executions>
      </plugin>
      
@@ -105,6 +89,7 @@
               <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
               <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
               <module>com.gogwt.app.booking.gwt.hoteldetail.HotelDetailModule</module>                           
+                                     
                <!--
               <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
               <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
@@ -321,12 +306,12 @@
     </dependency>
 
      <!-- gwtarch 1.0-SNAPSHOT -->
-    <dependency>
-      <groupId>com.gogwt.framework</groupId>
-      <artifactId>gwtarch</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    
+     <dependency>
+         <groupId>com.gogwt.framework</groupId>
+         <artifactId>gogwt</artifactId>
+         <version>1.0</version>
+      </dependency>
+      
     <!--  SL -->
     <dependency>
       <groupId>net.sf.gwt-widget</groupId>
