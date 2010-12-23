@@ -51,7 +51,7 @@ margin:0px;
      <div id="header" style="position: relative"></div>
      <div id="menu" style="position: relative"></div>    
      <div id="wrapperContent" style="position: relative"></div>    
-     <div id="footer" style=""margin-top: 25px; position: relative""></div>
+     <div id="footer" style="margin-top: 25px; position: relative"></div>
   </div>
 </div>   
 

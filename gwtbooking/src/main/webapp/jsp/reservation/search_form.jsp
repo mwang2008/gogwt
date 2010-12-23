@@ -1,4 +1,4 @@
-﻿<%--
+<%--
  search_form.jsp
 --%>
 <%@ include file="/jsp/common/i_global.jspf"%>
@@ -19,7 +19,18 @@
 <div id="wrapper">
   <div id="container">
     <%@ include file="i_header_menu.jspf"%>
+   <%-- left --%>
     <div id="wrapperContent" style="position: relative"><%@ include file="i_search_form.jspf"%></div> 
+    
+    <%-- right --%>
+    <div id="homeViewRight">
+     Valid input of destination (Location in the USA): 
+        <li> Full Address: 1600 Amphitheatre Parkway, Mountain View, CA 94043</li>
+        <li> City, State: example: Atlanta, GA </li>
+        <li> Latitude, Longitude. ex: 33.754487, -84.389663 </li>
+        <li> Airport code: ATL </li>     
+    </div>
+    
     <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
   </div>
 </div>
