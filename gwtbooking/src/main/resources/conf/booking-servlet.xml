@@ -20,6 +20,9 @@
    <!-- pipeline mapping -->
    <import resource="classpath:conf/pipeline.xml"/>	
 
+   <!-- aop mapping 
+   <import resource="classpath:conf/aopConfig.xml"/>   
+-->
    <!-- ========================= BEAN DEFINITIONS ============================== -->     
    <!-- bean lookup service -->
    <bean class="com.gogwt.app.booking.utils.BeanLookupService"/>
