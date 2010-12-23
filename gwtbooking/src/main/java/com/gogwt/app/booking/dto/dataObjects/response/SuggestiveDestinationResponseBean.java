@@ -2,8 +2,8 @@ package com.gogwt.app.booking.dto.dataObjects.response;
 
 import java.util.List;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
 import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
+import com.gogwt.framework.arch.dto.BaseBean;
 
 public class SuggestiveDestinationResponseBean extends BaseBean {
 	private List<KeywordBean> keywordList;

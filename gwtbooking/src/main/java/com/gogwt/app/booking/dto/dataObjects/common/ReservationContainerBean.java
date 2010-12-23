@@ -1,10 +1,11 @@
 package com.gogwt.app.booking.dto.dataObjects.common;
 
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+
 import com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean;
+import com.gogwt.framework.arch.dto.BaseBean;
 
 /**
  * ReservationContainerBean

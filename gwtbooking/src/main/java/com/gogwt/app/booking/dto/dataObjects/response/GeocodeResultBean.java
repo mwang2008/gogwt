@@ -1,8 +1,6 @@
 package com.gogwt.app.booking.dto.dataObjects.response;
 
-import java.io.Serializable;
-
-import com.gogwt.app.booking.dto.dataObjects.BaseBean;
+import com.gogwt.framework.arch.dto.BaseBean;
 
 public class GeocodeResultBean extends BaseBean {
 
