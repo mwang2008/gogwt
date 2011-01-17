@@ -35,6 +35,7 @@
         <mapping resource="com/gogwt/app/booking/service/domain/State.hbm.xml"/>
         <mapping resource="com/gogwt/app/booking/service/domain/Reservation.hbm.xml"/>
         <mapping resource="com/gogwt/app/booking/service/domain/Keyword.hbm.xml"/>
+        <mapping resource="com/gogwt/app/booking/service/domain/Customer.hbm.xml"/>
         
     </session-factory>
 

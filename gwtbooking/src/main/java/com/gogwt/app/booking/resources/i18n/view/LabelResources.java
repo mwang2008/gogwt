@@ -52,6 +52,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String Label_Search_box_colon();
 
   /**
+   * Translated "AccountId".
+   * 
+   * @return translated "AccountId"
+   */
+  @DefaultMessage("AccountId")
+  @Key("Label.accountId")
+  String Label_accountId();
+
+  /**
    * Translated "Address".
    * 
    * @return translated "Address"
@@ -77,6 +86,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("miles")
   @Key("Label.miles")
   String Label_miles();
+
+  /**
+   * Translated "Password".
+   * 
+   * @return translated "Password"
+   */
+  @DefaultMessage("Password")
+  @Key("Label.password")
+  String Label_password();
 
   /**
    * Translated "State".
@@ -232,6 +250,24 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String caption_hotel_info();
 
   /**
+   * Translated "Date of Birth".
+   * 
+   * @return translated "Date of Birth"
+   */
+  @DefaultMessage("Date of Birth")
+  @Key("label.Date.Birth")
+  String label_Date_Birth();
+
+  /**
+   * Translated "Day".
+   * 
+   * @return translated "Day"
+   */
+  @DefaultMessage("Day")
+  @Key("label.Day")
+  String label_Day();
+
+  /**
    * Translated "First Name".
    * 
    * @return translated "First Name"
@@ -250,6 +286,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String label_Last_Name();
 
   /**
+   * Translated "Month".
+   * 
+   * @return translated "Month"
+   */
+  @DefaultMessage("Month")
+  @Key("label.Month")
+  String label_Month();
+
+  /**
    * Translated "Title".
    * 
    * @return translated "Title"
@@ -257,6 +302,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Title")
   @Key("label.Title")
   String label_Title();
+
+  /**
+   * Translated "Year".
+   * 
+   * @return translated "Year"
+   */
+  @DefaultMessage("Year")
+  @Key("label.Year")
+  String label_Year();
 
   /**
    * Translated "Email".

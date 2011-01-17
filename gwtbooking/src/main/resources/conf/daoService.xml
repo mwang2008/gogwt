@@ -13,5 +13,9 @@
         
          <bean name="name=dao/CommonDAO" class="com.gogwt.app.booking.businessService.dataaccess.hibernate.HibernateCommonDAO">                  
         </bean>
+
+         <bean name="name=dao/CustomerDAO" class="com.gogwt.app.booking.businessService.dataaccess.hibernate.HibernateCustomerDAO">                  
+        </bean>
+        
 	    
 </beans>

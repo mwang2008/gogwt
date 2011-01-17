@@ -1200,7 +1200,7 @@ a, a:visited, a:hover {
   padding:10px;
   position:absolute;
   top:17px;
-  right:250px;
+  right:350px;
   width:400x;  
 }
 
@@ -1208,7 +1208,8 @@ a, a:visited, a:hover {
   border-width:1px;
   padding:10px;
   position:absolute;
-  top:17px;
+  //top:17px;
+  top:7px;
   right:15px;
   width:100x;  
 }

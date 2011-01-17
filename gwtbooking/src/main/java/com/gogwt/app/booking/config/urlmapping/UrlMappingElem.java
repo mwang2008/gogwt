@@ -2,7 +2,11 @@ package com.gogwt.app.booking.config.urlmapping;
 
 import java.io.Serializable;
 
+import com.gogwt.app.booking.config.runtime.AppRuntimeConfig;
+
 public class UrlMappingElem implements Serializable {
+	private AppRuntimeConfig runtimeConfig;
+	
 	private String languageId; // en
 	private String countryId; // US
 	private String controllerName;
@@ -14,6 +18,7 @@ public class UrlMappingElem implements Serializable {
     private String domainName;
 	private boolean isSecure;
 	private String hotelId;
+	private String secureHostPort;
 	
 	public String getLanguageId() {
 		return languageId;
@@ -85,6 +90,22 @@ public class UrlMappingElem implements Serializable {
 
 	public void setHotelId(String hotelId) {
 		this.hotelId = hotelId;
+	}
+
+	public String getSecureHostPort() {
+		return secureHostPort;
+	}
+
+	public void setSecureHostPort(String secureHostPort) {
+		this.secureHostPort = secureHostPort;
+	}
+
+	public AppRuntimeConfig getRuntimeConfig() {
+		return runtimeConfig;
+	}
+
+	public void setRuntimeConfig(AppRuntimeConfig runtimeConfig) {
+		this.runtimeConfig = runtimeConfig;
 	}
 
 	

@@ -28,6 +28,7 @@
           <td style="vertical-align: top;" align="left">
             <table class="headerLanguage" cellpadding="0" cellspacing="0">
                <tbody>
+               <%--
                <tr>
                   <td style="vertical-align: top;" align="left">
                     <div class="gwt-HTML">
@@ -40,6 +41,16 @@
                   <td style="vertical-align: top;" align="left">
                     <div class="gwt-Label"><a href="${env.contextPath}/es-es/hotelsearch" title="Español">Español</a> </div>
                   </td>
+              </tr>
+              --%>
+              <tr>
+                  <td style="vertical-align: top;" align="left" colspan="3">
+                    <%--
+                       <%@ include file="i_login_form.jspf"%>
+                    --%>
+                    <div id="login-links">Forgot Password? <a href="/account/login_forgot.php">Click Here</a> Not a Member? <a href="${env.contextPath}/${env.languageId}-${fn:toLowerCase(env.countryId)}/enroll">Sign Up Now</a></div>
+                  </td>
+                   
               </tr>
               </tbody>
             </table>
