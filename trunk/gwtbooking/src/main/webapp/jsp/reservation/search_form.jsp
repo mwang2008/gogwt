@@ -1,4 +1,4 @@
-<%--
+﻿<%--
  search_form.jsp
 --%>
 <%@ include file="/jsp/common/i_global.jspf"%>

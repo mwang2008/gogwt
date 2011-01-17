@@ -4,7 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
    <!-- ========================= IMPORTS ============================== -->     
-	
+	<!-- client env -->
+   <import resource="classpath:conf/clientEnv.xml"/> 
+   
    <!-- model bean -->
    <import resource="classpath:conf/domainService.xml"/> 
 
@@ -30,6 +32,8 @@
    <!-- ========================= VALIDATOR ========================= -->
    <bean name="name=validator/reservation/SearchFormValidator" class="com.gogwt.app.booking.controllers.validation.SearchFormValidator"/>
    <bean name="name=validator/reservation/GuestInfoFormValidator" class="com.gogwt.app.booking.controllers.validation.GuestInfoFormValidator"/>
+   <bean name="name=validator/LoginValidator" class="com.gogwt.app.booking.controllers.validation.LoginFormValidator"/>
+   <bean name="name=validator/EnrollCustomerValidator" class="com.gogwt.app.booking.controllers.validation.EnrollCustomerValidator"/>
   
   
    <!-- ========================= INTERCEPTOR ========================= -->
@@ -42,13 +46,14 @@
        </property>
        
        <constructor-arg index="0">
-	  <map>
+	      <map>
             <entry key="gwtreservation"><value>conf/gwt/ReservationProcessConfig.xml</value></entry>
             <entry key="mvpreservation"><value>conf/gwt/ReservationMVPProcessConfig.xml</value></entry>
             <entry key="mvphoteldetail"><value>conf/gwt/HotelDetailMVPProcessConfig.xml</value></entry>
          </map>
        </constructor-arg> 
-     
+       <property name="runtimeConfig"><ref bean="name:runtime/runtimeConfig"/></property>
+       
     </bean>
 
              
@@ -71,11 +76,48 @@
     <!-- ========================= POPULATOR ========================= -->
     <bean name="name=populator/StatePopulator" class="com.gogwt.app.booking.populator.StatePopulator"/>
     <bean name="name=populator/TitlePopulator" class="com.gogwt.app.booking.populator.TitlePopulator"/>
-  
+    <bean name="name=populator/MonthPopulator" class="com.gogwt.app.booking.populator.MonthPopulator"/>
+    <bean name="name=populator/DayPopulator" class="com.gogwt.app.booking.populator.DayPopulator"/>
+    <bean name="name=populator/YearPopulator" class="com.gogwt.app.booking.populator.YearPopulator"/>
+    <bean name="name=populator/GenderPopulator" class="com.gogwt.app.booking.populator.GenderPopulator"/>
+   
     <!-- ========================= CONTROLLER DEFINITIONS ========================= --> 
     
     <bean name="name=controller/common/ErrorController" class="com.gogwt.app.booking.controllers.action.ErrorController"/> 
     
+   <!-- LoginController -->
+   <bean name="name=controller/LoginController" class="com.gogwt.app.booking.controllers.action.LoginController">
+      <property name="commandName"><value>loginFormBean</value></property>
+      <property name="validator"><ref bean="name=validator/LoginValidator"/></property>
+      <property name="formView"><value>/customer/login</value></property>
+      <property name="successView"><value>loginsuccess</value></property>          
+   </bean>
+
+   <!-- LoginSuccessController -->
+   <bean name="name=controller/LoginSuccessController" class="com.gogwt.app.booking.controllers.action.LoginSuccessController"/>
+ 
+
+
+   <!-- EnrollCustomerController -->
+   <bean name="name=controller/EnrollCustomerController" class="com.gogwt.app.booking.controllers.action.EnrollCustomerController">
+      <property name="populators">
+         <map>
+           <entry key="monthPopulator"><ref bean="name=populator/MonthPopulator"/> </entry>
+           <entry key="dayPopulator"><ref bean="name=populator/DayPopulator"/> </entry>    
+           <entry key="yearPopulator"><ref bean="name=populator/YearPopulator"/> </entry> 
+           <entry key="genderPopulator"><ref bean="name=populator/GenderPopulator"/> </entry>   
+           <entry key="titlePopulator"><ref bean="name=populator/TitlePopulator"/> </entry>     
+         </map>
+      </property>   
+      
+      <property name="commandName"><value>enrollCustomerFormBean</value></property>
+      <property name="validator"><ref bean="name=validator/EnrollCustomerValidator"/></property>
+      <property name="formView"><value>/customer/enroll</value></property>
+      <property name="successView"><value>enrollsuccess</value></property>          
+   </bean>
+   
+   <!-- EnrollCustomerSuccessController -->
+   <bean name="name=controller/reservation/EnrollCustomerSuccessController" class="com.gogwt.app.booking.controllers.action.EnrollCustomerSuccessController"/>
     
     <!-- HomeController" -->
     <bean name="name=controller/reservation/HomeController" class="com.gogwt.app.booking.controllers.HomePageController"/> 
@@ -144,7 +186,11 @@
               <prop key="/**/mvpreservation/**/">name=controller/reservation/GWTMVPHotelSearchController</prop> 
               <prop key="/**/mvphoteldetail/**/">name=controller/reservation/GWTHotelDetailController</prop>        
               <prop key="/**/errorPage/**/">name=controller/common/ErrorController</prop>        
-                   
+              <prop key="/**/login/**/">name=controller/LoginController</prop>
+              <prop key="/**/loginsuccess/**/">name=controller/LoginSuccessController</prop>
+             
+              <prop key="/**/enroll/**/">name=controller/EnrollCustomerController</prop>     
+              <prop key="/**/enrollsuccess/**/">name=controller/reservation/EnrollCustomerSuccessController</prop>              
            </props>
        </property>
      </bean>

@@ -1,0 +1,25 @@
+<%--
+   i_login_form.jspf
+--%>
+
+ <STYLE type="text/css">
+   //span{width:142px;height:24px;display:inline-block;margin-right:11px;background:url(http://s2.quibidscdn.com/images/login-fld-bg.gif.png) 0 0 no-repeat;vertical-align:middle;}
+ </STYLE>
+
+<table cellpadding="0" cellspacing="0">
+   <tr> 
+       <td>  
+           <form:form commandName="profileRequest" action="${env.secureHostPort}${env.contextPath}/${env.languageId}-${fn:toUpperCase(env.countryId)}/login" method="post">
+            
+              <form:input id="accountId" path="accountId" size="10" />
+              <input id="accountPin" name="accountPin" type="text" size="10" maxlength="4"/>
+              
+              
+              <input type="image" id="login-btn" alt="Login" src="http://s2.quibidscdn.com//images/login-btn.gif" name="">
+           </form:form>
+           <div id="login-links">Forgot Password? <a href="/account/login_forgot.php">Click Here</a> Not a Member? <a href="${env.contextPath}/${env.languageId}-${fn:toUpperCase(env.countryId)}/enroll">Sign Up Now</a></div>
+       </td>
+   </tr>
+</table>
+
+ 

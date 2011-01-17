@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import com.gogwt.app.booking.populator.Populator;
 
 public class BaseAbstractController extends SimpleFormController {
+	public static final String SUCCESS_URL = "successURL";
+	
 	private Map<String, Populator> populators;
     private String controllerName;
     
@@ -71,6 +73,10 @@ public class BaseAbstractController extends SimpleFormController {
 		this.controllerName = controllerName;
 	}
 
+	public String getSuccessURL( final HttpServletRequest request )
+	  {
+	    return request.getParameter( SUCCESS_URL );
+	  }
 	
 
 }

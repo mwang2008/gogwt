@@ -26,9 +26,9 @@ CREATE TABLE `g_property` (
 
 CREATE TABLE `g_reservation` (
   `id` mediumint(9) NOT NULL auto_increment,
-  `property_id` int(11) default NULL,
-  `first_name` varchar(10) NOT NULL,
-  `last_name` varchar(10) NOT NULL,
+  `property_id` varchar(50) NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
   `address` varchar(100) NOT NULL,
   `city` varchar(100) NOT NULL,
   `state` varchar(100) NOT NULL,
@@ -38,6 +38,22 @@ CREATE TABLE `g_reservation` (
   `country_id` varchar(10) NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
+)
+
+CREATE TABLE `g_customer` (
+  `id` varchar(50) NOT NULL,
+  `userName` varchar(50) NOT NULL,
+  `title` varchar(10) NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
+  `gender` varchar(10) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `birthday` date NOT NULL,
+  `status` int,
+  `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY g_customer_u1 (userName)
 )
 
 CREATE TABLE `g_state` (

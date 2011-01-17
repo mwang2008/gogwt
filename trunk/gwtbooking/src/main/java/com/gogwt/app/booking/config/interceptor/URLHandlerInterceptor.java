@@ -21,11 +21,11 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.gogwt.app.booking.config.interceptor.bean.ConfigPage;
 import com.gogwt.app.booking.config.parser.PageConfigXMLParser;
+import com.gogwt.app.booking.config.runtime.AppRuntimeConfig;
 import com.gogwt.app.booking.config.urlmapping.UrlMappingElem;
 import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.PopulatorItem;
-import com.gogwt.app.booking.utils.ToStringUtils;
 import com.gogwt.framework.arch.utils.StringUtils;
 
 /**
@@ -45,7 +45,13 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 	/* defined in -servlet.xml URLHandlerInterceptor section */
 	private Map<String, String> controllerGWTConfigMap;
 
+	private AppRuntimeConfig runtimeConfig;
 	
+	
+	/**
+	 * 
+	 * @param controllerGWTConfigMapArg
+	 */
 	public URLHandlerInterceptor(Map<String, String> controllerGWTConfigMapArg) {
 		super();
 		controllerGWTConfigMap = controllerGWTConfigMapArg;
@@ -80,6 +86,8 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 			request.setAttribute(SUPPORTED_LANG_REGIONS,
 					getSupportedLangRegion());
 
+			urlMappingElem.setRuntimeConfig(getRuntimeConfig());
+			
 			// convert to JSON and save to request with name envJson
 			JSONObject jsonEnv = JSONObject.fromObject(urlMappingElem);
 			request.setAttribute(ENV_JSON, jsonEnv);
@@ -118,6 +126,9 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 		 
 		final Map<String, List<PopulatorItem>> populatorsMap = ctrlKeyPopulators.get(key);
 		PopulatorProcessor.gwtSerialized(request, key, populatorsMap);
+		
+		//todo:
+		urlMappingElem.setSecureHostPort("https://localhost");
 	}
 	
 
@@ -229,15 +240,18 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 	public void setSupportedLangRegion(Map<String, String> supportedLangRegion) {
 		this.supportedLangRegion = supportedLangRegion;
 	}
-	/* 
-	public Map<String, String> getControllerGWTConfigMap() {
-		return controllerGWTConfigMap;
+
+
+	public AppRuntimeConfig getRuntimeConfig() {
+		return runtimeConfig;
 	}
 
-	public void setControllerGWTConfigMap(Map<String, String> controllerGWTConfigMap) {
-		this.controllerGWTConfigMap = controllerGWTConfigMap;
-	}*/
 
+	public void setRuntimeConfig(AppRuntimeConfig runtimeConfig) {
+		this.runtimeConfig = runtimeConfig;
+	}
+	 
+	
 	
  
 }

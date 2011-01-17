@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+   <!--  the last take present -->
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="locations">
+	  <list>
+		 <value>classpath*:conf/environments/*.properties</value>
+	    <value>classpath*:conf/environments/${execute.env}/*.properties</value>
+ 	  </list>
+	</property>
+	<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_FALLBACK"/>
+  </bean>
+
+  <bean name="name:runtime/runtimeConfig" class="com.gogwt.app.booking.config.runtime.AppRuntimeConfig">
+    <property name="emailServer"><value>${email.server}</value></property>
+    <property name="securePort"><value>${secure.port}</value></property>   
+  </bean>
+
+	    
+</beans>
