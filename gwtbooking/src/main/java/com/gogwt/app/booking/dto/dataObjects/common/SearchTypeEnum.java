@@ -43,7 +43,6 @@ public enum SearchTypeEnum implements ReversibleEnum<String, SearchTypeEnum>, Is
 	   * @param code
 	   *          The integer code
 	   * @return The enum constant
-	   * @see com.ihg.dec.framework.commons.utils.enums.ReversibleEnum#reverse(java.lang.Object)
 	   */
 	  public SearchTypeEnum reverse( final String code )
 	  {

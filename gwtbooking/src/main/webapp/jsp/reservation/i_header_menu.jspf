@@ -69,7 +69,7 @@
                        <tbody>
                        <tr>
                           <td style="vertical-align: top;" align="left">
-                             <div class="gwt-Label bw_top_menu"><fmt:message key='menu.findhotel'/> </div>
+                             <div class="gwt-Label bw_top_menu"><a href="${env.prefix}/hotelsearch" style="text-decoration:none"> <fmt:message key='menu.findhotel'/> </a></div>
                           </td>
                           <td style="vertical-align: top;" align="left">
                             

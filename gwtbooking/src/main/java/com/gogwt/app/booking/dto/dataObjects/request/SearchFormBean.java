@@ -9,6 +9,10 @@ public class SearchFormBean extends BaseBean {
     private int radius = 10;     //default set to 30 miles
     private GeoCodeBean geoCode;
     
+    public SearchFormBean() {
+    	geoCode = new GeoCodeBean();
+    }
+    
 	public String getLocation() {
 		return location;
 	}

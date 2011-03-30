@@ -28,7 +28,7 @@ public class CommonBusinessService {
 		return getCommonDAO().getHotelDetail(propertyId, userContext);
 	}
 	
-	public CommonDAO getCommonDAO() {
+	private CommonDAO getCommonDAO() {
 		return commonDAO;
 	}
 

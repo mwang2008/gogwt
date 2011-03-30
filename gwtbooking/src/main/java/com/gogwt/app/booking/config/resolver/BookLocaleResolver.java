@@ -20,7 +20,6 @@ public class BookLocaleResolver extends AbstractLocaleResolver {
 	 * Resolves the locale. This method assumes the language and country ids
 	 * have been set into the request as attributes.
 	 * 
-	 * @see com.ihg.dec.apps.dotcom.config.DotcomHandlerInterceptor
 	 * @see org.springframework.web.servlet.LocaleResolver#resolveLocale(javax.servlet.http.HttpServletRequest)
 	 */
 	public Locale resolveLocale(final HttpServletRequest request) {
@@ -62,7 +61,7 @@ public class BookLocaleResolver extends AbstractLocaleResolver {
 	protected Locale determineDefaultLocale(final HttpServletRequest request) {
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("IHGLocaleResolver.determineDefaultLocale");
+			logger.debug("BookLocaleResolver.determineDefaultLocale");
 		}
 
 		Locale defaultLocale = getDefaultLocale();

@@ -205,6 +205,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String button_Alt_Book();
 
   /**
+   * Translated "Enroll".
+   * 
+   * @return translated "Enroll"
+   */
+  @DefaultMessage("Enroll")
+  @Key("button.Alt.Enroll")
+  String button_Alt_Enroll();
+
+  /**
    * Translated "Find Hotels".
    * 
    * @return translated "Find Hotels"
@@ -212,6 +221,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Find Hotels")
   @Key("button.Alt.FindHotel")
   String button_Alt_FindHotel();
+
+  /**
+   * Translated "Login".
+   * 
+   * @return translated "Login"
+   */
+  @DefaultMessage("Login")
+  @Key("button.Alt.Login")
+  String button_Alt_Login();
 
   /**
    * Translated "Select".
@@ -250,6 +268,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String caption_hotel_info();
 
   /**
+   * Translated "I have read and agree to the Terms & Conditions and Privacy Policy.  ".
+   * 
+   * @return translated "I have read and agree to the Terms & Conditions and Privacy Policy.  "
+   */
+  @DefaultMessage("I have read and agree to the Terms & Conditions and Privacy Policy.  ")
+  @Key("enroll.agree.term")
+  String enroll_agree_term();
+
+  /**
    * Translated "Date of Birth".
    * 
    * @return translated "Date of Birth"
@@ -275,6 +302,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("First Name")
   @Key("label.First.Name")
   String label_First_Name();
+
+  /**
+   * Translated "Gender".
+   * 
+   * @return translated "Gender"
+   */
+  @DefaultMessage("Gender")
+  @Key("label.Gender")
+  String label_Gender();
 
   /**
    * Translated "Last Name".
@@ -313,6 +349,24 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String label_Year();
 
   /**
+   * Translated "Confirm Email".
+   * 
+   * @return translated "Confirm Email"
+   */
+  @DefaultMessage("Confirm Email")
+  @Key("label.confirmEmail")
+  String label_confirmEmail();
+
+  /**
+   * Translated "Confirm Password".
+   * 
+   * @return translated "Confirm Password"
+   */
+  @DefaultMessage("Confirm Password")
+  @Key("label.confirmPassword")
+  String label_confirmPassword();
+
+  /**
    * Translated "Email".
    * 
    * @return translated "Email"
@@ -320,6 +374,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Email")
   @Key("label.email")
   String label_email();
+
+  /**
+   * Translated "Email Address".
+   * 
+   * @return translated "Email Address"
+   */
+  @DefaultMessage("Email Address")
+  @Key("label.email.address")
+  String label_email_address();
 
   /**
    * Translated "English".
@@ -340,6 +403,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String label_location();
 
   /**
+   * Translated "Password".
+   * 
+   * @return translated "Password"
+   */
+  @DefaultMessage("Password")
+  @Key("label.password")
+  String label_password();
+
+  /**
    * Translated "Radius".
    * 
    * @return translated "Radius"
@@ -347,6 +419,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Radius")
   @Key("label.radius")
   String label_radius();
+
+  /**
+   * Translated "User Name".
+   * 
+   * @return translated "User Name"
+   */
+  @DefaultMessage("User Name")
+  @Key("label.userName")
+  String label_userName();
 
   /**
    * Translated "Find Hotel".

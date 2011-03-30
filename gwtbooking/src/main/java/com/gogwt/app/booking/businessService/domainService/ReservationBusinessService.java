@@ -47,7 +47,7 @@ public final class ReservationBusinessService {
 		}
 		
 		//2. if SearchFormBean has geocode, use it 
-		if (searchFormBean.getGeoCode() != null) {
+		if (searchFormBean.getGeoCode() != null && searchFormBean.getGeoCode().validGeocode()) {
 			GeoSearchBean centerGeocode = new GeoSearchBean();
 			centerGeocode.setLat(searchFormBean.getGeoCode().getLat());
 			centerGeocode.setLng(searchFormBean.getGeoCode().getLng());
@@ -76,7 +76,7 @@ public final class ReservationBusinessService {
  		 
 	}
 
-
+    
 	public GeocodeResponseBean geocodeIt(final String location) throws AppRemoteException {
 		GeocodeResponseBean geocodeResponseBean = null;
 		
@@ -160,7 +160,7 @@ public final class ReservationBusinessService {
 		 return reserveResponseBean;
 	}
 	
-	public HotelSearchDAO getHotelSearchDAO() {
+	private HotelSearchDAO getHotelSearchDAO() {
 		return hotelSearchDAO;
 	}
 

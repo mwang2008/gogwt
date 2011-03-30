@@ -4,8 +4,8 @@ import com.gogwt.framework.arch.dto.BaseBean;
 
 public class GeoCodeBean extends BaseBean {
  
-	private double lat;
-	private double lng;
+	private double lat = -9999;
+	private double lng = -9999;
  
 	public GeoCodeBean() {
 		super();
@@ -33,4 +33,10 @@ public class GeoCodeBean extends BaseBean {
 		this.lng = lng;
 	}
 
+	public boolean validGeocode() {
+		if ((lat == -9999 ) || (lng == -9999)) {
+			return false;
+		}
+		return true;
+	}
 }
