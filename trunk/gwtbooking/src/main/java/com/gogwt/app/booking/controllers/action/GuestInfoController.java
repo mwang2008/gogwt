@@ -51,8 +51,7 @@ public class GuestInfoController extends BaseAbstractController {
 	/**
 	 * Call before onSubmit with/without error.
 	 * 
-	 * @see com.ihg.dec.apps.dotcom.actions.AbstractDotcomController#processFormSubmission(javax.servlet.http.HttpServletRequest,
-	 *      javax.servlet.http.HttpServletResponse, Object,
+	  *      javax.servlet.http.HttpServletResponse, Object,
 	 *      org.springframework.validation.BindException)
 	 */
 	@Override

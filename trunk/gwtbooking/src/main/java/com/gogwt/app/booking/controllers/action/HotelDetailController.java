@@ -32,9 +32,11 @@ public class HotelDetailController extends BaseAbstractController {
 			CommonBusinessService commonBusinessService = 
 				LookupBusinessService.getCommonBusinessService();
 
-			final HotelBean hotel = commonBusinessService.getCommonDAO()
-					.getHotelDetail(id, userContext);
+			//final HotelBean hotel = commonBusinessService.getCommonDAO()
+			//		.getHotelDetail(id, userContext);
 
+			final HotelBean hotel = commonBusinessService.getHotelDetail(id, userContext);
+			
 			final ModelMap modelMap = new ModelMap();
 
 			modelMap.addAttribute("detail", hotel);

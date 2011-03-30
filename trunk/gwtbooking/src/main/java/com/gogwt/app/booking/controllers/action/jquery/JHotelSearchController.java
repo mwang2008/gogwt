@@ -1,4 +1,19 @@
-package com.gogwt.app.booking.controllers.action;
+/*
+ * Copyright 2010 GoGWT.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package com.gogwt.app.booking.controllers.action.jquery;
 
 import java.util.Map;
 
@@ -13,16 +28,23 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
 import com.gogwt.app.booking.businessService.domainService.ReservationBusinessService;
 import com.gogwt.app.booking.controllers.BaseAbstractController;
+import com.gogwt.app.booking.controllers.action.HotelSearchController;
 import com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum;
 import com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean;
 import com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean;
 import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;
 import com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException;
 import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
- 
 
-public class HotelSearchController extends BaseAbstractController {
-	private static Logger logger = Logger.getLogger(HotelSearchController.class);
+/**
+ * <code><B>JHotelSearchController<code><B>
+ * 
+ * Created for practice of JQuery
+ * <p/>
+ */
+
+public class JHotelSearchController extends BaseAbstractController {
+	private static Logger logger = Logger.getLogger(JHotelSearchController.class);
 
 	@Override
 	protected Object formBackingObject(final HttpServletRequest request)
@@ -120,5 +142,6 @@ public class HotelSearchController extends BaseAbstractController {
 		return super.showForm(request, response, errors, null);
 		 
 	}
+
 
 }

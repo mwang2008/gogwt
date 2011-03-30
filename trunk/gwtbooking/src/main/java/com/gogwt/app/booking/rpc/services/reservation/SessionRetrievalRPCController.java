@@ -16,7 +16,7 @@ import com.gogwt.app.booking.scopeManager.session.SessionBeanLookupService;
 public class SessionRetrievalRPCController extends
 		ReservationProcessServiceAdapter {
 	/**
-	 * @see com.ihg.dec.apps.hi.services.reservation.common.ReservationProcessServiceAdapter#getReservationContainerBeanFromSession()
+    *
 	 */
 	public ReservationContainerBean getReservationContainerBeanFromSession(
 			ProcessStatusEnum processStatusEnum) throws AppRemoteException {

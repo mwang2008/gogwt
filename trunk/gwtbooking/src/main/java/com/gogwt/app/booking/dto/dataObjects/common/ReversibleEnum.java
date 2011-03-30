@@ -7,7 +7,6 @@ package com.gogwt.app.booking.dto.dataObjects.common;
  * should implement if they want to have the reversible lookup functionality.
  * i.e. allow the lookup using the code for the {@link Enum} constants.
  * <p/>
- * @see com.ihg.dec.framework.commons.utils.enums.ReversibleEnum
  */
 
 public interface ReversibleEnum<E, V>
