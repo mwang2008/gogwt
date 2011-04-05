@@ -1,0 +1,358 @@
+2006-10-05 08:45:53,325 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 08:45:53,340 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 08:45:53,340 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 08:45:53,340 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 08:45:53,340 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 08:45:53,387 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 08:45:53,387 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 08:45:53,387 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 08:45:53,387 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 08:45:53,387 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 08:45:53,387 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 08:45:53,387 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 08:45:53,387 - Velocimacro : initialization complete.
+2006-10-05 08:45:53,387 - Velocity successfully started.
+2006-10-05 08:45:53,434 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 12:09:42,229 - SimpleLog4JLogSystem initialized using logfile 'velocity.log'
+2006-10-05 12:09:42,245 - ************************************************************** 
+2006-10-05 12:09:42,245 - Starting Jakarta Velocity v1.4
+2006-10-05 12:09:42,245 - RuntimeInstance initializing.
+2006-10-05 12:09:42,245 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2006-10-05 12:09:42,245 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+2006-10-05 12:09:42,245 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogSystem or necessary supporting classes in classpath. Exception : java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+2006-10-05 12:09:42,245 - Trying to use logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 12:09:42,245 - Using logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 12:09:42,245 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2006-10-05 12:09:42,260 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 12:09:42,260 - ClasspathResourceLoader : initialization starting.
+2006-10-05 12:09:42,260 - ClasspathResourceLoader : initialization complete.
+2006-10-05 12:09:42,260 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2006-10-05 12:09:42,260 - Default ResourceManager initialization complete.
+2006-10-05 12:09:42,260 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2006-10-05 12:09:42,276 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2006-10-05 12:09:42,276 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2006-10-05 12:09:42,276 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2006-10-05 12:09:42,276 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2006-10-05 12:09:42,370 - Created: 20 parsers.
+2006-10-05 12:09:42,385 - Velocimacro : initialization starting.
+2006-10-05 12:09:42,385 - Velocimacro : adding VMs from VM library template : com/vm/template/vm_macro.html
+2006-10-05 12:09:42,401 - Velocimacro : added new VM : #vm_content( key ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,401 - Velocimacro : added new VM : #vm_content1( resourceBundle key ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,401 - Velocimacro : added new VM : #vm_content2( resourceBundle locale key ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,417 - Velocimacro : added new VM : #vm_content_arg1( key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,417 - Velocimacro : added new VM : #vm_content1_arg1( resourceBundle key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,417 - Velocimacro : added new VM : #vm_content2_arg1( resourceBundle locale key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,417 - Velocimacro : added new VM : #vm_content_arg2( key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,417 - Velocimacro : added new VM : #vm_content1_arg2( resourceBundle key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,417 - Velocimacro : added new VM : #vm_content2_arg2( resourceBundle locale key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,432 - Velocimacro : added new VM : #vm_content_arg3( key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,432 - Velocimacro : added new VM : #vm_content1_arg3( resourceBundle key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,432 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,432 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,432 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,432 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,432 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:09:42,479 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 12:09:42,479 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 12:09:42,479 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 12:09:42,479 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 12:09:42,479 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 12:09:42,479 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 12:09:42,479 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 12:09:42,479 - Velocimacro : initialization complete.
+2006-10-05 12:09:42,479 - Velocity successfully started.
+2006-10-05 12:09:42,526 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 12:11:28,253 - SimpleLog4JLogSystem initialized using logfile 'velocity.log'
+2006-10-05 12:11:28,253 - ************************************************************** 
+2006-10-05 12:11:28,253 - Starting Jakarta Velocity v1.4
+2006-10-05 12:11:28,253 - RuntimeInstance initializing.
+2006-10-05 12:11:28,253 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2006-10-05 12:11:28,253 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+2006-10-05 12:11:28,253 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogSystem or necessary supporting classes in classpath. Exception : java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+2006-10-05 12:11:28,253 - Trying to use logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 12:11:28,253 - Using logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 12:11:28,253 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2006-10-05 12:11:28,268 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 12:11:28,268 - ClasspathResourceLoader : initialization starting.
+2006-10-05 12:11:28,268 - ClasspathResourceLoader : initialization complete.
+2006-10-05 12:11:28,268 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2006-10-05 12:11:28,268 - Default ResourceManager initialization complete.
+2006-10-05 12:11:28,268 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2006-10-05 12:11:28,284 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2006-10-05 12:11:28,284 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2006-10-05 12:11:28,284 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2006-10-05 12:11:28,284 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2006-10-05 12:11:28,362 - Created: 20 parsers.
+2006-10-05 12:11:28,378 - Velocimacro : initialization starting.
+2006-10-05 12:11:28,378 - Velocimacro : adding VMs from VM library template : com/vm/template/vm_macro.html
+2006-10-05 12:11:28,393 - Velocimacro : added new VM : #vm_content( key ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,393 - Velocimacro : added new VM : #vm_content1( resourceBundle key ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,409 - Velocimacro : added new VM : #vm_content2( resourceBundle locale key ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,409 - Velocimacro : added new VM : #vm_content_arg1( key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,409 - Velocimacro : added new VM : #vm_content1_arg1( resourceBundle key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,409 - Velocimacro : added new VM : #vm_content2_arg1( resourceBundle locale key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,409 - Velocimacro : added new VM : #vm_content_arg2( key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,409 - Velocimacro : added new VM : #vm_content1_arg2( resourceBundle key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,409 - Velocimacro : added new VM : #vm_content2_arg2( resourceBundle locale key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,425 - Velocimacro : added new VM : #vm_content_arg3( key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,425 - Velocimacro : added new VM : #vm_content1_arg3( resourceBundle key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,425 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,425 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,425 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,425 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,425 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 12:11:28,472 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 12:11:28,472 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 12:11:28,472 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 12:11:28,472 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 12:11:28,472 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 12:11:28,472 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 12:11:28,472 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 12:11:28,472 - Velocimacro : initialization complete.
+2006-10-05 12:11:28,472 - Velocity successfully started.
+2006-10-05 12:11:28,518 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:30:26,114 - SimpleLog4JLogSystem initialized using logfile 'velocity.log'
+2006-10-05 14:30:26,114 - ************************************************************** 
+2006-10-05 14:30:26,114 - Starting Jakarta Velocity v1.4
+2006-10-05 14:30:26,114 - RuntimeInstance initializing.
+2006-10-05 14:30:26,114 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2006-10-05 14:30:26,114 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+2006-10-05 14:30:26,114 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogSystem or necessary supporting classes in classpath. Exception : java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+2006-10-05 14:30:26,114 - Trying to use logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:30:26,114 - Using logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:30:26,130 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2006-10-05 14:30:26,130 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:30:26,130 - ClasspathResourceLoader : initialization starting.
+2006-10-05 14:30:26,130 - ClasspathResourceLoader : initialization complete.
+2006-10-05 14:30:26,130 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2006-10-05 14:30:26,130 - Default ResourceManager initialization complete.
+2006-10-05 14:30:26,145 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2006-10-05 14:30:26,145 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2006-10-05 14:30:26,145 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2006-10-05 14:30:26,145 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2006-10-05 14:30:26,145 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2006-10-05 14:30:26,239 - Created: 20 parsers.
+2006-10-05 14:30:26,239 - Velocimacro : initialization starting.
+2006-10-05 14:30:26,239 - Velocimacro : adding VMs from VM library template : com/vm/template/vm_macro.html
+2006-10-05 14:30:26,270 - Velocimacro : added new VM : #vm_content( key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,270 - Velocimacro : added new VM : #vm_content1( resourceBundle key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,270 - Velocimacro : added new VM : #vm_content2( resourceBundle locale key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,270 - Velocimacro : added new VM : #vm_content_arg1( key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,270 - Velocimacro : added new VM : #vm_content1_arg1( resourceBundle key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,286 - Velocimacro : added new VM : #vm_content2_arg1( resourceBundle locale key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,286 - Velocimacro : added new VM : #vm_content_arg2( key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,286 - Velocimacro : added new VM : #vm_content1_arg2( resourceBundle key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,286 - Velocimacro : added new VM : #vm_content2_arg2( resourceBundle locale key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,286 - Velocimacro : added new VM : #vm_content_arg3( key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,286 - Velocimacro : added new VM : #vm_content1_arg3( resourceBundle key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,302 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,302 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,302 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,302 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,302 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:30:26,348 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:30:26,348 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 14:30:26,348 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 14:30:26,348 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 14:30:26,348 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 14:30:26,348 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 14:30:26,348 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 14:30:26,348 - Velocimacro : initialization complete.
+2006-10-05 14:30:26,348 - Velocity successfully started.
+2006-10-05 14:30:26,395 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:31:44,165 - SimpleLog4JLogSystem initialized using logfile 'velocity.log'
+2006-10-05 14:31:44,165 - ************************************************************** 
+2006-10-05 14:31:44,165 - Starting Jakarta Velocity v1.4
+2006-10-05 14:31:44,165 - RuntimeInstance initializing.
+2006-10-05 14:31:44,165 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2006-10-05 14:31:44,165 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+2006-10-05 14:31:44,165 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogSystem or necessary supporting classes in classpath. Exception : java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+2006-10-05 14:31:44,165 - Trying to use logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:31:44,181 - Using logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:31:44,181 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2006-10-05 14:31:44,181 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:31:44,181 - ClasspathResourceLoader : initialization starting.
+2006-10-05 14:31:44,181 - ClasspathResourceLoader : initialization complete.
+2006-10-05 14:31:44,181 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2006-10-05 14:31:44,181 - Default ResourceManager initialization complete.
+2006-10-05 14:31:44,196 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2006-10-05 14:31:44,196 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2006-10-05 14:31:44,196 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2006-10-05 14:31:44,196 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2006-10-05 14:31:44,196 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2006-10-05 14:31:44,290 - Created: 20 parsers.
+2006-10-05 14:31:44,306 - Velocimacro : initialization starting.
+2006-10-05 14:31:44,306 - Velocimacro : adding VMs from VM library template : com/vm/template/vm_macro.html
+2006-10-05 14:31:44,337 - Velocimacro : added new VM : #vm_content( key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,337 - Velocimacro : added new VM : #vm_content1( resourceBundle key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,337 - Velocimacro : added new VM : #vm_content2( resourceBundle locale key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,337 - Velocimacro : added new VM : #vm_content_arg1( key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,337 - Velocimacro : added new VM : #vm_content1_arg1( resourceBundle key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,337 - Velocimacro : added new VM : #vm_content2_arg1( resourceBundle locale key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,352 - Velocimacro : added new VM : #vm_content_arg2( key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,352 - Velocimacro : added new VM : #vm_content1_arg2( resourceBundle key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,352 - Velocimacro : added new VM : #vm_content2_arg2( resourceBundle locale key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,352 - Velocimacro : added new VM : #vm_content_arg3( key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,352 - Velocimacro : added new VM : #vm_content1_arg3( resourceBundle key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,352 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,368 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,368 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,368 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,368 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:31:44,415 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:31:44,415 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 14:31:44,415 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 14:31:44,415 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 14:31:44,415 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 14:31:44,415 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 14:31:44,415 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 14:31:44,415 - Velocimacro : initialization complete.
+2006-10-05 14:31:44,415 - Velocity successfully started.
+2006-10-05 14:31:44,462 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:34:52,407 - SimpleLog4JLogSystem initialized using logfile 'velocity.log'
+2006-10-05 14:34:52,407 - ************************************************************** 
+2006-10-05 14:34:52,407 - Starting Jakarta Velocity v1.4
+2006-10-05 14:34:52,407 - RuntimeInstance initializing.
+2006-10-05 14:34:52,407 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2006-10-05 14:34:52,407 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+2006-10-05 14:34:52,407 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogSystem or necessary supporting classes in classpath. Exception : java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+2006-10-05 14:34:52,407 - Trying to use logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:34:52,423 - Using logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:34:52,423 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2006-10-05 14:34:52,423 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:34:52,423 - ClasspathResourceLoader : initialization starting.
+2006-10-05 14:34:52,423 - ClasspathResourceLoader : initialization complete.
+2006-10-05 14:34:52,423 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2006-10-05 14:34:52,423 - Default ResourceManager initialization complete.
+2006-10-05 14:34:52,438 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2006-10-05 14:34:52,438 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2006-10-05 14:34:52,438 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2006-10-05 14:34:52,438 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2006-10-05 14:34:52,454 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2006-10-05 14:34:52,532 - Created: 20 parsers.
+2006-10-05 14:34:52,548 - Velocimacro : initialization starting.
+2006-10-05 14:34:52,548 - Velocimacro : adding VMs from VM library template : com/vm/template/vm_macro.html
+2006-10-05 14:34:52,563 - Velocimacro : added new VM : #vm_content( key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,563 - Velocimacro : added new VM : #vm_content1( resourceBundle key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,563 - Velocimacro : added new VM : #vm_content2( resourceBundle locale key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,579 - Velocimacro : added new VM : #vm_content_arg1( key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,579 - Velocimacro : added new VM : #vm_content1_arg1( resourceBundle key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,579 - Velocimacro : added new VM : #vm_content2_arg1( resourceBundle locale key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,579 - Velocimacro : added new VM : #vm_content_arg2( key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,579 - Velocimacro : added new VM : #vm_content1_arg2( resourceBundle key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,579 - Velocimacro : added new VM : #vm_content2_arg2( resourceBundle locale key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,595 - Velocimacro : added new VM : #vm_content_arg3( key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,595 - Velocimacro : added new VM : #vm_content1_arg3( resourceBundle key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,595 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,595 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,595 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,595 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,595 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:34:52,642 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:34:52,642 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 14:34:52,642 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 14:34:52,642 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 14:34:52,642 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 14:34:52,642 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 14:34:52,642 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 14:34:52,642 - Velocimacro : initialization complete.
+2006-10-05 14:34:52,642 - Velocity successfully started.
+2006-10-05 14:34:52,688 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:45:23,295 - SimpleLog4JLogSystem initialized using logfile 'velocity.log'
+2006-10-05 14:45:23,295 - ************************************************************** 
+2006-10-05 14:45:23,295 - Starting Jakarta Velocity v1.4
+2006-10-05 14:45:23,295 - RuntimeInstance initializing.
+2006-10-05 14:45:23,295 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2006-10-05 14:45:23,295 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+2006-10-05 14:45:23,295 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogSystem or necessary supporting classes in classpath. Exception : java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+2006-10-05 14:45:23,295 - Trying to use logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:45:23,310 - Using logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 14:45:23,310 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2006-10-05 14:45:23,310 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:45:23,310 - ClasspathResourceLoader : initialization starting.
+2006-10-05 14:45:23,310 - ClasspathResourceLoader : initialization complete.
+2006-10-05 14:45:23,310 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2006-10-05 14:45:23,310 - Default ResourceManager initialization complete.
+2006-10-05 14:45:23,326 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2006-10-05 14:45:23,326 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2006-10-05 14:45:23,326 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2006-10-05 14:45:23,326 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2006-10-05 14:45:23,326 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2006-10-05 14:45:23,420 - Created: 20 parsers.
+2006-10-05 14:45:23,435 - Velocimacro : initialization starting.
+2006-10-05 14:45:23,435 - Velocimacro : adding VMs from VM library template : com/vm/template/vm_macro.html
+2006-10-05 14:45:23,451 - Velocimacro : added new VM : #vm_content( key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,451 - Velocimacro : added new VM : #vm_content1( resourceBundle key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,451 - Velocimacro : added new VM : #vm_content2( resourceBundle locale key ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,466 - Velocimacro : added new VM : #vm_content_arg1( key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,466 - Velocimacro : added new VM : #vm_content1_arg1( resourceBundle key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,466 - Velocimacro : added new VM : #vm_content2_arg1( resourceBundle locale key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,466 - Velocimacro : added new VM : #vm_content_arg2( key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,466 - Velocimacro : added new VM : #vm_content1_arg2( resourceBundle key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,466 - Velocimacro : added new VM : #vm_content2_arg2( resourceBundle locale key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,482 - Velocimacro : added new VM : #vm_content_arg3( key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,482 - Velocimacro : added new VM : #vm_content1_arg3( resourceBundle key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,482 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,482 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,482 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,482 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,482 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 14:45:23,529 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 14:45:23,529 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 14:45:23,529 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 14:45:23,529 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 14:45:23,529 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 14:45:23,529 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 14:45:23,529 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 14:45:23,529 - Velocimacro : initialization complete.
+2006-10-05 14:45:23,529 - Velocity successfully started.
+2006-10-05 14:45:23,576 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 15:38:53,976 - SimpleLog4JLogSystem initialized using logfile 'velocity.log'
+2006-10-05 15:38:53,976 - ************************************************************** 
+2006-10-05 15:38:53,976 - Starting Jakarta Velocity v1.4
+2006-10-05 15:38:53,976 - RuntimeInstance initializing.
+2006-10-05 15:38:53,976 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2006-10-05 15:38:53,976 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+2006-10-05 15:38:53,976 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogSystem or necessary supporting classes in classpath. Exception : java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+2006-10-05 15:38:53,976 - Trying to use logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 15:38:53,976 - Using logger class org.apache.velocity.runtime.log.SimpleLog4JLogSystem
+2006-10-05 15:38:53,992 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2006-10-05 15:38:53,992 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 15:38:53,992 - ClasspathResourceLoader : initialization starting.
+2006-10-05 15:38:53,992 - ClasspathResourceLoader : initialization complete.
+2006-10-05 15:38:53,992 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2006-10-05 15:38:53,992 - Default ResourceManager initialization complete.
+2006-10-05 15:38:53,992 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2006-10-05 15:38:53,992 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2006-10-05 15:38:53,992 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2006-10-05 15:38:54,007 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2006-10-05 15:38:54,007 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2006-10-05 15:38:54,085 - Created: 20 parsers.
+2006-10-05 15:38:54,085 - Velocimacro : initialization starting.
+2006-10-05 15:38:54,085 - Velocimacro : adding VMs from VM library template : com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content( key ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content1( resourceBundle key ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content2( resourceBundle locale key ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content_arg1( key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content1_arg1( resourceBundle key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content2_arg1( resourceBundle locale key arg1 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content_arg2( key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content1_arg2( resourceBundle key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,132 - Velocimacro : added new VM : #vm_content2_arg2( resourceBundle locale key arg1 arg2 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,148 - Velocimacro : added new VM : #vm_content_arg3( key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,148 - Velocimacro : added new VM : #vm_content1_arg3( resourceBundle key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,148 - Velocimacro : added new VM : #vm_content2_arg3( resourceBundle locale key arg1 arg2 arg3 ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,163 - Velocimacro : added new VM : #vm_currency( amount ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,163 - Velocimacro : added new VM : #vm_date( date ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,163 - Velocimacro : added new VM : #vm_time( time ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,163 - Velocimacro : added new VM : #vm_textLineBreak( ) : source = com/vm/template/vm_macro.html
+2006-10-05 15:38:54,179 - ResourceManager : found com/vm/template/vm_macro.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2006-10-05 15:38:54,179 - Velocimacro :  VM library template macro registration complete.
+2006-10-05 15:38:54,179 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2006-10-05 15:38:54,179 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2006-10-05 15:38:54,179 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+2006-10-05 15:38:54,179 - Velocimacro : messages on  : VM system will output logging messages
+2006-10-05 15:38:54,179 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+2006-10-05 15:38:54,179 - Velocimacro : initialization complete.
+2006-10-05 15:38:54,179 - Velocity successfully started.
+2006-10-05 15:38:54,226 - ResourceManager : found com/vm/template/reservation_html_confirmation.html with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader

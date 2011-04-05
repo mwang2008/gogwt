@@ -1,0 +1,103 @@
+﻿<?xml version="1.0"?>
+
+<!-- Build file for Velocity -->
+
+<project name="Velocity" default="usage" basedir=".">
+	<property environment="myenv" />
+	 
+	<property name="build.dir" value="../build"/> 
+	<property name="vm.class" value="../build/classes"/>
+	<property name="vm.src" value="../src"/>
+	<property name="lib.root.dir" value="../lib"/>
+	
+	<property name="log4j.jar" value="${lib.root.dir}/apache/log4j-1.2.8.jar"/>
+	<property name="apacheemail.jar" value="${lib.root.dir}/apache/commons-email-1.0.jar"/>
+	<property name="commons-collections.jar" value="${lib.root.dir}/apache/commons-collections-2.1.1.jar"/>
+ 
+	<property name="velocity.jar" value="${lib.root.dir}/velocity/velocity-1.4.jar"/>
+	
+	<property name="mail.jar" value="${lib.root.dir}/javax/mail-1.3.2.jar"/>
+	<property name="activation.jar" value="${lib.root.dir}/javax/activation-1.0.2.jar"/>
+	
+	
+	
+	 
+	 <!-- library -->
+ 	<path id="library.classpath">      		 
+  	        <fileset dir="${lib.root.dir}">               	   
+         	    <include name="**/*.jar"></include>
+      		</fileset>      		      		      		 
+        </path>
+        
+	<!-- ************** main point ***************** -->
+   	<target name="usage">
+		<!-- echo message="ant build for final build " / -->
+ 		<echo message="ant build  -- build" />	
+ 		<echo message="ant run -- run" />	 
+		<echo message="ant clean -- clean" />
+	</target>
+
+	<target name="build" depends="jar">
+		<echo message="starting build... " />
+		
+	</target>
+	
+	 <target name="jar" depends="compile, resource, conf">    
+   		<echo message=" make jar ${vm.class}"/>
+   		<jar jarfile="${build.dir}/vmdemo.jar" basedir="${vm.class}"/>   		  
+   	</target>
+    
+   	<target name="conf">
+   	    <copy todir="${vm.class}">
+   		   <fileset dir="${vm.src}/conf">
+			<include name="**/*.properties"/>						 
+		  </fileset>
+   	   </copy>
+   	</target>
+   	
+       <target name="resource">
+	    <copy todir="${vm.class}">
+		<fileset dir="${vm.src}/java">
+			<include name="**/*.properties"/>
+			<include name="**/*.html"/>
+			<exclude name="**/*_zh.properties"/>
+		</fileset>
+	   </copy>
+
+	   <native2ascii
+		encoding="utf-8"
+		src="${vm.src}/java"
+		dest="${vm.class}"
+		includes="**/*_zh.properties"
+	    />   
+      </target>
+   
+	<target name="compile" depends="prepare">       
+       	<javac destdir="${vm.class}" deprecation="on" debug="on">
+		  	<src path="${vm.src}/java"></src>		  	 
+	      		<include name="**/*.java"></include>	      		 
+      	   		<classpath refid="library.classpath"></classpath>      	        	  	 
+      	      	</javac>
+      </target>
+      
+	<target name="prepare">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.dir}/classes"/>		
+	</target>
+	
+	<property name="log4j.jar" value="${lib.root.dir}/apache/log4j/log4j-1.2.8.jar"/>
+	<property name="apacheemail.jar" value="${lib.root.dir}/apache/email/commons-email-1.0.jar"/>
+	<property name="velocity.jar" value="${lib.root.dir}/velocity/velocity-1.4.jar"/>
+	
+	<target name="run">
+   	   <java classname="com.vm.test.TestVelocity"
+         	 classpath="${build.dir}/vmdemo.jar;${log4j.jar};${apacheemail.jar};${velocity.jar};${commons-collections.jar};${mail.jar};${activation.jar}"
+          	fork="true"
+          />
+  	</target>
+  
+	<!-- clean -->   
+   	<target name="clean">
+    		<delete dir="${build.dir}" />   		 
+  	</target>
+</project>

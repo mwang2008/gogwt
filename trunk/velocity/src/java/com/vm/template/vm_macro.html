@@ -1,0 +1,71 @@
+#*
+  * vm_macro.vm
+  * include all common macro for vm template.
+  *
+  *#
+
+#*-- define macro to retrieve --*#
+          	        
+#*-----------------------------------------------------------------
+  * define resource content macro 
+  * #vm_content("firstname"  ) 
+  *
+  * #set( $resourceBundle  = "com.vm.i18n.car.JSPResources" ) 
+  * #vm_content1($resourceBundle "email_new_reservation_html.sectionheader.reservationresources"  ) 
+  * #vm_content2($resourceBundle $locale "email_modified_reservation.resmail.sectionheader.yourresmod"  )  
+  *------------------------------------------------------------------*#
+#macro(vm_content $key)${tmplContext.getResourceBundleContentWithKey( $key)}#end
+#macro(vm_content1 $resourceBundle $key)${tmplContext.getResourceBundleContentPathKey( $resourceBundle, $key)}#end
+#macro(vm_content2 $resourceBundle $locale $key)${tmplContext.getResourceBundleContent( $resourceBundle, $locale, $key)}#end
+       
+#*-----------------------------------------------------------------
+  * define resource content macro with one argument
+  * #vm_content_arg1("confnum", $arg1) 
+  *------------------------------------------------------------------*#
+#macro(vm_content_arg1 $key $arg1)${tmplContext.getResourceBundleContentArg1( $key, $arg1)}#end
+#macro(vm_content1_arg1 $resourceBundle $key $arg1)${tmplContext.getResourceBundleContent1Arg1( $resourceBundle, $key, $arg1)}#end
+#macro(vm_content2_arg1 $resourceBundle $locale  $key $arg1)${tmplContext.getResourceBundleContent2Arg1( $resourceBundle,  $locale, $key, $arg1)}#end
+
+#*-----------------------------------------------------------------
+  * define resource content macro with two arguments
+  * #vm_content_arg2("confnum" $arg1 $arg2) 
+  *------------------------------------------------------------------*#
+#macro(vm_content_arg2 $key $arg1 $arg2)${tmplContext.getResourceBundleContentArg2( $key, $arg1, $arg2)}#end
+#macro(vm_content1_arg2 $resourceBundle $key $arg1 $arg2)${tmplContext.getResourceBundleContent1Arg2( $resourceBundle, $key, $arg1, $arg2)}#end
+#macro(vm_content2_arg2 $resourceBundle $locale  $key $arg1 $arg2)${tmplContext.getResourceBundleContent2Arg2( $resourceBundle,  $locale, $key, $arg1, $arg2)}#end
+
+#*-----------------------------------------------------------------
+  * define resource content macro with three arguments
+  * #vm_content_arg3("confnum" $arg1 $arg2 $arg3) 
+  *------------------------------------------------------------------*#
+#macro(vm_content_arg3 $key $arg1 $arg2 $arg3)${tmplContext.getResourceBundleContentArg3( $key, $arg1, $arg2, $arg3)}#end
+#macro(vm_content1_arg3 $resourceBundle $key $arg1 $arg2 $arg3)${tmplContext.getResourceBundleContent1Arg3( $resourceBundle, $key, $arg1, $arg2, $arg3)}#end
+#macro(vm_content2_arg3 $resourceBundle $locale  $key $arg1 $arg2 $arg3)${tmplContext.getResourceBundleContent2Arg3( $resourceBundle,  $locale, $key, $arg1, $arg2, $arg3)}#end
+ 
+#*-----------------------------------------------------------------
+  *  define currency format
+  * #vm_currency($myres.floatAmount "USD")
+  *-----------------------------------------------------------------*# 	       
+#macro(vm_currency $amount)${tmplContext.formatCurrencyWithDefaultLocale($amount)}#end
+ 			
+#*-----------------------------------------------------------------
+  * define date format: long, short etc
+  * #vm_date(${myres.checkOutDate})
+  *-----------------------------------------------------------------*# 	       
+#macro(vm_date $date)${tmplContext.formatDate($date)}#end
+ 			
+#*-----------------------------------------------------------------
+  * define time format
+  *-----------------------------------------------------------------*# 	       
+#macro(vm_time $time)${tmplContext.formatTime($time)}#end
+
+#*-----------------------------------------------------------------
+  * text line break
+  *----------------------------------------------------------------*#
+#macro(vm_textLineBreak) 
+   
+#end
+
+ 
+  		
+ 		
