@@ -1,0 +1,47 @@
+<!--
+	reservation_html_confirmation.html
+-->
+
+<html dir="ltr">
+<head> 
+<META http-equiv=Content-Type content="text/html; charset=${outputencoding}">
+
+<title> #vm_content("car.rental") </title> 
+</head>
+
+<body>
+#set( $carResources  = "com.vm.i18n.car.JSPResources" ) 
+
+<table border="0" cellSpacing=2 cellPadding=0 width=650>
+	<tr> 
+		<td colspan="2"> <b>#vm_content("welcome").  #vm_content_arg1("confnum" ${reservation.confirmationNumber})   </b> </td>    
+	</tr>
+	
+	#set ( $guest = $reservation.guest)
+	<tr> 
+		<td>#vm_content("firstname"):  </td>   <td> ${guest.firstName}</td>
+	</tr>
+	
+	<tr> 
+		<td> #vm_content("lastname") :</td>   <td>${guest.lastName} </td>
+	</tr>
+	 
+	<tr> 
+		<td> #vm_content("total.price") : </td>   <td>#vm_currency(${reservation.charge})  </td>
+	</tr>
+	
+	<tr> 
+		<td> #vm_content("rental.day") :</td>   <td> ${reservation.rentDays}</td>
+	</tr>
+	
+	<tr> 
+		<td> #vm_content1($carResources "car.brand")   </td>   <td> #vm_content1($carResources "car.brand.${reservation.car.id}")  </td>
+	</tr>
+	
+	<tr> 
+		<td>  #vm_content("start.date")</td>   <td>#vm_date(${reservation.startDate}) </td>
+	</tr>
+</table>
+
+
+</html>

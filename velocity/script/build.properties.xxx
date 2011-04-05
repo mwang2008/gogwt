@@ -1,0 +1,5 @@
+
+environment=myenv
+
+build.dir=../build
+lib.root.dir=../lib
