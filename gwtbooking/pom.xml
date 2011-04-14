@@ -13,6 +13,8 @@
     2. mvn clean package
     3. copy war file to server deploy directory
     gwt compile style:  OBF, PRETTY, or DETAILED
+    
+    mvn dependency:tree
   ==================================================================== -->  
   <properties>
     <gwt.version>2.0.3</gwt.version>
@@ -22,13 +24,12 @@
     <!--  tell the compiler we can use 1.6 -->
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target> 
+    <spring.version>3.0.0.RELEASE</spring.version>
   </properties>
    
   <build>
     <finalName>${artifactId}</finalName>
-    
-    
-     <plugins>   
+    <plugins>   
       <plugin>
          <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -55,6 +56,16 @@
             </goals>
           </execution> 
         </executions>
+     </plugin>
+     
+     <!-- skip tests -->
+     <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-surefire-plugin</artifactId>
+         <version>2.4.2</version>
+         <configuration>
+            <skipTests>true</skipTests>
+         </configuration>
      </plugin>
      
      <!-- AspectJ -->
@@ -174,6 +185,12 @@
       <scope>test</scope>
     </dependency>
     
+    <dependency>
+       <groupId>org.apache.cxf</groupId>
+       <artifactId>cxf-bundle-jaxrs</artifactId>
+       <version>2.3.1</version>
+    </dependency>
+        
     <!-- Because this is a web app, we also have a dependency on the servlet api. -->
     <dependency>
        <groupId>javax.servlet</groupId>
@@ -186,17 +203,18 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>2.5.4</version>
+      <version>${spring.version}</version>
+    </dependency>
+   
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring</artifactId>
-      <version>2.5.4</version>
-    </dependency>    
-    <dependency>
-      <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
-      <version>2.5.4</version>
+      <version>${spring.version}</version>
     </dependency>
     
  
@@ -318,6 +336,12 @@
       <groupId>net.sf.gwt-widget</groupId>
       <artifactId>gwt-sl</artifactId>
       <version>0.1.5</version>
+      <exclusions>
+         <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+         </exclusion>
+      </exclusions>
     </dependency>
     
     <!--  JSON -->
