@@ -16,9 +16,6 @@ http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
       <property name="metricsMap">
         <bean class="java.util.concurrent.ConcurrentHashMap" />
       </property>
-      
-       
-      
-   </bean>
+    </bean>
    
 </beans>

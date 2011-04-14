@@ -1,95 +1,120 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4"
-         xmlns="http://java.sun.com/xml/ns/j2ee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-   <filter> 
-       <filter-name>requestContextFilter</filter-name> 
-       <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
-   </filter>
+	<filter>
+		<filter-name>requestContextFilter</filter-name>
+		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+	</filter>
+	<servlet>
+		<servlet-name>booking</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/classes/conf/booking-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
    
-     
-   <servlet>
-	   <servlet-name>booking</servlet-name>
-	   <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	   <init-param>
-	      <param-name>contextConfigLocation</param-name>
-	      <param-value>/WEB-INF/classes/conf/booking-servlet.xml</param-value>
-	   </init-param>
-	   <load-on-startup>1</load-on-startup>
-   </servlet>
+
    
    <!-- gwt-log config -->
+	<servlet>
+		<servlet-name>gwt-log-remote-logger-servlet</servlet-name>
+		<servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>booking</servlet-name>
+		<url-pattern>/en-US/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>booking</servlet-name>
+		<url-pattern>/en-us/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>booking</servlet-name>
+		<url-pattern>/es-ES/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>booking</servlet-name>
+		<url-pattern>/es-es/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>booking</servlet-name>
+		<url-pattern>/zh-CN/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>booking</servlet-name>
+		<url-pattern>/zh-cn/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- jboss does not like */*.rpc, so use *.rpc -->
+	<servlet-mapping>
+		<servlet-name>booking</servlet-name>
+		<url-pattern>*.rpc</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>gwt-log-remote-logger-servlet</servlet-name>
+		<url-pattern>/gwt-log</url-pattern>
+	</servlet-mapping>
+
+	<!-- ========== Start CFX config ========  Commment it out as it is not working with Spring 3
+   <context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/deploy-context.xml</param-value>
+   </context-param>
+
+   <listener>
+      <listener-class>
+         org.springframework.web.context.ContextLoaderListener
+      </listener-class>
+   </listener>
+
    <servlet>
-     <servlet-name>gwt-log-remote-logger-servlet</servlet-name>
-     <servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
-   </servlet>  
-     
-     
-   <servlet-mapping>
-	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/en-US/*</url-pattern>
-   </servlet-mapping>
+      <servlet-name>CXFServlet</servlet-name>
+      <display-name>CXF Servlet</display-name>
+      <servlet-class>
+         org.apache.cxf.transport.servlet.CXFServlet
+      </servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
 
    <servlet-mapping>
-	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/en-us/*</url-pattern>
-   </servlet-mapping>
+      <servlet-name>CXFServlet</servlet-name>
+      <url-pattern>/*</url-pattern>
+   </servlet-mapping>     
+	 ========= End CFX config ========= -->
 
-   <servlet-mapping>
-	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/es-ES/*</url-pattern>
-   </servlet-mapping>
+	<display-name>Booking hotel Web Application</display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 
-   <servlet-mapping>
-	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/es-es/*</url-pattern>
-   </servlet-mapping>
-   
-   <servlet-mapping>
-	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/zh-CN/*</url-pattern>
-   </servlet-mapping>
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
 
-   <servlet-mapping>
-	  <servlet-name>booking</servlet-name>
-	  <url-pattern>/zh-cn/*</url-pattern>
-   </servlet-mapping>
-   
-   
-   <!--  jboss does not like */*.rpc, so use *.rpc -->
-   <servlet-mapping>
-    <servlet-name>booking</servlet-name>
-    <url-pattern>*.rpc</url-pattern>
-   </servlet-mapping>
-    
-  <servlet-mapping>
-    <servlet-name>gwt-log-remote-logger-servlet</servlet-name>
-    <url-pattern>/gwt-log</url-pattern>
-  </servlet-mapping>
-     
-   <display-name>Booking hotel Web Application</display-name>
-   <welcome-file-list>
-      <welcome-file>index.jsp</welcome-file>
-   </welcome-file-list>
-   
-   <session-config>
-      <session-timeout>15</session-timeout>  
-   </session-config>
+	<!-- error page -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/jsp/error/invalid.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/jsp/error/invalid.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/jsp/error/exception.jsp</location>
+	</error-page>
 
-   <!-- error page  -->
-   <error-page>
-     <error-code>404</error-code>
-  	<location>/jsp/error/invalid.jsp</location>
-   </error-page>
-   <error-page>
-     <error-code>500</error-code>
-     <location>/jsp/error/invalid.jsp</location>
-   </error-page>
-   <error-page>
-     <exception-type>java.lang.Throwable</exception-type>
-     <location>/jsp/error/exception.jsp</location>
-   </error-page>
-  
 </web-app>
