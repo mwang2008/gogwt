@@ -17,14 +17,14 @@
     mvn dependency:tree
   ==================================================================== -->  
   <properties>
-    <gwt.version>2.0.3</gwt.version>
-    <gwt.pluginVersion>1.2</gwt.pluginVersion>
+    <gwt.version>2.1.0</gwt.version>
+    <gwt.pluginVersion>2.1.0-1</gwt.pluginVersion>
     <gwt.module.compile.style>OBF</gwt.module.compile.style>
 
     <!--  tell the compiler we can use 1.6 -->
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target> 
-    <spring.version>3.0.0.RELEASE</spring.version>
+    <spring.version>3.0.5.RELEASE</spring.version>
   </properties>
    
   <build>
@@ -214,6 +214,12 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <!--  add oxm for REST -->
+     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-oxm</artifactId>
       <version>${spring.version}</version>
     </dependency>
     
