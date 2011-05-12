@@ -16,7 +16,14 @@ import com.gogwt.app.booking.config.urlmapping.UrlMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.populator.Populator;
 
-public class BaseAbstractFormController extends SimpleFormController {
+/**
+ * 
+ * <code><B>BaseAbstractFormController<code><B>
+ * 
+ * add abstract to remove 
+ * <p/>
+ */
+public abstract class BaseAbstractFormController extends SimpleFormController {
 	private Map<String, Populator> populators;
 
 	/**

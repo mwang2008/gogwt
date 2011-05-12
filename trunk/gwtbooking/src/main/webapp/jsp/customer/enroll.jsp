@@ -76,10 +76,11 @@
    </div>
    
    <div id="FormLabel"><label for="password"><fmt:message key='label.password'/></label>:  
-       <form:password path="password" size="30" maxlength="100" showPassword="true" />
+       <form:password path="password" size="30" maxlength="100"   />
    </div>
    <div id="FormLabel"><label for="confirmPassword"><fmt:message key='label.confirmPassword'/></label>:  
-       <form:password  path="confirmPassword" size="30" maxlength="100"  showPassword="true"/>
+       <%--   <form:password  path="confirmPassword" size="30" maxlength="100"  showPassword="true"/> --%>
+       <form:password  path="confirmPassword" size="20" maxlength="20"/>
    </div>
    
    <div style="color: rgb(50, 50, 50); font-size: 80%;"> 
