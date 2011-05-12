@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.gogwt.app.booking.populator.Populator;
 
-public class BaseAbstractController extends SimpleFormController {
+public abstract class BaseAbstractController extends SimpleFormController {
 	public static final String SUCCESS_URL = "successURL";
 	
 	private Map<String, Populator> populators;
