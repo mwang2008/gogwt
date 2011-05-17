@@ -15,6 +15,7 @@
     gwt compile style:  OBF, PRETTY, or DETAILED
     
     mvn dependency:tree
+    
   ==================================================================== -->  
   <properties>
     <gwt.version>2.1.0</gwt.version>
@@ -184,7 +185,7 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    
+     
     <dependency>
        <groupId>org.apache.cxf</groupId>
        <artifactId>cxf-bundle-jaxrs</artifactId>
@@ -358,6 +359,22 @@
       <classifier>jdk15</classifier> 
     </dependency>   
   
+    <!--  org.codehaus.jackson added for REST json -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+      <version>1.7.2</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.7.2</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    
      <!-- EHCACHE -->
     <dependency>
       <groupId>net.sf.ehcache</groupId>
