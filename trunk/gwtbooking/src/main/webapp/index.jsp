@@ -15,7 +15,12 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
      <br>
   </td>
 </tr>
-
+<tr> 
+  <td>
+     &nbsp;&nbsp;&nbsp; 
+     <br>
+  </td>
+</tr>
 <tr> 
   <td>
      <a href="<%=request.getContextPath()%>/en-us/jhotelsearch"> Spring MVC Reservation + JQuery</a> <br>

@@ -2,38 +2,47 @@
    i_query_search_form.jspf
 --%>
 
-   <script>
-      var selectedItem;
-      $(document).ready(function(){
-      function callback(item) {
-        selectedItem = item;
-        
-        $('[name="geoCode.lat"]').val(Number(item.lat));
-        $('[name="geoCode.lng"]').val(Number(item.lng));
-        
-        //theForm.geoCode.lat.value = item.lat;
-        //window.document.searchFormBean.geoCode.lng.value = item.lng;
-        
-        //alert("item.lng=" + item.lng + ", " + window.document.searchFormBean.geoCode.lng.value);
-        
-	     //alert('You selected \'' + item.text + '\ full selected JSON' + JSON.stringify(item));
-      }
-
-      jQuery(function() {          
-	       $('input#location').jsonSuggest({ minCharacters: 3, url: 'http://localhost/gwtbooking/script/testData/cityCodes.txt', maxResults: 10, onSelect:callback});
-	   });
-	    });
-	   <%--
-	   $(document).ready(function(){
-	      $('#searchFormBean').submit(function() {
-            //alert('Handler for .submit() called. ' + selectedItem.text + ", lat=" + selectedItem.lat);
-                      
-            return true;
-         });
-      });
-      --%>
-      
-   </script>
+<script>
+  var jq = jQuery.noConflict();
+  
+  jq(document).ready(function() {
+       
+    	jq('#location').autocomplete({
+     	    
+		   source: function(request, response) {
+		     // alert(" here 1");
+		      
+			   jq.getJSON('http://localhost/gwtbooking/en-us/getkeywords', {key: request.term}, function(myreturn) {
+			     // alert(" herere 3" + myreturn.data);
+			   	 
+			   	response(jq.map(myreturn.data, function(destination) {
+					   return {
+						   label: destination.keyword,
+						   value: destination.keyword,						    
+						   lat: destination.lat,
+						   lng: destination.lng
+					   };
+				   })); //</response
+				    
+			}); //</getJSON
+		  }
+		 
+		,minLength: 3
+		,select: function(event, ui) {
+		   //alert(" here 2");
+		   jq('#lat').val(ui.item.lat);
+		   jq('#lng').val(ui.item.lng);
+		   
+			//('#latitude').val(ui.item.latitude);
+			//('#longitude').val(ui.item.longitude);
+			// call default submit action , geocode are set
+			//callDefaultFormSubmit = true;
+		}
+	 });    
+  });
+</script>
+   
+  
    
 <form:form commandName="searchFormBean" action="${env.contextPath}/${env.languageId}-${fn:toUpperCase(env.countryId)}/jhotelsearch" method="post">
  <spring:hasBindErrors name="searchFormBean">
@@ -41,8 +50,8 @@
        <div id="Error"><form:errors path="*" cssClass="text12red" /></div>
    </div>      
 </spring:hasBindErrors>
-<input type="hidden" name="geoCode.lat" value="">
-<input type="hidden" name="geoCode.lng" value="">
+<input type="hidden" id="lat" name="geoCode.lat" value="">
+<input type="hidden" id="lng" name="geoCode.lng" value="">
 
 <div id="FormLabel"><label for="location"><fmt:message key='label.location'/></label></div>
 <div id="ContentCopy">
