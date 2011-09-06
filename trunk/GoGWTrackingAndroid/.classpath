@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="aidl"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="lib" path="C:/MyProgs/android-sdk-windows/mylibs/httpclient-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/MyProgs/android-sdk-windows/mylibs/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/MyProgs/android-sdk-windows/mylibs/jackson-core-asl-1.8.4.jar"/>
+	<classpathentry kind="lib" path="C:/MyProgs/android-sdk-windows/mylibs/jackson-mapper-asl-1.8.4.jar"/>
+	<classpathentry kind="lib" path="C:/MyProgs/android-sdk-windows/mylibs/simple-xml-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/MyProgs/android-sdk-windows/mylibs/spring-android-core-1.0.0.M4.jar"/>
+	<classpathentry kind="lib" path="C:/MyProgs/android-sdk-windows/mylibs/spring-android-rest-template-1.0.0.M4.jar" sourcepath="C:/views/source/spring-android-src/spring-android-rest-template/src/main/java"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

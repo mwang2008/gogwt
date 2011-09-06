@@ -1,0 +1,94 @@
+package com.gogwt.apps.tracking.data;
+
+import org.simpleframework.xml.Root;
+
+@Root(name = "profile")
+public class Profile {
+	private String groupId;
+	private String displayName; 
+	private boolean rememberMe;
+	private String phoneNumber;
+	private String serverUsername;
+	private String serverFirstName;
+	private String serverLastName;
+	private String serverEmail;
+	
+	public Profile() {
+		super();		 
+	}
+
+	public Profile(String groupId, String displayName,boolean rememberMe) {
+		super();
+	    this.groupId = groupId;
+	    this.displayName = displayName;
+		this.rememberMe = rememberMe;
+	}
+	
+	
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public boolean isRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(boolean rememberMe) {
+		this.rememberMe = rememberMe;
+	}
+
+	public String getServerUsername() {
+		return serverUsername;
+	}
+
+	public void setServerUsername(String serverUsername) {
+		this.serverUsername = serverUsername;
+	}
+
+	public String getServerFirstName() {
+		return serverFirstName;
+	}
+
+	public void setServerFirstName(String serverFirstName) {
+		this.serverFirstName = serverFirstName;
+	}
+
+	public String getServerLastName() {
+		return serverLastName;
+	}
+
+	public void setServerLastName(String serverLastName) {
+		this.serverLastName = serverLastName;
+	}
+
+	public String getServerEmail() {
+		return serverEmail;
+	}
+
+	public void setServerEmail(String serverEmail) {
+		this.serverEmail = serverEmail;
+	}
+	
+    
+    
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_icon"
+        android:title="Text Only"
+        android:icon="@drawable/icon" />
+        
+    <item android:id="@+id/menu_map"
+        android:title="Show Map" />
+        
+    <item android:id="@+id/menu_logout"
+        android:title="Logout"
+        android:icon="@drawable/icon" />
+        
+</menu>
