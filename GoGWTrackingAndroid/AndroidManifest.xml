@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.gogwt.apps.tracking" android:versionCode="1"
+	android:versionName="1.0">
+
+
+	<application android:label="@string/app_name" android:name=".MainApplication" android:icon="@drawable/global_gwt">
+		<activity android:name=".GoGWTrackingMainActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name="com.gogwt.apps.tracking.MainActivity" />
+		<activity android:name=".activities.LoginActivity" />
+		<activity android:name=".activities.LogoutActivity" />
+		<activity android:name=".activities.MainMenuActivity" />
+		<activity android:name=".activities.LocationTrackingActivity" />
+		<activity android:name=".activities.MapViewTab" />
+		<activity android:name=".activities.TextViewTab" />
+		<activity android:name=".activities.StopTrackingTab" />
+		
+		<service android:enabled="true" android:name=".services.GPXService">
+			<intent-filter>
+				<action android:name="com.gogwt.apps.tracking.services.GPXService.SERVICE" />	
+				<action android:name="com.gogwt.apps.tracking.IRemoteInterface" />			
+			</intent-filter>
+		</service>
+		
+		<uses-library android:name="com.google.android.maps" />
+		
+	</application>
+
+	<uses-sdk android:minSdkVersion="7" />
+	
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+</manifest>
