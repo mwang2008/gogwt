@@ -1,0 +1,3 @@
+dddd
+
+http://local.www.gogwt.com/tracking/script/jquery/i_header_script.js

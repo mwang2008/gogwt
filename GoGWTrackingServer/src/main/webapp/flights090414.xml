@@ -1,0 +1,71 @@
+<markers>
+<marker lat="32.738475" lng="-117.209987" label="ILS Tower"/>
+<marker lat="32.738340" lng="-117.209357" label="Cypress Tower"/>
+ 
+<line width="4" colour="#FFFFFF" html="SAN ILS" label="ILS">
+<point lat="32.738475" lng="-117.209987" label="ILS Tower"/>
+<point lat="32.738340" lng="-117.209357" label="ILS Tower"/>
+<point lat="32.738182" lng="-117.208744" label="ILS Tower"/>
+<point lat="32.738025" lng="-117.208115" label="ILS Tower"/>
+<point lat="32.737879" lng="-117.207486" label="ILS Tower"/>
+<point lat="32.737730" lng="-117.206861" label="ILS Tower"/>
+</line>
+
+<line width="4" html="SWA2703Y &gt; 08-Apr-2009 &gt; KSAN-KABQ" colour="#0000FF" label="SWA2703X">
+<point label="SAN" lat="32.735307" lng="-117.196054"/>
+<point label="04:57PM" lat="32.75" lng="-117.27" html="153 5400ft   Los Angeles Center"/>
+<point label="04:58PM" lat="32.72" lng="-117.33" html="181 9900   Los Angeles Center"/>
+<point label="04:59PM" lat="32.66" lng="-117.29" html="140 13900   Los Angeles Center"/>
+<point label="05:00PM" lat="32.64" lng="-117.18" html="217 16300   Los Angeles Center"/>
+<point label="05:01PM" lat="32.62" lng="-117.04" html="321 19600   Los Angeles Center"/>
+</line>
+
+<line width="4" html="ASA575 &gt; 08-Apr-2009 &gt; KSAN-KPDX" colour="#0000FF" label="ASA575">
+<point label="Atlanta" lat="32.735307" lng="-117.196054"/>
+<point label="04:53PM" lat="32.75" lng="-117.22" html="144 1600   Southern California TRACON"/>
+<point label="04:54PM" lat="32.75" lng="-117.23" html="166 2100   Los Angeles Center"/>
+<point label="04:55PM" lat="32.78" lng="-117.27" html="212 3800   Southern California TRACON"/>
+<point label="04:55PM" lat="32.79" lng="-117.29" html="226 4500   Los Angeles Center"/>
+<point label="04:56PM" lat="32.82" lng="-117.33" html="249 6500   Southern California TRACON"/>
+<point label="04:56PM" lat="32.82" lng="-117.35" html="257 7000   Los Angeles Center"/>
+<point label="04:57PM" lat="32.86" lng="-117.42" html="263 10500   Los Angeles Center"/>
+<point label="04:58PM" lat="32.92" lng="-117.51" html="278 40000   Los Angeles Center"/>
+<point label="04:59PM" lat="33.00" lng="-117.57" html="300 16300   Los Angeles Center"/>
+<point label="05:00PM" lat="33.06" lng="-117.65" html="322 19400   Los Angeles Center"/>
+<point label="05:01PM" lat="33.12" lng="-117.74" html="335 22400   Los Angeles Center"/>
+</line>
+
+<line width="4" colour="#FF0000" label="FDX821" html="FDX821 &gt; 09-Apr-2009 &gt; KSAN-KMEM">
+ <point label="10:32AM" lat="33.19" lng="-113.78" html="523 33000   Albuquerque Center"/>
+<point label="10:33AM" lat="33.22" lng="-113.61" html="523 33000   Albuquerque Center"/>
+<point label="10:34AM" lat="33.25" lng="-113.45" html="523 33000   Albuquerque Center"/>
+<point label="10:35AM" lat="33.28" lng="-113.28" html="523 33000   Albuquerque Center"/>
+<point label="10:36AM" lat="33.32" lng="-113.11" html="523 33000   Albuquerque Center"/>
+<point label="10:37AM" lat="33.35" lng="-112.94" html="523 33000   Albuquerque Center"/>
+<point label="10:38AM" lat="33.38" lng="-112.77" html="523 33000   Albuquerque Center"/>
+<point label="10:39AM" lat="33.41" lng="-112.60" html="523 33000   Albuquerque Center"/>
+<point label="10:40AM" lat="33.44" lng="-112.45" html="523 33000   Albuquerque Center"/>
+<point label="10:41AM" lat="33.47" lng="-112.28" html="523 33000   Albuquerque Center"/>
+<point label="10:42AM" lat="33.50" lng="-112.11" html="523 33000   Albuquerque Center"/>
+<point label="10:43AM" lat="33.53" lng="-111.94" html="523 33000   Albuquerque Center"/>
+<point label="10:44AM" lat="33.56" lng="-111.77" html="523 33000   Albuquerque Center"/>
+<point label="10:45AM" lat="33.60" lng="-111.61" html="523 33000   Albuquerque Center"/>
+<point label="10:46AM" lat="33.62" lng="-111.44" html="523 33000   Albuquerque Center"/>
+<point label="10:47AM" lat="33.65" lng="-111.26" html="523 33000   Albuquerque Center"/>
+<point label="10:48AM" lat="33.68" lng="-111.09" html="523 33000   Albuquerque Center"/>
+<point label="10:49AM" lat="33.71" lng="-110.92" html="523 33000   Albuquerque Center"/>
+<point label="10:50AM" lat="33.74" lng="-110.75" html="528 33000   Albuquerque Center"/>
+<point label="10:51AM" lat="33.77" lng="-110.58" html="528 33000   Albuquerque Center"/>
+<point label="10:52AM" lat="33.80" lng="-110.40" html="528 33000   Albuquerque Center"/>
+<point label="10:53AM" lat="33.83" lng="-110.23" html="528 33000   Albuquerque Center"/>
+<point label="10:54AM" lat="33.86" lng="-110.05" html="528 33000   Albuquerque Center"/>
+<point label="10:55AM" lat="33.89" lng="-109.88" html="528 33000   Albuquerque Center"/>
+<point label="10:56AM" lat="33.92" lng="-109.70" html="528 33000   Albuquerque Center"/>
+<point label="10:57AM" lat="33.94" lng="-109.53" html="528 33000   Albuquerque Center"/>
+<point label="10:58AM" lat="33.97" lng="-109.35" html="528 33000   Albuquerque Center"/>
+<point label="10:59AM" lat="34.00" lng="-109.18" html="528 33000   Albuquerque Center"/>
+</line>  
+
+ 
+
+</markers>

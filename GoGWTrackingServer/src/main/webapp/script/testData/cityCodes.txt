@@ -1,0 +1,1 @@
+[{"id":"ATL","text":"Atlanta", "lat":"38.0001", "lng":"-80.32122"},{"id":"ORL","text":"Orlando", "lat":"39.0001", "lng":"-83.32122"}, {"id":"NYC","text":"New York", "lat":"28.0001", "lng":"-88.32122"}] 
