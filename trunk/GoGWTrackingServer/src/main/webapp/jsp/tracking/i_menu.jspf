@@ -1,0 +1,98 @@
+   <script type="text/javascript" src="<c:url value="/script/jquery/i_header_script.js"/>" charset="UTF-8"></script>
+   <div id="menu" style="position: relative;">
+         <table class="menu_table" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr align="right">
+                 <td style="vertical-align: top;" align="left">
+                    <table class="menu_inner" cellpadding="0" cellspacing="0">
+                       <tbody>
+                       <tr>
+                          <td style="vertical-align: top;" align="left">
+                             <div class="gwt-Label bw_top_menu"><a href="${env.prefix}/home" style="text-decoration:none">
+                               <span class="gwt-Label bw_top_menu"> 
+                                  <!-- <fmt:message key='menu.findhotel'/>  -->
+                                  Home
+                               </span></a></div>
+                          </td>
+                          <td style="vertical-align: top;" align="left">
+                            
+                          </td>
+                          <td style="vertical-align: top;" align="left">
+                           
+                          </td>
+                           
+                       </tr>
+                       </tbody>
+                    </table>
+                 </td>
+                 
+                 <td style="vertical-align: top;" class="gwt-Label bw_top_menu" align="right">
+                      <c:choose>
+                        <c:when test="${env.customerProfile != null}">
+                            Welcome &nbsp; ${env.customerProfile.firstName} &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="${env.prefix}/logout" style="text-decoration:none"><span class="bw_top_menu_underline">Logout</span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+                        </c:when>
+                        <c:otherwise>
+                           <a href="${env.prefix}/login" style="text-decoration:none"><span id="idSignin">Login</span> </a> &nbsp; | &nbsp; 
+                           Not a Member? <a href="${env.prefix}/enroll" style="text-decoration:none"><span class="bw_top_menu_underline"> Sign Up Now </span>
+                        </c:otherwise>
+                     </c:choose>
+                   </td>
+              </tr>
+            </tbody>
+         </table>
+      </div> 
+   </div>
+
+<%-- start login popup in login bar --%>
+<div id="pcrMainForm" style="position:absolute">
+   <div id="pcrSignInFormContent"  tabindex="0" class="pcrLoginPopupPanel" >  
+     <div class="loginHeader" title="Priority Club Rewards">
+		<div class="closeBtn" >
+		<a href="#">
+			<img height="14" width="14" border="0"  title="Select to close." src="/gwtbooking/images/close.gif"  alt="Login Close Button Graphic" /></a>
+	  	</div>
+	</div> <%-- loginHeader--%>
+
+	<%-- FORM TO CONTAIN THE PCR LOGIN FIELDS --%>
+	<div id="pcrLoginLayerHome" class="pcrContent">	
+        <form id="loginFormBean" action="${env.prefix}/login" method="post">
+           <input type="hidden" name="targetUrl" value="${env.uri}">
+           </br>
+           </br>
+           <div class="clear"></div>
+           <div class="clear"></div>
+           <div class="clear"></div>
+            
+           <table border="0">
+               <tr>
+                  <td><label for="groupId"><fmt:message key='label.GroupId'/>:</td>
+                  <td><input id="userName" name="groupId" type="text" value="" size="30" maxlength="30"/></td>
+               </tr>
+                 
+               <tr>
+                  <td><label for="userName"><fmt:message key='label.userName'/>:</td>
+                  <td><input id="userName" name="userName" type="text" value="" size="30" maxlength="30"/></td>
+               </tr>
+                <tr>
+                  <td><label for="password"><fmt:message key='label.password'/>:</label></td>
+                  <td><input id="password" name="password" type="password" value="" size="30" maxlength="30"/></td>
+               </tr>
+                <tr>	           
+	           <td colspan="2" align="center"><input type="image" name="continue" src="${env.contextPath}/images/en-us/login.png" alt="Login"  border="0" align="center"></td>
+               </tr>
+           </table>
+         
+         </form>
+     </div> <%-- pcrLoginLayerHome --%> 
+     <div class="module_data">
+        <div class="pcrTeaser">	
+		<div class="rTeaser joinNowPanel"> Not a member?
+		  <a class="quickEnrollPanel" href="${env.prefix}/enroll" title="Join Now!">Join Now!</a>
+		</div>				
+   	  </div>
+     </div> <%-- module_data--%>  
+  </div> <%-- pcrSignInFormContent--%>  
+</div><%-- pcrMainForm--%> 
+
+<%-- end login popup in login bar --%>

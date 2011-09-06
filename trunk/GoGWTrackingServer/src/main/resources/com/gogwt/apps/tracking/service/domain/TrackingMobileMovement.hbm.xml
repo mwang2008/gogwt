@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.gogwt.apps.tracking.data">
+
+    <class name="TrackingMobileData" table="tracking_mobile">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="groupId" column="groupId"/>
+        <property name="phoneNumber" column="phone_number"/>
+        <property name="displayName" column="display_name"/>        
+        <property name="latitude"/>
+        <property name="longitude"/>
+        <property name="altitude"/>
+        
+        <property name="provider"/>
+        <property name="accuracy"/>
+        <property name="bearing"/>
+        <property name="distance"/>
+        <property name="speed"/>
+        <property name="time"/>
+        <property name="startTime" column="start_time"/> 
+        <property name="totalDistance" column="total_distance"/>
+        <property name="createDate" column="create_date"/> 
+        
+     </class>
+</hibernate-mapping>

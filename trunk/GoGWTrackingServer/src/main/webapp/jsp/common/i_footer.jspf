@@ -1,0 +1,22 @@
+
+   <div class="foot_table">
+     <table id="foot_divider" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr></tr>
+        </tbody>
+     </table>
+     <table cellpadding="0" cellspacing="0">
+       <tbody>
+         <tr>
+           <td style="vertical-align: top;" align="left">
+              <%
+                 int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+              %>
+             <div class="gwt-HTML"> @<%=year%> GoGWT.com</div>
+           </td>
+        </tr>
+      </tbody>
+     </table>
+   </div>
+ </div>
+</div>
