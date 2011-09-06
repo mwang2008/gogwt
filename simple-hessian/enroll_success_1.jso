@@ -1,0 +1,170 @@
+<%--
+   enroll_success.jsp
+   http://local.www.gogwt.com/tracking/en-us/disptracks
+--%>
+
+<%@ include file="/jsp/common/i_global.jspf"%>
+
+<html lang="${env.languageId}">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
+   <title> Enrollment </title>       
+   <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
+   
+   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+   
+   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
+   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+
+<script>
+   var jq = jQuery.noConflict();
+   jq(document).ready(function() {
+      var latlng;
+      latlng = new google.maps.LatLng(34.03, -84.19);
+      
+      var myOptions = {
+        zoom: 9,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      
+      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);     
+             
+      var lastLocMarker = new google.maps.Marker({
+          position: latlng,
+          map: map                 
+      });
+ 
+      var bounds = null;
+      
+      jq.getJSON('${env.prefix}/displaylocation?groupId=gg1&days=5', 
+         function(data) {
+            var dispLocations = "";
+            jq.each(data.dispLocations, function(index, dispItem) {
+                var g = google.maps;
+	        bounds = new google.maps.LatLngBounds();
+
+                var line = dispItem.line;
+                var locs = dispItem.locs;
+                
+                var label = line.label; 
+                var color = line.color;
+                var width = line.width;
+	        var opacity = 0.45;
+		var zoomFactor = 2;
+		var numLevels = 18;
+		var geodesic = false;
+
+                var pts = [];
+                var i=0;
+                jq.each(locs, function(locIndex, loc) {
+                    dispLocations += " loc.latitude=" + loc.latitude;
+	 	    pts[i] = new g.LatLng(loc.latitude, loc.longitude);
+		    alert("i=" + i + "," + loc.latitude);
+		    i++;   
+
+                });
+                
+                var poly = new g.Polyline({
+		              map:map,
+		              path:pts,
+		              strokeColor:color,
+		              strokeOpacity:opacity,
+		              strokeWeight:width,
+		              geodesic: geodesic,
+		              clickable: false		
+                          });
+		
+                     //alert("index=" + index);
+                     dispLocations += index + ", ";
+                     dispLocations += dispItem.line.width + ", ";
+                     dispLocations += dispItem.line.startLat + ",";
+                     dispLocations += line.startLat + ",";
+                     //dispLocations += dispItem.content;
+                     dispLocations += "<br>";
+            });
+                
+            //============ 
+                 var mapData = data.myMap;
+                 var locMap;
+                 
+                 jq.each(mapData, function(mapKey, mapValue) {		       
+		       locMap = "key=" + mapKey + "<br>";      
+		       jq.each(mapValue, function(index, value) {
+		            //alert(index + "," + value.id);		            
+		            locMap +=  "&nbsp;&nbsp;&nbsp;==" + value.id + "," + value.provider + "<br>";
+		       });
+		       
+		 		                     
+                 });
+                 
+                  // alert(data.test); 
+                 var loc = "";
+                 jq.each(data.mylist, function(index, value) {
+		                     //alert("id=" + value.id);
+		                     loc += value.id + ", " + value.latitude;
+		                     loc += "<br>";
+		                     
+                 });
+                 
+                document.getElementById("side_bar").innerHTML = data.test;
+                document.getElementById("mylist").innerHTML = loc;
+                document.getElementById("mymap").innerHTML = locMap;
+                document.getElementById("dispLocations").innerHTML = dispLocations;
+             }     
+ 
+         );
+         
+   });
+</script>
+</head>
+<body>
+
+<%@ include file="/jsp/tracking/i_header.jspf"%>
+<%@ include file="i_menu.jspf"%>
+
+<div id="container"> 
+<br>
+     Test JSON
+  
+
+  
+     
+     
+</div>
+
+<table> 
+  <tr> 
+     <td> <div id="dispLocations"></div></td> 
+     <td> <div id="map_canvas" style="width:700px; height:450px"></div> </td>
+  <tr>
+</table>
+Data from server:<br>
+<div id="side_bar">
+</div>
+<hr>
+
+---------------<br>
+dispLocations<br>
+<div id="dispLocations">
+</div>
+<br>============
+<hr>
+<div id="mylist">
+</div>
+
+<div id="mymap">
+</div>
+
+
+
+<div id="container">
+    <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="/jsp/tracking/i_footer.jspf"%></div>
+</div>    
+
+ <%@ include file="/jsp/common/i_analytics.jspf"%>
+</body>
+</html>
