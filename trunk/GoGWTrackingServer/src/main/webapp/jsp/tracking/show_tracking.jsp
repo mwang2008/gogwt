@@ -27,7 +27,7 @@
    var gmarkers = [];
    var side_bar_html = ""; 
    var infowindow = null;
-   var polyMarker = null;
+  
    var bounds = null;
    var lineIcon = null;
    
@@ -48,27 +48,14 @@
       };
       
       map = new g.Map(document.getElementById("map_canvas"), myOptions);     
-      
-      /*
-      var lastLocMarker = new google.maps.Marker({
-          position: latlng,
-          map: map                 
-      });
-      */
+   
       
       lineIcon = new g.MarkerImage('/tracking/images/square.png',
                                          new google.maps.Size(11, 11),
                                          new google.maps.Point(0,0),                                  
                                          new google.maps.Point(5, 5));
-      polyMarker = new g.Marker({
-		   map: map, 
-		   icon: lineIcon
-      });
-      
       bounds = new g.LatLngBounds();
       infowindow = new g.InfoWindow({size: new google.maps.Size(150,50)});
-       
-     
       
       
       showLocationPaths();
@@ -142,11 +129,11 @@
       
     }); <%-- end of ready --%>  
     
-      /**
-       *  createClickablePolyline
-       *
-       */
-      function createClickablePolyline(poly, html, label, point, length) {
+   /**
+    *  createClickablePolyline
+    *
+    */
+   function createClickablePolyline(poly, html, label, point, length) {
          
          gpolys.push(poly);
       
@@ -190,14 +177,14 @@
                 gmarkers.length = 0;
              }
 
-	     var polyMarker1 = new google.maps.Marker({
+	     var polyMarker = new google.maps.Marker({
 		   position: point,
-		   map: map, 		   
+		   map: map, 	
+		   draggable:true,
 		   icon: lineIcon
              });
-             
-             polyMarker.setPosition(point);
-             gmarkers.push(polyMarker1);
+                          
+             gmarkers.push(polyMarker);
              
              
              infowindow.setContent(contentString);	     	      
