@@ -24,9 +24,12 @@
    var jq = jQuery.noConflict();
    var map;
    var gpolys = [];
+   var gmarkers = [];
    var side_bar_html = ""; 
    var infowindow = null;
+   var polyMarker = null;
    var bounds = null;
+   var lineIcon = null;
    
    jq(document).ready(function() {
       var latlng;
@@ -53,9 +56,20 @@
       });
       */
       
+      lineIcon = new g.MarkerImage('/tracking/images/square.png',
+                                         new google.maps.Size(11, 11),
+                                         new google.maps.Point(0,0),                                  
+                                         new google.maps.Point(5, 5));
+      polyMarker = new g.Marker({
+		   map: map, 
+		   icon: lineIcon
+      });
       
       bounds = new g.LatLngBounds();
-      infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
+      infowindow = new g.InfoWindow({size: new google.maps.Size(150,50)});
+       
+     
+      
       
       showLocationPaths();
       
@@ -150,19 +164,47 @@
       
          
         google.maps.event.addListener(poly,'click', function(event) {
-      alert("click here 1");    
+      
           infowindow.setContent(contentString);
-      alert("click here 2");
+    
           if (event) {
              point = event.latLng;
           }
-      alert("click here 3");
+      
           infowindow.setPosition(point);
       
           infowindow.open(map);
-             // map.openInfoWindowHtml(point,html); 
+             
         }); 
          
+        google.maps.event.addListener(poly,'mousemove', function(event) {
+	     if (event) {
+	          point = event.latLng;
+	     }     
+	     
+	     
+	     if (gmarkers) {
+                for (var i=0; i < gmarkers.length; i++) {
+                   gmarkers[i].setMap(null);
+                }                     
+                gmarkers.length = 0;
+             }
+
+	     var polyMarker1 = new google.maps.Marker({
+		   position: point,
+		   map: map, 		   
+		   icon: lineIcon
+             });
+             
+             polyMarker.setPosition(point);
+             gmarkers.push(polyMarker1);
+             
+             
+             infowindow.setContent(contentString);	     	      
+	     infowindow.setPosition(point);	      
+	     infowindow.open(map);	                       
+        }); 
+        
       
         if (!label) {
             label = "polyline #"+poly_num;
