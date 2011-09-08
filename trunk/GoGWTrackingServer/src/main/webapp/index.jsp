@@ -8,67 +8,29 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
 </h3>
 <p>
 <table>
-<tr> 
-  <td>
-     <a href="<%=request.getContextPath()%>/en-us/hotelsearch"> Spring MVC Reservation</a> <br>
-     &nbsp;&nbsp;&nbsp; Purly Spring MVC, Spring IOC with Hibernate.
-     <br>
-  </td>
-</tr>
-<tr> 
-  <td>
-     &nbsp;&nbsp;&nbsp; 
-     <br>
-  </td>
-</tr>
-<tr> 
-  <td>
-     <a href="<%=request.getContextPath()%>/en-us/jhotelsearch"> Spring MVC Reservation + JQuery</a> <br>
-     &nbsp;&nbsp;&nbsp; Purly Spring MVC, Spring IOC with Hibernate Plus JQuery.
-     <br>
-  </td>
-</tr>
-
-<tr> 
-  <td>
-     &nbsp;&nbsp;&nbsp; 
-     <br>
-  </td>
-</tr>
 <tr>
   <td>
-     <a href="<%=request.getContextPath()%>/en-us/gwtreservation"> GWT Widgets Reservation </a> <br>
-     &nbsp;&nbsp;&nbsp; GWT widgets, Spring MVC, Spring IOC with Hibernate.
-     <br>
-  </td>
-</tr>   
-<tr> 
-  <td>
-     &nbsp;&nbsp;&nbsp; 
-     <br>
+     <a href="<%=request.getContextPath()%>/en-us/showactiveattracks"> Android Display Current Tracking  </a> <br>
+     &nbsp;&nbsp;&nbsp; Show active tracking of devices.
   </td>
 </tr>
 
 <tr>
   <td>
-     <a href="<%=request.getContextPath()%>/en-us/mvpreservation"> GWT uiBinder MVP Reservation </a> <br>
-     &nbsp;&nbsp;&nbsp; GWT uiBinder, GWT MVP pattern, Spring MVC, Spring IOC with Hibernate.
-     <br>
-  </td>
-</tr>
-<tr> 
-  <td>
-     &nbsp;&nbsp;&nbsp; 
-     <br>
+     <a href="<%=request.getContextPath()%>/en-us/retrievetracks"> Android Display Old Tracking  </a> <br>
+     &nbsp;&nbsp;&nbsp; Show history tracking of devices.
   </td>
 </tr>
 
+
 <tr>
   <td>
-     <a href="<%=request.getContextPath()%>/en-us/mvphoteldetail/120284"> GWT uiBinder MVP Hoteldetail </a> <br>
-     &nbsp;&nbsp;&nbsp; GWT uiBinder, GWT MVP pattern, Spring MVC, Spring IOC with Hibernate.
+     <a href="<%=request.getContextPath()%>/en-us/disptracks"> Test tracking  </a> <br>
+     &nbsp;&nbsp;&nbsp; Show test tracking
   </td>
 </tr>
+
+
 </table>   
 
 <h4>Please note: it is under development.</h4>
