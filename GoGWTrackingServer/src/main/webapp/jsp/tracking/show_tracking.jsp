@@ -18,6 +18,11 @@
    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
+<script type="text/javascript">
+    var lineImg = '${env.contextPath}/images/square.png';
+    var startImg = '${env.contextPath}/images/dd-start.png';
+    var endImg = '${env.contextPath}/images/dd-end.png';
+</script>
 
 <script type="text/javascript">
   
@@ -30,6 +35,8 @@
   
    var bounds = null;
    var lineIcon = null;
+   var startIcon = null;
+   var endIcon = null;
    
    jq(document).ready(function() {
       var latlng;
@@ -50,10 +57,21 @@
       map = new g.Map(document.getElementById("map_canvas"), myOptions);     
    
       
-      lineIcon = new g.MarkerImage('/tracking/images/square.png',
+      lineIcon = new g.MarkerImage(lineImg,
                                          new google.maps.Size(11, 11),
                                          new google.maps.Point(0,0),                                  
                                          new google.maps.Point(5, 5));
+      startIcon = new g.MarkerImage(startImg,
+                                         new google.maps.Size(20, 34),
+                                         new google.maps.Point(0,0),                                  
+                                         new google.maps.Point(10, 30));
+
+      endIcon = new g.MarkerImage(endImg,
+                                         new google.maps.Size(20, 34),
+                                         new google.maps.Point(0,0),                                  
+                                         new google.maps.Point(10, 30));
+
+                     
       bounds = new g.LatLngBounds();
       infowindow = new g.InfoWindow({size: new google.maps.Size(150,50)});
       
@@ -90,10 +108,15 @@
 		//alert(" index=" + index + ",color=" +color );
 		
 		var pts = [];
+		var startPt = null, endPt = null;
+		
 	        jq.each(locs, function(locIndex, loc) {				 
 		    dispLocations += " loc.latitude=" + loc.latitude;
 		    pts[locIndex] = new g.LatLng(loc.latitude/1.0e6, loc.longitude/1.0e6);
-		   
+		    if (startPt == null) {
+		        startPt = pts[locIndex];
+		    }
+		    
 		    /*
 		    if (locIndex >0) {
 		       length += pts[locIndex-1].distanceFrom(pts[locIndex]);
@@ -104,8 +127,26 @@
 		    //alert(" index=" + index + ",locIndex=" + locIndex + ", lat=" + loc.latitude/1.0e6 + ", lng=" + loc.longitude/1.0e6);			              				
 		    bounds.extend(pts[locIndex]);
 		    point = pts[parseInt(locIndex/2)];
+		    
+		    endPt = pts[locIndex];
                 });
            
+                
+                
+                var startMarker = new google.maps.Marker({
+	   		   position: startPt,
+	   		   map: map, 	
+	   		   title: label,
+	   		   icon: startIcon
+                });
+          
+                var endMarker = new google.maps.Marker({
+	  	   	   position: endPt,
+	  	   	   map: map, 	
+	  	   	   title: label,
+	  	   	   icon: endIcon
+                });
+                
 	        var poly = new g.Polyline({
 			 map: map,
 			 path: pts,
