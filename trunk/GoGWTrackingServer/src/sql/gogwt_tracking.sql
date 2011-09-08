@@ -13,15 +13,6 @@ CREATE TABLE `tracking_customer` (
 );
 ALTER TABLE tracking_customer AUTO_INCREMENT = 1221;
 
-CREATE TABLE `mobile_login_user` (  
-   `id` mediumint(9) NOT NULL auto_increment,
-   `groupId` varchar(30) NOT NULL,
-   `phone_number` varchar(30) NOT NULL,
-   `display_name` varchar(30) NOT NULL,
-   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
-   PRIMARY KEY  (`id`),
-   UNIQUE KEY mobile_login_user_u1 (groupId, display_name)
-);
 
 CREATE TABLE `tracking_mobile` (  
   `id` mediumint(9) NOT NULL auto_increment,
@@ -43,6 +34,18 @@ CREATE TABLE `tracking_mobile` (
   PRIMARY KEY  (`id`)
 );
 ALTER TABLE tracking_mobile AUTO_INCREMENT = 1221;
+
+////////////////////////////////////////////////
+/// NOT USED
+CREATE TABLE `mobile_login_user` (  
+   `id` mediumint(9) NOT NULL auto_increment,
+   `groupId` varchar(30) NOT NULL,
+   `phone_number` varchar(30) NOT NULL,
+   `display_name` varchar(30) NOT NULL,
+   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+   PRIMARY KEY  (`id`),
+   UNIQUE KEY mobile_login_user_u1 (groupId, display_name)
+);
 	
 DROP TABLE IF EXISTS `stock`;
 CREATE TABLE `stock` (

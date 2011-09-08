@@ -74,6 +74,10 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		 
 		 return DomainServiceHelper.constructionDisplayItemList(activeMap);
 	}
+
+	public void stopTracking(Profile profile) {
+		ActiveSharedLocation.removeClientFromMap(profile.getGroupId(), profile.getDisplayName()); 		
+	}
 	
 	/**
 	 * Called by Rest login.
@@ -111,6 +115,10 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		return response;
 		
 	}
+	
+	/**************************************************************
+	 *  PRIVATE METHODS
+	 **************************************************************/
 	
 	private List<TrackingMobileData> convertToTrackingMobileData(final LocationRequest request) {
 		List<TrackingMobileData> trackingMobileDataList = new ArrayList<TrackingMobileData>();

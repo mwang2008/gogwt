@@ -20,6 +20,7 @@ import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
+import com.gogwt.apps.tracking.utils.CookieUtils;
 
 
 public class EnrollCustomerController extends BaseAbstractController {
@@ -56,6 +57,11 @@ public class EnrollCustomerController extends BaseAbstractController {
 					businessService.enrollCustomer(formBean);
 			
 			HttpSession session = request.getSession();
+			
+			//set cookie
+	 		CookieUtils.setProfileCookie(response, customerProfile);
+	 		
+	 		//set session
 			session.setAttribute(CUSTOMER_PROFILE, customerProfile);
 		} 
 		catch (DuplicatedUserNameException se) {

@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.utils.CookieUtils;
 
 /**
  * URLHandlerInterceptor is executed before controller
@@ -43,6 +44,11 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 			// save urlMappingElem to request
 			request.setAttribute(ENV, urlMappingElem);
 
+			CustomerProfile profile = CookieUtils.getCookieProfile(request);
+			if (profile != null) {
+				session.setAttribute(CUSTOMER_PROFILE, profile);
+			}
+			
 			return true;
 		} catch (Exception e) {
 			// todo: has error, redirect to default page

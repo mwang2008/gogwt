@@ -156,6 +156,26 @@ public class RestClientController {
 		return processCurrentDisp(groupId, request);
 	}
 	
+	
+	@RequestMapping(value="stoptracking", method=RequestMethod.POST, headers="Content-Type=application/xml")
+	public void stopTrackingXML(@RequestBody Profile profile) {
+		logger.debug(" ==== stopTrackingXML XML input: " + profile.toString());
+		
+		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
+		 service.stopTracking(profile);
+		
+		 
+ 	}
+ 
+	@RequestMapping(value="stoptracking", method=RequestMethod.POST, headers="Content-Type=application/json")
+	public void stopTrackingJSON(@RequestBody Profile profile) {
+		logger.debug(" ==== stopTrackingXML JSON input: " + profile.toString());
+		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
+		service.stopTracking(profile);
+	}
+	/********************************************************
+	 *  PRIVATE METHODS 
+	 */
 	private DisplayResponse processCurrentDisp(String groupId, final HttpServletRequest request) { 
 		HttpSession session = request.getSession();
         CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
