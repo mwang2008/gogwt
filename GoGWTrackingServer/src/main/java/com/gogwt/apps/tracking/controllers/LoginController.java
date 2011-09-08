@@ -20,6 +20,7 @@ import com.gogwt.apps.tracking.exceptions.InvalidUserException;
 import com.gogwt.apps.tracking.formbean.LoginFormBean;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
+import com.gogwt.apps.tracking.utils.CookieUtils;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class LoginController extends BaseAbstractController {
@@ -81,7 +82,10 @@ public class LoginController extends BaseAbstractController {
 	 			return new ModelAndView(new RedirectView(targetURL)); 
 	 		}
 	 		
-			String successView = getSuccessView();
+	 		//set cookie
+	 		CookieUtils.setProfileCookie(response, customerProfile);
+	 					
+	 		String successView = getSuccessView();
 			return new ModelAndView(new RedirectView(successView));
 
 		} catch (InvalidUserException e) {
