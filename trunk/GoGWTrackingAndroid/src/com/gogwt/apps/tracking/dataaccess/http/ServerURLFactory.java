@@ -10,9 +10,9 @@ public class ServerURLFactory {
   
     public static String getHost() {
     	if (StringUtils.equalsIgnoreCase(env, "QA")) {
-    		return "http://10.0.121.162/";
+    		return "http://10.0.122.7/";
     	}
-    	return "http://10.0.121.162/";
+    	return "http://10.0.122.7/";
     }
     
 	public static String getSendLocationURL() {
@@ -21,5 +21,9 @@ public class ServerURLFactory {
 	
 	public static String getLoginURL() {
 		return  getHost() + "tracking/en-us/mobilelogin";
+	}
+	
+	public static String stopTracking() {
+		return getHost() + "tracking/en-us/stoptracking";
 	}
 }
