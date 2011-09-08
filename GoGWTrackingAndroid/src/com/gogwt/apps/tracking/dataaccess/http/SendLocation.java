@@ -18,7 +18,7 @@ import com.gogwt.apps.tracking.data.response.LocationResponse;
 //public class SendLocation extends AsyncTask<LocationRequest, Void, LocationResponse> {
 public class SendLocation {
 	protected static final String TAG = SendLocation.class.getSimpleName();
-	protected int SOCKET_TIMEOUT = 10000;
+	protected int SOCKET_TIMEOUT = 5000;
 	private LocationInterface locationInterface;
 	
 	private Context context;

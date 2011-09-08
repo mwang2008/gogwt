@@ -1,12 +1,10 @@
 package com.gogwt.apps.tracking.services;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-
 import android.util.Log;
 import android.widget.Toast;
 
@@ -62,9 +59,10 @@ public class GPXService extends Service {
 
 	private LocationManager locationManager = null;
 	//private NotificationManager notifier = null;
-	private int GPS_UPDATE_RATE_IN_SEC = 20;  //20s
-    private int TIMER_UPDATE_RATE_IN_SEC = 120;  //120s
-    		
+	private int GPS_UPDATE_RATE_IN_SEC = 5;  //20s
+    private int TIMER_UPDATE_RATE_IN_SEC = 10;  //20s
+    private int MAX_TIMER_UPDATE_RATE_IN_SEC = 180;
+    
 	private Timer timer;
 	private long startGPSTime;
 	
@@ -87,9 +85,10 @@ public class GPXService extends Service {
 		Log.i(TAG, "==== onCreate");
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		//notifier = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
+		
+		currentTimerRate = TIMER_UPDATE_RATE_IN_SEC;
 		timer = new Timer("GPXService-Timer");
-		timer.schedule(timerUpdateTask, 1000L, TIMER_UPDATE_RATE_IN_SEC * 1000L);
+		timer.schedule(new MyTimerTask(), 1000L, currentTimerRate * 1000L);
 
 	}
 
@@ -243,6 +242,21 @@ public class GPXService extends Service {
 		public void onLocationChanged(Location location) {
 			Log.d(TAG, "=== onLocationChanged");
 
+			if (currentTimerRate >= TIMER_UPDATE_RATE_IN_SEC) {
+			   currentTimerRate = TIMER_UPDATE_RATE_IN_SEC;
+			   
+			   try {
+			      timer.cancel();
+	              timer.purge();
+			   }
+			   catch (Throwable e) {
+				   e.printStackTrace();
+			   }
+			   
+	           timer = new Timer("GPXService-Timer");
+			   timer.schedule(new MyTimerTask(), 1000L, currentTimerRate * 1000L);
+			}
+			
 			if (groupId == null) {
 				groupId = SharedPreferenceUtils
 						.getGroupId(getApplicationContext());
@@ -377,7 +391,12 @@ public class GPXService extends Service {
 	/**
 	 * Send locations back to server
 	 */
-	private TimerTask timerUpdateTask = new TimerTask() {
+	private int numIdle=0;
+	private long TIMER_IDLE_RATE [] = {30, 60, 120, 180, 240, 300};
+	private long currentTimerRate;
+	
+	//private TimerTask timerUpdateTask = new TimerTask() {
+	class MyTimerTask extends TimerTask {
 		@Override
 		public void run() {
 			Log.d(TAG, "Timer task doing work");
@@ -390,18 +409,7 @@ public class GPXService extends Service {
 				Profile profile = SessionManager.getProfile(getApplicationContext());
 				
 				LocationRequest request = new LocationRequest();
-				
-				if (locationList == null || locationList.isEmpty()) {
-					Log.d(TAG, "---=== locationList is null");
-				}
-				else {
-					int i=0;
-					for (GLocation theLocation : locationList) {
-						Log.d(TAG, "---=== i=" + i++ + ", " + theLocation.toString());
-					}
-				}
-				
-				List<GLocation> mylocationList = new ArrayList<GLocation>();
+	 			List<GLocation> mylocationList = new ArrayList<GLocation>();
 				synchronized (locationList) {
 					mylocationList.addAll(locationList);
 					locationList.clear();
@@ -420,6 +428,18 @@ public class GPXService extends Service {
 					}
 				//}
 				
+				if (mylocationList == null || mylocationList.isEmpty()) {
+					numIdle++;
+					if (numIdle>150) {
+						numIdle = 150;
+					}
+					
+					long period =  TIMER_IDLE_RATE[numIdle/20] ;
+					timer.cancel();
+		            timer.purge();
+
+					timer.schedule(new MyTimerTask(), 1000L, period * 1000L);
+				}
 				request.setLocations(mylocationList);
 				
 				request.setProfile(profile);

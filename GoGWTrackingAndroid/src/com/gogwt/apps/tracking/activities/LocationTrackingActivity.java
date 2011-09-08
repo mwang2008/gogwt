@@ -2,7 +2,6 @@ package com.gogwt.apps.tracking.activities;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.content.ComponentName;
@@ -33,7 +32,10 @@ import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GPXPoint;
 import com.gogwt.apps.tracking.data.ICollectionListener;
 import com.gogwt.apps.tracking.data.IRemoteInterface;
+import com.gogwt.apps.tracking.data.Profile;
+import com.gogwt.apps.tracking.dataaccess.http.StopTracking;
 import com.gogwt.apps.tracking.services.GPXService;
+import com.gogwt.apps.tracking.utils.SessionManager;
 import com.gogwt.apps.tracking.utils.StringUtils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -181,6 +183,9 @@ public class LocationTrackingActivity extends MapActivity implements
 			pgxPointList.clear();
 			
 			// stop GPS service and redirect back to mainmenu
+			Profile profile = SessionManager.getProfile(this);
+			new StopTracking().httpPost(profile);
+			
 			stopService(new Intent(GPXService.GPX_SERVICE));
 			Intent intent = new Intent().setClass(this, MainMenuActivity.class);
 			startActivity(intent);

@@ -23,4 +23,10 @@ public final class SessionManager {
 		//2. back up profile to preference
 		SharedPreferenceUtils.savePreference(context, profile);
 	}
+	
+	public static void clearProfile(Context context) {
+		profile = null;
+		
+		SharedPreferenceUtils.clearProfile(context);
+	}
 }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.gogwt.apps.tracking.R;
-import com.gogwt.apps.tracking.utils.SharedPreferenceUtils;
+import com.gogwt.apps.tracking.utils.SessionManager;
 
 public class LogoutActivity extends Activity {
 	@Override
@@ -13,7 +13,7 @@ public class LogoutActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		SharedPreferenceUtils.clearProfile(this);
+		SessionManager.clearProfile(this);
 		
 		//process logout function and return back to login page
 		Intent toLoginIntent = new Intent(getApplicationContext(), LoginActivity.class);        
