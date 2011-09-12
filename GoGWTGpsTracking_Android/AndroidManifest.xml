@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.gogwt.apps.tracking"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="4" />
+
+    <application android:icon="@drawable/global_gwt" android:label="@string/app_name">
+        <uses-library android:name="com.google.android.maps" />
+        <!-- .MainActivity -->
+        <activity android:name=".GoGWTrackingMainActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".MyTestConfigActivity" />
+         
+        <!--  Test Google map: dev and release, change testconfig.xml -->
+        <!-- 
+        <activity android:name=".MyTestConfigActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+         -->
+ 
+    </application>
+    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
+</manifest>
