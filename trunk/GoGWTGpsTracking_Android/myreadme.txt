@@ -60,7 +60,7 @@ Sign apk file
 jarsigner -verbose -keystore gogwt.keystore GoGWTGpsTracking_Android.apk gogwt
 password: gogwt123
 
-$ jarsigner -verify -verbose -certs my_application.apk
+$ jarsigner -verify -verbose -certs GoGWTGpsTracking_Android.apk
 
 Step 4:
 zipalign -v -f 4 GoGWTGpsTracking_Android.apk out.apk
