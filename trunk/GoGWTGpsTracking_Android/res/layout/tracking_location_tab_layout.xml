@@ -12,10 +12,12 @@
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" 
+            
+        />
          
         <FrameLayout android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent" android:layout_height="379dp">
+            android:layout_width="fill_parent" android:layout_height="fill_parent">
     
             <LinearLayout android:orientation="vertical"
                 android:layout_width="fill_parent" android:layout_height="fill_parent"
@@ -43,7 +45,7 @@
                     android:layout_height="wrap_content" android:gravity="center"
                     android:text="" 
                     android:layout_weight="0.0"/>
-                    
+                     
                 <com.google.android.maps.MapView
                     android:id="@+id/mapview" android:layout_width="fill_parent"
                     android:layout_height="fill_parent" android:clickable="true"
@@ -52,43 +54,7 @@
                     />
            </LinearLayout>
  		
-           <!--      
-           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/mainlayout" android:orientation="vertical"
-                android:layout_width="fill_parent" android:layout_height="fill_parent">
-                
-                <com.google.android.maps.MapView
-                    android:id="@+id/mapview" android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:clickable="true"
-                    android:apiKey="0pMwFTdixXK8Or1NSmw_l2wlAjnHv_TvEpNi-Sg"
-                     
-                    />
-               
-                <TextView android:id="@+id/info" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:gravity="center"
-                    android:text="XXXX Info ..." 
-                    android:layout_alignParentTop="true"
-                     
-                 />
-                                 <Button android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" android:text="Click"
-                   android:layout_alignParentRight="true"
-                   android:layout_alignParentBottom="true" android:id="@+id/clickBtn" />
- 
-                  
-                 <EditText android:layout_width="fill_parent" 
-		           android:layout_height="wrap_content" 
-		           android:inputType="textPersonName" 
-		           android:text="Speed: 50 miles/hour"
-		           android:editable="false"
-		           android:id="@+id/displayName"
-		           android:padding="2dp" android:textSize="10dp"
-		           android:background="#FFF"
-		           android:layout_alignParentTop="true"
-		           >
-		         </EditText>	      
-             </RelativeLayout>        
-              -->                      
+       
         </FrameLayout>       
     </LinearLayout>
 </TabHost>
