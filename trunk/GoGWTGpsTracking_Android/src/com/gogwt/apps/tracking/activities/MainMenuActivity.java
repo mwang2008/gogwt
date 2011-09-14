@@ -1,6 +1,9 @@
 package com.gogwt.apps.tracking.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +24,13 @@ public class MainMenuActivity extends AbstractMenuActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
+		
+		//check GPS
+		LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			createGpsDisabledAlert();
+		}
+		
 	}
 	
 	@Override
@@ -44,8 +54,11 @@ public class MainMenuActivity extends AbstractMenuActivity {
 					//Intent service = new Intent(GPXService.GPX_SERVICE);
 					//service.putExtra(GPXService.GPS_EXTRA_UPDATE_RATE, 2000);
 					//startService(service);
+					//check GPS
+	
 					
 					cls = LocationTrackingActivity.class;
+					
 					break;
  				case 1:
 					//cls = LogoutActivity.class;
@@ -85,4 +98,31 @@ public class MainMenuActivity extends AbstractMenuActivity {
 	    }
 	    return true;
 	}
+	
+	private void createGpsDisabledAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Your GPS is disabled! Would you like to enable it?")
+				.setCancelable(false)
+				.setPositiveButton("Enable GPS",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								showGpsOptions();
+							}
+						});
+		builder.setNegativeButton("Do nothing",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void showGpsOptions() {
+		Intent gpsOptionsIntent = new Intent(
+				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		startActivity(gpsOptionsIntent);
+	}
+
 }

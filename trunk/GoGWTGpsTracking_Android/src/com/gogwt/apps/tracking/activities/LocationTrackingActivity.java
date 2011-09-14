@@ -4,8 +4,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Canvas;
@@ -14,6 +16,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -74,6 +77,11 @@ public class LocationTrackingActivity extends MapActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tracking_location_tab_layout);
 
+		LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			createGpsDisabledAlert();
+		}
+		
 		handler = new Handler();
 		pgxPointList = new ArrayList<GPXPoint>();
 
@@ -81,7 +89,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		tabHost.setup(); // required if using findViewById
 		tabHost.setOnTabChangedListener(this);
 		// tabHost.setBackgroundColor(Color.WHITE);
-		tabHost.getTabWidget().setBackgroundColor(Color.BLUE);
+		//tabHost.getTabWidget().setBackgroundColor(Color.BLUE);
 
 		/*
 		 * LinearLayout ll = (LinearLayout) tabHost.getChildAt(0); TabWidget tw
@@ -268,13 +276,11 @@ public class LocationTrackingActivity extends MapActivity implements
 
 	private void updateSpeedInfoView(final GPXPoint gpxPoint) {
 		// speed
-		int numOfMile = (int) gpxPoint.speed / 5280;
-		int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
-		String speedStr = "";
-		if (numOfMile != 0) {
-			speedStr = numOfMile + " miles/h ";
-		}
-		speedStr = feetLeft + " feet/s";
+		double mileperhour = StringUtils.feetInSecToMileInHour(gpxPoint.speed); /// / 5280.00;
+		
+		//int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
+		String speedStr = StringUtils.format(mileperhour) + " miles/hour [ ";		
+		speedStr += gpxPoint.speed + " feet/s]";
 		speedinfoView.setText(speedStr);
 	}
 
@@ -380,8 +386,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			Path path = new Path();
 			Point currentPnt = new Point();
 			Point lastPnt = new Point();
-
-
+            
 			GeoPoint currentGeoPoint = null;
 			GeoPoint theLastGeoPoint = null;
 			for (GPXPoint gpxPoint : pgxPointList) {
@@ -397,8 +402,45 @@ public class LocationTrackingActivity extends MapActivity implements
 				theLastGeoPoint = currentGeoPoint;
 			}
  			 
+			
+			//todo: revisit it later: only draw new line
+			/*
+			mProjection.toPixels(newPoint, currentPnt);
+			mProjection.toPixels(lastPoint, lastPnt);
+
+			path.moveTo(lastPnt.x, lastPnt.y);
+			path.lineTo(currentPnt.x, currentPnt.y);
+			
+			lastPoint = newPoint;
+			*/
+			
 			canvas.drawPath(path, mPaint);
 		}
 	}
 
+	private void createGpsDisabledAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Your GPS is disabled! Would you like to enable it?")
+				.setCancelable(false)
+				.setPositiveButton("Enable GPS",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								showGpsOptions();
+							}
+						});
+		builder.setNegativeButton("Do nothing",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void showGpsOptions() {
+		Intent gpsOptionsIntent = new Intent(
+				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		startActivity(gpsOptionsIntent);
+	}
 }

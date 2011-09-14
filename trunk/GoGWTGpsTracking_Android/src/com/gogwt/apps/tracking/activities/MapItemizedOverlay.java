@@ -44,6 +44,7 @@ public class MapItemizedOverlay extends ItemizedOverlay {
 		return mOverlays.size();
 	}
 	
+	/*
 	@Override
 	protected boolean onTap(int index) {
 		OverlayItem item = mOverlays.get(index);
@@ -54,5 +55,6 @@ public class MapItemizedOverlay extends ItemizedOverlay {
 		dialog.show();
 		return true;
 	}
+	*/
 
 }
