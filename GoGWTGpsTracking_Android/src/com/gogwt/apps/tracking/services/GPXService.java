@@ -240,7 +240,7 @@ public class GPXService extends Service {
 			}
 			
 			double distance = location.distanceTo(lastLocation);
-			totalDistance += location.distanceTo(lastLocation);
+			totalDistance += distance;
 			
 			GLocation gLocation = new GLocation();
 
