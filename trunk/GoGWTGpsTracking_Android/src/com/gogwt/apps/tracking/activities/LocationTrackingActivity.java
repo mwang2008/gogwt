@@ -281,11 +281,18 @@ public class LocationTrackingActivity extends MapActivity implements
 	private void showMap(final GPXPoint gpxPoint) {
 		updateSpeedInfoView(gpxPoint);
 
-		mapView.invalidate();
+		//mapView.invalidate();
 		// mapView.postInvalidate();
 
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		mapOverlays.clear();
+		//instead of remove all polylines and markers, only remove marker
+		for (Overlay mapOverlay : mapOverlays) {
+			if (mapOverlay instanceof MapItemizedOverlay) {
+				mapOverlays.remove(mapOverlay);
+			}
+		}
+		
+		//mapOverlays.clear();
 
 		final GeoPoint point = new GeoPoint(gpxPoint.latitude,
 				gpxPoint.longitude);
@@ -374,6 +381,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			Point currentPnt = new Point();
 			Point lastPnt = new Point();
 
+
 			GeoPoint currentGeoPoint = null;
 			GeoPoint theLastGeoPoint = null;
 			for (GPXPoint gpxPoint : pgxPointList) {
@@ -388,6 +396,7 @@ public class LocationTrackingActivity extends MapActivity implements
 				}
 				theLastGeoPoint = currentGeoPoint;
 			}
+ 			 
 			canvas.drawPath(path, mPaint);
 		}
 	}
