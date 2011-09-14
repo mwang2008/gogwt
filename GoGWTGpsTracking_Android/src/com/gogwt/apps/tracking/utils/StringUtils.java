@@ -1,5 +1,7 @@
 package com.gogwt.apps.tracking.utils;
 
+import java.text.DecimalFormat;
+
 public class StringUtils {
 
 	public static boolean isSet(String str) {
@@ -46,5 +48,9 @@ public class StringUtils {
 				
 	}
 	
+	public static String format(double dl) {
+		DecimalFormat dec = new DecimalFormat("#.00");
+		return dec.format(dl);
+	}
 	
 }
