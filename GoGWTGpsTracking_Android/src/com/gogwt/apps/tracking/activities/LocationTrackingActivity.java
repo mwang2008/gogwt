@@ -43,9 +43,11 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.google.android.maps.Projection;
 
-public class LocationTrackingActivity extends MapActivity implements OnTabChangeListener {
-	protected static final String TAG = LocationTrackingActivity.class.getSimpleName();
-	
+public class LocationTrackingActivity extends MapActivity implements
+		OnTabChangeListener {
+	protected static final String TAG = LocationTrackingActivity.class
+			.getSimpleName();
+
 	private static final String LIST_TAB_TAG = "List";
 	private static final String MAP_TAB_TAG = "Map";
 	private static final String STOP_TRACKING_TAB_TAG = "Stop Tracking";
@@ -57,37 +59,39 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 	private TextView stopTrackingview;
 	private TextView speedinfoView;
 	private Handler handler;
-	private MapItemizedOverlay itemizedOverlay;
-	
+	private MapItemizedOverlay mItemizedOverlay;
+
 	private IRemoteInterface mRemoteInterface = null;
 	private List<GPXPoint> pgxPointList = null;
-	    	    
+	private boolean isFirstPoint;
+	private GeoPoint lastPoint = null;
+	private Projection mProjection;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		GwtLog.i(TAG, "***** onCreate");
-		
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tracking_location_tab_layout);
-		
+
 		handler = new Handler();
 		pgxPointList = new ArrayList<GPXPoint>();
-		
+
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
 		tabHost.setup(); // required if using findViewById
 		tabHost.setOnTabChangedListener(this);
-		//tabHost.setBackgroundColor(Color.WHITE);
+		// tabHost.setBackgroundColor(Color.WHITE);
 		tabHost.getTabWidget().setBackgroundColor(Color.BLUE);
-		
-		/*LinearLayout ll = (LinearLayout) tabHost.getChildAt(0);
-		TabWidget tw = (TabWidget) ll.getChildAt(0);
-		
-		// first tab
-		RelativeLayout rllf = (RelativeLayout) tw.getChildAt(0);
-		TextView lf = (TextView) rllf.getChildAt(1);
-		lf.setTextSize(21);
-		lf.setPadding(0, 0, 0, 6);*/
 
-		
+		/*
+		 * LinearLayout ll = (LinearLayout) tabHost.getChildAt(0); TabWidget tw
+		 * = (TabWidget) ll.getChildAt(0);
+		 * 
+		 * // first tab RelativeLayout rllf = (RelativeLayout) tw.getChildAt(0);
+		 * TextView lf = (TextView) rllf.getChildAt(1); lf.setTextSize(21);
+		 * lf.setPadding(0, 0, 0, 6);
+		 */
+
 		// setup list view
 		listView = (ListView) findViewById(R.id.list);
 		listView.setEmptyView((TextView) findViewById(R.id.empty));
@@ -96,14 +100,15 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setSatellite(false);
 		mapView.setStreetView(false);
-		
+
 		mapView.setBuiltInZoomControls(true);
 		mapView.postInvalidate();
 		mapController = mapView.getController();
-		mapController.setZoom(4); // Zoom 1 is world view
+		mapController.setZoom(7); // Zoom 1 is world view
+		mProjection = mapView.getProjection();
 
 		speedinfoView = (TextView) findViewById(R.id.speedinfo);
-		
+
 		// stop tracking
 		stopTrackingview = new TextView(this);
 
@@ -134,7 +139,7 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 		tabHost.setCurrentTab(1);
 		tabHost.setCurrentTab(0);
 	}
-	
+
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
@@ -148,64 +153,42 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 		Intent intent = new Intent(remoteName);
 
 		bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-		
+
 		super.onStart();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		GwtLog.d(TAG, "**** onResume");
-
-		//String remoteName = IRemoteInterface.class.getName(); //working also.
-		//String remoteName = GPXService.GPX_SERVICE;
-		//Intent intent = new Intent(remoteName);
-
-		//bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		GwtLog.d(TAG, "***** onPause");
-		// remove the link to the remote service
-		try {
-			//unbindService(serviceConnection);
-		} catch (Throwable e) {
-			Log.w(TAG, "Failed to unbind ", e);
-		}
-
 		super.onPause();
 	}
-	
+
 	@Override
 	public void onTabChanged(String tabId) {
 		GwtLog.d(TAG, "***** onTabChanged");
-		
-		if (tabId.equals(STOP_TRACKING_TAB_TAG)) {	 	
-			
-            pgxPointList.clear();
-			
-			// stop GPS service and redirect back to mainmenu
-			// Profile profile = SessionManager.getProfile(this);
-			//new StopTracking().httpPost(profile);
-			
+
+		if (tabId.equals(STOP_TRACKING_TAB_TAG)) {
+
+			pgxPointList.clear();
 			unbindService(serviceConnection);
-			
-			//stopService(new Intent(GPXService.GPX_SERVICE));
-			
+
 			Intent intent = new Intent().setClass(this, MainMenuActivity.class);
 			startActivity(intent);
 			return;
 		}
-		
+
 		if (tabId.equals(MAP_TAB_TAG)) {
-			currentTabId = MAP_TAB_TAG;			 
-		}
-		else if (tabId.equals(LIST_TAB_TAG)) {
+			currentTabId = MAP_TAB_TAG;
+		} else if (tabId.equals(LIST_TAB_TAG)) {
 			currentTabId = LIST_TAB_TAG;
- 		}
-		
+		}
+
 		updateView();
 	}
 
@@ -215,120 +198,119 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 			showList(point);
 			return;
 		}
-		
+
 		if (MAP_TAB_TAG.equals(currentTabId)) {
 			showMap(point);
-		}		 
+		}
 	}
-	
+
 	private void updateView() {
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
 				GwtLog.d(TAG, "***** updateView run ");
 				try {
-					//mRemoteInterface is null, meaning GPXService is not bind yet.
+					// mRemoteInterface is null, meaning GPXService is not bind
+					// yet.
 					if (mRemoteInterface != null) {
-					   GPXPoint point = mRemoteInterface.getGPXPoint();
-					   if (point != null) {
-					      pgxPointList.add(point);
-					      showView(point);
-					   }
+						GPXPoint point = mRemoteInterface.getGPXPoint();
+						if (point != null) {
+							pgxPointList.add(point);
+							showView(point);
+						}
 					}
 
 				} catch (Throwable t) {
-					GwtLog.e(TAG,
-							"***** Error while updating the UI with GPXService", t);
+					GwtLog.e(
+							TAG,
+							"***** Error while updating the UI with GPXService",
+							t);
 				}
 			}
 		});
 	}
-	
+
 	private void showList(GPXPoint point) {
 		Log.d(TAG, "***** showList point= " + point.latitude);
-	 
+
 		final List<String> info = new ArrayList<String>();
-		
-		//lat,lng
-		info.add("Latitude="+point.latitude/1000000.00);
-		info.add("Lontitude="+point.longitude/1000000.00);
-		
-		//speed
-		int numOfMile = (int)point.speed/5280;
-		int feetLeft = (int)(point.speed - numOfMile*5280);
+
+		// lat,lng
+		info.add("Latitude=" + point.latitude / 1000000.00);
+		info.add("Lontitude=" + point.longitude / 1000000.00);
+
+		// speed
+		int numOfMile = (int) point.speed / 5280;
+		int feetLeft = (int) (point.speed - numOfMile * 5280);
 		String speedStr = "";
 		if (numOfMile != 0) {
 			speedStr = numOfMile + " miles/h ";
-		}		 
-		speedStr = feetLeft + " feet/s";
- 		info.add("Current Speed=" + speedStr);
-		
- 		speedinfoView.setText("");
- 		
- 		//totalDistance 		
- 		DecimalFormat dec = new DecimalFormat("#.00");
- 		String str = dec.format(StringUtils.feetInSecToMileInHour(point.totalDistance));
- 		info.add("totalDistance=" + str);
- 		
- 		String diff = DateUtils.formatElapsedTime((point.time - point.startTime)/1000L);
- 		info.add("totalTime=" + diff);
- 		
-		listView.setAdapter(new ArrayAdapter<String>(this,
- 				android.R.layout.simple_list_item_1, info));
-		 
-	}
-	
-	private void showMap(GPXPoint geoPoint) {
-		mapView.invalidate();
-		
- 		List<Overlay> mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.icon);
-		itemizedOverlay = new MapItemizedOverlay(drawable, this);
-		 
-		GeoPoint point;
-		
-		if (geoPoint != null) {
-			point = new GeoPoint(geoPoint.latitude, geoPoint.longitude);
-		} 
-		else { 
-			point = new GeoPoint(33289998, -83700000);
 		}
-		
-		//speed
-		int numOfMile = (int)geoPoint.speed/5280;
-		int feetLeft = (int)(geoPoint.speed - numOfMile*5280);
+		speedStr = feetLeft + " feet/s";
+		info.add("Current Speed=" + speedStr);
+
+		speedinfoView.setText("");
+
+		// totalDistance
+		DecimalFormat dec = new DecimalFormat("#.00");
+		String str = dec.format(StringUtils
+				.feetInSecToMileInHour(point.totalDistance));
+		info.add("totalDistance=" + str);
+
+		String diff = DateUtils
+				.formatElapsedTime((point.time - point.startTime) / 1000L);
+		info.add("totalTime=" + diff);
+
+		listView.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, info));
+
+	}
+
+	private void updateSpeedInfoView(final GPXPoint gpxPoint) {
+		// speed
+		int numOfMile = (int) gpxPoint.speed / 5280;
+		int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
 		String speedStr = "";
 		if (numOfMile != 0) {
 			speedStr = numOfMile + " miles/h ";
-		}		 
+		}
 		speedStr = feetLeft + " feet/s";
- 		speedinfoView.setText(speedStr);
-	 	
-		//mapController.setZoom(7);
-		   //mapView.postInvalidate();
-		   //mapOverlays.clear();
-		   
-		   Log.d(TAG, "***** showMap point= " + geoPoint.latitude + ", " + geoPoint.longitude);
-		   		   
-		   
-		   mapController.animateTo(point);
-		   
-		   //add line
-		   Projection projection = mapView.getProjection();
-		   mapOverlays.add(new DrawLinesOverlay(projection, point));
-		   
-		  //mapOverlays.add(new DrawTextOverlay());
-		   
-	 	   OverlayItem overlayitem = new OverlayItem(point, "", "");
- 		   Drawable marker = getResources().getDrawable(R.drawable.red_dot);
-		   
-		   marker.setBounds(-10, -10, marker.getIntrinsicWidth()-7, marker.getIntrinsicHeight()-7);
-		   overlayitem.setMarker(marker);
-		   
-		   itemizedOverlay.addOverlay(overlayitem);
-		   mapOverlays.add(itemizedOverlay);
-		
+		speedinfoView.setText(speedStr);
 	}
+
+	private void showMap(final GPXPoint gpxPoint) {
+		updateSpeedInfoView(gpxPoint);
+
+		mapView.invalidate();
+		// mapView.postInvalidate();
+
+		List<Overlay> mapOverlays = mapView.getOverlays();
+		mapOverlays.clear();
+
+		final GeoPoint point = new GeoPoint(gpxPoint.latitude,
+				gpxPoint.longitude);
+		mapController.animateTo(point);
+
+		// add line
+		mapOverlays.add(new DrawLinesOverlay(point));
+
+		// add marker
+		OverlayItem overlayitem = new OverlayItem(point, "", "");
+		
+		//if (mItemizedOverlay == null) {		    	
+			Drawable marker = this.getResources().getDrawable(R.drawable.red_dot);
+		    mItemizedOverlay = new MapItemizedOverlay(marker, this);		
+		    marker.setBounds(-10, -10, marker.getIntrinsicWidth() - 7, marker.getIntrinsicHeight() - 7);
+		//}
+		   
+	    overlayitem.setMarker( mItemizedOverlay.getDrawable());
+		//overlayitem.setMarker(null);
+	    mItemizedOverlay.addOverlay(overlayitem);
+		
+		mapOverlays.add(mItemizedOverlay);
+	    
+	}
+
 	/**
 	 * serviceConnection is used for binding onServiceConnected is called after
 	 * onBind in GPXService
@@ -351,22 +333,20 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 			mRemoteInterface = null;
 		}
 	};
-	
+
 	private ICollectionListener.Stub collectorListener = new ICollectionListener.Stub() {
 		@Override
 		public void handleLocationUpdated() throws RemoteException {
 			updateView();
-		}		 
+		}
 	};
-	
-	
+
 	class DrawLinesOverlay extends Overlay {
-		private Projection projection;
-		private GeoPoint newPoint;
-		private GeoPoint lastPoint = null;
-		
-		public DrawLinesOverlay(Projection projection, GeoPoint point) {
-			this.projection = projection;
+		// Projection projection;
+		GeoPoint newPoint;
+
+		public DrawLinesOverlay(GeoPoint point) {
+			// this.projection = projection;
 			this.newPoint = point;
 		}
 
@@ -376,7 +356,7 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 			if (pgxPointList == null || pgxPointList.isEmpty()) {
 				return;
 			}
-			
+
 			Paint mPaint = new Paint();
 			mPaint.setDither(true);
 			mPaint.setColor(Color.RED);
@@ -384,30 +364,32 @@ public class LocationTrackingActivity extends MapActivity implements OnTabChange
 			mPaint.setStrokeJoin(Paint.Join.ROUND);
 			mPaint.setStrokeCap(Paint.Cap.ROUND);
 			mPaint.setStrokeWidth(2);
-	 		
+
 			if (lastPoint == null) {
 				lastPoint = newPoint;
 				return;
 			}
-				
+
 			Path path = new Path();
-			Point currentPoint = new Point();
-			Point lastPoint = new Point();
+			Point currentPnt = new Point();
+			Point lastPnt = new Point();
 
 			GeoPoint currentGeoPoint = null;
 			GeoPoint theLastGeoPoint = null;
 			for (GPXPoint gpxPoint : pgxPointList) {
-			    currentGeoPoint = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
+				currentGeoPoint = new GeoPoint(gpxPoint.latitude,
+						gpxPoint.longitude);
 				if (theLastGeoPoint != null) {
-					projection.toPixels(currentGeoPoint, currentPoint);
-					projection.toPixels(theLastGeoPoint, lastPoint);
-					
-					path.moveTo(lastPoint.x, lastPoint.y);
-					path.lineTo(currentPoint.x, currentPoint.y);		 
+					mProjection.toPixels(currentGeoPoint, currentPnt);
+					mProjection.toPixels(theLastGeoPoint, lastPnt);
+
+					path.moveTo(lastPnt.x, lastPnt.y);
+					path.lineTo(currentPnt.x, currentPnt.y);
 				}
 				theLastGeoPoint = currentGeoPoint;
 			}
 			canvas.drawPath(path, mPaint);
 		}
 	}
+
 }
