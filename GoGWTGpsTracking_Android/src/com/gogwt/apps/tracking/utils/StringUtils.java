@@ -39,17 +39,14 @@ public class StringUtils {
 		return numOfMile + " miles, " + feetLeft + " feet";
 	}
 	 
-	public static double feetInSecToMileInHour(double feetInSec) {
-		double milesInSec = feetInSec/5280.00;
-		//in hour
-		double milesInHour = milesInSec*3600;
-		
-		return milesInHour;
-				
+	public static double meterPerSecToMilePerHour(double meterInSec) {
+		//1 meter / second = 2.23693629 mile / hour
+		return meterInSec* 2.23693629f;
+						
 	}
 	
 	public static String format(double dl) {
-		DecimalFormat dec = new DecimalFormat("#.00");
+		DecimalFormat dec = new DecimalFormat("#0.00");
 		return dec.format(dl);
 	}
 	

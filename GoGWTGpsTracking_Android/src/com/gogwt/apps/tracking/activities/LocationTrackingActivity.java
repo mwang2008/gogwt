@@ -69,7 +69,9 @@ public class LocationTrackingActivity extends MapActivity implements
 	private boolean isFirstPoint;
 	private GeoPoint lastPoint = null;
 	private Projection mProjection;
-
+    private Drawable markerDot = null;
+    private DrawPolylineOverlay drawPolylineOverlay;
+    
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		GwtLog.i(TAG, "***** onCreate");
@@ -223,7 +225,7 @@ public class LocationTrackingActivity extends MapActivity implements
 					if (mRemoteInterface != null) {
 						GPXPoint point = mRemoteInterface.getGPXPoint();
 						if (point != null) {
-							pgxPointList.add(point);
+							//pgxPointList.add(point);
 							showView(point);
 						}
 					}
@@ -262,7 +264,8 @@ public class LocationTrackingActivity extends MapActivity implements
 		// totalDistance
 		DecimalFormat dec = new DecimalFormat("#.00");
 		String str = dec.format(StringUtils
-				.feetInSecToMileInHour(point.totalDistance));
+				.meterPerSecToMilePerHour(point.totalDistance));
+		
 		info.add("totalDistance=" + str);
 
 		String diff = DateUtils
@@ -276,7 +279,7 @@ public class LocationTrackingActivity extends MapActivity implements
 
 	private void updateSpeedInfoView(final GPXPoint gpxPoint) {
 		// speed
-		double mileperhour = StringUtils.feetInSecToMileInHour(gpxPoint.speed); /// / 5280.00;
+		double mileperhour = StringUtils.meterPerSecToMilePerHour(gpxPoint.speed); /// / 5280.00;
 		
 		//int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
 		String speedStr = StringUtils.format(mileperhour) + " miles/hour [ ";		
@@ -284,11 +287,13 @@ public class LocationTrackingActivity extends MapActivity implements
 		speedinfoView.setText(speedStr);
 	}
 
+	 
+	
 	private void showMap(final GPXPoint gpxPoint) {
 		updateSpeedInfoView(gpxPoint);
 
 		//mapView.invalidate();
-		// mapView.postInvalidate();
+		mapView.postInvalidate();
 
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		//instead of remove all polylines and markers, only remove marker
@@ -302,25 +307,41 @@ public class LocationTrackingActivity extends MapActivity implements
 
 		final GeoPoint point = new GeoPoint(gpxPoint.latitude,
 				gpxPoint.longitude);
-		mapController.animateTo(point);
-
-		// add line
-		mapOverlays.add(new DrawLinesOverlay(point));
-
+		
 		// add marker
 		OverlayItem overlayitem = new OverlayItem(point, "", "");
 		
-		//if (mItemizedOverlay == null) {		    	
-			Drawable marker = this.getResources().getDrawable(R.drawable.red_dot);
-		    mItemizedOverlay = new MapItemizedOverlay(marker, this);		
-		    marker.setBounds(-10, -10, marker.getIntrinsicWidth() - 7, marker.getIntrinsicHeight() - 7);
+		//if (mItemizedOverlay == null) {		
+		if (markerDot == null) {
+			markerDot = this.getResources().getDrawable(R.drawable.red_dot);
+			markerDot.setBounds(-10, -10, markerDot.getIntrinsicWidth() - 7, markerDot.getIntrinsicHeight() - 7);
+		}
+		 mItemizedOverlay = new MapItemizedOverlay(markerDot, this);		
+		    
 		//}
 		   
 	    overlayitem.setMarker( mItemizedOverlay.getDrawable());
 		//overlayitem.setMarker(null);
 	    mItemizedOverlay.addOverlay(overlayitem);
+	    mapOverlays.add(mItemizedOverlay);
+	    
+		// add line		
+		if (drawPolylineOverlay == null) {
+			drawPolylineOverlay = new DrawPolylineOverlay();
+		}
+		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
 		
-		mapOverlays.add(mItemizedOverlay);
+		if (lastPoint == null) {
+			mapController.animateTo(point);
+			lastPoint = point;
+			mapController.setZoom(13);
+			return;
+		}
+		 
+     	mapOverlays.add(drawPolylineOverlay);
+		
+		//mapOverlays.add(new DrawLinesOverlay(point));
+ 		
 	    
 	}
 
