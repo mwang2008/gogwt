@@ -329,19 +329,21 @@ public class LocationTrackingActivity extends MapActivity implements
 		if (drawPolylineOverlay == null) {
 			drawPolylineOverlay = new DrawPolylineOverlay();
 		}
+		
 		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
+		
 		
 		if (lastPoint == null) {
 			mapController.animateTo(point);
 			lastPoint = point;
-			mapController.setZoom(13);
+			mapController.setZoom(10);
 			return;
 		}
 		 
      	mapOverlays.add(drawPolylineOverlay);
 		
 		//mapOverlays.add(new DrawLinesOverlay(point));
- 		
+     	 
 	    
 	}
 
