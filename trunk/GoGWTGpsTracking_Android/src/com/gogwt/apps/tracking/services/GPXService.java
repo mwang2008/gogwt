@@ -2,6 +2,8 @@ package com.gogwt.apps.tracking.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Service;
 import android.content.Context;
@@ -25,7 +27,7 @@ import com.gogwt.apps.tracking.utils.NotifyMessageUtils;
 /**
  * <pre>
  * telnet localhost 5554 
- * geo fix 22.33 33.44
+ * geo fix -83.22 33.44
  * </pre>
  * 
  * <pre>
@@ -48,20 +50,26 @@ public class GPXService extends Service {
 	public static final String GPX_SERVICE = "com.gogwt.apps.tracking.services.GPXService.SERVICE";
 	
 	private static final String TAG = GPXService.class.getSimpleName();
-	private int GPS_UPDATE_RATE_IN_SEC = 5;  //20s
 	public static final String GPS_EXTRA_UPDATE_RATE = "gps_update-rate";
 	
-	private List<GLocation> locationList = new ArrayList<GLocation>();
+	private static final int GPS_UPDATE_RATE_IN_SEC = 15;  //20s
+	private static final int TIMER_UPDATE_RATE_IN_SEC = 30;
+	
+	//private List<GLocation> locationList = new ArrayList<GLocation>();
 	private List<ICollectionListener> listeners = new ArrayList<ICollectionListener>();
 	private int gpsUpdateRate;
 	private long lastTime = -1;
-	private Location lastLocation = null;
+	
 	private Location firstLocation = null;
 	private long firstTime = -1;
 	private double totalDistance;
 	private GLocation currentGlocation;
 	private String groupId;
 	private String startEnableGPSTime;
+	private Location currentLocation;
+	private Location lastLocation = null;
+	
+	private Timer timer;
 	
 	@Override
 	public void onCreate() {
@@ -69,9 +77,13 @@ public class GPXService extends Service {
 		GwtLog.i(TAG, "==== onCreate");
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 	 	
-	 
+		int currentTimerRate = TIMER_UPDATE_RATE_IN_SEC;
+		//timer = new Timer("GPXService-Timer");
+		//timer.schedule(updateTask, 1000L, currentTimerRate * 1000L);
 
 	}
+	
+
 	
 	@Override
 	public void onStart(Intent intent, int startId) {
@@ -80,51 +92,14 @@ public class GPXService extends Service {
 		Log.d(TAG, "==== onStart");
 
 		initGPSProvider(intent);
-		
-
-	}
+ 	}
 	
-    private void initGPSProvider(Intent intent) {
-		gpsUpdateRate = intent.getIntExtra(GPS_EXTRA_UPDATE_RATE, -1);
-		if (gpsUpdateRate == -1) {
-			gpsUpdateRate = GPS_UPDATE_RATE_IN_SEC;   //20s
-		}
-
-		String provider = null;
-		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			provider = LocationManager.GPS_PROVIDER;
-		} else {			
-			if (locationManager
-					.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-				provider = LocationManager.NETWORK_PROVIDER;
-				Toast.makeText(this, "Provider NETWORK_PROVIDER", 3000).show();
-			} else {
-				Toast.makeText(this, "Provider Not available", 3000 ).show();
-			}
-		}
-
-		if (provider != null) {
-			locationManager.removeUpdates(trackListener);
-			locationManager.requestLocationUpdates(provider, gpsUpdateRate, 0,
-					trackListener);
-		}
-
-		 	
-		android.text.format.DateFormat df = new android.text.format.DateFormat();
-		startEnableGPSTime = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", new java.util.Date()).toString();
-		
-		 
-		String gpsProviderInfo = "Tracking start at " + gpsUpdateRate/1000
-				+ "s intervals with [" + provider + "] as the provider at " + startEnableGPSTime;
-		
-		NotifyMessageUtils.showNotifyMsg(getApplicationContext(),
-				"GoGPS starts: " + startEnableGPSTime, gpsProviderInfo);
-		
-		Toast.makeText(getApplicationContext(), "GPS Tracking - Start ", Toast.LENGTH_SHORT).show();
-    }
+ 
     
+    @Override
 	public void onDestroy() {
-
+		super.onDestroy();
+		
 		Log.d(TAG, "==== onDestroy");
 
 		if (locationManager != null) {
@@ -144,16 +119,83 @@ public class GPXService extends Service {
 
 		Toast.makeText(getApplicationContext(), "GPS Tracking - Tracking stopped " + info, Toast.LENGTH_SHORT).show();
 
-		super.onDestroy();
+		timer.cancel();
+		timer = null;
 	}
 	
 	@Override
-	public IBinder onBind(Intent intent) {
+	public IBinder onBind(Intent intent) {		 
+		Log.d(TAG, "==== onBind");
 		initGPSProvider(intent);
 		return mRemoteInterfaceBinder;		 
 	}
 	
+	@Override
+	public boolean onUnbind(Intent intent) {
+		Log.d(TAG, "==== onUnbind");
+		return super.onUnbind(intent);
+	}
 	
+	/**
+	 * 
+	 */
+	private TimerTask updateTask = new TimerTask() {
+		@Override
+		public void run() {
+			
+			try {
+				GwtLog.d(TAG, "== Timer task doing work");
+				//Toast.makeText(getApplicationContext(), "Timer:  " + TIMER_UPDATE_RATE_IN_SEC + " sec", Toast.LENGTH_SHORT).show();
+				
+			} catch (Throwable t) {
+				GwtLog.e(TAG, "Failed to send results", t);
+			}
+		}
+	};
+	
+	/**
+	 *  
+	 * @param intent
+	 */
+	 private void initGPSProvider(Intent intent) {
+			gpsUpdateRate = intent.getIntExtra(GPS_EXTRA_UPDATE_RATE, -1);
+			if (gpsUpdateRate == -1) {
+				gpsUpdateRate = GPS_UPDATE_RATE_IN_SEC;   //20s
+			}
+
+			String provider = null;
+			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				provider = LocationManager.GPS_PROVIDER;
+			} else {			
+				if (locationManager
+						.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+					provider = LocationManager.NETWORK_PROVIDER;
+					Toast.makeText(this, "Provider NETWORK_PROVIDER", 3000).show();
+				} else {
+					Toast.makeText(this, "Provider Not available", 3000 ).show();
+				}
+			}
+
+			if (provider != null) {
+				locationManager.removeUpdates(trackListener);
+				locationManager.requestLocationUpdates(provider, gpsUpdateRate, 0,
+						trackListener);
+			}
+
+			 	
+			android.text.format.DateFormat df = new android.text.format.DateFormat();
+			startEnableGPSTime = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", new java.util.Date()).toString();
+			
+			 
+			String gpsProviderInfo = "Tracking start at " + gpsUpdateRate
+					+ "s intervals with [" + provider + "] as the provider";
+			
+			NotifyMessageUtils.showNotifyMsg(getApplicationContext(),
+					"GoGPS starts: " + startEnableGPSTime, gpsProviderInfo);
+			
+			Toast.makeText(getApplicationContext(), "GPS Tracking - Start ", Toast.LENGTH_SHORT).show();
+	 }
+	   
 	/**
 	 * remote interface
 	 */
@@ -165,31 +207,58 @@ public class GPXService extends Service {
 
 		public GPXPoint getGPXPoint() {
 			GwtLog.i("interface", "==== getGPXPoint() called");
-			if (lastLocation == null) {
+			if (currentLocation == null) {
 				return null;
-			} else {
-				GwtLog.d("interface", "getGPXPoint() called");
-				GPXPoint point = convertPoint();
-				return point;
 			}
+			
+			return fromCurlocation();		 	
 		}
 
 		@Override
 		public void addListener(ICollectionListener listener)
 				throws RemoteException {
-			synchronized (listeners) {
+			//synchronized (listeners) {
 				listeners.add(listener);
-			}
+			//}
 		}
 
 		@Override
 		public void removeListener(ICollectionListener listener)
 				throws RemoteException {
-			synchronized (listeners) {
+			//synchronized (listeners) {
 				listeners.remove(listener);
-			}
+			//}
 		}
 
+		private GPXPoint fromCurlocation() {
+			GPXPoint point = new GPXPoint();
+			 
+			point.latitude = (int)(currentLocation.getLatitude() * 1E6); //.getLatitude();
+			point.longitude = (int)(currentLocation.getLongitude() * 1E6);
+			point.altitude = currentLocation.getAltitude();
+			point.provider = currentLocation.getProvider();
+			point.accuracy = currentLocation.getAccuracy();
+			point.bearing = currentLocation.getBearing();
+			point.speed = currentLocation.getSpeed();
+			
+			
+			if (lastLocation != null) {
+				double distance = currentLocation.distanceTo(lastLocation);
+			    point.distance = distance;		
+			    totalDistance += distance;
+			} 
+			else {
+				//first time
+				firstTime = System.currentTimeMillis();
+				totalDistance = 0;
+			}
+			
+			point.startTime = firstTime;
+			point.totalDistance = totalDistance;
+
+			return point;
+		}
+		
 		private GPXPoint convertPoint() {
 			GPXPoint point = new GPXPoint();
 
@@ -223,25 +292,36 @@ public class GPXService extends Service {
 			long thisTime = System.currentTimeMillis();
 			long diffTime = thisTime - lastTime;
 			
+			/*
 			if (diffTime < gpsUpdateRate) {
 				// it hasn't been long enough yet
 				return;
 			}
+			*/
 			
 			lastTime = thisTime;
-			 
-			locInfo(location, diffTime);
+			currentLocation = location;
+			
+			/*
+			if (lastLocation != null) {
+				double distance = location.distanceTo(lastLocation);
+				totalDistance += distance;
+			}
+			*/
+			
+			
+			//locInfo(location, diffTime);
 
-			lastLocation = location;
+			//lastLocation = location;
+			
+			/*
 			if (firstLocation == null) {
 				firstLocation = location;
 				firstTime = thisTime;
 				totalDistance = 0;
 			}
 			
-			double distance = location.distanceTo(lastLocation);
-			totalDistance += distance;
-			
+			 
 			GLocation gLocation = new GLocation();
 
 			gLocation.setGroupId(groupId);
@@ -261,11 +341,13 @@ public class GPXService extends Service {
 			gLocation.setTotalDistance(totalDistance);
 
 			currentGlocation = gLocation;
+			*/
 			
+			/*
 			synchronized (locationList) {
 				locationList.add(gLocation);
 			}
-
+            */
 			synchronized (listeners) {
 				for (ICollectionListener listener : listeners) {
 					try {
@@ -281,26 +363,16 @@ public class GPXService extends Service {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			GwtLog.d(TAG, "=== onProviderDisabled disabled " + provider);
-			Toast.makeText(getApplicationContext(), "GPS Disabled",
-					Toast.LENGTH_SHORT).show();
 			
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			GwtLog.d(TAG, "=== onProviderEnabled enabled " + provider);
-			Toast.makeText(getApplicationContext(), "GPS Enabled",
-					Toast.LENGTH_SHORT).show();
-		
-		}
+ 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			GwtLog.d(TAG, "=== onStatusChanged enabled " + provider);
-			Toast.makeText(getApplicationContext(),
-					"GPS Status Change-onStatusChanged:" + status, Toast.LENGTH_SHORT).show();
-		
+	 		
 		}
 		
 		private String locInfo(Location location, long diffTime) {
