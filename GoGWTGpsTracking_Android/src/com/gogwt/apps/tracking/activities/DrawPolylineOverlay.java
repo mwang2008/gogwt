@@ -37,6 +37,7 @@ class DrawPolylineOverlay extends Overlay {
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeJoin(Paint.Join.ROUND);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setAntiAlias(true);
 		mPaint.setStrokeWidth(3);
 
 		mPendingPoints = new ArrayBlockingQueue<GPXPoint>(10000, true);
@@ -45,8 +46,6 @@ class DrawPolylineOverlay extends Overlay {
 	public void addNewGPXPoint(GPXPoint newGPXPoint) {
 		mNewGPXPoint = newGPXPoint;
 		mPendingPoints.offer(mNewGPXPoint);
-		// mGpxPointList.add(newGPXPoint);
-
 	}
 
 	private GeoPoint mLastReferencePoint;
@@ -79,16 +78,13 @@ class DrawPolylineOverlay extends Overlay {
 					path = null;
 				} else if (mLastPath != null && !newProjection) {
 					// using existing path
-					path = mLastPath;
-					path = new Path();
-					path.incReserve(numPoints);
-					//updatePath(projection, viewRect, path, numPoints- newPoints);
-					updatePath(projection, viewRect, path, 0);
+					path = mLastPath;				 
+					updatePath(projection, mapView, viewRect, path, numPoints- newPoints);					
 				} else {
 					// new path
 					path = new Path();
 					path.incReserve(numPoints);
-					updatePath(projection, viewRect, path, 0);
+					updatePath(projection, mapView, viewRect, path, 0);
 				}
 				mLastPath = path;
 			}
@@ -102,7 +98,7 @@ class DrawPolylineOverlay extends Overlay {
  
 	}
 
-	private void updatePath(Projection projection, Rect viewRect, Path path,
+	private void updatePath(Projection projection, MapView mapView, Rect viewRect, Path path,
 			int startLocationIdx) {
 
 		// Whether to start a new segment on new valid and visible point.
@@ -111,29 +107,30 @@ class DrawPolylineOverlay extends Overlay {
 		// boolean lastVisible = !newSegment;
 		
 		boolean newSegment = true;
-		/*
+		
 		if (startLocationIdx > 0) {
 			newSegment = false;
 		}
-		*/
+		
 		
 		boolean lastVisible = false;
 		final Point pt = new Point();
 		
 		// Loop over track points.
+		GeoPoint geoPoint = null;
 		for (int i = startLocationIdx; i < mGpxPointList.size(); ++i) {
 			GPXPoint loc = mGpxPointList.get(i);
 
-			final GeoPoint geoPoint = new GeoPoint(loc.latitude, loc.longitude);
+			geoPoint = new GeoPoint(loc.latitude, loc.longitude);
 
 			// Check if the location is visible.
-			boolean visible = viewRect.contains(geoPoint.getLongitudeE6(), geoPoint.getLatitudeE6());
-
+			//boolean visible = viewRect.contains(geoPoint.getLongitudeE6(), geoPoint.getLatitudeE6());
+			/*
 			if (!visible && !lastVisible) {
 				newSegment = true;
 			}
-			
-			lastVisible = visible;
+			*/
+			//lastVisible = visible;
 
 			// Either move to beginning of a new segment or continue the old
 			// one.
@@ -144,6 +141,15 @@ class DrawPolylineOverlay extends Overlay {
 			} else {
 				path.lineTo(pt.x, pt.y);
 			}
+		}
+		
+		//check last point to be in visible view
+		if (geoPoint != null) {
+		    boolean visible = viewRect.contains(geoPoint.getLongitudeE6(), geoPoint.getLatitudeE6());
+		    if (!visible) {
+		    	mapView.getController().setCenter(geoPoint);
+		    	//mapView.getController().animateTo(geoPoint);			    	
+		    }
 		}
 	}
 

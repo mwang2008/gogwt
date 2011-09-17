@@ -18,6 +18,7 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -75,7 +76,8 @@ public class LocationTrackingActivity extends MapActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		GwtLog.i(TAG, "***** onCreate");
-
+		Debug.startMethodTracing("gogwtmap");
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tracking_location_tab_layout);
 
@@ -178,16 +180,24 @@ public class LocationTrackingActivity extends MapActivity implements
 		GwtLog.d(TAG, "***** onPause");
 		super.onPause();
 	}
-
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+	}
+	 
 	@Override
 	public void onTabChanged(String tabId) {
 		GwtLog.d(TAG, "***** onTabChanged");
 
 		if (tabId.equals(STOP_TRACKING_TAB_TAG)) {
 
-			pgxPointList.clear();
+			//pgxPointList.clear();
 			unbindService(serviceConnection);
 
+			Debug.stopMethodTracing();
+			
 			Intent intent = new Intent().setClass(this, MainMenuActivity.class);
 			startActivity(intent);
 			return;
@@ -290,7 +300,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	 
 	
 	private void showMap(final GPXPoint gpxPoint) {
-		updateSpeedInfoView(gpxPoint);
+ 		updateSpeedInfoView(gpxPoint);
 
 		//mapView.invalidate();
 		mapView.postInvalidate();
@@ -305,20 +315,17 @@ public class LocationTrackingActivity extends MapActivity implements
 		
 		//mapOverlays.clear();
 
-		final GeoPoint point = new GeoPoint(gpxPoint.latitude,
-				gpxPoint.longitude);
+		final GeoPoint point = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
 		
 		// add marker
 		OverlayItem overlayitem = new OverlayItem(point, "", "");
 		
-		//if (mItemizedOverlay == null) {		
 		if (markerDot == null) {
-			markerDot = this.getResources().getDrawable(R.drawable.red_dot);
+			markerDot = this.getResources().getDrawable(R.drawable.red_circle);  //red_circle	red_dot		
 			markerDot.setBounds(-10, -10, markerDot.getIntrinsicWidth() - 7, markerDot.getIntrinsicHeight() - 7);
 		}
-		 mItemizedOverlay = new MapItemizedOverlay(markerDot, this);		
+		mItemizedOverlay = new MapItemizedOverlay(markerDot, this);		
 		    
-		//}
 		   
 	    overlayitem.setMarker( mItemizedOverlay.getDrawable());
 		//overlayitem.setMarker(null);
@@ -424,19 +431,6 @@ public class LocationTrackingActivity extends MapActivity implements
 				}
 				theLastGeoPoint = currentGeoPoint;
 			}
- 			 
-			
-			//todo: revisit it later: only draw new line
-			/*
-			mProjection.toPixels(newPoint, currentPnt);
-			mProjection.toPixels(lastPoint, lastPnt);
-
-			path.moveTo(lastPnt.x, lastPnt.y);
-			path.lineTo(currentPnt.x, currentPnt.y);
-			
-			lastPoint = newPoint;
-			*/
-			
 			canvas.drawPath(path, mPaint);
 		}
 	}
