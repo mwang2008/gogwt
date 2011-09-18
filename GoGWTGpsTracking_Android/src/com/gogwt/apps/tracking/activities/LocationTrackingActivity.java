@@ -25,6 +25,7 @@ import android.os.RemoteException;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -75,8 +76,8 @@ public class LocationTrackingActivity extends MapActivity implements
     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		GwtLog.i(TAG, "***** onCreate");
-		Debug.startMethodTracing("gogwtmap");
+		GwtLog.i(TAG, "====== LocationTrackingActivity onCreate \n\n");
+		//Debug.startMethodTracing("gogwtmap");
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tracking_location_tab_layout);
@@ -86,6 +87,12 @@ public class LocationTrackingActivity extends MapActivity implements
 			createGpsDisabledAlert();
 		}
 		
+		 // We don't need a window title bar:
+	    //requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		 // Remove the window's background because the MapView will obscure it
+	    getWindow().setBackgroundDrawable(null);
+
 		handler = new Handler();
 		pgxPointList = new ArrayList<GPXPoint>();
 
@@ -114,11 +121,15 @@ public class LocationTrackingActivity extends MapActivity implements
 		mapView.setStreetView(false);
 
 		mapView.setBuiltInZoomControls(true);
-		mapView.postInvalidate();
+		//mapView.postInvalidate();
+		drawPolylineOverlay = new DrawPolylineOverlay(this);
+		mapView.getOverlays().add(drawPolylineOverlay);
+		
 		mapController = mapView.getController();
 		mapController.setZoom(7); // Zoom 1 is world view
 		mProjection = mapView.getProjection();
-
+		//mapView.setReticleDrawMode(MapView.ReticleDrawMode.DRAW_RETICLE_UNDER);
+		
 		speedinfoView = (TextView) findViewById(R.id.speedinfo);
 
 		// stop tracking
@@ -196,7 +207,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			//pgxPointList.clear();
 			unbindService(serviceConnection);
 
-			Debug.stopMethodTracing();
+			//Debug.stopMethodTracing();
 			
 			Intent intent = new Intent().setClass(this, MainMenuActivity.class);
 			startActivity(intent);
@@ -251,7 +262,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	}
 
 	private void showList(GPXPoint point) {
-		Log.d(TAG, "***** showList point= " + point.latitude);
+		GwtLog.d(TAG, "***** showList point= " + point.latitude);
 
 		final List<String> info = new ArrayList<String>();
 
@@ -297,21 +308,31 @@ public class LocationTrackingActivity extends MapActivity implements
 		speedinfoView.setText(speedStr);
 	}
 
-	 
-	
 	private void showMap(final GPXPoint gpxPoint) {
+		GwtLog.d(TAG, "***** new showMap  " );
+		updateSpeedInfoView(gpxPoint);
+		
+		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
+		mapView.postInvalidate();
+	}
+	
+	private void showMap_ori(final GPXPoint gpxPoint) {
+		GwtLog.d(TAG, "***** showMap= " );
  		updateSpeedInfoView(gpxPoint);
 
-		//mapView.invalidate();
-		mapView.postInvalidate();
+		mapView.invalidate();
+		//mapView.postInvalidate();
 
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		//instead of remove all polylines and markers, only remove marker
+		
 		for (Overlay mapOverlay : mapOverlays) {
 			if (mapOverlay instanceof MapItemizedOverlay) {
 				mapOverlays.remove(mapOverlay);
+				break;
 			}
 		}
+		
 		
 		//mapOverlays.clear();
 
@@ -334,7 +355,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	    
 		// add line		
 		if (drawPolylineOverlay == null) {
-			drawPolylineOverlay = new DrawPolylineOverlay();
+			drawPolylineOverlay = new DrawPolylineOverlay(this);
 		}
 		
 		drawPolylineOverlay.addNewGPXPoint(gpxPoint);

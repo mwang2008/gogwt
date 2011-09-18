@@ -119,8 +119,10 @@ public class GPXService extends Service {
 
 		Toast.makeText(getApplicationContext(), "GPS Tracking - Tracking stopped " + info, Toast.LENGTH_SHORT).show();
 
-		timer.cancel();
-		timer = null;
+		if (timer != null) {
+		   timer.cancel();
+		   timer = null;
+		}
 	}
 	
 	@Override
