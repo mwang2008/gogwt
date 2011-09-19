@@ -18,14 +18,13 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -38,6 +37,7 @@ import com.gogwt.apps.tracking.data.GPXPoint;
 import com.gogwt.apps.tracking.data.ICollectionListener;
 import com.gogwt.apps.tracking.data.IRemoteInterface;
 import com.gogwt.apps.tracking.services.GPXService;
+import com.gogwt.apps.tracking.utils.GeoRect;
 import com.gogwt.apps.tracking.utils.GwtLog;
 import com.gogwt.apps.tracking.utils.StringUtils;
 import com.google.android.maps.GeoPoint;
@@ -49,7 +49,7 @@ import com.google.android.maps.OverlayItem;
 import com.google.android.maps.Projection;
 
 public class LocationTrackingActivity extends MapActivity implements
-		OnTabChangeListener {
+		OnTabChangeListener, View.OnTouchListener {
 	protected static final String TAG = LocationTrackingActivity.class
 			.getSimpleName();
 
@@ -314,8 +314,48 @@ public class LocationTrackingActivity extends MapActivity implements
 		
 		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
 		mapView.postInvalidate();
+				
+		GeoPoint geoPoint = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
+	    if (gpxPoint != null && !locationIsVisible(geoPoint)) {	        
+	        MapController controller = mapView.getController();
+	        controller.animateTo(geoPoint);
+	     }
 	}
 	
+	  @Override
+	  public boolean onTouch(View view, MotionEvent event) {
+		  GwtLog.d(TAG, "***** new onTouch  " ); 
+	    /*if (keepMyLocationVisible && event.getAction() == MotionEvent.ACTION_MOVE) {
+	      if (!locationIsVisible(currentLocation)) {
+	        keepMyLocationVisible = false;
+	      }
+	    }*/
+	    return false;
+	  }
+	  
+	private boolean locationIsVisible(GeoPoint geoPoint) {
+		    if (geoPoint == null || mapView == null) {
+		      return false;
+		    }
+		    GeoPoint center = mapView.getMapCenter();
+		    int latSpan = mapView.getLatitudeSpan();
+		    int lonSpan = mapView.getLongitudeSpan();
+
+		    // Bottom of map view is obscured by zoom controls/buttons.
+		    // Subtract a margin from the visible area:
+		    GeoPoint marginBottom = mapView.getProjection().fromPixels(
+		        0, mapView.getHeight());
+		    GeoPoint marginTop = mapView.getProjection().fromPixels(0,
+		        mapView.getHeight()
+		            - mapView.getZoomButtonsController().getZoomControls().getHeight());
+		    int margin =
+		        Math.abs(marginTop.getLatitudeE6() - marginBottom.getLatitudeE6());
+		    GeoRect r = new GeoRect(center, latSpan, lonSpan);
+		    r.top += margin;
+
+		    return r.contains(geoPoint);
+    }
+
 	private void showMap_ori(final GPXPoint gpxPoint) {
 		GwtLog.d(TAG, "***** showMap= " );
  		updateSpeedInfoView(gpxPoint);
