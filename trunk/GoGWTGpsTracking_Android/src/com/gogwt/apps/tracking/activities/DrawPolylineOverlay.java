@@ -12,6 +12,9 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GPXPoint;
@@ -51,10 +54,11 @@ class DrawPolylineOverlay extends Overlay {
 		mPaint.setStrokeWidth(3);
         
 		mContext = context;
-		mStatsMarker = mContext.getResources().getDrawable(R.drawable.red_circle);
+		mStatsMarker = mContext.getResources().getDrawable(R.drawable.red_dot);
 	    int markerWidth = mStatsMarker.getIntrinsicWidth();
 	    int markerHeight = mStatsMarker.getIntrinsicHeight();
-	    mStatsMarker.setBounds(0, 0, markerWidth, markerHeight);
+	    //mStatsMarker.setBounds(0, 0, markerWidth, markerHeight);
+	    mStatsMarker.setBounds(-10, -10, markerWidth - 7, markerHeight - 7);
 	    
 		mPendingPoints = new ArrayBlockingQueue<GPXPoint>(10000, true);
 	}
@@ -68,18 +72,26 @@ class DrawPolylineOverlay extends Overlay {
 	private Rect mLastViewRect;
 
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		GwtLog.d(TAG, "== before shadow DrawPolylineOverlay draw " + numRun++);		 
+		//GwtLog.d(TAG, "== before shadow DrawPolylineOverlay draw " + numRun++);		 
 		if (shadow) {
 		  return;
 		}
-		GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun);
-
+		GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);
+/*
+		if (mPendingPoints.isEmpty()) {
+			return;
+		}*/
+		
 		Path path = null;
 		Projection projection = getMapProjection(mapView);
+		if (projection == null) {
+		      Log.w(TAG, "No projection, unable to draw");
+		      return;
+		}
+		
 		Rect viewRect = getMapViewRect(mapView);
 		synchronized (mGpxPointList) {
-					
-			final GeoPoint referencePoint = projection.fromPixels(0, 0);
+ 			final GeoPoint referencePoint = projection.fromPixels(0, 0);
 			int newPoints = mPendingPoints.drainTo(mGpxPointList);
 
 			boolean newProjection = !viewRect.equals(mLastViewRect) || !referencePoint.equals(mLastReferencePoint);
@@ -87,9 +99,7 @@ class DrawPolylineOverlay extends Overlay {
 			if (newPoints == 0 && mLastPath != null && !newProjection) {
 				path = mLastPath;
 			} else {
-			
-
-				int numPoints = mGpxPointList.size();
+	 			int numPoints = mGpxPointList.size();
 
 				if (numPoints < 2) {
 					path = null;
@@ -110,6 +120,7 @@ class DrawPolylineOverlay extends Overlay {
 		}
 
 		if (path != null) {
+			GwtLog.d(TAG, "== canvas.drawPath  ");
 			canvas.drawPath(path, mPaint);
 		}
  
@@ -118,6 +129,38 @@ class DrawPolylineOverlay extends Overlay {
 		   drawMarker(canvas, projection, mGpxPointList.get(mGpxPointList.size()-1));
 		}
 		
+	}
+	
+	@Override
+	public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent, MapView paramMapView) {
+		GwtLog.d(TAG, "== onKeyDown paramInt=" + paramInt + ", paramKeyEvent=" + paramKeyEvent);
+		return super.onKeyDown(paramInt, paramKeyEvent, paramMapView);
+		
+	}
+	 
+	
+	@Override
+	public boolean onKeyUp(int paramInt, KeyEvent paramKeyEvent, MapView paramMapView) {
+		GwtLog.d(TAG, "== onKeyUp paramInt=" + paramInt + ", paramKeyEvent=" + paramKeyEvent);
+		return super.onKeyUp(paramInt, paramKeyEvent, paramMapView);
+	}
+	
+	@Override
+	public boolean onTap(GeoPoint paramGeoPoint, MapView paramMapView) {
+		GwtLog.d(TAG, "== onKeyUp paramGeoPoint.getLatitudeE6=" + paramGeoPoint.getLatitudeE6());
+		return super.onTap(paramGeoPoint, paramMapView);
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent paramMotionEvent, MapView paramMapView) {
+		GwtLog.d(TAG, "== onTouchEvent paramMotionEvent=" + paramMotionEvent);
+		return super.onTouchEvent(paramMotionEvent, paramMapView);
+	}
+	
+	@Override
+	public boolean onTrackballEvent(MotionEvent paramMotionEvent, MapView paramMapView) { 
+		GwtLog.d(TAG, "== onTrackballEvent paramMotionEvent=" + paramMotionEvent);
+		return super.onTrackballEvent(paramMotionEvent, paramMapView);
 	}
 	
 	void drawMarker(Canvas canvas, Projection projection, GPXPoint gpxPoint) {
@@ -165,24 +208,17 @@ class DrawPolylineOverlay extends Overlay {
 			}
 		}
 		
-		//check last point to be in visible view
 		/*
+		//check last point to be in visible view		
 		if (geoPoint != null) {
 		    boolean visible = viewRect.contains(geoPoint.getLongitudeE6(), geoPoint.getLatitudeE6());
 		    if (!visible) {
-		    	GwtLog.d(TAG, "== DrawPolylineOverlay setCenter");
+		    	GwtLog.d(TAG, "== DrawPolylineOverlay reCenter");
 		    	mapView.getController().setCenter(geoPoint);
 		    	//mapView.getController().animateTo(geoPoint);			    	
 		    }
 		}
 		*/
-		
-		//add marker to last point
-		  // Draw the "Start" marker.
-	    //for (int i = 0; i < mGpxPointList.size(); ++i) {
-	   	      
-	    //}
-	  
 	}
 
 	 
@@ -191,7 +227,8 @@ class DrawPolylineOverlay extends Overlay {
 	    Point pt = new Point();
 	    projection.toPixels(geoPoint, pt);
 	    canvas.save();
-	    canvas.translate(pt.x + offsetX, pt.y + offsetY);
+	    //canvas.translate(pt.x + offsetX, pt.y + offsetY);
+	    canvas.translate(pt.x, pt.y);
 	    element.draw(canvas);
 	    canvas.restore();
 	    return pt;
