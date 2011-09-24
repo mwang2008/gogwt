@@ -37,6 +37,8 @@ class DrawPolylineOverlay extends Overlay {
 	private Paint mPaint;
 	private Projection mProjection;
 	private Path mLastPath;
+	private Path mLastLastPath;
+	 
 	private final BlockingQueue<GPXPoint> mPendingPoints;
     private Context mContext;
     private Drawable mStatsMarker;
@@ -70,19 +72,23 @@ class DrawPolylineOverlay extends Overlay {
 
 	private GeoPoint mLastReferencePoint;
 	private Rect mLastViewRect;
-
+    private int numCycle;
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+		super.draw(canvas, mapView, false);
 		//GwtLog.d(TAG, "== before shadow DrawPolylineOverlay draw " + numRun++);		 
 		if (shadow) {
 		  return;
 		}
-		GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);
+		 GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);//+ ", zoomLevel="+zoomLevel);
+		
+		
 /*
 		if (mPendingPoints.isEmpty()) {
 			return;
 		}*/
 		
 		Path path = null;
+		
 		Projection projection = getMapProjection(mapView);
 		if (projection == null) {
 		      Log.w(TAG, "No projection, unable to draw");
@@ -92,35 +98,53 @@ class DrawPolylineOverlay extends Overlay {
 		Rect viewRect = getMapViewRect(mapView);
 		synchronized (mGpxPointList) {
  			final GeoPoint referencePoint = projection.fromPixels(0, 0);
+ 			 
 			int newPoints = mPendingPoints.drainTo(mGpxPointList);
 
 			boolean newProjection = !viewRect.equals(mLastViewRect) || !referencePoint.equals(mLastReferencePoint);
-
+			
+			GwtLog.d(TAG, "  newProjection ="+newProjection );
+			
 			if (newPoints == 0 && mLastPath != null && !newProjection) {
+				GwtLog.d(TAG, " ---- newPoints ="+newPoints + ", mLastPath=" + (mLastPath!=null) + ", !newProjection=" + !newProjection);
+				if (mLastPath == mLastLastPath) {
+					 GwtLog.d(TAG, "  ===&&& no change for the path");
+				}
+				
 				path = mLastPath;
+				numCycle++;
+				if (numCycle > 10) {
+					return;
+				}
+				GwtLog.d(TAG, "  path 1 numCycle="+numCycle);
 			} else {
 	 			int numPoints = mGpxPointList.size();
-
+	 			numCycle = 0;
 				if (numPoints < 2) {
+					GwtLog.d(TAG, "  path 2");
 					path = null;
 				} else if (mLastPath != null && !newProjection) {
 					// using existing path
+					GwtLog.d(TAG, "  path 3");
 					path = mLastPath;				 
 					updatePath(projection, canvas, mapView, viewRect, path, numPoints- newPoints);					
 				} else {
 					// new path
+					GwtLog.d(TAG, "  path 4");
 					path = new Path();
 					path.incReserve(numPoints);
 					updatePath(projection, canvas, mapView, viewRect, path, 0);
 				}
+				mLastLastPath = mLastPath;
 				mLastPath = path;
 			}
 			mLastReferencePoint = referencePoint;
-			mLastViewRect = viewRect;
+			mLastViewRect = viewRect; 
 		}
 
-		if (path != null) {
-			GwtLog.d(TAG, "== canvas.drawPath  ");
+		
+	 	if (path != null) {
+			GwtLog.d(TAG, "== canvas.drawPath  ");			
 			canvas.drawPath(path, mPaint);
 		}
  

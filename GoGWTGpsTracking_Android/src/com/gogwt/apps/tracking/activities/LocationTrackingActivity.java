@@ -31,6 +31,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
+import android.widget.ZoomControls;
 
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GPXPoint;
@@ -56,6 +57,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	private static final String LIST_TAB_TAG = "List";
 	private static final String MAP_TAB_TAG = "Map";
 	private static final String STOP_TRACKING_TAB_TAG = "Stop Tracking";
+	private static final String LOGOUT = "Logout";
 	private String currentTabId = LIST_TAB_TAG;
 	private TabHost tabHost;
 	private ListView listView;
@@ -90,7 +92,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		 // We don't need a window title bar:
 	    //requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		 // Remove the window's background because the MapView will obscure it
+		// Remove the window's background because the MapView 
 	    getWindow().setBackgroundDrawable(null);
 
 		handler = new Handler();
@@ -100,16 +102,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		tabHost.setup(); // required if using findViewById
 		tabHost.setOnTabChangedListener(this);
 		// tabHost.setBackgroundColor(Color.WHITE);
-		//tabHost.getTabWidget().setBackgroundColor(Color.BLUE);
-
-		/*
-		 * LinearLayout ll = (LinearLayout) tabHost.getChildAt(0); TabWidget tw
-		 * = (TabWidget) ll.getChildAt(0);
-		 * 
-		 * // first tab RelativeLayout rllf = (RelativeLayout) tw.getChildAt(0);
-		 * TextView lf = (TextView) rllf.getChildAt(1); lf.setTextSize(21);
-		 * lf.setPadding(0, 0, 0, 6);
-		 */
+		tabHost.getTabWidget().setBackgroundColor(Color.BLUE);
 
 		// setup list view
 		listView = (ListView) findViewById(R.id.list);
@@ -129,38 +122,65 @@ public class LocationTrackingActivity extends MapActivity implements
 		mapController.setZoom(7); // Zoom 1 is world view
 		mProjection = mapView.getProjection();
 		//mapView.setReticleDrawMode(MapView.ReticleDrawMode.DRAW_RETICLE_UNDER);
-		
+		 
 		speedinfoView = (TextView) findViewById(R.id.speedinfo);
 
 		// stop tracking
 		stopTrackingview = new TextView(this);
 
 		// add views to tab host
-		tabHost.addTab(tabHost.newTabSpec(LIST_TAB_TAG)
-				.setIndicator("List View").setContent(new TabContentFactory() {
-					public View createTabContent(String arg0) {
-						return listView;
-					}
-				}));
-
-		tabHost.addTab(tabHost.newTabSpec(MAP_TAB_TAG).setIndicator("Map View")
+		tabHost.addTab(tabHost.newTabSpec(MAP_TAB_TAG).setIndicator("Map", null)
 				.setContent(new TabContentFactory() {
 					public View createTabContent(String arg0) {
 						return mapView;
 					}
 				}));
+		
+		tabHost.addTab(tabHost.newTabSpec(LIST_TAB_TAG)
+				.setIndicator("Text").setContent(new TabContentFactory() {
+					public View createTabContent(String arg0) {
+						return listView;
+					}
+				}));
+
+
 
 		tabHost.addTab(tabHost.newTabSpec(STOP_TRACKING_TAB_TAG)
-				.setIndicator("Stop Tracking")
+				.setIndicator("Pause")
+				.setContent(new TabContentFactory() {
+					public View createTabContent(String arg0) {
+						GwtLog.d(TAG, "=====&&&& arg0=" +arg0);;
+						 
+						return stopTrackingview;
+					}
+				}));
+		
+		tabHost.addTab(tabHost.newTabSpec(LOGOUT)
+				.setIndicator("Logout")
 				.setContent(new TabContentFactory() {
 					public View createTabContent(String arg0) {
 						return stopTrackingview;
 					}
 				}));
+/*		tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 30;
+		tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 30;
+		tabHost.getTabWidget().getChildAt(2).getLayoutParams().height = 30;
+*/		
+		 
+		for(int i=0;i<tabHost.getTabWidget().getChildCount();i++) {
+			 TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+	            tv.setTextColor(Color.parseColor("#ff0000"));
+	            GwtLog.d(TAG, "**** tab.height="+tabHost.getTabWidget().getChildAt(i).getLayoutParams().height);
+	            tabHost.getTabWidget().getChildAt(i).getLayoutParams().height /= 2;  //30
+		}
+		//TextView tv = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+        //tv.setTextColor(Color.parseColor("#000000"));
 
 		// todo: need to config out why map show first
-		tabHost.setCurrentTab(1);
-		tabHost.setCurrentTab(0);
+		
+		//tabHost.setCurrentTab(1);
+		//tabHost.setCurrentTab(0);
+		//tabHost.setCurrentTab(1);
 	}
 
 	@Override
@@ -200,9 +220,22 @@ public class LocationTrackingActivity extends MapActivity implements
 	 
 	@Override
 	public void onTabChanged(String tabId) {
-		GwtLog.d(TAG, "***** onTabChanged");
+		GwtLog.d(TAG, "***** onTabChanged tabId="+tabId + " , id=" +tabHost.getCurrentTab());
 
 		if (tabId.equals(STOP_TRACKING_TAB_TAG)) {
+
+			//pgxPointList.clear();
+			unbindService(serviceConnection);
+			//tabHost.getTabWidget().getChildAt(2).bringToFront();
+			
+			//Debug.stopMethodTracing();
+			
+			//Intent intent = new Intent().setClass(this, MainMenuActivity.class);
+			//startActivity(intent);
+			return;
+		}
+		
+		if (tabId.equals(LOGOUT)) {
 
 			//pgxPointList.clear();
 			unbindService(serviceConnection);
@@ -213,11 +246,14 @@ public class LocationTrackingActivity extends MapActivity implements
 			startActivity(intent);
 			return;
 		}
-
+		
+   
 		if (tabId.equals(MAP_TAB_TAG)) {
 			currentTabId = MAP_TAB_TAG;
+			
 		} else if (tabId.equals(LIST_TAB_TAG)) {
 			currentTabId = LIST_TAB_TAG;
+			tabHost.setCurrentTab(0);
 		}
 
 		updateView();
@@ -315,6 +351,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
 		mapView.postInvalidate();
 				
+		//recenter if not visible.
 		GeoPoint geoPoint = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
 	    if (gpxPoint != null && !locationIsVisible(geoPoint)) {	        
 	        MapController controller = mapView.getController();
