@@ -49,21 +49,16 @@ public class MainMenuActivity extends AbstractMenuActivity {
 			public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {
 				Class<?> cls = null;
 				switch (position) {
-				case 0:
-					//start GPS tracking, then redirect to LocationTrackingActivity list view
-					//Intent service = new Intent(GPXService.GPX_SERVICE);
-					//service.putExtra(GPXService.GPS_EXTRA_UPDATE_RATE, 2000);
-					//startService(service);
-					//check GPS
-	
-					
-					cls = LocationTrackingActivity.class;
-					
+				case 0:			 		
+					cls = LocationTrackingActivity.class;					
 					break;
  				case 1:
-					//cls = LogoutActivity.class;
+					cls = ShowLocationMainTabActivity.class;
 					break;
 				 
+ 				case 2:
+					//cls = LogoutActivity.class;
+					break;
 				default:
 					break;
 				}

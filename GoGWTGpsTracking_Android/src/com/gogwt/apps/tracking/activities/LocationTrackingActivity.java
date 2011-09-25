@@ -25,13 +25,13 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
-import android.widget.ZoomControls;
 
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GPXPoint;
@@ -82,6 +82,9 @@ public class LocationTrackingActivity extends MapActivity implements
 		//Debug.startMethodTracing("gogwtmap");
 		
 		super.onCreate(savedInstanceState);
+		 // We don't need a window title bar:
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.tracking_location_tab_layout);
 
 		LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -89,11 +92,9 @@ public class LocationTrackingActivity extends MapActivity implements
 			createGpsDisabledAlert();
 		}
 		
-		 // We don't need a window title bar:
-	    //requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-		// Remove the window's background because the MapView 
-	    getWindow().setBackgroundDrawable(null);
+	
+		// Remove the window's background because the MapView
+	    //getWindow().setBackgroundDrawable(null);
 
 		handler = new Handler();
 		pgxPointList = new ArrayList<GPXPoint>();
@@ -123,7 +124,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		mProjection = mapView.getProjection();
 		//mapView.setReticleDrawMode(MapView.ReticleDrawMode.DRAW_RETICLE_UNDER);
 		 
-		speedinfoView = (TextView) findViewById(R.id.speedinfo);
+		//speedinfoView = (TextView) findViewById(R.id.speedinfo);
 
 		// stop tracking
 		stopTrackingview = new TextView(this);
@@ -169,7 +170,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		 
 		for(int i=0;i<tabHost.getTabWidget().getChildCount();i++) {
 			 TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
-	            tv.setTextColor(Color.parseColor("#ff0000"));
+	           // tv.setTextColor(Color.parseColor("#ff0000"));
 	            GwtLog.d(TAG, "**** tab.height="+tabHost.getTabWidget().getChildAt(i).getLayoutParams().height);
 	            tabHost.getTabWidget().getChildAt(i).getLayoutParams().height /= 2;  //30
 		}
@@ -178,10 +179,9 @@ public class LocationTrackingActivity extends MapActivity implements
 
 		// todo: need to config out why map show first
 		
-		//tabHost.setCurrentTab(1);
-		//tabHost.setCurrentTab(0);
-		//tabHost.setCurrentTab(1);
-	}
+		tabHost.setCurrentTab(1);
+		tabHost.setCurrentTab(0);
+ 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -253,7 +253,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			
 		} else if (tabId.equals(LIST_TAB_TAG)) {
 			currentTabId = LIST_TAB_TAG;
-			tabHost.setCurrentTab(0);
+			 
 		}
 
 		updateView();
@@ -316,7 +316,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		speedStr = feetLeft + " feet/s";
 		info.add("Current Speed=" + speedStr);
 
-		speedinfoView.setText("");
+		//speedinfoView.setText("");
 
 		// totalDistance
 		DecimalFormat dec = new DecimalFormat("#.00");
@@ -341,7 +341,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		//int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
 		String speedStr = StringUtils.format(mileperhour) + " miles/hour [ ";		
 		speedStr += gpxPoint.speed + " feet/s]";
-		speedinfoView.setText(speedStr);
+		//speedinfoView.setText(speedStr);
 	}
 
 	private void showMap(final GPXPoint gpxPoint) {
