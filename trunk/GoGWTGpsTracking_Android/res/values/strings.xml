@@ -7,8 +7,10 @@
     <string name="text_main">Select an option to view the associated gogps.</string>
     <string name="disclimaer">Click Start Tracking below for stacking your location. 
               Your location will be sent to the server and also will be saved to your local android database  </string>
-        <string-array name="main_menu_items">
+    
+    <string-array name="main_menu_items">
         <item>Start Tracking</item>
+        <item>show map</item>
         <item>Log Out</item>		
 	</string-array>
 	

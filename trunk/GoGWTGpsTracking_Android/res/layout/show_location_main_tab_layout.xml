@@ -1,0 +1,52 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android" android:id="@android:id/tabhost"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+    <LinearLayout android:orientation="vertical"
+    	android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TabWidget android:id="@android:id/tabs"
+        	android:layout_width="fill_parent" android:layout_height="wrap_content" />
+       
+       <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:stretchColumns="1">
+          <TableRow android:baselineAligned="false">
+            <ToggleButton android:id="@+id/togglebutton"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textOn="Stop"
+              android:textOff="Start"
+              android:checked="true"
+            />
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
+               <TableRow android:baselineAligned="false">
+                  <TextView
+                     android:layout_column="1"
+                     android:text="Open..."
+                     android:padding="0dip" />
+                  <TextView
+                     android:text="Ctrl-O"
+                     android:gravity="right"
+                     android:padding="0dip" />
+                </TableRow> 
+                <TableRow android:baselineAligned="false">
+                  <TextView
+                     android:layout_column="1"
+                     android:text="Sec Row"
+                     android:padding="0dip" />
+                  <TextView
+                     android:text="Ctrl-O"
+                     android:gravity="right"
+                     android:padding="0dip" />
+                </TableRow> 
+             </TableLayout>
+         </TableRow>       
+       </TableLayout>
+        
+       <FrameLayout android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent" android:layout_height="fill_parent">
+       </FrameLayout>
+    </LinearLayout>
+</TabHost>
