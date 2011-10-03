@@ -35,19 +35,17 @@ public class EnrollCustomerValidator  extends BaseValidateAdapter {
 		 		 
 		}
 		
-	 	/*
+	 	 
 	 	//valid email and confirmEmail
-	 	if (StringUtils.isSet(formBean.getEmail()) && StringUtils.isSet(formBean.getConfirmPassword())) {
-	 		if (StringUtils.equals(formBean.getEmail(), formBean.getConfirmPassword())) {
-	 			if (!isValidEmailFormat(formBean.getEmail())) {
+	 	if (StringUtils.isSet(formBean.getEmail())) {
+	 		if (!isValidEmailFormat(formBean.getEmail())) {
 					errors.reject("error.invalid.email");
-				}
-	 		}
+			}
 	 		else {
 	 			errors.reject("error.email.notmatch");
 	 		}
 	 	}
-        */
+        
 	 	
 	 	/* not apply any username validation at this moment
 	 	//username

@@ -8,7 +8,7 @@
 <html lang="${env.languageId}">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
-   <title> Enrollment </title>       
+   <title> History Tracks </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
    
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -65,12 +65,12 @@
                                          new google.maps.Size(20, 34),
                                          new google.maps.Point(0,0),                                  
                                          new google.maps.Point(10, 30));
-
+      /*
       endIcon = new g.MarkerImage(endImg,
                                          new google.maps.Size(20, 34),
                                          new google.maps.Point(0,0),                                  
                                          new google.maps.Point(10, 30));
-
+      */
                      
       bounds = new g.LatLngBounds();
       infowindow = new g.InfoWindow({size: new google.maps.Size(150,50)});
@@ -140,12 +140,14 @@
 	   		   icon: startIcon
                 });
           
+                /*
                 var endMarker = new google.maps.Marker({
 	  	   	   position: endPt,
 	  	   	   map: map, 	
 	  	   	   title: label,
 	  	   	   icon: endIcon
                 });
+                */
                 
 	        var poly = new g.Polyline({
 			 map: map,
@@ -268,7 +270,7 @@
 
 <%@ include file="/jsp/common/i_header.jspf"%>
   <c:set var="fromPage" value="Show History Tracks"/>
-<%@ include file="/jsp/common/i_menu.jspf"%>
+<%@ include file="i_menu.jspf"%>
 
 <div id="container"> 
    <table border="1">

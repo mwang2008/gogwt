@@ -1,6 +1,8 @@
 package com.gogwt.apps.tracking.formbean;
 
-public class EnrollCustomerFormBean extends BaseBean {
+import java.io.Serializable;
+
+public class EnrollCustomerFormBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String groupId;

@@ -73,7 +73,13 @@
 		<property name="formView"><value>/customer/enroll</value></property>
 		<property name="successView"><value>showactiveattracks</value></property>
 	</bean>
-
+	
+	<bean name="name=controller/AddLocationController"
+		class="com.gogwt.apps.tracking.controllers.AddLocationController">
+		<property name="commandName"><value>gLocation</value></property>
+		<property name="formView"><value>/tracking/add_location</value></property>		 
+	</bean>
+	
 	<!-- EnrollCustomerSuccessController -->
 	<bean name="name=controller/EnrollCustomerSuccessController"
 		class="com.gogwt.apps.tracking.controllers.EnrollCustomerSuccessController" />
@@ -85,12 +91,9 @@
 	<!-- Retrieve records for the last number of days -->
 	<bean name="name=controller/RetrieveTrackHistoryController"
 		class="com.gogwt.apps.tracking.controllers.RetrieveTrackHistoryController" />
-
-
-
-
+ 
 	<!-- ========================= URL MAPPING ========================= -->
-		<bean name="urlMappingPart1"
+	<bean name="urlMappingPart1"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="interceptors">
 			<list>
@@ -106,6 +109,7 @@
 		</property>
 	</bean>
 	
+	<!--  the actions which need login -->
 	<bean name="urlMappingPart2"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="interceptors">
@@ -120,7 +124,8 @@
 				<prop key="/**/logout/**/">name=controller/tracking/LogoutController</prop>
 				<prop key="/**/showactiveattracks/**/">name=controller/ShowActiveTracksController</prop>	
 				<prop key="/**/retrievetracks/**/">name=controller/RetrieveTrackHistoryController</prop>
-				<prop key="/**/disptracks/**/">name=controller/EnrollCustomerSuccessController</prop>							
+				<prop key="/**/disptracks/**/">name=controller/EnrollCustomerSuccessController</prop>	
+				<prop key="/**/addlocation/**/">name=controller/AddLocationController</prop>						
 			</props>
 		</property>
 	</bean>

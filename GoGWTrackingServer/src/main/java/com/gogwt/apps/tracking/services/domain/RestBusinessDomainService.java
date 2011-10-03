@@ -97,7 +97,9 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 			//save to 
 			status.setCode(200);
 			status.setMsg(MessageUtils.getMessage("code.hand.cell.success.signin"));
+			profile.setGroupId(request.getGroupId());
 			profile.setServerUsername(customerProfile.getUserName());
+			profile.setDisplayName(request.getDisplayName());
 			profile.setServerFirstName(customerProfile.getFirstName());
 			profile.setServerLastName(customerProfile.getLastName());
 			profile.setServerEmail(customerProfile.getEmail());

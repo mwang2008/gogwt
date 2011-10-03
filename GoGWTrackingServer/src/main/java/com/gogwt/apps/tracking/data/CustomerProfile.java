@@ -97,9 +97,9 @@ public class CustomerProfile extends BaseBean {
 		this.createDate = createDate;
 	}
 
-	public boolean isLogin() {
+/*	public boolean isLogin() {
 		return isLogin;
-	}
+	}*/
 
 	public boolean getLogin() {
 		return isLogin;
@@ -109,5 +109,12 @@ public class CustomerProfile extends BaseBean {
 		this.isLogin = isLogin;
 	}
 
+	public boolean getIsLogin() {
+		return isLogin;
+	}
+	
+	public void setIsLogin(boolean isLogin) {
+		this.isLogin = isLogin;
+	}
 	
 }

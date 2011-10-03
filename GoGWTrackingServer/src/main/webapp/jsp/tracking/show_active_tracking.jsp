@@ -82,7 +82,7 @@
 	 var j = 0;
 	 
 	 if (!data.dispLocations) {
-	     alert(" ---- No tracking available ---- ");	
+	     //alert(" ---- No tracking available ---- ");	
 	     side_bar_html = "No tracking yet";
 	     document.getElementById("side_bar").innerHTML = side_bar_html;
 	 }
@@ -266,7 +266,7 @@
          
          showMaps(map);
          resetMap(map);
-         if (totalRuntime > 3) { 
+         if (totalRuntime > 40) { 
              totalRuntime = 0;
 	     document.getElementById('autoRefersh').style.visibility='visible';
              stopRotation(); 
@@ -279,11 +279,7 @@
       }
       
       function startTimer() {
-      	timer = setInterval(nextCycle, 2000);
-      }
-      
-      function startTimerBtn() {
-         alert(" startTimerBtn ");
+      	timer = setInterval(nextCycle, 3000);
       }
       
        
