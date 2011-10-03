@@ -21,6 +21,11 @@ public final class ActiveSharedLocation {
     private static Map<String, Map<String, Profile>> activeClientProfileMap;
 	  
 	public static void addGroupIdLocationRequestMap(LocationRequest request) {
+		//do not add if no location
+		if (request == null || request.getLocations() == null || request.getLocations().isEmpty()) {
+			return;
+		}
+		
 		if (aciveClientLocationMap == null) {
 	 		aciveClientLocationMap = new HashMap<String, Map<String, List<GLocation>>>();
 		}

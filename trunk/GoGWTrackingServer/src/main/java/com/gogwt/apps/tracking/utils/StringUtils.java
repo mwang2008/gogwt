@@ -16,6 +16,7 @@
 
 package com.gogwt.apps.tracking.utils;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 
@@ -837,6 +838,11 @@ public abstract class StringUtils {
 				myURL = newURL.toString();
 			}
 			return myURL;
+		}
+		
+		public static String format(double dl) {
+			DecimalFormat dec = new DecimalFormat("#0.00");
+			return dec.format(dl);
 		}
 
 }

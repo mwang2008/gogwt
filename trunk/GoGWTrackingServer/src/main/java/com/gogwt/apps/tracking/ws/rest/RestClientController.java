@@ -22,13 +22,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.GDispItem;
 import com.gogwt.apps.tracking.data.Profile;
+import com.gogwt.apps.tracking.data.Status;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
 import com.gogwt.apps.tracking.data.request.LocationRequest;
 import com.gogwt.apps.tracking.data.response.DisplayResponse;
+import com.gogwt.apps.tracking.data.response.EnrollResponse;
 import com.gogwt.apps.tracking.data.response.LocationResponse;
 import com.gogwt.apps.tracking.data.response.LoginResponse;
+import com.gogwt.apps.tracking.exceptions.AppRemoteException;
+import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
+import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.services.domain.DomainServiceHelper;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
+import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
 import com.gogwt.apps.tracking.services.domain.RestBusinessDomainService;
 
 
@@ -69,7 +75,7 @@ public class RestClientController {
 	}
 	
 	/**
-	 * Send location 
+	 * Send location from android
 	 * @param request
 	 * @return
 	 */
@@ -85,7 +91,7 @@ public class RestClientController {
  	}
 	
 	/**
-	 * Send location
+	 * Send location from android
 	 * @param request
 	 * @return
 	 */
@@ -100,38 +106,79 @@ public class RestClientController {
 	}
 	
 
-	/* 
-	@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers = "Content-Type=application/xml, application/json")	
-	public @ResponseBody DisplayResponse displayLocationContent(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
-		return processDisp(groupId, daysParam, request);
-	}
-	*/
-	
-	/*@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers="Accept=application/json")	
-	public @ResponseBody DisplayResponse displayLocationJSON(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
-		System.out.println(" ==== displayLocationJSON");
-		return processDisp(groupId, daysParam, request);
-	}	
-	
-	@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers="Accept=application/xml")	
-	public @ResponseBody DisplayResponse displayLocationXML(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
-		System.out.println(" ==== displayLocationXML");
-		return processDisp(groupId, daysParam, request);
-	}
-	
-	@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers="Content-Type=application/xml")	
-	public @ResponseBody DisplayResponse displayLocationCXML(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
-		System.out.println(" ==== displayLocationCXML");
-		return processDisp(groupId, daysParam, request);
-	}
-	
-	@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers="Content-Type=application/json")	
-	public @ResponseBody DisplayResponse displayLocationCJSON(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
-		System.out.println(" ==== displayLocationCJSON");
+	/**
+	 * Send location 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="mobileenroll", method=RequestMethod.POST, headers="Content-Type=application/xml")
+	public @ResponseBody EnrollResponse sendEnrollXML(@RequestBody EnrollCustomerFormBean request) {
+		logger.debug(" ==== sendEnrollXML XML input: " + request.toString());
 		
-		return processDisp(groupId, daysParam, request);
+		final ProfileBusinessDomainService businessService = LookupBusinessService
+				.getProfileBusinessDomainService();
+
+		EnrollResponse response = new EnrollResponse();
+		Status status = new Status();
+		
+		try {
+			CustomerProfile customerProfile = businessService.enrollCustomer(request);
+			status.setCode(200);
+			customerProfile.setLogin(false);
+			
+			response.setCustomerProfile(customerProfile);
+			
+		} catch (DuplicatedUserNameException e) {			
+			status.setCode(600);
+			status.setMsg("The groupId is used already, please use other one");
+			e.printStackTrace();
+		} catch (AppRemoteException e) {
+			status.setCode(602);
+			status.setMsg("Server error, please try again later");
+
+			e.printStackTrace();
+		}
+	 	 
+		response.setStatus(status);
+		logger.debug(" ==== response: " + response.toString());
+		return response;
+ 	}
+	
+	/**
+	 * Send location
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="mobileenroll", method=RequestMethod.POST, headers="Content-Type=application/json")
+	public @ResponseBody EnrollResponse sendEnrollJSON(@RequestBody EnrollCustomerFormBean request) {
+		logger.debug(" ==== sendEnrollJSON JSON input: " + request.toString());
+		final ProfileBusinessDomainService businessService = LookupBusinessService
+				.getProfileBusinessDomainService();
+
+		EnrollResponse response = new EnrollResponse();
+		Status status = new Status();
+		
+		try {
+			CustomerProfile customerProfile = businessService.enrollCustomer(request);
+			status.setCode(200);
+			response.setCustomerProfile(customerProfile);
+			
+		} catch (DuplicatedUserNameException e) {			
+			status.setCode(600);
+			status.setMsg("The groupId is used already, please use other one");
+			e.printStackTrace();
+		} catch (AppRemoteException e) {
+			status.setCode(602);
+			status.setMsg("Server error, please try again later");
+
+			e.printStackTrace();
+		}
+	 	 
+		response.setStatus(status);
+		logger.debug(" ==== response: " + response.toString());
+		return response;
 	}
-	*/
+	
 	@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers="Accept=application/json")	
 	public @ResponseBody DisplayResponse displayLocationJSON(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
 		System.out.println(" ==== displayLocationJSON");
@@ -180,9 +227,12 @@ public class RestClientController {
 		HttpSession session = request.getSession();
         CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
 
+        if (customerProfile != null) {
+        	groupId = customerProfile.getGroupId();
+        }
         final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
-        final Collection<GDispItem> dispLocation = service.getActiveLocationsByGroupId(customerProfile.getGroupId());
-        
+        //final Collection<GDispItem> dispLocation = service.getActiveLocationsByGroupId(customerProfile.getGroupId());
+        final Collection<GDispItem> dispLocation = service.getActiveLocationsByGroupId(groupId);
          
         DisplayResponse response = new DisplayResponse();
         response.setDispLocations(dispLocation);
