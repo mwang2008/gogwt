@@ -21,6 +21,7 @@
    var map;
    var gpolys = [];
    var gmarkers = [];
+   var gicons = [];
    
    var side_bar_html = ""; 
    var infowindow = null;
@@ -33,6 +34,7 @@
    var mylocs = "";
    var firstTime = false;
    var lastLocs = [];
+   var lineIcon = null;
    
    jq(document).ready(function() {
      
@@ -68,13 +70,23 @@
          firstTime = true;   
       }
       
+      var lineImg = '${env.contextPath}/images/square.png';
+      lineIcon = new g.MarkerImage(lineImg,
+                       new google.maps.Size(11, 11),
+                       new google.maps.Point(0,0),                                  
+                       new google.maps.Point(5, 5));
+                                         
+     
+
+     
+	    
       showMaps(map);
       
   
  
 
       /*------------------------------------------------------+
-       | Actions                                              | 
+       | Actions when user click Auto Refresh Button          | 
        +------------------------------------------------------*/       
       jq('#autoRefersh').click(function(){           
            document.getElementById('autoRefersh').style.visibility='hidden';
@@ -87,18 +99,15 @@
       
       function showLines(map, data) {
          
-         var dispLocations = "";
-	 var j = 0;
-	 
+         //var dispLocations = "";
+	  
 	 if (!data.dispLocations && totalCycle == 0) {
 	     //alert(" ---- No tracking available ---- ");	
 	     side_bar_html = "No tracking yet";
 	     document.getElementById("side_bar").innerHTML = side_bar_html;
 	     return;
 	 }
-	 
-	 
-	 
+ 	 
 	 jq.each(data.dispLocations, function(index, dispItem) {
 	     var line = dispItem.line;
 	     var locs = dispItem.locs;
@@ -115,21 +124,21 @@
 	     
 	     var pts = [];
 	     var lastPoint;
-	     
+	     	     
 	     if (lastLocs[index]) {
 	        //alert(" === number of points " + " locs.length=" + locs.length + ", index=" + index + ".lastLocs=" + lastLocs[index].length );
 	        if (lastLocs[index].length == locs.length) {
-	           //no new loc, skip 
+	           <%-- no new loc, skip, continue --%>
 	           return true;  
 	        }
 	     }
-              	      
+                            
+             <%-- remove marker --%>
  	     if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
  	        gmarkers[index].setMap(null);
              }
          
-	     jq.each(locs, function(locIndex, loc) {				 
-	        dispLocations += " loc.latitude=" + loc.latitude;
+	     jq.each(locs, function(locIndex, loc) {				 	       
 	        pts[locIndex] = new g.LatLng(loc.latitude/1.0e6, loc.longitude/1.0e6);
 	        //alert(" index=" + index + ",locIndex=" + locIndex + ", lat=" + loc.latitude/1.0e6 + ", lng=" + loc.longitude/1.0e6);			              				
 	        bounds.extend(pts[locIndex]);
@@ -165,6 +174,7 @@
 	 if (totalCycle<10) {
 	    map.fitBounds(bounds);
 	 }
+	  
 
       }
 
@@ -184,7 +194,8 @@
                
                  
          var contentString = html;
-                     
+         
+         /*
          google.maps.event.addListener(poly,'click', function(event) {
       	    infowindow.setContent(contentString);
       	          
@@ -197,19 +208,36 @@
       	    infowindow.open(map);
       	    // map.openInfoWindowHtml(point,html); 
          }); 
-                  
+         */         
         
          //square.png
          google.maps.event.addListener(poly,'mousemove', function(event) {
       	    infowindow.setContent(contentString);
-      	 	          
+      	
+      	    				
       	    if (event) {
       	        point = event.latLng;
       	    }
-      	 	            
+      	 	
+      	    if (gicons) {
+	       for (var i=0; i < gicons.length; i++) {
+	           gicons[i].setMap(null);
+	       }                     
+	       gicons.length = 0;
+            }
+            
+      	    var polyMarker = new google.maps.Marker({
+	         position: point,
+	         map: map, 	
+	         draggable:true,
+	         icon: lineIcon
+            });
+            
+	    gicons.push(polyMarker);
+	
       	    infowindow.setPosition(point);      	 	            
       	    infowindow.open(map);
-      	    //map.openInfoWindowHtml(point,html);
+      	    map.openInfoWindowHtml(point,html);
       	 	      
          }); 
                
@@ -227,11 +255,11 @@
                   
             
             
-      /**
-       * show/hide polyline
-       */
-       /*
-      function togglePoly(poly_num) {    
+   /**
+    * show/hide polyline
+    */
+   /*
+    function togglePoly(poly_num) {    
          alert(" togglePoly poly_num="+poly_num + ", gpolys.length=" + gpolys.length);
          if (document.getElementById('poly'+poly_num)) {
             if (document.getElementById('poly'+poly_num).checked) {
@@ -240,9 +268,10 @@
                 gpolys[poly_num].setMap(null);
             }
          }
-      }    
-      */
-      function resetMap(map) {
+    }    
+    */
+    
+    function resetMap(map) {
          side_bar_html = "";
          /*
          if (gpolys && gpolys.length>0) {        
@@ -258,9 +287,9 @@
 	   }                     
            gmarkers.length = 0;
          }
-      }
+    }
       
-      function clearMap(map) {
+    function clearMap(map) {
          side_bar_html = "";
               
          if (gpolys && gpolys.length>0) {        
@@ -276,23 +305,28 @@
       	     }                     
              gmarkers.length = 0;
          }
-      }
+    }
       
-      function showMaps(map) {         
+    function showMaps(map) {         
          var color = '#FF0088';
          var dispLocations = "";
          
          jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=gg1&days=5', function(data) {
-              //alert(" -- before showLines ");              
-             
-	       
-             showLines(map, data);
-              
+             <%--
+               if current data.dispLocations does not have same number of gpolys, meaning some active gpolys are closed by android app.
+               remove it
+             --%>
+             if (data && gpolys && data.dispLocations && data.dispLocations.length>0) {
+	        if ( data.dispLocations.length < gpolys.length) {
+	           clearMap(map);
+	        }
+	     }
+             showLines(map, data);             
               
          }); <%-- end of getJSON --%>         
-      }
+    }
       
-      function nextCycle() {         
+    function nextCycle() {         
          totalRuntime++;
          totalCycle++;
          document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime;
@@ -306,9 +340,9 @@
 	     document.getElementById('autoRefersh').style.visibility='visible';
              stopRotation(); 
          }
-      }
+    }
       
-      function stopRotation() {
+    function stopRotation() {
          totalRuntime = 0;
       	 clearInterval(timer);
       }
@@ -348,12 +382,12 @@
    <table border="1">
        <tr> 
           <td width="200" valign="top"> 
-             <form name=xcv>
+            <form name=xcv>
 	        <input id="autoRefersh" type=button onClick="startTimerBtn()" value="Start Auto Refresh">	      
-             </form>
+            </form>
             <div id="xtimer"> starting auto refresh </div><hr>
             <div id="mylocs">locations </div><hr>
-             <div id="side_bar" style="height: 450px; overflow:auto"></div>
+            <div id="side_bar" style="height: 450px; overflow:auto"></div>
           </td>
           <td valign="top" width="760" align="left">
              <div id="container">  
