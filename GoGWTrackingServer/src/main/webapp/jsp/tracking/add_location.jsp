@@ -15,7 +15,7 @@
           <td> groupId </td>  <td> <form:input id="groupId" path="groupId" size="30" maxlength="30"/>  </td>       
        </tr>
        <tr>
-           <td> displayname </td>  <td> <input type="input" name="displayName"> </td>       
+           <td> displayname </td>  <td> <input type="input" name="displayName" value="disp 5"> </td>       
        </tr>
        <tr>
           <td> latitude(int) </td>  <td> <form:input id="latitude" path="latitude" size="30" maxlength="30"/> </td>       
