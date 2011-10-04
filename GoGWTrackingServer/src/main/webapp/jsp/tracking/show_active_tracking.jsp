@@ -8,16 +8,12 @@
    <title> Show Active Tracks </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
      
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-   
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
-     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
+   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     
 <script language=javascript>
      
@@ -32,7 +28,11 @@
    
    var timer; 
    var totalRuntime = 0;
+   var totalCycle = 0;
+   
    var mylocs = "";
+   var firstTime = false;
+   var lastLocs = [];
    
    jq(document).ready(function() {
      
@@ -45,8 +45,8 @@
       var latlng;
       var g = google.maps;
   
-      //latlng = new g.LatLng(34.03, -84.19);
-      latlng = new g.LatLng(41.30, 122.00);
+      latlng = new g.LatLng(34.03, -84.19);
+      //latlng = new g.LatLng(41.30, 122.00);
                     
       var myOptions = {
                      zoom: 6,
@@ -55,10 +55,19 @@
              };
        
       map = new g.Map(document.getElementById("map_canvas"), myOptions); 
-             
+      
+      //mwang: add traffic
+      //var trafficLayer = new google.maps.TrafficLayer();
+      //trafficLayer.setMap(map);
+
       bounds = new g.LatLngBounds();
       infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
-                                       
+   
+      if (firstTime == false) {
+         clearMap(map);      
+         firstTime = true;   
+      }
+      
       showMaps(map);
       
   
@@ -81,10 +90,11 @@
          var dispLocations = "";
 	 var j = 0;
 	 
-	 if (!data.dispLocations) {
+	 if (!data.dispLocations && totalCycle == 0) {
 	     //alert(" ---- No tracking available ---- ");	
 	     side_bar_html = "No tracking yet";
 	     document.getElementById("side_bar").innerHTML = side_bar_html;
+	     return;
 	 }
 	 
 	 
@@ -105,6 +115,19 @@
 	     
 	     var pts = [];
 	     var lastPoint;
+	     
+	     if (lastLocs[index]) {
+	        //alert(" === number of points " + " locs.length=" + locs.length + ", index=" + index + ".lastLocs=" + lastLocs[index].length );
+	        if (lastLocs[index].length == locs.length) {
+	           //no new loc, skip 
+	           return true;  
+	        }
+	     }
+              	      
+ 	     if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
+ 	        gmarkers[index].setMap(null);
+             }
+         
 	     jq.each(locs, function(locIndex, loc) {				 
 	        dispLocations += " loc.latitude=" + loc.latitude;
 	        pts[locIndex] = new g.LatLng(loc.latitude/1.0e6, loc.longitude/1.0e6);
@@ -114,10 +137,13 @@
 	        point = pts[parseInt(locIndex/2)];
 	     });
 	     
-	     var lastLocMarker = new google.maps.Marker({
+	     <%-- save locs --%>
+	     lastLocs[index] = locs;
+	     
+	     var currentLocMarker = new google.maps.Marker({
 	                position: lastPoint,
 	                map: map                 
-	             });        
+	     });        
 	                    
 	     var poly = new g.Polyline({
 	        	map: map,
@@ -125,94 +151,79 @@
 	     	    	strokeColor: color,
 	     	    	strokeOpacity: 1.0,
 	     	    	strokeWeight: 3	     	    			 		       		             	
-	        });
+	     });
 	        
-	     createClickablePolyline(poly, lastLocMarker, html, label, point, length);
+	 
+	     createClickablePolyline(poly, currentLocMarker, html, label, point, length);
 	     
              
 	 }); <%-- end of jq.each(data.dispLocations --%>
 	 
 	 document.getElementById("side_bar").innerHTML = side_bar_html;
-	 map.fitBounds(bounds);
+	 
+	 <%-- fitBounds --%>
+	 if (totalCycle<10) {
+	    map.fitBounds(bounds);
+	 }
 
       }
 
 
       function createClickablePolyline(poly, polyMarker, html, label, point, length) {              
-          gpolys.push(poly);
-          gmarkers.push(polyMarker);
+         gpolys.push(poly);
+         gmarkers.push(polyMarker);
           
          var poly_num = gpolys.length - 1;
                
-                  if (!html) {html = "";}
-                  else { html += "<br>";}
+         if (!html) {html = "";}
+         else { html += "<br>";}
                
-               	 length = length * 0.000621371192; // convert meters to miles
+         length = length * 0.000621371192; // convert meters to miles
                
-                  html += "length="+length.toFixed(2)+" miles";
+         html += "length="+length.toFixed(2)+" miles";
                
                  
-                  var contentString = html;
-               
-                  
-                 google.maps.event.addListener(poly,'click', function(event) {
-               
-                   infowindow.setContent(contentString);
-             
-                   if (event) {
-                      point = event.latLng;
-                   }
-               
-                   infowindow.setPosition(point);
-               
-                   infowindow.open(map);
-                      // map.openInfoWindowHtml(point,html); 
-                 }); 
-                  
-                    
-                  google.maps.event.addListener(poly,'click', function(event) {
-      	            
-      	                infowindow.setContent(contentString);
+         var contentString = html;
+                     
+         google.maps.event.addListener(poly,'click', function(event) {
+      	    infowindow.setContent(contentString);
       	          
-      	                if (event) {
-      	                   point = event.latLng;
-      	                }
+      	    if (event) {
+      	       point = event.latLng;
+      	    }
       	            
-      	                infowindow.setPosition(point);
+      	    infowindow.setPosition(point);
       	            
-      	                infowindow.open(map);
-      	                   // map.openInfoWindowHtml(point,html); 
-                 }); 
+      	    infowindow.open(map);
+      	    // map.openInfoWindowHtml(point,html); 
+         }); 
                   
-                google.maps.event.addListener(poly,'mouseover', function(event) {
-      	 	            
-      	 	                infowindow.setContent(contentString);
+        
+         //square.png
+         google.maps.event.addListener(poly,'mousemove', function(event) {
+      	    infowindow.setContent(contentString);
       	 	          
-      	 	                if (event) {
-      	 	                   point = event.latLng;
-      	 	                }
+      	    if (event) {
+      	        point = event.latLng;
+      	    }
       	 	            
-      	 	                infowindow.setPosition(point);
-      	 	            
-      	 	                infowindow.open(map);
-      	 	                   // map.openInfoWindowHtml(point,html); 
-                 }); 
+      	    infowindow.setPosition(point);      	 	            
+      	    infowindow.open(map);
+      	    //map.openInfoWindowHtml(point,html);
+      	 	      
+         }); 
                
-                 /*
-                 google.maps.event.addListener(poly, 'mouseout', function() {
-      	     infowindow.close();
-                 });
-                 */
-                 if (!label) {
-                     label = "polyline #"+poly_num;
-                 }
-               
-                 label = "<a href='javascript:google.maps.event.trigger(gpolys["+poly_num+"],\"mouseover\");'>"+label+"</a>";
-               
-                 // add lines to sidebar html
-                 side_bar_html += '<input type="checkbox" id="poly'+poly_num+'" checked="checked" onclick="togglePoly('+poly_num+');">' + label + '<br />';      
                  
-               }  <%-- end of createClickablePolyline --%>
+         if (!label) {
+            label = "polyline #"+poly_num;
+         }
+               
+         label = "<a href='javascript:google.maps.event.trigger(gpolys["+poly_num+"],\"mouseover\");'>"+label+"</a>";
+               
+         // add lines to sidebar html
+         side_bar_html += '<input type="checkbox" id="poly'+poly_num+'" checked="checked" onclick="togglePoly('+poly_num+');">' + label + '<br />';      
+                 
+   }  <%-- end of createClickablePolyline --%>
                   
             
             
@@ -233,14 +244,14 @@
       */
       function resetMap(map) {
          side_bar_html = "";
-        
+         /*
          if (gpolys && gpolys.length>0) {        
             for (var i=0; i < gpolys.length; i++) {
                gpolys[i].setMap(null);
 	    }                     
             gpolys.length = 0;
          }
-         
+        */ 
          if (gmarkers && gmarkers.length>0) {
            for (var i=0; i < gmarkers.length; i++) {
 	      gmarkers[i].setMap(null);
@@ -249,24 +260,48 @@
          }
       }
       
+      function clearMap(map) {
+         side_bar_html = "";
+              
+         if (gpolys && gpolys.length>0) {        
+            for (var i=0; i < gpolys.length; i++) {
+              gpolys[i].setMap(null);
+      	    }                     
+            gpolys.length = 0;
+         }
+               
+         if (gmarkers && gmarkers.length>0) {
+             for (var i=0; i < gmarkers.length; i++) {
+      	        gmarkers[i].setMap(null);
+      	     }                     
+             gmarkers.length = 0;
+         }
+      }
+      
       function showMaps(map) {         
          var color = '#FF0088';
          var dispLocations = "";
          
          jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=gg1&days=5', function(data) {
-              //alert(" -- before showLines");              
-              showLines(map, data);
+              //alert(" -- before showLines ");              
+             
+	       
+             showLines(map, data);
+              
+              
          }); <%-- end of getJSON --%>         
       }
       
       function nextCycle() {         
          totalRuntime++;
+         totalCycle++;
          document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime;
          
-         
+         //resetMap(map);
          showMaps(map);
-         resetMap(map);
-         if (totalRuntime > 40) { 
+         //mw: todo test remove it, totalRuntime > 40
+         
+         if (totalRuntime > 5) { 
              totalRuntime = 0;
 	     document.getElementById('autoRefersh').style.visibility='visible';
              stopRotation(); 
