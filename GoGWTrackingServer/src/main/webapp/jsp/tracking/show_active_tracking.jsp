@@ -26,6 +26,7 @@
    var side_bar_html = ""; 
    var infowindow = null;
    var bounds = null;
+   var side_bar_arr = [];
    
    var timer; 
    var totalRuntime = 0;
@@ -35,6 +36,7 @@
    var firstTime = false;
    var lastLocs = [];
    var lineIcon = null;
+   var redrawSidebar = false;
    
    jq(document).ready(function() {
      
@@ -124,7 +126,8 @@
 	     
 	     var pts = [];
 	     var lastPoint;
-	     	     
+	     var lastLoc;
+	     
 	     if (lastLocs[index]) {
 	        //alert(" === number of points " + " locs.length=" + locs.length + ", index=" + index + ".lastLocs=" + lastLocs[index].length );
 	        if (lastLocs[index].length == locs.length) {
@@ -144,6 +147,7 @@
 	        bounds.extend(pts[locIndex]);
 	        lastPoint = pts[locIndex];
 	        point = pts[parseInt(locIndex/2)];
+	        lastLoc = loc;
 	     });
 	     
 	     <%-- save locs --%>
@@ -159,17 +163,18 @@
 	     	    	path: pts,
 	     	    	strokeColor: color,
 	     	    	strokeOpacity: 1.0,
-	     	    	strokeWeight: 3	     	    			 		       		             	
+	     	    	strokeWeight: 6	     	    			 		       		             	
 	     });
 	        
 	 
-	     createClickablePolyline(poly, currentLocMarker, html, label, point, length);
-	     
+	     createClickablePolyline(poly, currentLocMarker, html, label, point, length, index);
+	     if (redrawSidebar) {
+	        createSideBar(index, line, lastLoc); 
+	     }
              
 	 }); <%-- end of jq.each(data.dispLocations --%>
 	 
-	 document.getElementById("side_bar").innerHTML = side_bar_html;
-	 
+	  
 	 <%-- fitBounds --%>
 	 if (totalCycle<10) {
 	    map.fitBounds(bounds);
@@ -179,8 +184,10 @@
       }
 
 
-      function createClickablePolyline(poly, polyMarker, html, label, point, length) {              
-         gpolys.push(poly);
+      function createClickablePolyline(poly, polyMarker, html, label, point, length, index) {              
+         //gpolys.push(poly);
+         gpolys[index] = poly;
+         
          gmarkers.push(polyMarker);
           
          var poly_num = gpolys.length - 1;
@@ -246,32 +253,57 @@
             label = "polyline #"+poly_num;
          }
                
-         label = "<a href='javascript:google.maps.event.trigger(gpolys["+poly_num+"],\"mouseover\");'>"+label+"</a>";
+        // label = "<a href='javascript:google.maps.event.trigger(gpolys["+poly_num+"],\"mouseover\");'>"+label+"</a>";
                
          // add lines to sidebar html
-         side_bar_html += '<input type="checkbox" id="poly'+poly_num+'" checked="checked" onclick="togglePoly('+poly_num+');">' + label + '<br />';      
+        // side_bar_html += '<input type="checkbox" id="poly'+poly_num+'" checked="checked" onclick="togglePoly('+poly_num+');">' + label + '<br />';      
                  
    }  <%-- end of createClickablePolyline --%>
                   
             
             
-   /**
-    * show/hide polyline
-    */
-   /*
-    function togglePoly(poly_num) {    
-         alert(" togglePoly poly_num="+poly_num + ", gpolys.length=" + gpolys.length);
-         if (document.getElementById('poly'+poly_num)) {
-            if (document.getElementById('poly'+poly_num).checked) {
-                gpolys[poly_num].setMap(map);
-             } else {
-                gpolys[poly_num].setMap(null);
-            }
-         }
-    }    
-    */
+   
     
-    function resetMap(map) {
+   function createSideBar(index, line, glocation) {
+          //alert(" createSideBar ");
+          var sidebar = "";
+          
+          
+          var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"mouseover\");'>"+line.label +"</a>";
+          
+          
+          sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br />';
+          
+          sidebar += '&nbsp; StartTime: ' + line.startTime +  '<br />';
+          sidebar += '&nbsp; Speed: ' + glocation.speed + '<br />';
+          sidebar += '&nbsp; '  + 'poly_num=' + index + '<br />';
+          sidebar += '<hr>';
+          
+          //return sidebar;
+          
+          side_bar_arr[index] = sidebar;
+   }
+           
+   function showSideBar() {
+       
+       var ret = '';
+       if (side_bar_arr && side_bar_arr.length>0) {        
+          for (var i=0; i < side_bar_arr.length; i++) {
+             ret += side_bar_arr[i];
+          }                                       
+       }
+       
+       //alert(" showSideBar totalRuntime=" + totalRuntime + " ,ret="+ret);
+       document.getElementById("side_bar").innerHTML = ret;
+   }
+       
+    
+   function clearSideBar() {
+       side_bar_arr = [];
+       document.getElementById("side_bar").innerHTML = "No tracking";
+   }
+   
+   function resetMap(map) {
          side_bar_html = "";
          /*
          if (gpolys && gpolys.length>0) {        
@@ -313,16 +345,26 @@
          
          jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=gg1&days=5', function(data) {
              <%--
-               if current data.dispLocations does not have same number of gpolys, meaning some active gpolys are closed by android app.
-               remove it
+               if current data.dispLocations does not have same number of gpolys, 
+               meaning some active gpolys are closed by android app. remove it
              --%>
+             
              if (data && gpolys && data.dispLocations && data.dispLocations.length>0) {
-	        if ( data.dispLocations.length < gpolys.length) {
+	        if ( data.dispLocations.length != gpolys.length) {
+	           alert(" data.dispLocations.length="+data.dispLocations.length + ", gpolys.length="+gpolys.length);
 	           clearMap(map);
+	           redrawSidebar = true;
 	        }
 	     }
-             showLines(map, data);             
-              
+             
+             showLines(map, data);   
+             
+             if (redrawSidebar == true) {
+                showSideBar();
+             }
+             
+             redrawSidebar = false;
+             
          }); <%-- end of getJSON --%>         
     }
       
@@ -333,9 +375,11 @@
          
          //resetMap(map);
          showMaps(map);
+         //showSideBar();
+         
          //mw: todo test remove it, totalRuntime > 40
          
-         if (totalRuntime > 5) { 
+         if (totalRuntime > 4) { 
              totalRuntime = 0;
 	     document.getElementById('autoRefersh').style.visibility='visible';
              stopRotation(); 
@@ -345,14 +389,14 @@
     function stopRotation() {
          totalRuntime = 0;
       	 clearInterval(timer);
-      }
+    }
       
-      function startTimer() {
+    function startTimer() {
       	timer = setInterval(nextCycle, 3000);
-      }
+    }
       
        
-   });<%-- jq(document).ready --%>
+ });<%-- jq(document).ready --%>
    
    /**
     * show/hide polyline
