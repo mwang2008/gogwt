@@ -36,7 +36,12 @@
    var firstTime = false;
    var lastLocs = [];
    var lineIcon = null;
-   var redrawSidebar = false;
+   //var redrawSidebar = false;
+   
+   var lastTrackNames =  []; //new Array();  //[]; 
+   var numLastTrackNames = 0;
+   var hasTrackingChanged = false;
+   var trafficLayer; //new google.maps.TrafficLayer();  
    
    jq(document).ready(function() {
      
@@ -53,24 +58,25 @@
       //latlng = new g.LatLng(41.30, 122.00);
                     
       var myOptions = {
-                     zoom: 6,
-                     center: latlng,
-                     mapTypeId: g.MapTypeId.ROADMAP
-             };
+           zoom: 6,
+           center: latlng,
+           mapTypeId: g.MapTypeId.ROADMAP
+      };
        
       map = new g.Map(document.getElementById("map_canvas"), myOptions); 
       
-      //mwang: add traffic
-      //var trafficLayer = new google.maps.TrafficLayer();
-      //trafficLayer.setMap(map);
-
+      //add traffic
+      trafficLayer = new google.maps.TrafficLayer();
+      
       bounds = new g.LatLngBounds();
       infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
    
+      /*
       if (firstTime == false) {
          clearMap(map);      
          firstTime = true;   
       }
+      */
       
       var lineImg = '${env.contextPath}/images/square.png';
       lineIcon = new g.MarkerImage(lineImg,
@@ -78,15 +84,9 @@
                        new google.maps.Point(0,0),                                  
                        new google.maps.Point(5, 5));
                                          
-     
-
-     
-	    
+  	    
       showMaps(map);
-      
   
- 
-
       /*------------------------------------------------------+
        | Actions when user click Auto Refresh Button          | 
        +------------------------------------------------------*/       
@@ -95,31 +95,67 @@
            startTimer();
       }); 
       
+      jq('#showTraffic').click(function(){                               
+	  var btnVal = document.getElementById('showTraffic').value;		             
+	  if (btnVal == 'Show Traffic') {
+	      document.getElementById('showTraffic').value = 'Hide Traffic';
+	      trafficLayer.setMap(map);
+	  }
+	  else {
+	      document.getElementById('showTraffic').value = 'Show Traffic'; 
+	      trafficLayer.setMap(null);
+	  }
+      }); 
+      
+      jq('#clearMap').click(function(){           
+         clearMap();   
+      });
+      
+      
+      
       /*------------------------------------------------------+
        | Functions                                            | 
        +------------------------------------------------------*/ 
+    
+      function showMaps(map) {         
+         
+         jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=gg1&days=5', function(data) {
+             
+             if (!data.dispLocations || data.dispLocations.length == 0) {  
+                document.getElementById("side_bar").innerHTML = "No tracking yet";
+                return;
+             }
+              
+             var hasTrackingChanged = hasTrackChanged(data); 
+             //alert(" ----------- showMaps hasTrackingChanged="+hasTrackingChanged + ",totalRuntime=" +totalRuntime );
+             
+	     if (hasTrackingChanged) {
+	        //alert(" hasTrackingChanged");
+	        clearSideBar();
+	        clearMap();
+	        showLeftSidebar(data);	        
+	     }
+           
+             showLines(map, data);   
+             
+         }); <%-- end of getJSON --%>         
+      }
+    
       
       function showLines(map, data) {
+         //alert(" showLines gpolys.length="+gpolys.length);
          
-         //var dispLocations = "";
-	  
-	 if (!data.dispLocations && totalCycle == 0) {
-	     //alert(" ---- No tracking available ---- ");	
-	     side_bar_html = "No tracking yet";
-	     document.getElementById("side_bar").innerHTML = side_bar_html;
-	     return;
-	 }
- 	 
-	 jq.each(data.dispLocations, function(index, dispItem) {
+    	 jq.each(data.dispLocations, function(index, dispItem) {
 	     var line = dispItem.line;
 	     var locs = dispItem.locs;
-	     		               						
+	     var dispName = dispItem.dispName;
+	    
 	     color = line.color;
 	     	       		
 	     var html = line.html;
 	     var label = line.label;
 	     var length = 0;
-	     var point = null;
+	     
 	     	       
 	     mylocs = "== data=" + data.dispLocations.length + ", locs="+locs.length; 		
 	     document.getElementById("mylocs").innerHTML = mylocs;
@@ -128,36 +164,80 @@
 	     var lastPoint;
 	     var lastLoc;
 	     
+	     /*
+	     var checkStatus = true;
+	     if (document.getElementById('poly'+index)) {
+	        //alert("isChecked="+ document.getElementById('poly'+index).checked + ",index=" + index);
+	        checkStatus = document.getElementById('poly'+index).checked;
+	     }
+	     */
+	     
 	     if (lastLocs[index]) {
 	        //alert(" === number of points " + " locs.length=" + locs.length + ", index=" + index + ".lastLocs=" + lastLocs[index].length );
 	        if (lastLocs[index].length == locs.length) {
 	           <%-- no new loc, skip, continue --%>
-	           return true;  
+	           //return true;  
 	        }
 	     }
                             
-             <%-- remove marker --%>
+             <%-- remove marker --%>             
+             /*
  	     if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
  	        gmarkers[index].setMap(null);
              }
-         
+             */
+             
+             /*
+             if (checkStatus == false) {                 
+                 gpolys[index].setMap(null);
+                 return true;
+             }
+             */
+             
+             if (typeof gpolys[index] == 'undefined') {
+                 var polyOptions = {
+                         strokeColor: color,
+		         strokeOpacity: 1.0,
+		      	 strokeWeight: 6	
+                 }
+                 
+                 var poly = new g.Polyline(polyOptions);
+	         poly.setMap(map);
+	         
+	         gpolys[index] = poly;
+             }
+              
+             var point = null;
+             
+             //alert("=*** length="+locs.length + ",index="+index +", dispName="+dispName + ", gpolys[index].getPath()="+gpolys[index].getPath().length);
+             for (var i=gpolys[index].getPath().length; i<locs.length; i++) {
+                 point = new g.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
+                 bounds.extend(point);
+                 gpolys[index].getPath().push(point);
+             }
+             
+             /*
 	     jq.each(locs, function(locIndex, loc) {				 	       
-	        pts[locIndex] = new g.LatLng(loc.latitude/1.0e6, loc.longitude/1.0e6);
-	        //alert(" index=" + index + ",locIndex=" + locIndex + ", lat=" + loc.latitude/1.0e6 + ", lng=" + loc.longitude/1.0e6);			              				
-	        bounds.extend(pts[locIndex]);
-	        lastPoint = pts[locIndex];
-	        point = pts[parseInt(locIndex/2)];
-	        lastLoc = loc;
+	        point = new g.LatLng(loc.latitude/1.0e6, loc.longitude/1.0e6);
+	        bounds.extend(point);
+ 	        gpolys[index].getPath().push(point);
 	     });
+	     */
 	     
-	     <%-- save locs --%>
-	     lastLocs[index] = locs;
-	     
-	     var currentLocMarker = new google.maps.Marker({
-	                position: lastPoint,
+	       
+	     if (point != null) {
+	        if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
+	            gmarkers[index].setMap(null);
+	        }
+ 
+	        var currentLocMarker = new google.maps.Marker({
+	                position: point,
 	                map: map                 
-	     });        
-	                    
+	        });    
+	        gmarkers[index] = currentLocMarker;
+	     }
+	     
+	      /*
 	     var poly = new g.Polyline({
 	        	map: map,
 	     	    	path: pts,
@@ -165,12 +245,16 @@
 	     	    	strokeOpacity: 1.0,
 	     	    	strokeWeight: 6	     	    			 		       		             	
 	     });
-	        
-	 
+	      */
+	      
+	      
+	     
 	     createClickablePolyline(poly, currentLocMarker, html, label, point, length, index);
-	     if (redrawSidebar) {
-	        createSideBar(index, line, lastLoc); 
-	     }
+	      
+	       
+	     //if (redrawSidebar) {
+	     //   createSideBar(index, line, lastLoc); 
+	     //}
              
 	 }); <%-- end of jq.each(data.dispLocations --%>
 	 
@@ -186,9 +270,9 @@
 
       function createClickablePolyline(poly, polyMarker, html, label, point, length, index) {              
          //gpolys.push(poly);
-         gpolys[index] = poly;
+         //gpolys[index] = poly;
          
-         gmarkers.push(polyMarker);
+         //gmarkers.push(polyMarker);
           
          var poly_num = gpolys.length - 1;
                
@@ -260,18 +344,60 @@
                  
    }  <%-- end of createClickablePolyline --%>
                   
-            
-            
+         
+   function hasTrackChanged(data) {
+       	 
+      var retVal = false;
+      
+      if (numLastTrackNames != data.dispLocations.length) {
+         retVal = true;
+      }
+      
+      if (retVal == true) {
+         return true;      
+      }
+      
+      
+      jq.each(data.dispLocations, function(index, dispItem) {
+      	 var dispName = dispItem.dispName;
+         
+      	 if (typeof lastTrackNames[dispName] == 'undefined') {
+      	    retVal = true;     	    
+      	    return false;
+      	 } 
+   	     
+      }); <%-- end of jq.each(data.dispLocations --%>
+ 
+      return retVal;
+   }
+   
+   function showLeftSidebar(data) {
+       
+      numLastTrackNames = 0;
+      
+      jq.each(data.dispLocations, function(index, dispItem) {
+         var line = dispItem.line;
+         var locs = dispItem.locs;
+         var dispName = dispItem.dispName;
+   	 
+         var glocation = locs[locs.length-1];
+         createSideBar(index, line, glocation);
+         
+         lastTrackNames[dispName] = index;
+         numLastTrackNames++;
+      }); <%-- end of jq.each(data.dispLocations --%>
+              
+      showSideBar();
+      //redrawSidebar = true;
+   }
    
     
    function createSideBar(index, line, glocation) {
           //alert(" createSideBar ");
           var sidebar = "";
-          
-          
+           
           var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"mouseover\");'>"+line.label +"</a>";
-          
-          
+           
           sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br />';
           
           sidebar += '&nbsp; StartTime: ' + line.startTime +  '<br />';
@@ -321,10 +447,8 @@
          }
     }
       
-    function clearMap(map) {
-         side_bar_html = "";
-              
-         if (gpolys && gpolys.length>0) {        
+    function clearMap(map) {         
+         if (gpolys && gpolys.length>0) {                    
             for (var i=0; i < gpolys.length; i++) {
               gpolys[i].setMap(null);
       	    }                     
@@ -339,35 +463,6 @@
          }
     }
       
-    function showMaps(map) {         
-         var color = '#FF0088';
-         var dispLocations = "";
-         
-         jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=gg1&days=5', function(data) {
-             <%--
-               if current data.dispLocations does not have same number of gpolys, 
-               meaning some active gpolys are closed by android app. remove it
-             --%>
-             
-             if (data && gpolys && data.dispLocations && data.dispLocations.length>0) {
-	        if ( data.dispLocations.length != gpolys.length) {
-	           alert(" data.dispLocations.length="+data.dispLocations.length + ", gpolys.length="+gpolys.length);
-	           clearMap(map);
-	           redrawSidebar = true;
-	        }
-	     }
-             
-             showLines(map, data);   
-             
-             if (redrawSidebar == true) {
-                showSideBar();
-             }
-             
-             redrawSidebar = false;
-             
-         }); <%-- end of getJSON --%>         
-    }
-      
     function nextCycle() {         
          totalRuntime++;
          totalCycle++;
@@ -379,7 +474,7 @@
          
          //mw: todo test remove it, totalRuntime > 40
          
-         if (totalRuntime > 4) { 
+         if (totalRuntime > 2) { 
              totalRuntime = 0;
 	     document.getElementById('autoRefersh').style.visibility='visible';
              stopRotation(); 
@@ -394,8 +489,7 @@
     function startTimer() {
       	timer = setInterval(nextCycle, 3000);
     }
-      
-       
+        
  });<%-- jq(document).ready --%>
    
    /**
@@ -412,6 +506,8 @@
       }
    }    
    
+
+   
 </script>
 </head>
 
@@ -427,7 +523,9 @@
        <tr> 
           <td width="200" valign="top"> 
             <form name=xcv>
-	        <input id="autoRefersh" type=button onClick="startTimerBtn()" value="Start Auto Refresh">	      
+	        <input id="autoRefersh" type=button onClick="startTimerBtn()" value="Start Auto Refresh">
+	        <input id="showTraffic" type="button" value="Show Traffic">
+	        <input id="clearMap" type="button" value="Clear Map">
             </form>
             <div id="xtimer"> starting auto refresh </div><hr>
             <div id="mylocs">locations </div><hr>
