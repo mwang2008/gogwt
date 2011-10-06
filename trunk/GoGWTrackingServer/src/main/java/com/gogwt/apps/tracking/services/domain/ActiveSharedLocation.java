@@ -1,7 +1,7 @@
 package com.gogwt.apps.tracking.services.domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +27,7 @@ public final class ActiveSharedLocation {
 		}
 		
 		if (aciveClientLocationMap == null) {
-	 		aciveClientLocationMap = new HashMap<String, Map<String, List<GLocation>>>();
+	 		aciveClientLocationMap = new LinkedHashMap<String, Map<String, List<GLocation>>>();
 		}
 				
 		String groupId = request.getProfile().getGroupId();
@@ -36,8 +36,11 @@ public final class ActiveSharedLocation {
 		
 		Map<String, List<GLocation>> locationMap = getLocationMap(groupId);
 		if (locationMap == null) {
-			locationMap = new ConcurrentHashMap<String, List<GLocation>>();
+			locationMap = new LinkedHashMap<String, List<GLocation>>();
 		}
+		
+		displayName = displayName.trim();
+		
 		List<GLocation> existingLocationList = locationMap.get(displayName);
 		if (existingLocationList == null) {
 			existingLocationList = new ArrayList<GLocation>();
@@ -122,6 +125,8 @@ public final class ActiveSharedLocation {
 	 * @param displayName
 	 */
 	public static void removeClientFromMap(String groupId, String displayName) {
+		displayName = displayName.trim();
+		
 		Map<String, List<GLocation>> displayNameLocationMap =  getLocationMap(groupId);
 		if (displayNameLocationMap != null && displayNameLocationMap.containsKey(displayName)) {
 			displayNameLocationMap.remove(displayName);

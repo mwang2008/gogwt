@@ -5,7 +5,8 @@ import java.util.List;
 public class GDispItem {
 	private List<GLocation> locs;
 	private GLine line;
-
+    private String dispName;
+    
 	public List<GLocation> getLocs() {
 		return locs;
 	}
@@ -22,10 +23,20 @@ public class GDispItem {
 		this.line = line;
 	}
 	
+	
+	public String getDispName() {
+		return dispName;
+	}
+
+	public void setDispName(String dispName) {
+		this.dispName = dispName;
+	}
+
 	public String toString() {
 
 		StringBuilder sbuf = new StringBuilder();
 		sbuf.append(GDispItem.class.getSimpleName() + "=[");
+		sbuf.append("dispName=" + dispName);
 		sbuf.append("line=" + line.toString());
 		sbuf.append("\n,locs [");
 	 	if (locs != null && !locs.isEmpty()) {

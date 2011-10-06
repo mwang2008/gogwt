@@ -3,6 +3,7 @@ package com.gogwt.apps.tracking.services.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,11 @@ import com.gogwt.apps.tracking.data.response.DisplayResponse;
 public final class DomainServiceHelper {
 
    
+	/**
+	 * 
+	 * @param activeMap  dispName, List<Glocation>
+	 * @return
+	 */
    public static Collection<GDispItem> constructionDisplayItemList(Map<String, List<GLocation>> activeMap ) {
 	   if (activeMap == null || activeMap.isEmpty()) {
 		   return null;
@@ -28,11 +34,12 @@ public final class DomainServiceHelper {
 	   GDispItem dispItem = null;
 	   List<GLocation> existingGLocList;
 	   
-	   Map<String, GDispItem> dispMap = new HashMap<String, GDispItem>();
+	   Map<String, GDispItem> dispMap = new LinkedHashMap<String, GDispItem>();
+	   
 	   int numOfClient = 0;
 	   for (Map.Entry<String, List<GLocation>> entry : activeMap.entrySet())
 	   {
-		   System.out.println(entry.getKey() + "/" + entry.getValue());
+		   //System.out.println(entry.getKey() + "/" + entry.getValue());
 		   dispName = entry.getKey().trim();
 		   locations = entry.getValue();
 		   
@@ -65,6 +72,7 @@ public final class DomainServiceHelper {
 					dispItem = new GDispItem(); 
 					dispItem.setLine(newGLine);
 					dispItem.setLocs(glocationList);
+					dispItem.setDispName(dispName);
 					
 					dispMap.put(key, dispItem);	 				 
 				}		  
@@ -80,7 +88,7 @@ public final class DomainServiceHelper {
 	   }
 	      
 	   //key=dispname+starttime;
-	   Map<String, GDispItem> dispMap = new HashMap<String, GDispItem>();
+	   Map<String, GDispItem> dispMap = new LinkedHashMap<String, GDispItem>();
 	   String key = null;
 	   
 	   GLine gline = null, newGLine = null;
