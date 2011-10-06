@@ -15,7 +15,7 @@
           <td> groupId </td>  <td> <form:input id="groupId" path="groupId" size="30" maxlength="30"/>  </td>       
        </tr>
        <tr>
-           <td> displayname </td>  <td> <input type="input" name="displayName" value="disp 5"> </td>       
+           <td> displayname </td>  <td> <input type="input" name="displayName" value='<%=request.getParameter("displayName")%>' > </td>       
        </tr>
        <tr>
           <td> latitude(int) </td>  <td> <form:input id="latitude" path="latitude" size="30" maxlength="30"/> </td>       
@@ -52,11 +52,16 @@
        </tr>
         
        <tr>
-           <td> &nbsp; </td> <td> <input type="submit" value="Submit" /> </td>
+           <td> &nbsp; </td> <td> <input type="submit" name="action" value="Add" /> </td>
                  
        </tr>
-   
+   <tr>
+              <td> &nbsp; </td> <td> <input type="submit" name="action" value="Remove The Track" /> </td>
+                    
+       </tr>
   </table>
   </form:form>
+  
+   
 </body>
 </html>

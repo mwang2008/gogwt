@@ -225,8 +225,8 @@
                  
          var contentString = html;
          
-         /*
-         google.maps.event.addListener(poly,'click', function(event) {
+         
+         google.maps.event.addListener(poly,'mouseover', function(event) {
       	    infowindow.setContent(contentString);
       	          
       	    if (event) {
@@ -236,9 +236,9 @@
       	    infowindow.setPosition(point);
       	            
       	    infowindow.open(map);
-      	    // map.openInfoWindowHtml(point,html); 
+      	    map.openInfoWindowHtml(point,html); 
          }); 
-         */         
+                  
         
          //square.png
          google.maps.event.addListener(poly,'mousemove', function(event) {
@@ -415,7 +415,7 @@
       	timer = setInterval(nextCycle, 3000);
     }
         
- });<%-- jq(document).ready --%>
+  });<%-- jq(document).ready --%>
    
    /**
     * show/hide polyline
@@ -448,9 +448,9 @@
        <tr> 
           <td width="200" valign="top"> 
             <form name=xcv>
-	        <input id="autoRefersh" type=button onClick="startTimerBtn()" value="Start Auto Refresh">
+	        <input id="autoRefersh" type="button"  value="Start Auto Refresh">
 	        <input id="showTraffic" type="button" value="Show Traffic">
-	        <input id="clearMap" type="button" value="Clear Map">
+	         
             </form>
             <div id="xtimer"> starting auto refresh </div><hr>
             <div id="mylocs">locations </div><hr>

@@ -236,6 +236,7 @@ public class RestClientController {
          
         DisplayResponse response = new DisplayResponse();
         response.setDispLocations(dispLocation);
+        System.out.println(" response " + response.toString());
         
         return response;
         
