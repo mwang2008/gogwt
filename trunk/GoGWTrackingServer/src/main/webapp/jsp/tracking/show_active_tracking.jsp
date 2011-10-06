@@ -33,19 +33,17 @@
    var totalCycle = 0;
    
    var mylocs = "";
-   var firstTime = false;
-   var lastLocs = [];
    var lineIcon = null;
-   //var redrawSidebar = false;
-   
-   var lastTrackNames =  []; //new Array();  //[]; 
+    
+   var lastTrackNames =  []; //new Array();   
    var numLastTrackNames = 0;
    var hasTrackingChanged = false;
-   var trafficLayer; //new google.maps.TrafficLayer();  
+   var trafficLayer;   
    
+   var NUM_AUTO_REFERSH = 3;
+
    jq(document).ready(function() {
      
-      
       //hidden auto refersh button            
       document.getElementById('autoRefersh').style.visibility='hidden';
        
@@ -66,24 +64,16 @@
       map = new g.Map(document.getElementById("map_canvas"), myOptions); 
       
       //add traffic
-      trafficLayer = new google.maps.TrafficLayer();
+      trafficLayer = new g.TrafficLayer();
       
       bounds = new g.LatLngBounds();
-      infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
-   
-      /*
-      if (firstTime == false) {
-         clearMap(map);      
-         firstTime = true;   
-      }
-      */
-      
+      infowindow = new g.InfoWindow({size: new google.maps.Size(150,50)});
+       
       var lineImg = '${env.contextPath}/images/square.png';
       lineIcon = new g.MarkerImage(lineImg,
                        new google.maps.Size(11, 11),
                        new google.maps.Point(0,0),                                  
-                       new google.maps.Point(5, 5));
-                                         
+                       new google.maps.Point(5, 5));                                       
   	    
       showMaps(map);
   
@@ -130,8 +120,7 @@
              //alert(" ----------- showMaps hasTrackingChanged="+hasTrackingChanged + ",totalRuntime=" +totalRuntime );
              
 	     if (hasTrackingChanged) {
-	        //alert(" hasTrackingChanged");
-	        clearSideBar();
+ 	        clearSideBar();
 	        clearMap();
 	        showLeftSidebar(data);	        
 	     }
@@ -186,10 +175,8 @@
              for (var i=polyLocNum; i<locs.length; i++) {
                  //alert(" --- ddd i="+i + ", lat="+locs[i].latitude/1.0e6 + ",lng=" + locs[i].longitude/1.0e6);
                  point = new g.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
-                 bounds.extend(point);
-                 
-                 gpolys[index].getPath().push(point);
-                 
+                 bounds.extend(point);                
+                 gpolys[index].getPath().push(point);                
                  hasNewLoc = true;
              }
               
@@ -215,20 +202,15 @@
 	 }); <%-- end of jq.each(data.dispLocations --%>
 	 
 	  
-	 <%-- fitBounds --%>
+	 <%-- fitBounds --%>	 
 	 if (totalCycle<10) {
 	    map.fitBounds(bounds);
+	    totalCycle++;
 	 }
-	  
-
       }
 
 
       function createClickablePolyline(html, label, point, length, index) {              
-         //gpolys.push(poly);
-         //gpolys[index] = poly;
-         
-         //gmarkers.push(polyMarker);
          
          var poly = gpolys[index];
          var poly_num = gpolys.length - 1;
@@ -412,16 +394,12 @@
       
     function nextCycle() {         
          totalRuntime++;
-         totalCycle++;
+         
          document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime;
-         
-         //resetMap(map);
+ 
          showMaps(map);
-         //showSideBar();
          
-         //mw: todo test remove it, totalRuntime > 40
-         
-         if (totalRuntime > 2) { 
+         if (totalRuntime > NUM_AUTO_REFERSH) { 
              totalRuntime = 0;
 	     document.getElementById('autoRefersh').style.visibility='visible';
              stopRotation(); 
