@@ -143,8 +143,7 @@
     
       
       function showLines(map, data) {
-         //alert(" showLines gpolys.length="+gpolys.length);
-         
+          
     	 jq.each(data.dispLocations, function(index, dispItem) {
 	     var line = dispItem.line;
 	     var locs = dispItem.locs;
@@ -157,43 +156,14 @@
 	     var length = 0;
 	     
 	     	       
-	     mylocs = "== data=" + data.dispLocations.length + ", locs="+locs.length; 		
+	     mylocs = "data=" + data.dispLocations.length + ", locs="+locs.length + ", dispName="+dispName; 		
 	     document.getElementById("mylocs").innerHTML = mylocs;
 	     
 	     var pts = [];
 	     var lastPoint;
 	     var lastLoc;
 	     
-	     /*
-	     var checkStatus = true;
-	     if (document.getElementById('poly'+index)) {
-	        //alert("isChecked="+ document.getElementById('poly'+index).checked + ",index=" + index);
-	        checkStatus = document.getElementById('poly'+index).checked;
-	     }
-	     */
-	     
-	     if (lastLocs[index]) {
-	        //alert(" === number of points " + " locs.length=" + locs.length + ", index=" + index + ".lastLocs=" + lastLocs[index].length );
-	        if (lastLocs[index].length == locs.length) {
-	           <%-- no new loc, skip, continue --%>
-	           //return true;  
-	        }
-	     }
-                            
-             <%-- remove marker --%>             
-             /*
- 	     if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
- 	        gmarkers[index].setMap(null);
-             }
-             */
-             
-             /*
-             if (checkStatus == false) {                 
-                 gpolys[index].setMap(null);
-                 return true;
-             }
-             */
-             
+	         
              if (typeof gpolys[index] == 'undefined') {
                  var polyOptions = {
                          strokeColor: color,
@@ -208,53 +178,39 @@
              }
               
              var point = null;
+             var hasNewLoc = false;
              
-             //alert("=*** length="+locs.length + ",index="+index +", dispName="+dispName + ", gpolys[index].getPath()="+gpolys[index].getPath().length);
-             for (var i=gpolys[index].getPath().length; i<locs.length; i++) {
+             var polyLocNum = gpolys[index].getPath().length;
+             
+             //alert("=*** length="+locs.length + ",index="+index +", dispName="+dispName + " ,polyLocNum="+polyLocNum +",totalRuntime="+totalRuntime);
+             for (var i=polyLocNum; i<locs.length; i++) {
+                 //alert(" --- ddd i="+i + ", lat="+locs[i].latitude/1.0e6 + ",lng=" + locs[i].longitude/1.0e6);
                  point = new g.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
                  bounds.extend(point);
+                 
                  gpolys[index].getPath().push(point);
+                 
+                 hasNewLoc = true;
              }
-             
-             /*
-	     jq.each(locs, function(locIndex, loc) {				 	       
-	        point = new g.LatLng(loc.latitude/1.0e6, loc.longitude/1.0e6);
-	        bounds.extend(point);
- 	        gpolys[index].getPath().push(point);
-	     });
-	     */
-	     
-	       
-	     if (point != null) {
-	        if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
-	            gmarkers[index].setMap(null);
-	        }
- 
-	        var currentLocMarker = new google.maps.Marker({
+              
+
+             if (hasNewLoc) {             
+	        if (point != null) {	
+	            
+	           if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
+	              gmarkers[index].setMap(null);
+	           }
+                 
+	           var currentLocMarker = new google.maps.Marker({
 	                position: point,
 	                map: map                 
-	        });    
-	        gmarkers[index] = currentLocMarker;
-	     }
-	     
-	      /*
-	     var poly = new g.Polyline({
-	        	map: map,
-	     	    	path: pts,
-	     	    	strokeColor: color,
-	     	    	strokeOpacity: 1.0,
-	     	    	strokeWeight: 6	     	    			 		       		             	
-	     });
-	      */
-	      
-	      
-	     
-	     createClickablePolyline(poly, currentLocMarker, html, label, point, length, index);
-	      
-	       
-	     //if (redrawSidebar) {
-	     //   createSideBar(index, line, lastLoc); 
-	     //}
+	           });    
+	           gmarkers[index] = currentLocMarker;	            
+	        }	     
+ 	     }
+ 	     
+	     createClickablePolyline(html, label, point, length, index);
+ 	    
              
 	 }); <%-- end of jq.each(data.dispLocations --%>
 	 
@@ -268,12 +224,13 @@
       }
 
 
-      function createClickablePolyline(poly, polyMarker, html, label, point, length, index) {              
+      function createClickablePolyline(html, label, point, length, index) {              
          //gpolys.push(poly);
          //gpolys[index] = poly;
          
          //gmarkers.push(polyMarker);
-          
+         
+         var poly = gpolys[index];
          var poly_num = gpolys.length - 1;
                
          if (!html) {html = "";}
@@ -317,31 +274,21 @@
 	       gicons.length = 0;
             }
             
-      	    var polyMarker = new google.maps.Marker({
+      	    var iconMarker = new google.maps.Marker({
 	         position: point,
 	         map: map, 	
 	         draggable:true,
 	         icon: lineIcon
             });
             
-	    gicons.push(polyMarker);
+	    gicons.push(iconMarker);
 	
       	    infowindow.setPosition(point);      	 	            
       	    infowindow.open(map);
-      	    map.openInfoWindowHtml(point,html);
+      	    map.openInfoWindowHtml(point, html);
       	 	      
          }); 
-               
-                 
-         if (!label) {
-            label = "polyline #"+poly_num;
-         }
-               
-        // label = "<a href='javascript:google.maps.event.trigger(gpolys["+poly_num+"],\"mouseover\");'>"+label+"</a>";
-               
-         // add lines to sidebar html
-        // side_bar_html += '<input type="checkbox" id="poly'+poly_num+'" checked="checked" onclick="togglePoly('+poly_num+');">' + label + '<br />';      
-                 
+                    
    }  <%-- end of createClickablePolyline --%>
                   
          
