@@ -4,6 +4,7 @@
   
 <html>
  <head>
+   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
    <title> Show Active Tracks </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
@@ -22,12 +23,13 @@
    var gpolys = [];
    var gmarkers = [];
    var gicons = [];
+   var mousemarker = null;
    
    var side_bar_html = ""; 
    var infowindow = null;
    var bounds = null;
    var side_bar_arr = [];
-   
+   var mousemarker = null;
    var timer; 
    var totalRuntime = 0;
    var totalCycle = 0;
@@ -124,7 +126,8 @@
              
 	     if (hasTrackingChanged) {
  	        clearSideBar();
-	        clearMap();
+	        //clearMap();
+	        clearPolyline();
 	        showLeftSidebar(data);	        
 	     }
            
@@ -189,15 +192,15 @@
              if (hasNewLoc) {             
 	        if (point != null) {	
 	            
-	           if (gmarkers && gmarkers.length>0 && gmarkers[index]) {
-	              gmarkers[index].setMap(null);
+	           if (typeof gmarkers[index] == 'undefined') {
+	               gmarkers[index] = new google.maps.Marker({
+	                      position: point,
+	                      map: map                 
+	               });  
 	           }
-                 
-	           var currentLocMarker = new google.maps.Marker({
-	                position: point,
-	                map: map                 
-	           });    
-	           gmarkers[index] = currentLocMarker;	            
+	           else {
+	               gmarkers[index].setPosition(point);
+	           }	           	           
 	        }	     
  	     }
  	     
@@ -208,7 +211,7 @@
 	 
 	  
 	 <%-- fitBounds --%>	 
-	 if (totalCycle<10) {
+	 if (totalCycle<5) {
 	    map.fitBounds(bounds);
 	    totalCycle++;
 	 }
@@ -231,53 +234,50 @@
          var contentString = html;
          
          
-         google.maps.event.addListener(poly,'mouseover', function(event) {
-      	    infowindow.setContent(contentString);
-      	          
+         google.maps.event.addListener(poly,'click', function(event) {
+            
       	    if (event) {
       	       point = event.latLng;
       	    }
-      	            
+      	    
+      	    infowindow.setContent(contentString);        
       	    infowindow.setPosition(point);
       	            
       	    infowindow.open(map);
       	    map.openInfoWindowHtml(point,html); 
+            
          }); 
                   
         
          //square.png
          google.maps.event.addListener(poly,'mousemove', function(event) {
-      	    infowindow.setContent(contentString);
-      	
-      	    				
+      	        	    				
       	    if (event) {
       	        point = event.latLng;
       	    }
-      	 	
-      	    if (gicons) {
-	       for (var i=0; i < gicons.length; i++) {
-	           gicons[i].setMap(null);
-	       }                     
-	       gicons.length = 0;
-            }
-            
-      	    var iconMarker = new google.maps.Marker({
-	         position: point,
-	         map: map, 	
-	         draggable:true,
-	         icon: lineIcon
-            });
-            
-	    gicons.push(iconMarker);
-	
+ 	            
+	    if (mousemarker == null) {
+		mousemarker = new google.maps.Marker({
+	 	   position: point,
+		   map: map,
+		   //icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+		   icon: lineIcon
+		});
+	     } else {
+	        mousemarker.setPosition(point);
+             }
+             
+            /*
+            infowindow.setContent(contentString);
       	    infowindow.setPosition(point);      	 	            
       	    infowindow.open(map);
       	    map.openInfoWindowHtml(point, html);
+      	    */
       	 	      
          }); 
                     
    }  <%-- end of createClickablePolyline --%>
-                  
+   
    function initPolyOps() {
         var ops = {
              strokeColor: '#FF0000',  
@@ -431,21 +431,32 @@
            gmarkers.length = 0;
          }
     }
-      
-    function clearMap(map) {         
+     
+    function clearPolyline(map) {
+        if (gpolys && gpolys.length>0) {                    
+                for (var i=0; i < gpolys.length; i++) {
+                  gpolys[i].setMap(null);
+          	    }                     
+                gpolys.length = 0;
+         }
+    }
+    
+    function clearMap(map) {  
          if (gpolys && gpolys.length>0) {                    
             for (var i=0; i < gpolys.length; i++) {
               gpolys[i].setMap(null);
       	    }                     
             gpolys.length = 0;
          }
-               
+         
+         /*
          if (gmarkers && gmarkers.length>0) {
              for (var i=0; i < gmarkers.length; i++) {
       	        gmarkers[i].setMap(null);
       	     }                     
              gmarkers.length = 0;
          }
+         */
     }
       
     function nextCycle() {         
