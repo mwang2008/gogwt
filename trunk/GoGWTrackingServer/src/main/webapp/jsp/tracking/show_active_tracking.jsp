@@ -39,6 +39,7 @@
    var numLastTrackNames = 0;
    var hasTrackingChanged = false;
    var trafficLayer;   
+   var polyOps = [];
    
    var NUM_AUTO_REFERSH = 3;
 
@@ -73,8 +74,10 @@
       lineIcon = new g.MarkerImage(lineImg,
                        new google.maps.Size(11, 11),
                        new google.maps.Point(0,0),                                  
-                       new google.maps.Point(5, 5));                                       
-  	    
+                       new google.maps.Point(5, 5));    
+                       
+      initPolyOps();
+      
       showMaps(map);
   
       /*------------------------------------------------------+
@@ -152,7 +155,8 @@
 	     var lastPoint;
 	     var lastLoc;
 	     
-	         
+	     var ops = polyOps[color];
+	    
              if (typeof gpolys[index] == 'undefined') {
                  var polyOptions = {
                          strokeColor: color,
@@ -160,7 +164,8 @@
 		      	 strokeWeight: 6	
                  }
                  
-                 var poly = new g.Polyline(polyOptions);
+                 //var poly = new g.Polyline(polyOptions);
+                 var poly = new g.Polyline(ops);
 	         poly.setMap(map);
 	         
 	         gpolys[index] = poly;
@@ -273,7 +278,58 @@
                     
    }  <%-- end of createClickablePolyline --%>
                   
-         
+   function initPolyOps() {
+        var ops = {
+             strokeColor: '#FF0000',  
+      	     strokeOpacity: 0.5,
+      	     strokeWeight: 6	
+        }        
+        polyOps['#FF0000'] = ops;  //red
+        
+        ops = {
+	      strokeColor: '#00FF00',  
+	      strokeOpacity: 0.5,
+	      strokeWeight: 6	
+        }
+        polyOps['#00FF00'] = ops;  //green
+        
+        ops = {
+	      strokeColor: '#0000FF',  
+	      strokeOpacity: 0.5,
+	      strokeWeight: 6	
+	}
+        polyOps['#0000FF'] = ops;  //blue
+        
+        ops = {
+	     strokeColor: '#FFFF00',  
+	     strokeOpacity: 0.5,
+	     strokeWeight: 6	
+	}
+        polyOps['#FFFF00'] = ops;  //yellow
+        
+        ops = {
+	     strokeColor: '#00FFFF',  
+	     strokeOpacity: 0.5,
+	     strokeWeight: 6	
+	}
+	polyOps['#00FFFF'] = ops;  //red
+	
+        ops = {
+	     strokeColor: '#FF00FF',  
+	     strokeOpacity: 0.5,
+	     strokeWeight: 6	
+	}
+	polyOps['#FF00FF'] = ops;  //purple
+	
+        ops = {
+	     strokeColor: '#000000',  
+	     strokeOpacity: 0.5,
+	     strokeWeight: 6	
+	}
+	polyOps['#000000'] = ops;  //black
+
+   }
+   
    function hasTrackChanged(data) {
        	 
       var retVal = false;
@@ -469,8 +525,11 @@
         
 <div id="container">
     <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="/jsp/common/i_footer.jspf"%></div>
-</div>    
-    
+</div> 
+
+<svg id="chart" width="400" height="240"><defs id="defs"><clipPath id="_ABSTRACT_RENDERER_ID_0"><rect x="75" y="46" width="250" height="148"></rect></clipPath></defs><g><rect x="0.5" y="0.5" width="399" height="239" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><text x="75" y="27" font-family="Arial" font-size="11" font-weight="bold" stroke="none" stroke-width="0" fill="#000000">Investment Portfolio Stocks By Return</text></g><g><g><text x="351" y="55" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">Shares</text></g><rect x="336" y="46" width="11" height="11" stroke="none" stroke-width="0" fill="#3366cc"></rect></g><rect x="75" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="138" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="200" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="263" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="325" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="75" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#333333"></rect><g clip-path="url(#_ABSTRACT_RENDERER_ID_0)"><rect x="75" y="46" width="250" height="148" stroke="none" stroke-width="0" fill-opacity="1" fill="none"></rect><g></g><g><rect x="76" y="50" width="17" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="75" width="87" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="100" width="93" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="124" width="233" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="149" width="171" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="174" width="18" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect></g><g></g><g></g><g></g><g></g><g></g></g><g><text text-anchor="middle" x="75.25" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">0</text></g><g><text text-anchor="middle" x="137.75" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">100</text></g><g><text text-anchor="middle" x="200.25" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">200</text></g><g><text text-anchor="middle" x="262.75" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">300</text></g><g><text text-anchor="middle" x="325.25" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">400</text></g><g><text text-anchor="end" x="64" y="62" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">AAPL</text></g><g><text text-anchor="end" x="64" y="87" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">ADC</text></g><g><text text-anchor="end" x="64" y="111" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">ETFC</text></g><g><text text-anchor="end" x="64" y="136" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">FIG</text></g><g><text text-anchor="end" x="64" y="161" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">SUI</text></g><g><text text-anchor="end" x="64" y="185" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">TZOO</text></g></g><g></g></svg>
+
+ 
 <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>
 </html>
