@@ -3,8 +3,7 @@
 <html lang="${env.languageId}">
   
 <html>
- <head>
-   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+ <head>   
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
    <title> Show Active Tracks </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
@@ -12,7 +11,9 @@
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-    
+   
+   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+   
    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     
@@ -20,6 +21,7 @@
      
    var jq = jQuery.noConflict();
    var map;
+   var chart = null;
    var gpolys = [];
    var gmarkers = [];
    var gicons = [];
@@ -44,6 +46,7 @@
    var polyOps = [];
    
    var NUM_AUTO_REFERSH = 3;
+   google.load("visualization", "1", {packages:["columnchart"]});
 
    jq(document).ready(function() {
      
@@ -81,6 +84,9 @@
       initPolyOps();
       
       showMaps(map);
+  
+      google.setOnLoadCallback(drawChart);
+      chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
   
       /*------------------------------------------------------+
        | Actions when user click Auto Refresh Button          | 
@@ -186,6 +192,8 @@
                  bounds.extend(point);                
                  gpolys[index].getPath().push(point);                
                  hasNewLoc = true;
+                
+                 updateChart(time, speed, point);
              }
               
 
@@ -381,7 +389,7 @@
           //alert(" createSideBar ");
           var sidebar = "";
            
-          var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"mouseover\");'>"+line.label +"</a>";
+          var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"click\");'>"+line.label +"</a>";
            
           sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br />';
           
@@ -498,7 +506,30 @@
       }
    }    
    
+   function drawChart() {
+         var data = new google.visualization.DataTable();
+         data.addColumn('string', 'Year');
+         data.addColumn('number', 'Sales');
+         data.addColumn('number', 'Expenses');
+         data.addRows(4);
+         data.setValue(0, 0, '2004');
+         data.setValue(0, 1, 1000);
+         data.setValue(0, 2, 400);
+         data.setValue(1, 0, '2005');
+         data.setValue(1, 1, 1170);
+         data.setValue(1, 2, 460);
+         data.setValue(2, 0, '2006');
+         data.setValue(2, 1, 660);
+         data.setValue(2, 2, 1120);
+         data.setValue(3, 0, '2007');
+         data.setValue(3, 1, 1030);
+         data.setValue(3, 2, 540);
 
+         //var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+         chart.draw(data, {width: 400, height: 240, title: 'Company Performance',
+                          hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+                         });
+   }
    
 </script>
 </head>
@@ -524,10 +555,12 @@
             <div id="side_bar" style="height: 450px; overflow:auto"></div>
           </td>
           <td valign="top" width="760" align="left">
-             <div id="container">  
-	   
-	       <div id="map_canvas" style="width:700px; height:450px"></div>
+             <div id="container">  	   
+	       <div id="map_canvas" style="width:700px; height:350px"></div>
              </div> 
+             <div id="container">  
+	                    <div id="chart_div" style="width:512px; height:200px"></div>
+             </div>
           </td>
        </tr>
    </table>
@@ -538,9 +571,7 @@
     <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="/jsp/common/i_footer.jspf"%></div>
 </div> 
 
-<svg id="chart" width="400" height="240"><defs id="defs"><clipPath id="_ABSTRACT_RENDERER_ID_0"><rect x="75" y="46" width="250" height="148"></rect></clipPath></defs><g><rect x="0.5" y="0.5" width="399" height="239" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><text x="75" y="27" font-family="Arial" font-size="11" font-weight="bold" stroke="none" stroke-width="0" fill="#000000">Investment Portfolio Stocks By Return</text></g><g><g><text x="351" y="55" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">Shares</text></g><rect x="336" y="46" width="11" height="11" stroke="none" stroke-width="0" fill="#3366cc"></rect></g><rect x="75" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="138" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="200" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="263" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="325" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="75" y="46" width="1" height="148" stroke="none" stroke-width="0" fill="#333333"></rect><g clip-path="url(#_ABSTRACT_RENDERER_ID_0)"><rect x="75" y="46" width="250" height="148" stroke="none" stroke-width="0" fill-opacity="1" fill="none"></rect><g></g><g><rect x="76" y="50" width="17" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="75" width="87" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="100" width="93" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="124" width="233" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="149" width="171" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect><rect x="76" y="174" width="18" height="15" stroke="none" stroke-width="0" fill="#3366cc"></rect></g><g></g><g></g><g></g><g></g><g></g></g><g><text text-anchor="middle" x="75.25" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">0</text></g><g><text text-anchor="middle" x="137.75" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">100</text></g><g><text text-anchor="middle" x="200.25" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">200</text></g><g><text text-anchor="middle" x="262.75" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">300</text></g><g><text text-anchor="middle" x="325.25" y="210" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#444444">400</text></g><g><text text-anchor="end" x="64" y="62" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">AAPL</text></g><g><text text-anchor="end" x="64" y="87" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">ADC</text></g><g><text text-anchor="end" x="64" y="111" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">ETFC</text></g><g><text text-anchor="end" x="64" y="136" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">FIG</text></g><g><text text-anchor="end" x="64" y="161" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">SUI</text></g><g><text text-anchor="end" x="64" y="185" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#222222">TZOO</text></g></g><g></g></svg>
-
- 
+  
 <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>
 </html>
