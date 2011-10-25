@@ -3,7 +3,7 @@
 <html lang="${env.languageId}">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
-   <title> History Tracks </title>       
+   <title> Add New Track </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
 </head>
 <body>
