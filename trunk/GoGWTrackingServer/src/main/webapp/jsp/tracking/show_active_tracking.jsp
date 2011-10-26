@@ -9,7 +9,7 @@
 <html>
  <head>   
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
-   <title> Show Active Tracks XXX3333 </title>       
+   <title> Show Active Tracks </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
      
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -50,7 +50,15 @@
    var currentIndex = 0;
    var changeChart = false;
    
-   var NUM_AUTO_REFERSH = 3;
+   var chartData = null;
+   var charsRepo = [];
+   var matchMousemarker;
+   
+   var lasttimeWithData;
+   var NUM_AUTO_REFERSH = 10;
+   var IDLE_TIME_ALLOWED_IN_SEC = 300;
+   var DEBUG = false;
+   
    google.load("visualization", "1", {packages:["columnchart"]});
 
    jq(document).ready(function() {
@@ -133,13 +141,11 @@
                 document.getElementById("side_bar").innerHTML = "No tracking yet";
                 return;
              }
-              
-             var hasTrackingChanged = hasTrackChanged(data); 
-             
-	         if (hasTrackingChanged) {
+   	         if (hasTrackChanged(data)) {
  	            clearSideBar();
-	            //clearMap();
 	            clearPolyline();
+				clearMarker();
+				clearChart();
 	            showLeftSidebar(data);	        
 	         }
            
@@ -187,27 +193,25 @@
            var hasNewLoc = false;
              
            var polyLocNum = gpolys[index].getPath().length;
-             
-           //alert("=*** length="+locs.length + ",index="+index +", dispName="+dispName + " ,polyLocNum="+polyLocNum +",totalRuntime="+totalRuntime);
+
+		   if (changeChart == true && index == currentIndex) {
+              replotHistoryChart(locs, polyLocNum, index, dispName, color);
+			  changeChart = false;
+		   }
+	 	   
+           //myLog("=*** length="+locs.length + ",index="+index +", dispName="+dispName + " ,polyLocNum="+polyLocNum + ",locs.length=" + locs.length + ",totalRuntime="+totalRuntime);
            for (var i=polyLocNum; i<locs.length; i++) {
-                 //alert(" --- ddd i="+i + ", lat="+locs[i].latitude/1.0e6 + ",lng=" + locs[i].longitude/1.0e6);
                  point = new g.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
                  bounds.extend(point);                
                  
                  gpolys[index].getPath().push(point);                  
-                 hasNewLoc = true;
-                 
-				 if (changeChart == true) {
-				     replotNewChart(data, i, currentIndex, dispName, color);
-					 changeChart = false;
-				 }
-				 
+                 hasNewLoc = true;  			 
+				 lasttimeWithData = new Date();	 				 
                  if (index == currentIndex) {
   					plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, point)
                  }
            }
-              
-
+    
            if (hasNewLoc) {             
 	           if (point != null) {		            
 	             if (typeof gmarkers[index] == 'undefined') {
@@ -246,7 +250,8 @@
          html += "length="+length.toFixed(2)+" miles";
                   
          var contentString = html;
-         google.maps.event.addListener(poly,'click', function(event) {            
+         google.maps.event.addListener(poly,'click', function(event) {     
+           		 
       	    if (event) {
       	       point = event.latLng;
       	    }
@@ -256,29 +261,30 @@
       	    infowindow.setPosition(point);
       	            
       	    infowindow.open(map);
-      	    map.openInfoWindowHtml(point,html); 
-            
-            //replotChart(currentIndex);
-            
+      	    map.openInfoWindowHtml(point,html);                
          }); 
                   
         
          //square.png
-         google.maps.event.addListener(poly,'mousemove', function(event) {      	      	    				
+         google.maps.event.addListener(poly,'mousemove', function(event) {     
+            var locPoint;		 
       	    if (event) {
-      	        point = event.latLng;
+      	        locPoint = event.latLng;
       	    }
  	            
 	        if (mousemarker == null) {
 		       mousemarker = new google.maps.Marker({
-	 	             position: point,
+	 	             position: locPoint,
 		             map: map,
 		             icon: lineIcon
 		       });
 	        } else {
-	           mousemarker.setPosition(point);
+	           mousemarker.setPosition(locPoint);
             }            
-           
+            
+			var info = "Clicked Location: " + locPoint.lat().toFixed(6) + "," + locPoint.lng().toFixed(6);
+	        info += " Speed " + html;
+		    document.getElementById("locInfo").innerHTML = info;
 		   /*
             infowindow.setContent(contentString);
       	    infowindow.setPosition(point);      	 	            
@@ -302,14 +308,14 @@
       if (retVal == true) {
          return true;      
       }
-      
-      
+        
       jq.each(data.dispLocations, function(index, dispItem) {
       	 var dispName = dispItem.dispName;
          
       	 if (typeof lastTrackNames[dispName] == 'undefined') {
-      	    retVal = true;     	    
-      	    return false;
+      	    retVal = true;     
+            <%-- skip jq.each --%>			
+      	    return false;  
       	 } 
    	     
       }); <%-- end of jq.each(data.dispLocations --%>
@@ -362,16 +368,13 @@
       side_bar_arr[index] = sidebar;
    }
            
-   function showSideBar() {
-       
+   function showSideBar() {     
        var ret = '';
        if (side_bar_arr && side_bar_arr.length>0) {        
           for (var i=0; i < side_bar_arr.length; i++) {
              ret += side_bar_arr[i];
           }                                       
        }
-       
-       //alert(" showSideBar totalRuntime=" + totalRuntime + " ,ret="+ret);
        document.getElementById("side_bar").innerHTML = ret;
    }
        
@@ -380,64 +383,52 @@
        side_bar_arr = [];
        document.getElementById("side_bar").innerHTML = "No tracking";
    }
-   
-   function resetMap(map) {
-         side_bar_html = "";
-         /*
-         if (gpolys && gpolys.length>0) {        
-            for (var i=0; i < gpolys.length; i++) {
-               gpolys[i].setMap(null);
-	    }                     
-            gpolys.length = 0;
-         }
-        */ 
-         if (gmarkers && gmarkers.length>0) {
-           for (var i=0; i < gmarkers.length; i++) {
-	      gmarkers[i].setMap(null);
-	   }                     
-           gmarkers.length = 0;
-         }
-    }
      
-    function clearPolyline(map) {
+   function clearPolyline() {
         if (gpolys && gpolys.length>0) {                    
                 for (var i=0; i < gpolys.length; i++) {
                   gpolys[i].setMap(null);
           	    }                     
                 gpolys.length = 0;
          }
-    }
+   }
     
-    function clearMap(map) {  
-         if (gpolys && gpolys.length>0) {                    
-            for (var i=0; i < gpolys.length; i++) {
-              gpolys[i].setMap(null);
-      	    }                     
-            gpolys.length = 0;
-         }
-         
-         /*
-         if (gmarkers && gmarkers.length>0) {
-             for (var i=0; i < gmarkers.length; i++) {
-      	        gmarkers[i].setMap(null);
-      	     }                     
-             gmarkers.length = 0;
-         }
-         */
+   function clearChart() {
+	    chartData = null;
+   }
+	
+   function clearMarker() {
+	   if (gmarkers && gmarkers.length>0) {
+          for (var i=0; i < gmarkers.length; i++) {
+      	     gmarkers[i].setMap(null);
+      	  }                     
+          gmarkers.length = 0;
+       }
+	}
+	
+    function clearMap() {  
+       if (gpolys && gpolys.length>0) {                    
+          for (var i=0; i < gpolys.length; i++) {
+             gpolys[i].setMap(null);
+      	  }                     
+          gpolys.length = 0;
+       }
     }
       
     function nextCycle() {         
          totalRuntime++;
-         
-         document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime;
- 
          showMaps(map);
-         
-         if (totalRuntime > NUM_AUTO_REFERSH) { 
-             totalRuntime = 0;
-	         document.getElementById('autoRefersh').style.visibility='visible';
-             stopRotation(); 
-         }
+   
+         var idleTime = new Date().getTime() - lasttimeWithData.getTime();
+		 
+		 document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime + ", lasttimeWithData=" + lasttimeWithData.getTime() + ", idleTime="+idleTime;
+         if (idleTime > IDLE_TIME_ALLOWED_IN_SEC*1000 ) {
+            if (totalRuntime > NUM_AUTO_REFERSH) { 
+               totalRuntime = 0;
+	           document.getElementById('autoRefersh').style.visibility='visible';
+               stopRotation(); 
+            } 
+         }	        
     }
       
     function stopRotation() {
@@ -449,6 +440,11 @@
       	timer = setInterval(nextCycle, 3000);
     }
 	
+	function myLog(msg) {
+	   if (DEBUG) {
+	     document.getElementById("thelog").innerHTML = msg;
+	   }
+	}
   });<%-- jq(document).ready --%>
    
    <%--
@@ -457,7 +453,6 @@
     */
    --%>
    function togglePoly(poly_num) {    
-      //alert(" togglePoly poly_num="+poly_num + ", gpolys.length=" + gpolys.length);
       if (document.getElementById('poly'+poly_num)) {
          if (document.getElementById('poly'+poly_num).checked) {
             gpolys[poly_num].setMap(map);
@@ -468,14 +463,12 @@
    }    
    
    function selectRadioPoly(poly_num) {    
-      alert(" selectRadioPoly togglePoly poly_num="+poly_num + ", gpolys.length=" + gpolys.length);
-	  changeChart = true;
+  	  changeChart = true;
 	  currentIndex = poly_num;
    }    
    
    function changePlot(newIndex) {
-      alert("xxx  newIndex=" + newIndex);
-	  changeChart = true;
+  	  changeChart = true;
 	  currentIndex = newIndex;
    }
    
@@ -485,231 +478,23 @@
 	  */
    --%>   
    function drawChart() {
+   }
  
-   }
 
-   var chardata = [];
-   var chartset = [];
-   var charsRepo = [];
-   var matchMousemarker;
-   var numOfRow = 0;
-   var chartLine = null;
- 
-   /**
-    *  setValue(row, col, value)
-    */
-   function plotChart(ii, index, dispName, color, time, speed, point) {
-      if (data == null) {
-         data = new google.visualization.DataTable();
-		 data.addColumn('string', '');
-		
-         //data.addColumn('string', 'Year');
-	     //data.addColumn('number', 'Sales', );
-		
-	     //data.addColumn('number', 'Expenses');
-      }
-      
-	  /*
-	  if (typeof data.getColumnLabel(index) == 'undefined') {
-	     data.addColumn('number', dispName, index);
-	  }
-	  alert("label="+ data.getColumnLabel(index));
-	  */
-	 
-	  if (data.getColumnLabel(index) != dispName) {
-	     alert("label="+ data.getColumnLabel(index) + ", dispName="+dispName);
-	     data.addColumn('number', dispName, index);
-		 //data.insertColumn(index, 'string', dispName);
-	  }
-	 
-	  
-	  
-      //alert("r1="+numOfRow + ",index="+index + ",ii="+ii);
-      //data.addRows(4);
-      data.addRow();     
-      data.setValue(ii, 0, '2004'+ii);
-      //data.setValue(ii, 1, 1000+ii*100);
-      data.setValue(ii, index+1, 1000+ii*100+index*300);
-      
-      //data.setValue(0, 2, 400);
-      //data.setValue(1, 2, 460);
-      //data.setValue(2, 2, 580);
-      //data.setValue(3, 2, 540);      
-            
-      if (chartLine == null) {
-          chartLine = new google.visualization.LineChart(document.getElementById('chart_div'));
-      }
-      chartLine.draw(data, {width: 400, height: 240, title: 'Company Performance'});
-   }
-    
-   function plotChartXXXX(ii, index, dispName, color, time, speed, point) {
-        /*   
-        var data = new google.visualization.DataTable();
-        
-        data.addColumn('string', 'Year');
-        data.addColumn('number', 'Sales');
-        data.addColumn('number', 'Expenses');
-         */
-       if (data == null) {
-          data = new google.visualization.DataTable();
-          data.addColumn('string', 'Sample');
-	      data.addColumn('number', 'Elevation');
-	  
-          //document.getElementById('chart_div').style.display = 'block'; 
-       }
-       
-        //alert("r1="+numOfRow + ",index="+index + ",ii="+ii);
-        //data.addRows(4);
-        data.addRows(10);
-        //data.setValue(index, ii+1, 10+ii);
-        //data.setValue(0, ii+1, 10+ii);
-        //data.setValue(0, ii+1, 10+ii);
-        //data.setValue(0, ii+1, 10+ii);
-        
-        data.setValue(0, 0, '2004');
-	data.setValue(0, 1, 1000);
-        data.setValue(0, 2, 400);
-        
-        data.setValue(1, 0, '2005');
-	data.setValue(1, 1, 1170);
-        data.setValue(1, 2, 460);
-        
-        
-        if (chart == null) {
-	    chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-	}
-        
-        chart.draw(data, {width: 400, height: 240, title: 'Company Performance'});
-        
-         /*
-	        data.addRow();  // Add an empty row
-		data.addRow(['Hermione', new Date(1999,0,1)]); // Add a row with a string and a date value.
-		
-		// Add a row with two cells, the second with a formatted value.
-		data.addRow(['Hermione', {v: new Date(1999,0,1),
-		                          f: 'January First, Nineteen ninety-nine'}]);
-		
-		data.addRow(['Col1Val', null, 'Col3Val']); // Second column is undefined.
-	        data.addRow(['Col1Val', , 'Col3Val']);     // Same as previous.
-        */
-        /*
-         alert("r1="+numOfRow + ",index="+index + ",ii="+ii);
-        data.setValue(0, 0, '2004');
-        data.setValue(0, 1, 1000);
-        data.setValue(0, 2, 400);
-      
-        numOfRow++;
-      alert("r2="+numOfRow+ ",index="+index + ",ii="+ii);
-        data.setValue(1, 0, '2005');
-        data.setValue(1, 1, 1170);
-        data.setValue(1, 2, 460);
-        
-        numOfRow++;
-        
-        data.addRows(numOfRow);
-        */
-       
-        
-         /*       
-               data.setValue(2, 0, '2006');
-               data.setValue(2, 1, 860);
-               data.setValue(2, 2, 580);
-               
-               data.setValue(3, 0, '2007');
-               data.setValue(3, 1, 1030);
-               data.setValue(3, 2, 540);
- */      
-            
-               
-
-   }
-   
-    function drawChart222() {
-           var data = new google.visualization.DataTable();
-           data.addColumn('string', 'Year');
-           data.addColumn('number', 'Sales');
-           data.addColumn('number', 'Expenses');
-           data.addRows(4);
-           data.setValue(0, 0, '2004');
-           data.setValue(0, 1, 1000);
-           data.setValue(0, 2, 400);
-           data.setValue(1, 0, '2005');
-           data.setValue(1, 1, 1170);
-           data.setValue(1, 2, 460);
-           data.setValue(2, 0, '2006');
-           data.setValue(2, 1, 860);
-           data.setValue(2, 2, 580);
-           data.setValue(3, 0, '2007');
-           data.setValue(3, 1, 1030);
-           data.setValue(3, 2, 540);
-   
-           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-           chart.draw(data, {width: 400, height: 240, title: 'Company Performance'});
-         }
-
-
-   function plotChartXXX(ii, index, dispName, color, time, speed, point) {
-       
-       if (typeof chardata[index] == 'undefined') {
-        
-          chardata[index] = new google.visualization.DataTable();
-          chardata[index].addColumn('string', 'Sample');
-	      chardata[index].addColumn('number', 'Elevation');
-	  
-          document.getElementById('chart_div').style.display = 'block'; 
-       }
-       
-     
-       charsRepo[ii] = point;
-       
-       chardata[index].addRow(['', speed]);
-     
-       chartset[index].draw(chardata[index], {
-         width: 512,
-         height: 200,
-         legend: 'none',
-         title:  'Display Name: ' + dispName,
-         titleY: 'Speed (mph)',
-         titleX: 'Time',
-         colors: [color, color],
-         focusBorderColor: '#FFFFCC'          
-       });   	  
-       
-       google.visualization.events.addListener(chardata[index], 'onmouseover', function(e) {
-          if (matchMousemarker == null) {           
-              matchMousemarker = new google.maps.Marker({
-                position: charsRepo[e.row],
-                map: map,
-                icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-              });
-           } else {
-              matchMousemarker.setPosition(charsRepo[e.row]);
-          }
-      });
-   }
-   
-    
-   var chartData = null;
-   var charsRepo = [];
-   var matchMousemarker;
    function plotCurrentChart(ii, index, dispName, color, time, speed, point) {       
-       alert(" plotCurrentChart ii=" + ii + ", color="+color);   
-	   
-       if (chartData == null) {
-	      alert(" inside chartData == null");
+      if (chartData == null) {
           chartData = new google.visualization.DataTable();
           chartData.addColumn('string', 'Sample');
-	      chartData.addColumn('number', 'Elevation');
+	      chartData.addColumn('number', 'Speed');
           document.getElementById('chart_div').style.display = 'block'; 
        }
-       
-     
+           
        charsRepo[ii] = point;
        
        chartData.addRow(['', speed]);
      
 	   var options = {
-         width: 512,
+         width: 740,
          height: 200,
          legend: 'none',
          title:  'Display Name: ' + dispName,
@@ -717,7 +502,6 @@
          titleX: 'Time',
          colors: [color,color],
          focusBorderColor: '#FFFFCC'
-         //focusBorderColor: color
        };
 	   
 	   chart.draw(chartData, options);
@@ -735,85 +519,16 @@
       });
    }
   
-   <%-- 
-   /**
-    *  replotNewChart
-	*
-	*/
-   --%>
-   function replotNewChart(mydata, ii, currentIndex, dispName, color) {
-       var done = false;
-	   
-	   alert(" replotNewChart currentIndex=" + currentIndex + ", color="+color + ", ii=" + ii);
-		
-       jq.each(mydata.dispLocations, function(index, dispItem) {
-	      alert(" index = " + index + ", currentIndex=" + currentIndex);
-		  
-		  if (index == currentIndex) {
-		      var locs = dispItem.locs;
-			  var locPoint;
-
-			  chartData = null;
-	          if (chartData== null) {
-                 alert(" char chartData is null");
-              }
-	          alert(" set chartData to be null insideer index = " + index + ", currentIndex=" + currentIndex);
-			  
-	          for (var i=0; i<ii; i++) {
-			     alert(" i=" + i + ", dispName XXX = " + dispItem.dispName);	
-	             if (done == false) {
-	                done = true;
-	             }
-	             locPoint = new google.maps.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
-				 alert(" here 1");
-		         bounds.extend(locPoint); 
-				 alert(" here 2");
-	             plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, locPoint);
-                 alert(" here 3");	  
-	          }
-		  }
-	  });
-	
-	  return done;
-   }
-  
-   function replotChart(theIndex) {
-          if (data == null) {
-             data = new google.visualization.DataTable();
-             data.addColumn('string', 'Sample');
-   	  data.addColumn('number', 'Elevation');
-   	  
-             document.getElementById('chart_div').style.display = 'block'; 
-          }
-          
-        
-          charsRepo[theIndex] = point;
-          
-          data.addRow(['', speed]);
-        
-          chart.draw(data, {
-            width: 512,
-            height: 200,
-            legend: 'none',
-            title:  'Display Name: ' + dispName,
-            titleY: 'Speed (mph)',
-            titleX: 'Time',
-            colors: [color,color],
-            focusBorderColor: '#FFFFCC'
-            //focusBorderColor: color
-          });   	  
-          
-          google.visualization.events.addListener(chart, 'onmouseover', function(e) {
-             if (matchMousemarker == null) {           
-                 matchMousemarker = new google.maps.Marker({
-                   position: charsRepo[e.row],
-                   map: map,
-                   icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-                 });
-              } else {
-                 matchMousemarker.setPosition(charsRepo[e.row]);
-             }
-      });
+    
+   function replotHistoryChart(locs, polyLocNum, index, dispName, color) {
+	  var locPoint;
+	  chartData = null;
+	  
+	  for (var i=0; i<polyLocNum; i++) {
+	     locPoint = new google.maps.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
+		 bounds.extend(locPoint); 
+	     plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, locPoint);
+      }
    }
    
    // Remove the green rollover marker when the mouse leaves the chart
@@ -842,17 +557,23 @@
 	        <input id="autoRefersh" type="button"  value="Start Auto Refresh">
 	        <input id="showTraffic" type="button" value="Show Traffic">
 	         
-            </form>
+            </form>			
             <div id="xtimer"> starting auto refresh </div><hr>
             <div id="mylocs">locations </div><hr>
-            <div id="side_bar" style="height: 450px; overflow:auto"></div>
+            <div id="side_bar" style="height: 450px; overflow:auto;"></div>
           </td>
           <td valign="top" width="760" align="left">
-             <div id="container">  	   
-	       <div id="map_canvas" style="width:700px; height:350px"></div>
+		     <div id="container">  	   
+			    <div id="thelog"/>	            
+             </div> 
+		     <div id="container">  	   
+			    <div id="locInfo" style="width:740px; overflow:auto; background-color:lightgrey;"/>	            
+             </div> 			 
+             <div id="container">  	   			    
+	            <div id="map_canvas" style="width:740px; height:350px"></div>
              </div> 
              <div id="container">  
-	        <div id="chart_div" style="width:512px; height:200px" onmouseout="clearMatchMousemarker()"></div>
+	           <div id="chart_div" style="width:740px; height:200px" onmouseout="clearMatchMousemarker()"></div>
              </div>
           </td>
        </tr>
