@@ -18,10 +18,10 @@
            <td> displayname </td>  <td> <input type="input" name="displayName" value='<%=request.getParameter("displayName")%>' > </td>       
        </tr>
        <tr>
-          <td> latitude(int) </td>  <td> <form:input id="latitude" path="latitude" size="30" maxlength="30"/> </td>       
+          <td> latitude(int) </td>  <td> <form:input id="latitude" path="latitude" size="30" maxlength="30"/> 33950000 </td>       
        </tr>
         <tr>
-          <td> longitude(int) </td>  <td> <form:input id="longitude" path="longitude" size="30" maxlength="30"/>  </td>       
+          <td> longitude(int) </td>  <td> <form:input id="longitude" path="longitude" size="30" maxlength="30"/> -84160000 </td>       
        </tr>
         <tr>
           <td> altitude(double) </td>  <td> <form:input id="altitude" path="altitude" size="30" maxlength="30"/>   </td>       
