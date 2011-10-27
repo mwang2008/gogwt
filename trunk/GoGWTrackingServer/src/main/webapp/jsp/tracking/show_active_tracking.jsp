@@ -9,7 +9,7 @@
 <html>
  <head>   
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
-   <title> Show Active Tracks </title>       
+   <title> Show Active Tracks: ${env.customerProfile.groupId} </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
      
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -58,6 +58,9 @@
    var NUM_AUTO_REFERSH = 10;
    var IDLE_TIME_ALLOWED_IN_SEC = 300;
    var DEBUG = false;
+   
+   /*GDispItem*/
+   var lastDispLocations = null;
    
    google.load("visualization", "1", {packages:["columnchart"]});
 
@@ -121,7 +124,12 @@
 	          trafficLayer.setMap(null);
 	      }
       }); 
-      
+	  
+	  
+      jq('#clearDebugPanel').click(function(){           
+         clearLog();   
+      });
+	  
       jq('#clearMap').click(function(){           
          clearMap();   
       });
@@ -129,13 +137,14 @@
 	  <%--
       /*------------------------------------------------------+
        | Functions                                            | 
-	   | data is DisplayResponse 
-	   | dispLocations 
+	   | data is DisplayResponse                              |
+	   | lastDispLocations kept the last data                 |  
+	   | dispLocations                                        |
        +------------------------------------------------------*/ 
       --%>
-      function showMaps(map) {         
-         
-         jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=gg1&days=5', function(data) {
+      function showMaps(map) {  
+    
+         jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5', function(data) {
              
              if (!data.dispLocations || data.dispLocations.length == 0) {  
                 document.getElementById("side_bar").innerHTML = "No tracking yet";
@@ -149,14 +158,21 @@
 	            showLeftSidebar(data);	        
 	         }
            
+			 if (DEBUG) {
+	           document.getElementById('clearDebugPanel').style.visibility='visible';
+	         }
+	         else {
+	           document.getElementById('clearDebugPanel').style.visibility='hidden';			
+             }
+	  
              showLines(map, data);   
-             
+             lastDispLocations = data.dispLocations;
          }); <%-- end of getJSON --%>         
       }
     
       
       function showLines(map, data) {
-          
+        
         jq.each(data.dispLocations, function(index, dispItem) {
 	       var line = dispItem.line;
 	       var locs = dispItem.locs;
@@ -167,7 +183,7 @@
 	       var html = line.html;
 	       var label = line.label;
 	       var length = 0;
-	     
+	        
 	     	       
 	       mylocs = "data=" + data.dispLocations.length + ", locs="+locs.length + ", dispName="+dispName; 		
 	       document.getElementById("mylocs").innerHTML = mylocs;
@@ -209,24 +225,21 @@
 				 lasttimeWithData = new Date();	 				 
                  if (index == currentIndex) {
   					plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, point)
-                 }
-           }
+                 }				 				  
+	       }
     
            if (hasNewLoc) {             
 	           if (point != null) {		            
 	             if (typeof gmarkers[index] == 'undefined') {
- 	                 gmarkers[index] = new google.maps.Marker({
-	                      position: point,
-	                      map: map                 
-	                 });  
+ 	                gmarkers[index] = new google.maps.Marker({position: point, map: map});  
 	             }
 	             else {
- 	               gmarkers[index].setPosition(point);
+ 	                gmarkers[index].setPosition(point);
 	             } 	           	           
 	          }	     
  	       }
  	     
-	       createClickablePolyline(html, label, point, length, index);
+	       addClickable(html, color, label, point, length, index);
   	    }); <%-- end of jq.each(data.dispLocations --%>
 	 	  
 	    <%-- fitBounds --%>	 
@@ -236,34 +249,32 @@
 	    }
       }
 
-
-      function createClickablePolyline(html, label, point, length, index) {              
+      /**
+	   *  Google Map V3 polyline click and mousemove events only display static data.
+	   *  It is not like marker
+	   */
+      function addClickable(content, color, label, point, length, index) {              
          
-         var poly = gpolys[index];
-         var poly_num = gpolys.length - 1;
-               
-         if (!html) {html = "";}
-         else { html += "<br>";}
-               
-         length = length * 0.000621371192; // convert meters to miles
-               
-         html += "length="+length.toFixed(2)+" miles";
-                  
-         var contentString = html;
+         var poly = gpolys[index];         
+         var html = content;
+          
+         var contentString = content;
          google.maps.event.addListener(poly,'click', function(event) {     
            		 
       	    if (event) {
       	       point = event.latLng;
       	    }
-      	    currentIndex = index;
-      	    
-      	    infowindow.setContent(contentString +" currentIndex: " + currentIndex);        
+
+      	    infowindow.setContent(contentString +" currentIndex: " + index);        
       	    infowindow.setPosition(point);
       	            
       	    infowindow.open(map);
-      	    map.openInfoWindowHtml(point,html);                
+      	    //map.openInfoWindowHtml(point,html);                
          }); 
-                  
+         
+         google.maps.event.addListener(poly,'mousemove', function(event) {          
+		    document.getElementById("locInfo").innerHTML = "";
+		 });
         
          //square.png
          google.maps.event.addListener(poly,'mousemove', function(event) {     
@@ -273,30 +284,124 @@
       	    }
  	            
 	        if (mousemarker == null) {
-		       mousemarker = new google.maps.Marker({
-	 	             position: locPoint,
-		             map: map,
-		             icon: lineIcon
-		       });
+		       mousemarker = new google.maps.Marker({position: locPoint, map: map, icon: lineIcon});
 	        } else {
 	           mousemarker.setPosition(locPoint);
             }            
-            
-			var info = "Clicked Location: " + locPoint.lat().toFixed(6) + "," + locPoint.lng().toFixed(6);
-	        info += " Speed " + html;
-		    document.getElementById("locInfo").innerHTML = info;
-		   /*
-            infowindow.setContent(contentString);
-      	    infowindow.setPosition(point);      	 	            
-      	    infowindow.open(map);
-      	    map.openInfoWindowHtml(point, html);
-      	    */
+    		 
+			var info = "Path Location: " + locPoint.lat().toFixed(6) + "," + locPoint.lng().toFixed(6);
+	         
+			var speedInfo = getSpeedInfo(index, locPoint.lat()*1.0e6, locPoint.lng()*1.0e6);
+			//myLog("speedInfo " + speedInfo);
+			if (speedInfo != null) {
+			   info += speedInfo;
+			   
+			}
+			
+			
+			
+			info += "<br>Display Name: " + '<span style="color:'+ color +'">' + html + '</span>' ;
+			document.getElementById("locInfo").innerHTML = info;
+			
+		 
       	 	      
          }); 
                     
    }  <%-- end of createClickablePolyline --%>
    
   
+   function getSpeedInfo(index, lat, lng) {
+      if (lastDispLocations != null) {
+	      var selectedLat = lat | 0;
+		  var selectedLng = lng | 0;
+		  var locs = null;
+		  
+		  var selectedTrackList = lastDispLocations[index].locs;
+		  var startLocIndex=selectedTrackList.length;
+		  var endLocIndex=0;		  
+		  var hasSameLoc = false;
+		  for (var i=1; i<selectedTrackList.length; i++) {
+		      if (isSameLocation(selectedTrackList[i-1], selectedTrackList[i])) {
+			      if (!hasSameLoc) {
+			         startLocIndex = i-1;
+			      }
+				  endLocIndex = i;
+				  hasSameLoc = true;
+				  continue;
+			  }
+			  if (hasSameLoc) {
+			     hasSameLoc = false;
+			     if (isBetween(selectedLat, selectedLng, selectedTrackList[startLocIndex], selectedTrackList[endLocIndex])) {
+			         break;
+			     }			    
+			  }
+			  else {
+			     if (isBetween(selectedLat, selectedLng, selectedTrackList[i-1], selectedTrackList[i])) {
+				    startLocIndex = i-1;
+					endLocIndex = i;
+			        break;
+			     }
+			  }
+		  }
+		  
+		  if (endLocIndex == 0) {
+		     return null;
+		  }
+		  
+		  return "<br>Speed (mph): " +(selectedTrackList[startLocIndex].speed + selectedTrackList[endLocIndex].speed)/2.00;
+	      
+	  }
+   }
+   
+   function isSameLocation(latlng1, latlng2) {
+      if (latlng1.latitude == latlng2.latitude && latlng1.longitude == latlng2.longitude) {
+	     return true;
+	  }
+	  return false;
+   }
+   function isBetween(selectedLat, selectedLng, latlng1, latlng2) {
+      var radio = 10000;
+	  
+	  if (latlng1.latitude == latlng2.latitude) {
+	     if (latlng1.longitude > latlng2.longitude) {
+		    return (latlng1.longitude>selectedLng && selectedLng>latlng2.longitude);
+		 }
+		 else {
+		    return (latlng2.longitude>selectedLng && selectedLng>latlng1.longitude);
+		 }
+	  }
+      
+	  if (latlng1.longitude == latlng2.longitude) {
+	      if (latlng1.latitude > latlng2.latitude) {
+		     return (latlng1.latitude>selectedLat && selectedLat>latlng2.latitude);
+		  }
+		  else {
+		     return (latlng2.latitude>selectedLat && selectedLat>latlng1.latitude);
+		  }
+	  }
+      
+	  var inBetween = true;
+	  
+      if (latlng1.latitude > latlng2.latitude) {
+	     inBetween = !(selectedLat > latlng1.latitude || selectedLat < latlng2.latitude);
+	  }
+	  else {
+	     inBetween = !(selectedLat > latlng2.latitude || selectedLat < latlng1.latitude);
+	  }
+	  
+	  if (inBetween = false) {
+	     return false;
+	  }
+	  
+	  if (latlng1.longitude > latlng2.longitude) {
+	      inBetween = !(selectedLng > latlng1.longitude || selectedLat < latlng2.longitude);
+	  }
+	  else {
+	      inBetween = !(selectedLng > latlng2.longitude || selectedLat < latlng1.longitude);
+	  }
+	  
+	  return inBetween;	  
+   }
    
    function hasTrackChanged(data) {
       var retVal = false;
@@ -326,7 +431,7 @@
    function showLeftSidebar(data) {
        
       numLastTrackNames = 0;
-      
+      	  
       jq.each(data.dispLocations, function(index, dispItem) {
          var line = dispItem.line;
          var locs = dispItem.locs;
@@ -437,14 +542,29 @@
     }
       
     function startTimer() {
-      	timer = setInterval(nextCycle, 3000);
+	    //refersh 10s
+      	timer = setInterval(nextCycle, 10000);
     }
 	
+	var logMsg = '';
 	function myLog(msg) {
+	   myLog(msg,false);
+	}
+	function myLog(msg, aggregation) {
 	   if (DEBUG) {
-	     document.getElementById("thelog").innerHTML = msg;
+	     if (aggregation) {
+		    logMsg = msg + '<br>' + logMsg;
+		 }
+		 else {
+		    logMsg = msg;
+		 }
+	     document.getElementById("thelog").innerHTML = logMsg;
 	   }
 	}
+	function clearLog() {
+	  myLog("",false); 
+	}
+	
   });<%-- jq(document).ready --%>
    
    <%--
@@ -556,16 +676,15 @@
             <form name=xcv>
 	        <input id="autoRefersh" type="button"  value="Start Auto Refresh">
 	        <input id="showTraffic" type="button" value="Show Traffic">
+			<input id="clearDebugPanel" type="button" value="Clear Log">
 	         
             </form>			
             <div id="xtimer"> starting auto refresh </div><hr>
             <div id="mylocs">locations </div><hr>
             <div id="side_bar" style="height: 450px; overflow:auto;"></div>
+			 <div id="thelog"/>
           </td>
-          <td valign="top" width="760" align="left">
-		     <div id="container">  	   
-			    <div id="thelog"/>	            
-             </div> 
+          <td valign="top" width="760" align="left">		  
 		     <div id="container">  	   
 			    <div id="locInfo" style="width:740px; overflow:auto; background-color:lightgrey;"/>	            
              </div> 			 
@@ -575,8 +694,12 @@
              <div id="container">  
 	           <div id="chart_div" style="width:740px; height:200px" onmouseout="clearMatchMousemarker()"></div>
              </div>
+			
           </td>
+		  
+		   
        </tr>
+	   
    </table>
 </div>
       
