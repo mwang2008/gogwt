@@ -35,7 +35,7 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		      int numOfInsert = getCustomerDAO().saveTrackingData(trackingMobileDataList);
 			}
 			
-			System.out.println(" ===== RestBusinessDomainService.processLocation " + request.toString());
+			logger.debug(" ===== RestBusinessDomainService.processLocation " + request.toString());
 			
 			//save to memory
 			ActiveSharedLocation.addGroupIdLocationRequestMap(request);
@@ -68,11 +68,11 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 	 * @param groupId
 	 * @return
 	 */
-	public Collection<GDispItem> getActiveLocationsByGroupId(final String groupId) {
+	public ArrayList<GDispItem> getActiveLocationsByGroupId(final String groupId) {
 		 //displayName(corresponding mobile phone), locations
 		 Map<String, List<GLocation>> activeMap = ActiveSharedLocation.getLocationMap(groupId);
 		 
-		 return DomainServiceHelper.constructionDisplayItemList(activeMap);
+		 return DomainServiceHelper.constructionActiveDisplayItemList(activeMap);
 	}
 
 	public void stopTracking(Profile profile) {

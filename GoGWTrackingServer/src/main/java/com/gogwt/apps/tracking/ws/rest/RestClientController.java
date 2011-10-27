@@ -2,11 +2,10 @@ package com.gogwt.apps.tracking.ws.rest;
 
 import static com.gogwt.apps.tracking.AppConstants.CUSTOMER_PROFILE;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -181,25 +180,31 @@ public class RestClientController {
 	
 	@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers="Accept=application/json")	
 	public @ResponseBody DisplayResponse displayLocationJSON(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
-		System.out.println(" ==== displayLocationJSON");
+		 
 		return processHistoryDisp(groupId, daysParam, request);
 	}	
 	
 	@RequestMapping(value="displaylocation", method=RequestMethod.GET, headers="Accept=application/xml")	
 	public @ResponseBody DisplayResponse displayLocationXML(@RequestParam("groupId") String groupId, @RequestParam("days") String daysParam, final HttpServletRequest request ) {
-		System.out.println(" ==== displayLocationXML");
+		 
 		return processHistoryDisp(groupId, daysParam, request);
 	}
 	
+	/**
+	 * Called from client (broswer)
+	 * @param groupId
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="displaycurrentlocation", method=RequestMethod.GET, headers="Accept=application/json")	
 	public @ResponseBody DisplayResponse displayCurrentLocationJSON(@RequestParam("groupId") String groupId, final HttpServletRequest request ) {
-		System.out.println(" ====%%% displayCurrentlocation displayCurrentLocationJSON");
+		logger.debug(" ====%%% displayCurrentlocation displayCurrentLocationJSON");
 		return processCurrentDisp(groupId, request);
 	}	
 	
 	@RequestMapping(value="displaycurrentlocation", method=RequestMethod.GET, headers="Accept=application/xml")	
 	public @ResponseBody DisplayResponse displayCurrentLocationXML(@RequestParam("groupId") String groupId, final HttpServletRequest request ) {
-		System.out.println(" ====%%% displayCurrentlocation displayCurrentLocationXML");
+		logger.debug(" ====%%% displayCurrentlocation displayCurrentLocationXML");
 		return processCurrentDisp(groupId, request);
 	}
 	
@@ -232,11 +237,11 @@ public class RestClientController {
         }
         final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
         //final Collection<GDispItem> dispLocation = service.getActiveLocationsByGroupId(customerProfile.getGroupId());
-        final Collection<GDispItem> dispLocation = service.getActiveLocationsByGroupId(groupId);
+        final ArrayList<GDispItem> dispLocation = service.getActiveLocationsByGroupId(groupId);
          
         DisplayResponse response = new DisplayResponse();
         response.setDispLocations(dispLocation);
-        System.out.println(" response " + response.toString());
+        logger.debug(" response " + response.toString());
         
         return response;
         
@@ -261,22 +266,13 @@ public class RestClientController {
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		List<TrackingMobileData> locationList = service.retrieveLocations(customerProfile, todayCal, startCal);
-		final Collection<GDispItem> dispLocation = DomainServiceHelper.constructDisplayItemList(locationList);
+		final ArrayList<GDispItem> dispLocation = DomainServiceHelper.constructHistoryDisplayItemList(locationList);
 		
 		DisplayResponse response = new DisplayResponse();
 		response.setDispLocations(dispLocation);
-		
-		response.setMylist(locationList);
-		 Map<String,List<TrackingMobileData>> myMap = new  HashMap<String,List<TrackingMobileData>>();
-		 myMap.put("dis 11", locationList);
-		 myMap.put("dis 22", locationList);
-		 myMap.put("dis 33", locationList);
-		 response.setMyMap(myMap);
-		 
-		response.setTest(" hello " + groupId + ", " + daysParam);
-		 
+	 	 
 		logger.debug(response.toString());
-		System.out.println(" === " + response.toString());
+		 
 		
 		return response;
 	}
