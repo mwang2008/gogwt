@@ -2,7 +2,6 @@ package com.gogwt.apps.tracking.services.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import com.gogwt.apps.tracking.data.GLine;
 import com.gogwt.apps.tracking.data.GLocation;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
-import com.gogwt.apps.tracking.data.response.DisplayResponse;
 
 public final class DomainServiceHelper {
 
@@ -22,7 +20,7 @@ public final class DomainServiceHelper {
 	 * @param activeMap  dispName, List<Glocation>
 	 * @return
 	 */
-   public static Collection<GDispItem> constructionDisplayItemList(Map<String, List<GLocation>> activeMap ) {
+   public static ArrayList<GDispItem> constructionActiveDisplayItemList(Map<String, List<GLocation>> activeMap ) {
 	   if (activeMap == null || activeMap.isEmpty()) {
 		   return null;
 	   }
@@ -64,7 +62,7 @@ public final class DomainServiceHelper {
 				
 				}
 				else {
-					newGLine = convertToGLine(location, dispName, numOfClient++);
+					newGLine = convertActiveToGLine(location, dispName, numOfClient++);
 					
 					List<GLocation> glocationList = new ArrayList<GLocation>();
 					glocationList.add(location);
@@ -79,10 +77,12 @@ public final class DomainServiceHelper {
 	       }	       
 	   }
 	   
-	   return dispMap.values();
+	   //return dispMap.values();
+	   ArrayList<GDispItem> list = new ArrayList<GDispItem>(dispMap.values());
+       return list;
    }
    
-   public static Collection<GDispItem> constructDisplayItemList(List<TrackingMobileData> locationList) {
+   public static ArrayList<GDispItem> constructHistoryDisplayItemList(List<TrackingMobileData> locationList) {
 	   if (locationList == null || locationList.isEmpty()) {
 		   return null;
 	   }
@@ -133,7 +133,9 @@ public final class DomainServiceHelper {
 			}		  
 	   }
 	   
-	   return dispMap.values();	   
+	   //return dispMap.values();
+	   ArrayList<GDispItem> list = new ArrayList<GDispItem>(dispMap.values());
+       return list;
    }
    
    private static GLine convertToGLine(TrackingMobileData trackData, int numOfClient) {
@@ -155,10 +157,10 @@ public final class DomainServiceHelper {
 	   return line;
    }
    
-   private static GLine convertToGLine(GLocation location, String displayName, int numOfClient) {
+   private static GLine convertActiveToGLine(GLocation location, String displayName, int numOfClient) {
 	   GLine line = new GLine();
 	   
-	   String color = getColor(numOfClient);
+	   String color = getColorPerDisplayName(numOfClient, displayName);
 	   
 	   line.setWidth(2);
 	   line.setHtml(displayName);
@@ -206,6 +208,10 @@ public final class DomainServiceHelper {
 	   
 	   
    }
+   
+   private static String getColorPerDisplayName(int i, String displayName) {
+	   return ActiveColorAssignmentManager.getColor(displayName);
+   }
   	 
   // public static GLine 
    /**
@@ -227,6 +233,7 @@ public final class DomainServiceHelper {
 	   return gdispItem;
    }
    
+   /*
    private DisplayResponse convertMobileDataToDisplayData(List<TrackingMobileData> locationList) {
 		Map<String, List<GLocation>> retData = new HashMap<String, List<GLocation>>();
 		Map<String, Profile> retProfile = new HashMap<String, Profile>();
@@ -282,4 +289,5 @@ public final class DomainServiceHelper {
 		
 		return response;
 	}
+	*/
 }

@@ -2,115 +2,23 @@ package com.gogwt.apps.tracking.data.response;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.gogwt.apps.tracking.data.GDispItem;
-import com.gogwt.apps.tracking.data.GLocation;
-import com.gogwt.apps.tracking.data.Profile;
-import com.gogwt.apps.tracking.data.Stock;
-import com.gogwt.apps.tracking.data.StockDailyRecord;
-import com.gogwt.apps.tracking.data.TrackingMobileData;
 
 public class DisplayResponse {
-	/**@deprecated*/
-	private Map<String, List<GLocation>> locDataMap;
-	/**@deprecated*/
-	private Map<String, Profile> profileMap;
-	/**@deprecated*/
-	private String test;
-	/**@deprecated*/
-	private Map<String,List<TrackingMobileData>> myMap;
-	/**@deprecated*/
-	private List<TrackingMobileData> mylist;
-	/**@deprecated*/
-	private long maxLat, maxLng, minLat, minLng;
-	
-	private Collection<GDispItem> dispLocations;
+	 
+	private ArrayList<GDispItem> dispLocations;
 	
 
-	public Collection<GDispItem> getDispLocations() {
+	public ArrayList<GDispItem> getDispLocations() {
 		return dispLocations;
 	}
 
-	public void setDispLocations(Collection<GDispItem> dispLocations) {
+	public void setDispLocations(ArrayList<GDispItem> dispLocations) {
 		this.dispLocations = dispLocations;
 	}
 
-	public Map<String, List<GLocation>> getLocDataMap() {
-		return locDataMap;
-	}
-
-	public void setLocDataMap(Map<String, List<GLocation>> locDataMap) {
-		this.locDataMap = locDataMap;
-	}
-
-	public Map<String, Profile> getProfileMap() {
-		return profileMap;
-	}
-
-	public void setProfileMap(Map<String, Profile> profileMap) {
-		this.profileMap = profileMap;
-	}
-
-	public String getTest() {
-		return test;
-	}
-
-	public void setTest(String test) {
-		this.test = test;
-	}
-
-	public long getMaxLat() {
-		return maxLat;
-	}
-
-	public void setMaxLat(long maxLat) {
-		this.maxLat = maxLat;
-	}
-
-	public long getMaxLng() {
-		return maxLng;
-	}
-
-	public void setMaxLng(long maxLng) {
-		this.maxLng = maxLng;
-	}
-
-	public long getMinLat() {
-		return minLat;
-	}
-
-	public void setMinLat(long minLat) {
-		this.minLat = minLat;
-	}
-
-	public long getMinLng() {
-		return minLng;
-	}
-
-	public void setMinLng(long minLng) {
-		this.minLng = minLng;
-	}
-
-	public List<TrackingMobileData> getMylist() {
-		return mylist;
-	}
-
-	public void setMylist(List<TrackingMobileData> mylist) {
-		this.mylist = mylist;
-	}
-
-	public Map<String, List<TrackingMobileData>> getMyMap() {
-		return myMap;
-	}
-
-	public void setMyMap(Map<String, List<TrackingMobileData>> myMap) {
-		this.myMap = myMap;
-	}
-
-	
+ 	
 	
 	/*
 	 * public DisplayResponse() { mapData = new HashMap<String,

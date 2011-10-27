@@ -34,7 +34,7 @@ import com.gogwt.apps.tracking.services.domain.RestBusinessDomainService;
  * days=7
  * 
  * @author michael.wang
- *
+ * 
  */
 public class RetrieveTrackHistoryController extends BaseAbstractController {
 	private static Logger logger = Logger.getLogger(RetrieveTrackHistoryController.class);
@@ -72,16 +72,18 @@ public class RetrieveTrackHistoryController extends BaseAbstractController {
 			modelMap.addAttribute( "hasResult", false );
 		}
 		else {
-			modelMap.addAttribute( "hasResult", true );		    
-			DisplayResponse reponse = convertMobileDataToDisplayData(locationList);
+			modelMap.addAttribute( "hasResult", true );
+			
+			//todo: history chart
+			//DisplayResponse reponse = convertMobileDataToDisplayData(locationList);
  		    
-		    modelMap.addAttribute( "res", reponse );		    
+		    //modelMap.addAttribute( "res", reponse );		    
 		}
 		
 		return new ModelAndView("/tracking/show_tracking").addAllObjects(modelMap);
 	}
 
-	
+	/*
 	private DisplayResponse convertMobileDataToDisplayData(List<TrackingMobileData> locationList) {
 		Map<String, List<GLocation>> retData = new HashMap<String, List<GLocation>>();
 		Map<String, Profile> retProfile = new HashMap<String, Profile>();
@@ -137,4 +139,5 @@ public class RetrieveTrackHistoryController extends BaseAbstractController {
 		
 		return response;
 	}
+	*/
 }

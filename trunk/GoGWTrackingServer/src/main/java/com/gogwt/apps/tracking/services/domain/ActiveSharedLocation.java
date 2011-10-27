@@ -136,5 +136,8 @@ public final class ActiveSharedLocation {
 	    if (displayNameProfileMap != null && displayNameProfileMap.containsKey(displayName)) {
 	    	displayNameProfileMap.remove(displayName);
 	    }
+	    
+	    //return color to the color pool
+	    ActiveColorAssignmentManager.removeColor(displayName);
 	}
 }
