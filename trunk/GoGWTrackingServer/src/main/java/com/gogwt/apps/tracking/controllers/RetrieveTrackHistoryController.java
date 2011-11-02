@@ -25,6 +25,7 @@ import com.gogwt.apps.tracking.data.TrackingMobileData;
 import com.gogwt.apps.tracking.data.response.DisplayResponse;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.RestBusinessDomainService;
+import com.gogwt.apps.tracking.utils.StringUtils;
 
 /**
  * 
@@ -65,7 +66,7 @@ public class RetrieveTrackHistoryController extends BaseAbstractController {
 		}
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
-		List<TrackingMobileData> locationList = service.retrieveLocations(customerProfile, todayCal, startCal);
+		List<TrackingMobileData> locationList = service.retrieveLocationsSnapShot(customerProfile);
 	 			
 		final ModelMap modelMap = new ModelMap();
 		if (locationList == null || locationList.isEmpty()) {
@@ -73,16 +74,42 @@ public class RetrieveTrackHistoryController extends BaseAbstractController {
 		}
 		else {
 			modelMap.addAttribute( "hasResult", true );
-			
-			//todo: history chart
-			//DisplayResponse reponse = convertMobileDataToDisplayData(locationList);
- 		    
-		    //modelMap.addAttribute( "res", reponse );		    
+			ArrayList<ArrayList<TrackingMobileData>> groupLocationList = groupInDisplay(locationList);
+		    modelMap.addAttribute( "trackHistoryList", locationList );	
+		    modelMap.addAttribute( "trackHistoryGroupList", groupLocationList );	
 		}
 		
-		return new ModelAndView("/tracking/show_tracking").addAllObjects(modelMap);
+		return new ModelAndView("/tracking/show_history_tracking_list").addAllObjects(modelMap);
 	}
 
+	private ArrayList<ArrayList<TrackingMobileData>> groupInDisplay(List<TrackingMobileData> locationList) {
+		ArrayList<ArrayList<TrackingMobileData>> retList = new ArrayList<ArrayList<TrackingMobileData>>();
+		
+		//sort by startTime and displayName
+		ArrayList<TrackingMobileData> subList = null;
+		String displayName=null;
+		long startTime=-1;
+		for (TrackingMobileData track : locationList) {
+			if (startTime == track.getStartTime() && StringUtils.equals(displayName, track.getDisplayName())) {
+				subList.add(track);
+			}
+			else {
+				//start new track
+				if (displayName != null) {
+					retList.add(subList);
+				}
+				startTime = track.getStartTime();
+				displayName = track.getDisplayName();
+				subList = new ArrayList<TrackingMobileData>();
+				subList.add(track);
+			}
+		}
+		
+		//add the last one
+		retList.add(subList);
+		
+		return retList;
+	}
 	/*
 	private DisplayResponse convertMobileDataToDisplayData(List<TrackingMobileData> locationList) {
 		Map<String, List<GLocation>> retData = new HashMap<String, List<GLocation>>();

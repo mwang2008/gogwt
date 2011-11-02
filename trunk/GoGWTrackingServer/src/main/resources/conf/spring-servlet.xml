@@ -91,6 +91,11 @@
 	<!-- Retrieve records for the last number of days -->
 	<bean name="name=controller/RetrieveTrackHistoryController"
 		class="com.gogwt.apps.tracking.controllers.RetrieveTrackHistoryController" />
+
+	<bean name="name=controller/TrackDetailController"
+		class="com.gogwt.apps.tracking.controllers.TrackDetailController" />
+ 
+ 
  
 	<!-- ========================= URL MAPPING ========================= -->
 	<bean name="urlMappingPart1"
@@ -125,7 +130,9 @@
 				<prop key="/**/showactiveattracks/**/">name=controller/ShowActiveTracksController</prop>	
 				<prop key="/**/retrievetracks/**/">name=controller/RetrieveTrackHistoryController</prop>
 				<prop key="/**/disptracks/**/">name=controller/EnrollCustomerSuccessController</prop>	
-				<prop key="/**/addlocation/**/">name=controller/AddLocationController</prop>						
+				<prop key="/**/addlocation/**/">name=controller/AddLocationController</prop>
+				<prop key="/**/trackdetail/**/">name=controller/TrackDetailController</prop>
+										
 			</props>
 		</property>
 	</bean>

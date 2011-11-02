@@ -57,6 +57,7 @@ public class AddLocationController extends BaseAbstractController {
 	public ModelAndView onSubmit(final HttpServletRequest request,
 			final HttpServletResponse response, final Object command,
 			final BindException errors) throws Exception {
+		logger.debug("AddLocationController - In onSubmit()");
 		
 		final GLocation formBean = (GLocation) command;
 

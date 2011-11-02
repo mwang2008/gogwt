@@ -1,8 +1,10 @@
 package com.gogwt.apps.tracking.services.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,11 @@ import com.gogwt.apps.tracking.data.response.LocationResponse;
 import com.gogwt.apps.tracking.data.response.LoginResponse;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.utils.MessageUtils;
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderLocationType;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.LatLng;
 
 public final class RestBusinessDomainService extends BaseBusinessDomainService {
 	private static Logger logger = Logger.getLogger(RestBusinessDomainService.class);
@@ -51,16 +58,87 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 	}
 	
 
+	public List<TrackingMobileData> retrieveLocationsSnapShot(CustomerProfile customerProfile) {
+		logger.debug("retrieveLocations " );
+		try {
+			List<TrackingMobileData> retList = getCustomerDAO().retrieveLocationsSnapShot(customerProfile);
+			
+			if (retList == null || retList.isEmpty()) {
+				return null;
+			}
+			
+			
+			Collections.sort(retList, new Comparator() {
+				@Override
+				public int compare(Object c1, Object c2) {
+					TrackingMobileData o1 = (TrackingMobileData)c1;
+					TrackingMobileData o2 = (TrackingMobileData)c2;
+					
+					if (o1.getStartTime() - o2.getStartTime() == 0) {
+						if (o1.getDisplayName().equals(o2.getDisplayName())) {
+							return (int)(o1.getTime()-o2.getTime());
+						}
+						else {
+							return o1.getDisplayName().compareTo(o2.getDisplayName());
+						}						
+					}
+					else {
+						return (int)(o1.getStartTime() - o2.getStartTime());
+					}
+
+				}
+				/*
+				public int compare(TrackingMobileData o1, TrackingMobileData o2) {
+					if (o1.getDisplayName().equals(o2.getDisplayName())) {
+						return (int)(o1.getTime()-o2.getTime());
+					}
+					else {
+						return o1.getDisplayName().compareTo(o2.getDisplayName());
+					}   APPROXIMATE, GEOMETRIC_CENTER, RANGE_INTERPOLATED, ROOFTOP;	
+				}
+				*/			 
+			});
+			
+			//reverse geocode
+			final Geocoder geocoder = new Geocoder();
+			GeocodeResponse geocoderResponse;
+
+	        //http://code.google.com/intl/uk/apis/maps/documentation/geocoding/#ReverseGeocoding
+			GeocoderRequest request = new GeocoderRequest();
+			BigDecimal lat, lng;
+			
+			for (TrackingMobileData track: retList) {
+				lat = new BigDecimal(track.getLatitude()/1e6);
+				lng = new BigDecimal(track.getLongitude()/1e6);
+				request.setLocation(new LatLng(lat, lng));
+		        geocoderResponse = geocoder.geocode(request);
+		        GeocoderLocationType locationType = geocoderResponse.getResults().get(0).getGeometry().getLocationType();
+		        String address = geocoderResponse.getResults().get(0).getFormattedAddress();
+		        
+		        if (locationType == GeocoderLocationType.ROOFTOP || locationType == GeocoderLocationType.RANGE_INTERPOLATED) {
+		        	track.setAddress(address);
+		        }
+		        System.out.println("geocoderResponse="+locationType.value() + " address="+address);		        
+		        //track.setAddress(geocoderResponse.getResults()[0])
+			}
+			
+		    return retList;
+		}
+        catch (AppRemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public List<TrackingMobileData> retrieveLocations(CustomerProfile customerProfile, Calendar endCal, Calendar startCal) {
 		logger.debug("retrieveLocations " );
 		try {
 		    return getCustomerDAO().retrieveLocations(customerProfile, endCal, startCal);
 		}
         catch (AppRemoteException e) {
-			
+        	e.printStackTrace();
 		}
-		return null;
-		
+		return null;		
 	}
 
 	/**

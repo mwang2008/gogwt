@@ -8,6 +8,7 @@ public class TrackingMobileData extends GLocation {
 	private String phoneNumber;
 	private String displayName;	 
     private Date createDate;
+   
     
     //used for UI only
     private String color;

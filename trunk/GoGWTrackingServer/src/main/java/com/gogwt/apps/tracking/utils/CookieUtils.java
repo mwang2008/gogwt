@@ -13,6 +13,10 @@ public class CookieUtils {
 	private static final String PROFILE_COOKIE_NAME = "profile";
 	
 	public static String getCookieValue(Cookie[] cookies, String cookieName) {
+		if (cookies == null || cookies.length ==0) {
+			return null;
+		}
+		
 		for (int i = 0; i < cookies.length; i++) {
 			Cookie cookie = cookies[i];
 			if (cookieName.equals(cookie.getName()))

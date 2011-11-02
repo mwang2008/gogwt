@@ -11,9 +11,9 @@ public class UrlMappingElem implements Serializable {
 	private String countryId; // US
 	private String controllerName;
 
-	private String uri; // /booking/en-US/home
-	private String contextPath; // //booking
-	private String prefix; // booking/en-US
+	private String uri; // /tracking/en-US/home
+	private String contextPath; // //tracking
+	private String prefix; // tracking/en-US
 
 	private CustomerProfile customerProfile;
 	
