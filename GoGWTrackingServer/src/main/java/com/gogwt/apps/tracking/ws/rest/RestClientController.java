@@ -191,7 +191,9 @@ public class RestClientController {
 	}
 	
 	/**
-	 * Called from client (broswer)
+	 * Called from client (browers), Ajax call
+	 * 
+	 * http://localhost/tracking/en-us/displaycurrentlocation?groupId=g5&days=5
 	 * @param groupId
 	 * @param request
 	 * @return
@@ -209,6 +211,28 @@ public class RestClientController {
 	}
 	
 	
+	/**
+	 * Called from client (browers), Ajax call to display track detail (not active track)
+	 * 
+	 * http://localhost/tracking/en-us/displaytrackdetail?groupId=g5&displayName=show+5&startTime=1
+	 * @param groupId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="displaytrackdetail", method=RequestMethod.GET, headers="Accept=application/json")	
+	public @ResponseBody DisplayResponse displayTrackDetailJSON(@RequestParam("groupId") String groupId, @RequestParam("displayName") String displayName, @RequestParam("startTime") String startTime, final HttpServletRequest request ) {
+		logger.debug(" ====%%% displayTrackDetailJSON displayCurrentLocationJSON");
+		return processTrackDetailDisp(groupId, displayName, startTime, request);
+	}	
+	
+	@RequestMapping(value="displaytrackdetail", method=RequestMethod.GET, headers="Accept=application/xml")	
+	public @ResponseBody DisplayResponse displayTrackDetailXML(@RequestParam("groupId") String groupId, @RequestParam("displayName") String displayName, @RequestParam("startTime") String startTime, final HttpServletRequest request ) {
+		logger.debug(" ====%%% displayTrackDetailXML displayCurrentLocationXML");
+		return processTrackDetailDisp(groupId, displayName, startTime, request);
+	}
+
+	
+	
 	@RequestMapping(value="stoptracking", method=RequestMethod.POST, headers="Content-Type=application/xml")
 	public void stopTrackingXML(@RequestBody Profile profile) {
 		logger.debug(" ==== stopTrackingXML XML input: " + profile.toString());
@@ -219,12 +243,16 @@ public class RestClientController {
 		 
  	}
  
+	
+	
 	@RequestMapping(value="stoptracking", method=RequestMethod.POST, headers="Content-Type=application/json")
 	public void stopTrackingJSON(@RequestBody Profile profile) {
 		logger.debug(" ==== stopTrackingXML JSON input: " + profile.toString());
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		service.stopTracking(profile);
 	}
+	
+	
 	/********************************************************
 	 *  PRIVATE METHODS 
 	 */
@@ -245,6 +273,18 @@ public class RestClientController {
         
         return response;
         
+	}
+	
+	private DisplayResponse processTrackDetailDisp(String groupId, String displayName, String startTime, final HttpServletRequest request) {
+		
+		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
+		final ArrayList<GDispItem> dispLocation = service.getHistorialTrackDetail(groupId, displayName, startTime);
+		 
+		DisplayResponse response = new DisplayResponse();
+	    response.setDispLocations(dispLocation);
+	    logger.debug(" response " + response.toString());
+	    
+		return response;
 	}
 	
 	private DisplayResponse processHistoryDisp(String groupId, String daysParam, final HttpServletRequest request) {

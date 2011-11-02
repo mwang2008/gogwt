@@ -20,7 +20,8 @@
    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
    
    <script language=javascript>
-       var ajaxUrl = '${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5';      
+       var MULTIPLE_RETRIEVE = true;
+       var ajaxUrl = '${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5';         	   
    </script>
    
    <script type="text/javascript" src="${env.contextPath}/jsp/tracking/trackingscript.jsp"></script>
@@ -43,7 +44,7 @@
             <form name=xcv>
 	        <input id="autoRefersh" type="button"  value="Start Auto Refresh">
 	        <input id="showTraffic" type="button" value="Show Traffic">
-			<input id="clearDebugPanel" type="button" value="Clear Log">
+			<input id="clearDebugPanel" type="button" value="Clear Log" style="display: none">
 	         
             </form>			
             <div id="xtimer"> starting auto refresh </div><hr>
