@@ -71,9 +71,7 @@
       bounds = new g.LatLngBounds();
       infowindow = new g.InfoWindow({size: new google.maps.Size(150,50)});
        
-      //var lineImg = '${env.contextPath}/images/square.png';
-      //var lineImg = '${env.contextPath}/images/circle.png';
-	  var lineImg = '/tracking/images/circle.png';
+ 	  var lineImg = '/tracking/images/circle.png';
       lineIcon = new g.MarkerImage(lineImg,
                        new google.maps.Size(11, 11),
                        new google.maps.Point(0,0),                                  
@@ -280,14 +278,8 @@
 			   info += speedInfo;
 			   
 			}
-			
-			
-			
 			info += "<br>Display Name: " + '<span style="color:'+ color +'">' + html + '</span>' ;
 			document.getElementById("locInfo").innerHTML = info;
-			
-		 
-      	 	      
          }); 
                     
    }  <%-- end of createClickablePolyline --%>
@@ -506,17 +498,32 @@
     function nextCycle() {         
          totalRuntime++;
          showMaps(map);
-   
-         var idleTime = new Date().getTime() - lasttimeWithData.getTime();
+	     
+		 if (MULTIPLE_RETRIEVE == false) {
+		     stopRotation(); 
+		 }
 		 
-		 document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime + ", lasttimeWithData=" + lasttimeWithData.getTime() + ", idleTime="+idleTime;
-         if (idleTime > IDLE_TIME_ALLOWED_IN_SEC*1000 ) {
-            if (totalRuntime > NUM_AUTO_REFERSH) { 
+		 var idleTime=0;
+	     if (lasttimeWithData != null) {
+            idleTime = new Date().getTime() - lasttimeWithData.getTime();
+			document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime + ", lasttimeWithData=" + lasttimeWithData.getTime() + ", idleTime="+idleTime;
+			
+			if (idleTime > IDLE_TIME_ALLOWED_IN_SEC*1000 ) {
+               if (totalRuntime > NUM_AUTO_REFERSH) { 
+                  totalRuntime = 0;
+	              document.getElementById('autoRefersh').style.visibility='visible';
+                  stopRotation(); 
+               } 
+            }	       
+	 	 }
+		 else {
+		    document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime ;
+		    if (totalRuntime > NUM_AUTO_REFERSH) { 
                totalRuntime = 0;
 	           document.getElementById('autoRefersh').style.visibility='visible';
                stopRotation(); 
             } 
-         }	        
+		 }
     }
       
     function stopRotation() {

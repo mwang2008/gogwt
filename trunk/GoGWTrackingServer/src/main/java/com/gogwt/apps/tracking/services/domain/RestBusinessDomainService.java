@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.GDispItem;
+import com.gogwt.apps.tracking.data.GLine;
 import com.gogwt.apps.tracking.data.GLocation;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.Status;
@@ -32,7 +33,7 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 	
 	public LocationResponse processLocation(final LocationRequest request) {
 	   
-		System.out.println(" ===== $$$$$ RestBusinessDomainService.LocationResponse LocationRequest=" + request.toString());
+		logger.debug(" ===== $$$$$ RestBusinessDomainService.LocationResponse LocationRequest=" + request.toString());
 		
 		LocationResponse response = new LocationResponse();
 		List<TrackingMobileData> trackingMobileDataList = convertToTrackingMobileData(request);
@@ -153,6 +154,60 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		 return DomainServiceHelper.constructionActiveDisplayItemList(activeMap);
 	}
 
+	/**
+	 * 
+	 * @param groupId
+	 * @param displayName
+	 * @param startTime
+	 * @return
+	 */
+	public  ArrayList<GDispItem> getHistorialTrackDetail(String groupId, String displayName, String startTime) {
+		long startTimeLong = Long.parseLong(startTime); 
+		try {
+		   List<TrackingMobileData> retList = getCustomerDAO().getHistorialTrackDetail(groupId, displayName, startTimeLong);
+		   
+		   //convert List<TrackingMobileData> to ArrayList<GDispItem>
+		   if (retList == null || retList.isEmpty()) {
+			   return null;
+		   }
+		    
+		   GLine newGLine = null;
+		   GDispItem dispItem = new GDispItem();
+		    
+		   int recordIndex = 0;
+		   List<GLocation> glocationList = new ArrayList<GLocation>();
+		   GLocation glocation;
+		   for (TrackingMobileData track : retList) {
+			   //first record
+			   if (recordIndex == 0) {
+				   newGLine = DomainServiceHelper.convertActiveToGLine(track, displayName, 0);   				   
+			   }
+			   
+			   glocation = DomainServiceHelper.convertToGLocation(track);
+			   glocationList.add(glocation);
+			    
+			   //last record
+			   if (recordIndex == retList.size()-1) {
+				   dispItem.setLine(newGLine);
+				   dispItem.setLocs(glocationList);
+				   dispItem.setDispName(displayName);
+			   }
+			   
+			   recordIndex++;			   
+		   }
+		   
+		   ArrayList<GDispItem> locations = new ArrayList<GDispItem>();
+		   locations.add(dispItem);
+		   
+		   return locations; 
+		}
+		catch (AppRemoteException e) {
+        	e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public void stopTracking(Profile profile) {
 		ActiveSharedLocation.removeClientFromMap(profile.getGroupId(), profile.getDisplayName()); 		
 	}

@@ -17,7 +17,8 @@ public final class DomainServiceHelper {
    
 	/**
 	 * 
-	 * @param activeMap  dispName, List<Glocation>
+	 * @param activeMap  dispName, List<Glocation>  
+	 * 
 	 * @return
 	 */
    public static ArrayList<GDispItem> constructionActiveDisplayItemList(Map<String, List<GLocation>> activeMap ) {
@@ -157,7 +158,7 @@ public final class DomainServiceHelper {
 	   return line;
    }
    
-   private static GLine convertActiveToGLine(GLocation location, String displayName, int numOfClient) {
+   public static GLine convertActiveToGLine(GLocation location, String displayName, int numOfClient) {
 	   GLine line = new GLine();
 	   
 	   String color = getColorPerDisplayName(numOfClient, displayName);
@@ -176,7 +177,7 @@ public final class DomainServiceHelper {
 	   return line;
    }
    
-   private static GLocation convertToGLocation(TrackingMobileData trackData) {
+   public static GLocation convertToGLocation(TrackingMobileData trackData) {
 	   GLocation location = new GLocation();
 	   
 	   
