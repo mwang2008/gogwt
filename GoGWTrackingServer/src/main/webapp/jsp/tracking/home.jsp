@@ -19,13 +19,13 @@
   <div id="wrapper">
   <div id="container">
     <%@ include file="i_header.jspf"%>
-    <%@ include file="i_menu.jspf"%>
+    <%@ include file="i_home_menu.jspf"%>
     
     <%-- left --%>
     <div id="wrapperContent" style="position: relative">
        <table> 
           <tr>
-             <td> cc  <td> 
+             <td> cc ccc  <td> 
           </tr>
           
        </table>

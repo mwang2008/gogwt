@@ -237,7 +237,7 @@ public class GoGWTDaoTestCase extends TestCase {
 		}
 	}
 
-	public void XXXXtestCreateSaveLocation() throws Exception {
+	public void testCreateSaveLocation() throws Exception {
 		System.out.println(" === CreateSaveLocation");
 
 		List<TrackingMobileData> retrieveLocations = new ArrayList<TrackingMobileData>();

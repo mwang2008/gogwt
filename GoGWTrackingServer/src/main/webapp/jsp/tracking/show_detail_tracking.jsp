@@ -1,13 +1,22 @@
+<%--  
+   show_detail_tracking.jsp 
+   http://localhost/tracking/en-us/trackdetail?groupId=g5&displayName=show+5&startTime=1
+   http://localhost/tracking/en-us/displaytrackdetail?groupId=g5&displayName=show+5&startTime=1
+--%>
+
 <%@ include file="/jsp/common/i_global.jspf"%>
 
-<html lang="${env.languageId}">
-  
+ <c:url value="/${env.languageId}-${env.countryId}/displaytrackdetail" var="detailUrl">
+      <c:param name="groupId" value="${param.groupId}"/>
+      <c:param name="displayName" value="${param.displayName}"/>
+	  <c:param name="startTime" value="${param.startTime}"/>
+</c:url>		
+
 <html>
  <head> 
  
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
-   <title> Show Active Tracks: ${env.customerProfile.groupId} </title>  
-      
+   <title> Show Track Detail: ${param.groupId} </title>  
    
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>     
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -20,19 +29,24 @@
    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
    
    <script language=javascript>
-       var ajaxUrl = '${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5';      
+       var ajaxUrl = '${detailUrl}';      
    </script>
    
    <script type="text/javascript" src="${env.contextPath}/jsp/tracking/trackingscript.jsp"></script>
-   
-   
+
+   <style type="text/css">
+      .buttonSubmitHide {
+         display: none;
+      }
+   </style> 
+
 </head>
 
 <body>
-
+ 
 <%@ include file="/jsp/common/i_header.jspf"%>
 
-<c:set var="fromPage" value="ShowActiveTracks"/>
+<c:set var="fromPage" value="ShowHistoryTracks"/>
 <%@ include file="i_menu.jspf"%>
 
  
@@ -43,7 +57,7 @@
             <form name=xcv>
 	        <input id="autoRefersh" type="button"  value="Start Auto Refresh">
 	        <input id="showTraffic" type="button" value="Show Traffic">
-			<input id="clearDebugPanel" type="button" value="Clear Log">
+			<input id="clearDebugPanel" type="button" value="Clear Log" style="display: none">
 	         
             </form>			
             <div id="xtimer"> starting auto refresh </div><hr>
@@ -79,4 +93,3 @@
 <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>
 </html>
- 

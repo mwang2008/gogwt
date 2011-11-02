@@ -7,21 +7,31 @@
                        <tbody>
                        <tr>
                           <td style="vertical-align: top;" align="left">
-                             <div class="gwt-Label bw_top_menu"><a href="${env.prefix}/home" style="text-decoration:none">
-                               <span class="gwt-Label bw_top_menu"> 
-                                  <!-- <fmt:message key='menu.findhotel'/>  -->
-                                  Home
-                               </span></a>
-                                   <c:if test="${fromPage != null}">
+                             <div class="gwt-Label bw_top_menu">
+							   <a href="${env.prefix}/home" style="text-decoration:none"> <span class="gwt-Label bw_top_menu"> Home </span></a>
+                               <c:if test="${fromPage != null}">
 				               -> ${fromPage}
                                    </c:if>
                                </div>
                           </td>
+						  <td class="gwt-Label bw_top_menu" align="left"> &nbsp;| &nbsp; </td>
+						  
                           <td style="vertical-align: top;" align="left">
-                            
+                             <div class="gwt-Label bw_top_menu"><a href="${env.prefix}/home" style="text-decoration:none">
+                               <span class="gwt-Label bw_top_menu">                     
+                                  Show Current Tracks
+                               </span></a>
+                            </div>
                           </td>
+						  
+						  <td class="gwt-Label bw_top_menu" align="left"> &nbsp;| &nbsp; </td>
+						  
                           <td style="vertical-align: top;" align="left">
-                           
+                              <div class="gwt-Label bw_top_menu"><a href="${env.prefix}/home" style="text-decoration:none">
+                               <span class="gwt-Label bw_top_menu">                     
+                                  Show Former Tracks
+                               </span></a>
+                            </div>                        
                           </td>
                            
                        </tr>

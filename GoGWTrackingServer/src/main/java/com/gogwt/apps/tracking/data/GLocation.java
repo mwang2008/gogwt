@@ -22,6 +22,8 @@ public class GLocation implements Serializable {
 	private double speed;
 	private long time;
 	private long startTime;
+	private String address;
+	 
 	private double totalDistance; 	
     
 	public double getDistance() {
@@ -122,8 +124,15 @@ public class GLocation implements Serializable {
 		this.provider = provider;
 	}
 
+ 
 
-	 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public String toString() {
 		StringBuilder sbuf = new StringBuilder();
@@ -138,8 +147,8 @@ public class GLocation implements Serializable {
 		sbuf.append(", provider="+provider);
 		sbuf.append(", bearing="+bearing);
 		sbuf.append(", accuracy="+accuracy);
-	 
-		
+		sbuf.append(", startTime="+startTime);
+		 
 		sbuf.append("]");
 		
 		return sbuf.toString();
