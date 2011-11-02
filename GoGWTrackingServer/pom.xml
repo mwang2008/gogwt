@@ -8,6 +8,13 @@
 	<name>GoGWT Tracking Server Webapp</name>
 	<url>http://maven.apache.org</url>
 
+    <repositories>
+       <repository>
+         <id>geocoder-java</id>
+         <url>https://geocoder-java.googlecode.com/svn/mavenrepo</url>
+      </repository>
+    </repositories>
+
 	<build>
 		<finalName>tracking</finalName>
 		<plugins>
@@ -206,6 +213,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!--  Google Geocode -->
+		<dependency>
+           <groupId>com.google.code.geocoder-java</groupId>
+           <artifactId>geocoder-java</artifactId>
+           <version>0.7</version>
+        </dependency>
 	</dependencies>
 
 </project>
