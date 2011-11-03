@@ -31,8 +31,7 @@ public class EnrollCustomerValidator  extends BaseValidateAdapter {
 	 	validateRequiredField(errors, "confirmPassword", formBean.getConfirmPassword(), "label.confirmPassword");
 
 	 	if (StringUtils.equalsIgnoreCase("UNKNOWN", formBean.getGroupId())) {
-	 		errors.reject("error.wrong.groupId");
-		 		 
+	 		errors.reject("error.wrong.groupId");		 		 
 		}
 		
 	 	 
@@ -40,10 +39,7 @@ public class EnrollCustomerValidator  extends BaseValidateAdapter {
 	 	if (StringUtils.isSet(formBean.getEmail())) {
 	 		if (!isValidEmailFormat(formBean.getEmail())) {
 					errors.reject("error.invalid.email");
-			}
-	 		else {
-	 			errors.reject("error.email.notmatch");
-	 		}
+			}	 		
 	 	}
         
 	 	
