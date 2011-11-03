@@ -10,6 +10,7 @@ import com.gogwt.apps.tracking.exceptions.InvalidPasswordException;
 import com.gogwt.apps.tracking.exceptions.InvalidUserException;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.formbean.LoginFormBean;
+import com.gogwt.apps.tracking.services.communication.NotificationEmail;
 import com.gogwt.apps.tracking.services.dataaccess.CustomerDAO;
 import com.gogwt.apps.tracking.utils.ToStringUtils;
 
@@ -24,8 +25,12 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
 		final CustomerProfile request = toCustomerProfile(formBean);
 		
 		String id = getCustomerDAO().enrollCustomer(request);
+		
 		CustomerProfile profile = getCustomerDAO().getCustomerById(id);
 	 	
+		//send email by using Google App Engine. 
+		NotificationEmail.sendEnrollEmail(profile);
+		
 		return profile;
 	}
 	
