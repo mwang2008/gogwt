@@ -1,6 +1,7 @@
 <%--
    enroll_success.jsp
    http://local.www.gogwt.com/tracking/en-us/disptracks
+   NOT USED
 --%>
 
 <%@ include file="/jsp/common/i_global.jspf"%>

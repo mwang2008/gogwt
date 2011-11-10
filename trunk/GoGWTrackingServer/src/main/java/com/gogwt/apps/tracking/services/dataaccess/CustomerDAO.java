@@ -23,4 +23,7 @@ public interface CustomerDAO {
 	public List<TrackingMobileData> retrieveLocationsSnapShot(CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException;
 	public List<TrackingMobileData> getHistorialTrackDetail(String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException;
 	public List<TrackingMobileData> retrieveLocations(CustomerProfile customerProfile, Calendar endCal, Calendar startCal) throws InvalidUserException, AppRemoteException;
+	public int deleteTrack(String userName, String groupId, String displayName, long startTiemLong) throws InvalidUserException, AppRemoteException;
+	public List<TrackingMobileData> getTrack(String userName, String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException;
+	
 }

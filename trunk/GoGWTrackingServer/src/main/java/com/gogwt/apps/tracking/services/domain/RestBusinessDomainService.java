@@ -119,8 +119,9 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		        if (locationType == GeocoderLocationType.ROOFTOP || locationType == GeocoderLocationType.RANGE_INTERPOLATED) {
 		        	track.setAddress(address);
 		        }
-		        System.out.println("geocoderResponse="+locationType.value() + " address="+address);		        
-		        //track.setAddress(geocoderResponse.getResults()[0])
+		        
+		        logger.debug("geocoderResponse="+locationType.value() + " address="+address);		        
+		        
 			}
 			
 		    return retList;
@@ -142,6 +143,31 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		return null;		
 	}
 
+	public void deleteTrack(String userName, String groupId, String displayName, long startTimeLong) {
+		logger.debug("retrieveLocations " );
+		try {
+		    int row = getCustomerDAO().deleteTrack(userName, groupId, displayName, startTimeLong);
+		    logger.debug(" delete rows = " +row );
+		}
+        catch (AppRemoteException e) {
+        	logger.error("Fail to delete record of groupId="+groupId + ",displayName="+displayName + ",startTimeLong=" +startTimeLong);        	 
+		}			
+	}
+	
+	public List<TrackingMobileData> getTrack(String userName, String groupId, String displayName, long startTimeLong) {
+		logger.debug("getTrack " );
+		try {
+			List<TrackingMobileData> trackingData = getCustomerDAO().getTrack(userName, groupId, displayName, startTimeLong);
+			
+			return trackingData;
+		}
+        catch (AppRemoteException e) {
+        	logger.error("Fail to get record of groupId="+groupId + ",displayName="+displayName + ",startTimeLong=" +startTimeLong);        	 
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * Get active locations from shared location
 	 * @param groupId
@@ -171,6 +197,9 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 			   return null;
 		   }
 		    
+		   ArrayList<GDispItem> locations = convertTrackingMobileDataListToGDispItemList(retList);
+		   
+		   /*
 		   GLine newGLine = null;
 		   GDispItem dispItem = new GDispItem();
 		    
@@ -179,6 +208,7 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		   GLocation glocation;
 		   for (TrackingMobileData track : retList) {
 			   //first record
+			   
 			   if (recordIndex == 0) {
 				   newGLine = DomainServiceHelper.convertActiveToGLine(track, displayName, 0);   				   
 			   }
@@ -198,7 +228,7 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		   
 		   ArrayList<GDispItem> locations = new ArrayList<GDispItem>();
 		   locations.add(dispItem);
-		   
+		   */
 		   return locations; 
 		}
 		catch (AppRemoteException e) {
@@ -206,6 +236,38 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		}
 		
 		return null;
+	}
+	
+	public  ArrayList<GDispItem> convertTrackingMobileDataListToGDispItemList(List<TrackingMobileData> retList) {
+		 GLine newGLine = null;
+		   GDispItem dispItem = new GDispItem();
+		    
+		   int recordIndex = 0;
+		   List<GLocation> glocationList = new ArrayList<GLocation>();
+		   GLocation glocation;
+		   for (TrackingMobileData track : retList) {
+			   //first record
+			   if (recordIndex == 0) {
+				   newGLine = DomainServiceHelper.convertActiveToGLine(track, track.getDisplayName(), 0);   				   
+			   }
+			   
+			   glocation = DomainServiceHelper.convertToGLocation(track);
+			   glocationList.add(glocation);
+			    
+			   //last record
+			   if (recordIndex == retList.size()-1) {
+				   dispItem.setLine(newGLine);
+				   dispItem.setLocs(glocationList);
+				   dispItem.setDispName(track.getDisplayName());
+			   }
+			   
+			   recordIndex++;			   
+		   }
+		   
+		   ArrayList<GDispItem> locations = new ArrayList<GDispItem>();
+		   locations.add(dispItem);
+		   
+		   return locations; 
 	}
 	
 	public void stopTracking(Profile profile) {

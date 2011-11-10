@@ -55,7 +55,22 @@
 								  <c:param name="displayName" value="${track.displayName}"/>
 								  <c:param name="startTime" value="${track.startTime}"/>
 							  </c:url>							  
-							  &nbsp;&nbsp;&nbsp; <a href="${detailUrl}" > View Detail Path </a> 
+							  
+							  &nbsp;&nbsp;&nbsp; <a href="${detailUrl}" > View Track Detail </a>    
+						      <c:url value="/${env.languageId}-${env.countryId}/trackdelete" var="deleteUrl">
+							      <c:param name="groupId" value="${env.customerProfile.groupId}"/>
+								  <c:param name="displayName" value="${track.displayName}"/>
+								  <c:param name="startTime" value="${track.startTime}"/>
+							  </c:url>								  
+							  &nbsp;&nbsp;&nbsp; <a href="${deleteUrl}" > Delete Track </a> 
+							  
+							  <c:url value="/${env.languageId}-${env.countryId}/export" var="exportUrl">
+							      <c:param name="groupId" value="${env.customerProfile.groupId}"/>
+								  <c:param name="displayName" value="${track.displayName}"/>
+								  <c:param name="startTime" value="${track.startTime}"/>
+							  </c:url>								  
+							  &nbsp;&nbsp;&nbsp; <a href="${exportUrl}" > Export Track </a> 
+							  
 							  <br>
 							  <c:choose>  
 							     <c:when test="${track.address != null}">

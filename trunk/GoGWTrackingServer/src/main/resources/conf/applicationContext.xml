@@ -14,10 +14,7 @@
 	<context:annotation-config />
 	
 	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
-	 For example @Controller and @Service. Make sure to set the correct base-package-->
-	 <!-- 
-	<context:component-scan base-package="org.krams.tutorial" />
-	  -->
+	 For example @Controller and @Service. Make sure to set the correct base-package-->	
 	<context:component-scan base-package="com.gogwt.apps.tracking.ws.rest" />
 	
 	<!-- Configures the annotation-driven Spring MVC Controller programming model.

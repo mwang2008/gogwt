@@ -171,6 +171,67 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		}
 	}
 	 
+	public int deleteTrack(String userName, String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+		    String hql = "delete from TrackingMobileData where groupId=:groupId and displayName=:displayName and startTime=:startTime";
+		    Query query = session.createQuery(hql);
+		    query.setParameter("groupId", groupId);
+			query.setParameter("displayName", displayName);
+			query.setParameter("startTime", startTimeLong);
+			int row = query.executeUpdate();
+			tx.commit();
+			
+			return row;
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+
+			e.printStackTrace();
+			throw new AppRemoteException("error for deleteTrack", e);
+		} finally {
+			if (session != null && session.isOpen()) {
+				//session.close();  //no need to close it, as getCurrentSession(), commit and rollBack close connection
+			}
+		}	
+		 
+	}
+	
+	public List<TrackingMobileData> getTrack(String userName, String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+		    String hql = "from TrackingMobileData where groupId=:groupId and displayName=:displayName and startTime=:startTime";
+		    Query query = session.createQuery(hql);
+		    query.setParameter("groupId", groupId);
+			query.setParameter("displayName", displayName);
+			query.setParameter("startTime", startTimeLong);
+			
+			List<TrackingMobileData> result = query.list();
+			
+			tx.commit();
+			
+			return result;
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+
+			e.printStackTrace();
+			throw new AppRemoteException("error for deleteTrack", e);
+		} finally {
+			if (session != null && session.isOpen()) {
+				//session.close();  //no need to close it, as getCurrentSession(), commit and rollBack close connection
+			}
+		}	
+	}
+	
 	public List<TrackingMobileData> retrieveLocations(
 			CustomerProfile customerProfile, Calendar endCal, Calendar startCal)
 			throws InvalidUserException, AppRemoteException {

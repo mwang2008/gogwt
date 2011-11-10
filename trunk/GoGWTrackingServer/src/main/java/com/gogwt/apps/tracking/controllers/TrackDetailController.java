@@ -18,7 +18,7 @@ public class TrackDetailController extends BaseAbstractController {
 		String startTime = request.getParameter("startTime");
 		
 		
-		System.out.println("groupId="+groupId+" ,displayName="+displayName + ", startTime="+startTime);
+		//System.out.println("groupId="+groupId+" ,displayName="+displayName + ", startTime="+startTime);
 		
 		return new ModelAndView("/tracking/show_detail_tracking");				
 	}
