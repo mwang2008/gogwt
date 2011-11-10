@@ -1,6 +1,7 @@
 package com.gogwt.apps.tracking.ws.rest;
 
 import static com.gogwt.apps.tracking.AppConstants.CUSTOMER_PROFILE;
+import static com.gogwt.apps.tracking.AppConstants.TRACK_DATA_LIST;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +36,7 @@ import com.gogwt.apps.tracking.services.domain.DomainServiceHelper;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
 import com.gogwt.apps.tracking.services.domain.RestBusinessDomainService;
+import com.gogwt.apps.tracking.utils.StringUtils;
 
 
 @Controller
@@ -220,15 +222,17 @@ public class RestClientController {
 	 * @return
 	 */
 	@RequestMapping(value="displaytrackdetail", method=RequestMethod.GET, headers="Accept=application/json")	
-	public @ResponseBody DisplayResponse displayTrackDetailJSON(@RequestParam("groupId") String groupId, @RequestParam("displayName") String displayName, @RequestParam("startTime") String startTime, final HttpServletRequest request ) {
+	public @ResponseBody DisplayResponse displayTrackDetailJSON(@RequestParam("groupId") String groupId, @RequestParam("displayName") String displayName, 
+			@RequestParam("startTime") String startTime, @RequestParam("from") String from, final HttpServletRequest request ) {
 		logger.debug(" ====%%% displayTrackDetailJSON displayCurrentLocationJSON");
-		return processTrackDetailDisp(groupId, displayName, startTime, request);
+		return processTrackDetailDisp(groupId, displayName, startTime, from, request);
 	}	
 	
 	@RequestMapping(value="displaytrackdetail", method=RequestMethod.GET, headers="Accept=application/xml")	
-	public @ResponseBody DisplayResponse displayTrackDetailXML(@RequestParam("groupId") String groupId, @RequestParam("displayName") String displayName, @RequestParam("startTime") String startTime, final HttpServletRequest request ) {
+	public @ResponseBody DisplayResponse displayTrackDetailXML(@RequestParam("groupId") String groupId, @RequestParam("displayName") String displayName, 
+			@RequestParam("startTime") String startTime, @RequestParam("from") String from, final HttpServletRequest request ) {
 		logger.debug(" ====%%% displayTrackDetailXML displayCurrentLocationXML");
-		return processTrackDetailDisp(groupId, displayName, startTime, request);
+		return processTrackDetailDisp(groupId, displayName, startTime, from, request);
 	}
 
 	
@@ -275,11 +279,21 @@ public class RestClientController {
         
 	}
 	
-	private DisplayResponse processTrackDetailDisp(String groupId, String displayName, String startTime, final HttpServletRequest request) {
+	private DisplayResponse processTrackDetailDisp(String groupId, String displayName, String startTime, String from, final HttpServletRequest request) {
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
-		final ArrayList<GDispItem> dispLocation = service.getHistorialTrackDetail(groupId, displayName, startTime);
+		final ArrayList<GDispItem> dispLocation; // = service.getHistorialTrackDetail(groupId, displayName, startTime);
 		 
+		if (StringUtils.isSet(from) && from.equalsIgnoreCase("import")) {
+			//get from import function.
+			HttpSession session = request.getSession();
+			ArrayList<TrackingMobileData> trackDataList = (ArrayList<TrackingMobileData>)session.getAttribute(TRACK_DATA_LIST);
+			dispLocation = service.convertTrackingMobileDataListToGDispItemList(trackDataList);			 
+		}
+		else {
+			dispLocation = service.getHistorialTrackDetail(groupId, displayName, startTime);
+		}
+		
 		DisplayResponse response = new DisplayResponse();
 	    response.setDispLocations(dispLocation);
 	    logger.debug(" response " + response.toString());

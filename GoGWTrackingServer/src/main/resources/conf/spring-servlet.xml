@@ -22,6 +22,8 @@
 	<!-- ========================= VALIDATOR ========================= -->
 	<bean name="name=validator/EnrollCustomerValidator" class="com.gogwt.apps.tracking.controllers.validation.EnrollCustomerValidator" />
 	<bean name="name=validator/LoginValidator" class="com.gogwt.apps.tracking.controllers.validation.LoginFormValidator" />
+    <bean name="name=validator/ImportValidator" class="com.gogwt.apps.tracking.controllers.validation.ImportValidator" />
+
 
 	<!-- ========================= INTERCEPTOR ========================= -->
 	<bean name="name=interceptor/config/URLHandlerInterceptor"
@@ -49,6 +51,10 @@
 
 	<!-- ========================= POPULATOR ========================= -->
 
+    <!-- ======================= MULTIPART RESOLVER======================= -->
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+        
 	<!-- ========================= CONTROLLER DEFINITIONS ========================= -->
 	<!-- HomeController" -->
 	<bean name="name=controller/tracking/HomeController"
@@ -95,7 +101,31 @@
 	<bean name="name=controller/TrackDetailController"
 		class="com.gogwt.apps.tracking.controllers.TrackDetailController" />
  
+	<bean name="name=controller/TrackDeleteController"
+		class="com.gogwt.apps.tracking.controllers.TrackDeleteController">
+		<property name="successView"><value>retrievetracks</value></property>
+	</bean>
  
+   <!--  Error page -->
+   <bean name="name=controller/ErrorController"
+		class="com.gogwt.apps.tracking.controllers.ErrorController" />
+		
+   <!--  Export page -->
+   <bean name="name=controller/ExportController"
+		class="com.gogwt.apps.tracking.controllers.ExportController" >
+		<property name="successView"><value>retrievetracks</value></property>
+   </bean>	
+	
+   <!--  Import  -->	
+   <bean name="name=controller/ImportController"
+		class="com.gogwt.apps.tracking.controllers.ImportController" >
+		<property name="commandName"><value>uploadFormBean</value></property>
+		<property name="validator"><ref bean="name=validator/ImportValidator" /></property>
+		<property name="formView"><value>/tracking/file_upload</value></property>
+		<property name="successView"><value>trackdetail</value></property>
+   </bean>	
+		 
+		
  
 	<!-- ========================= URL MAPPING ========================= -->
 	<bean name="urlMappingPart1"
@@ -109,7 +139,8 @@
 			<props>
 				<prop key="/**/home/**/">name=controller/tracking/HomeController</prop>
 				<prop key="/**/enroll/**/">name=controller/EnrollCustomerController</prop>				
-				<prop key="/**/login/**/">name=controller/LoginController</prop>										
+				<prop key="/**/login/**/">name=controller/LoginController</prop>
+				<prop key="/**/error/**/">name=controller/ErrorController</prop>										
 			</props>
 		</property>
 	</bean>
@@ -132,6 +163,9 @@
 				<prop key="/**/disptracks/**/">name=controller/EnrollCustomerSuccessController</prop>	
 				<prop key="/**/addlocation/**/">name=controller/AddLocationController</prop>
 				<prop key="/**/trackdetail/**/">name=controller/TrackDetailController</prop>
+				<prop key="/**/trackdelete/**/">name=controller/TrackDeleteController</prop>
+				<prop key="/**/export/**/">name=controller/ExportController</prop>
+				<prop key="/**/importtrack/**/">name=controller/ImportController</prop>
 										
 			</props>
 		</property>

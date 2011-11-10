@@ -6,17 +6,31 @@
 
 <%@ include file="/jsp/common/i_global.jspf"%>
 
- <c:url value="/${env.languageId}-${env.countryId}/displaytrackdetail" var="detailUrl">
-      <c:param name="groupId" value="${param.groupId}"/>
-      <c:param name="displayName" value="${param.displayName}"/>
-	  <c:param name="startTime" value="${param.startTime}"/>
+<c:url value="/${env.languageId}-${env.countryId}/displaytrackdetail" var="detailUrl">
+   <c:choose>
+      <c:when test="${not empty param.from}">
+          <%-- from import function --%>	     
+		  <c:param name="from" value="${param.from}"/>
+          <c:param name="groupId" value=""/>
+          <c:param name="displayName" value=""/>
+ 	      <c:param name="startTime" value=""/>		
+	  </c:when>
+	  <c:otherwise>
+	      <%-- from the link of Show Old Tracks --%>	         		  
+         <c:param name="groupId" value="${param.groupId}"/>
+         <c:param name="displayName" value="${param.displayName}"/>
+	     <c:param name="startTime" value="${param.startTime}"/>		
+         <c:param name="from" value=""/>		 
+      </c:otherwise>
+   </c:choose>
+
 </c:url>		
 
 <html>
  <head> 
  
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
-   <title> Show Track Detail: ${param.groupId} </title>  
+   <title> Show Track Detail: ${param.groupId}   </title>  
    
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>     
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -47,19 +61,17 @@
  
 <%@ include file="/jsp/common/i_header.jspf"%>
 
-<c:set var="fromPage" value="ShowHistoryTracks"/>
+<c:set var="fromPage" value="trackdetail"/>
 <%@ include file="i_menu.jspf"%>
-
  
 <div id="container"> 
    <table border="1">
        <tr> 
           <td width="200" valign="top"> 
             <form name=xcv>
-	        <input id="autoRefersh" type="button"  value="Start Auto Refresh">
-	        <input id="showTraffic" type="button" value="Show Traffic">
-			<input id="clearDebugPanel" type="button" value="Clear Log" style="display: none">
-	         
+	            <input id="autoRefersh" type="button"  value="Start Auto Refresh">
+	            <input id="showTraffic" type="button" value="Show Traffic">
+			    <input id="clearDebugPanel" type="button" value="Clear Log" style="display: none">	         
             </form>			
             <div id="xtimer"> starting auto refresh </div><hr>
             <div id="mylocs">locations </div><hr>
