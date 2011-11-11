@@ -83,7 +83,7 @@ public class LoginController extends BaseAbstractController {
 	 		}
 	 		
 	 		//set cookie
-	 		CookieUtils.setProfileCookie(response, customerProfile);
+	 		CookieUtils.setProfileCookie(request, response, customerProfile);
 	 					
 	 		String successView = getSuccessView();
 			return new ModelAndView(new RedirectView(successView));
