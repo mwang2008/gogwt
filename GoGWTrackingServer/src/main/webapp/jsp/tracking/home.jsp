@@ -19,9 +19,15 @@
   <div id="wrapper">
   <div id="container">
     <%@ include file="i_header.jspf"%>
-    <%@ include file="i_home_menu.jspf"%>
+	<c:choose>
+	   <c:when test="${env.customerProfile != null}">
+	      <%@ include file="i_menu.jspf"%>
+	   </c:when>
+	   <c:otherwise>
+	      <%@ include file="i_home_menu.jspf"%>
+	   </c:otherwise>
+	</c:choose>
     
-    <%-- left --%>
     <div id="wrapperContent" style="position: relative">
        <table> 
           <tr>
@@ -30,9 +36,6 @@
           
        </table>
     </div> 
-    
-     
-    
     <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
   </div>
 </div>
