@@ -59,7 +59,7 @@ public class EnrollCustomerController extends BaseAbstractController {
 			HttpSession session = request.getSession();
 			
 			//set cookie
-	 		CookieUtils.setProfileCookie(response, customerProfile);
+	 		CookieUtils.setProfileCookie(request, response, customerProfile);
 	 		
 	 		//set session
 			session.setAttribute(CUSTOMER_PROFILE, customerProfile);
