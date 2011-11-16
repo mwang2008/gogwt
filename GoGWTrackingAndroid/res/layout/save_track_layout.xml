@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<TextView android:layout_width="fill_parent"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_height="wrap_content" android:text="@string/trackdetail"
+		android:gravity="center"></TextView>
+
+
+	<TextView android:layout_width="fill_parent"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_height="wrap_content" android:text="@string/trackdetail"
+		android:gravity="center"></TextView>
+
+	<EditText android:inputType="textPersonName"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:id="@+id/trackname">
+		<requestFocus></requestFocus>
+	</EditText>
+
+	<TextView android:layout_width="fill_parent"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_height="wrap_content" android:text="@string/trackdesc"
+		android:gravity="top" android:lines="5">
+	</TextView>
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:stretchColumns="1">
+		<TableRow android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<Button android:layout_height="wrap_content" android:gravity="center"
+				android:layout_width="wrap_content" android:id="@+id/save"
+				android:text="save">
+			</Button>
+			<Button android:layout_height="wrap_content" android:gravity="center"
+				android:layout_width="wrap_content" android:id="@+id/cancel"
+				android:text="cancel">
+			</Button>
+		</TableRow>
+	</TableLayout>
+</LinearLayout> 
