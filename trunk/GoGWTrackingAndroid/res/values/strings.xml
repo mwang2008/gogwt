@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, LoginActivity!</string>
+    <string name="app_name">GoGWTracking</string>
+    
+    <!--  MainMenuActivity -->
+    <string name="text_main">Select an option to view the associated gogps.</string>
+    <string name="disclimaer">Click Start Tracking below for stacking your location. 
+              Your location will be sent to the server http://www.gogwt.com/tracking  </string>
+    
+    <string-array name="main_menu_items">
+        <item>Start Tracking</item>
+        <item>Log Out</item>		
+	</string-array>
+	
+    <string name="text_rss_description">These examples retrieve the RSS feed from blog.springsource.com. 
+    RSS feeds can be retrieved with the SyndFeedHttpMessageConverter or the more specific 
+    RssChannelHttpMessageConverter. The SyndFeed message converter supports RSS and ATOM using an 
+    abstracted object model.</string>
+    
+
+	
+	<string name="text_http_post_description">HTTP POST requests to the server.</string>
+	<string-array name="http_post_activity_options">
+		<item>String</item>
+		<item>JSON and XML</item>
+		<item>MultiValueMap</item>
+		<item>Form Data</item>
+		<item>Send Location</item>
+	</string-array>
+	
+	<!--  LoginActivity -->
+	<string name="groupId">Group Id</string>
+	<string name="displayName">Display Name</string>
+	<string name="rememberme">Remember Me</string>
+	<string name="login"> Login </string>
+	<string name="nogroupid"> Do not have a groupId? </string>
+	<string name="signup">Signup</string>
+   
+    <!--  EnrollActivity -->    
+    <string name="enrollment">Enrollment</string>   
+    <string name="enroll">Enroll</string>   
+    <string name="groupname">Group Name</string>
+    <string name="username">User Name</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">Email Address</string>
+    <string name="password">Password</string>
+    <string name="passwordconfirm">Confirm Password</string>
+    
+    <!-- SaveTrackActivity -->
+    <string name="trackdetail">Track Detail</string> 
+    <string name="trackdesc">Track Description</string>
+      
+</resources>
