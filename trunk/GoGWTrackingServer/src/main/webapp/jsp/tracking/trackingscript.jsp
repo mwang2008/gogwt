@@ -124,7 +124,7 @@
       function showMaps(map) {  
     
          //jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5', function(data) {
-		 //jq.getJSON('http://local.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
+		 //jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
 		 var url = ajaxUrl;
 	     jq.getJSON(url, function(data) {    
              if (!data.dispLocations || data.dispLocations.length == 0) {  
@@ -166,7 +166,8 @@
 	       var length = 0;
 	        
 	     	       
-	       mylocs = "data=" + data.dispLocations.length + ", locs="+locs.length + ", dispName="+dispName; 		
+	       //mylocs = "data=" + data.dispLocations.length + ", locs="+locs.length + ", dispName="+dispName; 		
+		   mylocs = "Display Name: "+dispName; 		
 	       document.getElementById("mylocs").innerHTML = mylocs;
 	     
 	       var pts = [];
@@ -269,24 +270,27 @@
 	        } else {
 	           mousemarker.setPosition(locPoint);
             }            
-    		 
+    		
+            <%-- show path mouse over information: path location, speed, display name --%>
 			var info = "Path Location: " + locPoint.lat().toFixed(6) + "," + locPoint.lng().toFixed(6);
 	         
 			var speedInfo = getSpeedInfo(index, locPoint.lat()*1.0e6, locPoint.lng()*1.0e6);
-			//myLog("speedInfo " + speedInfo);
 			if (speedInfo != null) {
 			   info += speedInfo;
-			   
-			}
+			}			 
 			info += "<br>Display Name: " + '<span style="color:'+ color +'">' + html + '</span>' ;
+			
 			document.getElementById("locInfo").innerHTML = info;
          }); 
                     
    }  <%-- end of createClickablePolyline --%>
    
-  
-   function getSpeedInfo(index, lat, lng) {
-      if (lastDispLocations != null) {
+   <%--
+       s1 ---- s --- s2
+       speed s = (s1*dist(s2-s) + s2*dist(s-s1))/(dist(s2-s)+dist(s-s1))
+   --%>
+   function getSpeedInfo(index, lat, lng) {      
+      if (lastDispLocations != null) {	      
 	      var selectedLat = lat | 0;
 		  var selectedLng = lng | 0;
 		  var locs = null;
@@ -294,7 +298,7 @@
 		  var selectedTrackList = lastDispLocations[index].locs;
 		  var startLocIndex=selectedTrackList.length;
 		  var endLocIndex=0;		  
-		  var hasSameLoc = false;
+		  var hasSameLoc = false;		  
 		  for (var i=1; i<selectedTrackList.length; i++) {
 		      if (isSameLocation(selectedTrackList[i-1], selectedTrackList[i])) {
 			      if (!hasSameLoc) {
@@ -319,15 +323,23 @@
 			  }
 		  }
 		  
-		  if (endLocIndex == 0) {
-		     return null;
+		  var insertedSpeed = "";
+		  
+		  if (endLocIndex == 0) {		     
+		     return null;			 
 		  }
 		  
-		  return "<br>Speed (mph): " +(selectedTrackList[startLocIndex].speed + selectedTrackList[endLocIndex].speed)/2.00;
+		  //insertedSpeed += "startLoc=" + startLocIndex + ",speed="+selectedTrackList[startLocIndex].speed +",endLocIndex=" + endLocIndex + ",speed="+selectedTrackList[endLocIndex].speed +" -- "  ;
+		   
+		  insertedSpeed += (selectedTrackList[startLocIndex].speed + selectedTrackList[endLocIndex].speed)/2.00;
+		  
+		  var speedTime = "<br>Date Time: " + formatDateFromTime((selectedTrackList[startLocIndex].time + selectedTrackList[endLocIndex].time)/2.00);
+		  speedTime += "<br>Speed: " + meterToFeet(insertedSpeed).toFixed(2) + " (feet/s), " + meterToMPH(insertedSpeed).toFixed(2) + " (mph)";
+		  return speedTime;
 	      
 	  }
    }
-   
+    
    function isSameLocation(latlng1, latlng2) {
       if (latlng1.latitude == latlng2.latitude && latlng1.longitude == latlng2.longitude) {
 	     return true;
@@ -364,7 +376,7 @@
 	     inBetween = !(selectedLat > latlng2.latitude || selectedLat < latlng1.latitude);
 	  }
 	  
-	  if (inBetween = false) {
+	  if (inBetween == false) {
 	     return false;
 	  }
 	  
@@ -420,20 +432,18 @@
          numLastTrackNames++;
       }); <%-- end of jq.each(data.dispLocations --%>
               
-      showSideBar();
-      //redrawSidebar = true;
+      showSideBar();    
    }
    
     
    function createSideBar(index, color, line, glocation) {
-      //alert(" createSideBar ");
       var sidebar = "";
            
       var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"click\");'>"+line.label +"</a>";
       sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br />';
           
-      sidebar += '&nbsp; StartTime: ' + line.startTime +  '<br />';
-      sidebar += '&nbsp; Speed: ' + glocation.speed + '<br />';
+      sidebar += '&nbsp; Start Time: ' + formatDateFromTime(line.startTime) +  '<br />';
+      sidebar += '&nbsp; Current Speed: ' + glocation.speed + '<br />';
 	  
 	  if (index == currentIndex) {
 		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" checked onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
@@ -441,10 +451,11 @@
 	  else {
 		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
 	  }
+	  <%--
 	  sidebar += '<br>';
-	  sidebar += '&nbsp; '  + 'poly_num=' + index + '<br />';
+	  sidebar += '&nbsp; '  + 'poly num:' + index + '<br />';
       sidebar += '<hr>';
-          
+      --%>    
       side_bar_arr[index] = sidebar;
    }
            
@@ -506,7 +517,9 @@
 		 var idleTime=0;
 	     if (lasttimeWithData != null) {
             idleTime = new Date().getTime() - lasttimeWithData.getTime();
-			document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime + ", lasttimeWithData=" + lasttimeWithData.getTime() + ", idleTime="+idleTime;
+			
+			//.format("mm/dd/yy h:MM:ss")
+			document.getElementById("xtimer").innerHTML = "Total Runtime: " + totalRuntime + "<br> Last With Data: " + formatDateFromTime(lasttimeWithData.getTime()) + "<br>Idle Time: "+idleTime +" (s)";
 			
 			if (idleTime > IDLE_TIME_ALLOWED_IN_SEC*1000 ) {
                if (totalRuntime > NUM_AUTO_REFERSH) { 
@@ -517,7 +530,7 @@
             }	       
 	 	 }
 		 else {
-		    document.getElementById("xtimer").innerHTML = "totalRuntime=" + totalRuntime ;
+		    document.getElementById("xtimer").innerHTML = "totalRuntime: " + totalRuntime ;
 		    if (totalRuntime > NUM_AUTO_REFERSH) { 
                totalRuntime = 0;
 	           document.getElementById('autoRefersh').style.visibility='visible';
@@ -525,7 +538,7 @@
             } 
 		 }
     }
-      
+   
     function stopRotation() {
          totalRuntime = 0;
       	 clearInterval(timer);
@@ -572,6 +585,21 @@
       }
    }    
    
+   function formatDateFromTime(theTimeInMillsec) {
+	    var theDateTime = new Date(theTimeInMillsec);
+	    var yyyy = theDateTime.getFullYear()+"";
+		var yy = yyyy.substring(2);
+		
+        return theDateTime.getMonth() +"/" + theDateTime.getDate()+"/" + yy + " " + theDateTime.getHours() + ":" + theDateTime.getMinutes();
+   }		
+   
+   function meterToFeet(meterPerSec) {
+       return meterPerSec*3.2808399;
+   }
+   function meterToMPH(meterPerSec) {
+       return meterPerSec*2.23693629;
+   }
+   
    function selectRadioPoly(poly_num) {    
   	  changeChart = true;
 	  currentIndex = poly_num;
@@ -590,7 +618,7 @@
    function drawChart() {
    }
  
-
+   var options = null;
    function plotCurrentChart(ii, index, dispName, color, time, speed, point) {       
       if (chartData == null) {
           chartData = new google.visualization.DataTable();
@@ -601,19 +629,20 @@
            
        charsRepo[ii] = point;
        
-       chartData.addRow(['', speed]);
+       chartData.addRow(['', meterToMPH(speed)]);
      
-	   var options = {
-         width: 740,
-         height: 200,
-         legend: 'none',
-         title:  'Display Name: ' + dispName,
-         titleY: 'Speed (mph)',
-         titleX: 'Time',
-         colors: [color,color],
-         focusBorderColor: '#FFFFCC'
-       };
-	   
+	   if (options == null) {
+	      options = {
+             width: 740,
+             height: 200,
+             legend: 'none',
+             title:  'Display Name: ' + dispName,
+             titleY: 'Speed (mph)',
+             titleX: 'Time',
+             colors: [color,color],
+             focusBorderColor: '#FFFFCC'
+          };
+	   }
 	   chart.draw(chartData, options);
 	    
        google.visualization.events.addListener(chart, 'onmouseover', function(e) {
