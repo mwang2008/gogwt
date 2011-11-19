@@ -44,9 +44,11 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 			// save urlMappingElem to request
 			request.setAttribute(ENV, urlMappingElem);
 
-			CustomerProfile profile = CookieUtils.getCookieProfile(request);
-			if (profile != null) {
-				session.setAttribute(CUSTOMER_PROFILE, profile);
+			if (customerProfile == null) {
+			   CustomerProfile profile = CookieUtils.getCookieProfile(request);
+			   if (profile != null) {
+				  session.setAttribute(CUSTOMER_PROFILE, profile);
+			   }
 			}
 			
 			return true;

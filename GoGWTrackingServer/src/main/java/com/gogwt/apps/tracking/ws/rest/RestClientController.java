@@ -261,12 +261,14 @@ public class RestClientController {
 	 *  PRIVATE METHODS 
 	 */
 	private DisplayResponse processCurrentDisp(String groupId, final HttpServletRequest request) { 
+		/*
 		HttpSession session = request.getSession();
         CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
 
         if (customerProfile != null) {
         	groupId = customerProfile.getGroupId();
         }
+        */
         final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
         //final Collection<GDispItem> dispLocation = service.getActiveLocationsByGroupId(customerProfile.getGroupId());
         final ArrayList<GDispItem> dispLocation = service.getActiveLocationsByGroupId(groupId);

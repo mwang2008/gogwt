@@ -4,6 +4,7 @@
 
 <%@ include file="/jsp/common/i_global.jspf"%>
 
+
 <html lang="${env.languageId}">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
@@ -80,8 +81,9 @@
 								      <b>Start Location </b>(latitude,longitude) <b>:</b> (${track.latitude/1.0e6}, ${track.longitude/1.0e6})  
 								 </c:otherwise>
 							  </c:choose>
-							  &nbsp;&nbsp; <b>Start Time:</b> ${track.time}
-						   </c:if>
+							  &nbsp;&nbsp; <b>Start Time:</b> 
+ 							  ${gogwtutil:formatTimestamp(track.time)}
+				   </c:if>
                            
 						   <c:if test="${status.last}">
 						       <br>
@@ -93,7 +95,7 @@
 								      <b>End Location </b>(latitude,longitude)<b>:</b> (${track.latitude/1.0e6}, ${track.longitude/1.0e6})
 								 </c:otherwise>
 							  </c:choose>	
-                              &nbsp;&nbsp; <b>End Time:</b> ${track.time}							  
+                              &nbsp;&nbsp; <b>End Time:</b> ${gogwtutil:formatTimestamp(track.time)}  							  
 						   </c:if>
                         </c:forEach> 
                       </td>
