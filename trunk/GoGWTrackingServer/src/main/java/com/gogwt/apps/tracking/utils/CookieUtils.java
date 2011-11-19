@@ -9,8 +9,8 @@ import com.gogwt.apps.tracking.data.CustomerProfile;
 public class CookieUtils {
 	public static final int SECONDS_PER_MONTH = 60*60*24*30;
 	public static final int SECONDS_PER_YEAR = 60*60*24*365;
-	public static final String DOMAIN_NAME = ".gogwt.com";
-	private static final String PROFILE_COOKIE_NAME = "profile";
+	//public static final String DOMAIN_NAME = ".gogwt.com";
+	public static final String PROFILE_COOKIE_NAME = "profile";
 	public static final String HOST_HEADER = "HOST";
 	
 	public static String getCookieDomain( final HttpServletRequest request ) {
@@ -52,6 +52,14 @@ public class CookieUtils {
         return cookie;
     }
 	
+	public static void removeCookie(final HttpServletRequest request, HttpServletResponse response, String cookieName) {
+		Cookie cookie = new Cookie(cookieName, "");		 
+		cookie.setMaxAge(0);
+		cookie.setDomain(getCookieDomain(request));
+		 
+		response.addCookie(cookie);
+ 	}
+	
 	public static void setCookie(HttpServletResponse response, Cookie cookie) {
 		 response.addCookie(cookie);
 	}
@@ -65,24 +73,7 @@ public class CookieUtils {
 		 response.addCookie(cookie);
 	}
 	
-	/**
-	 * 
-	 * @param response
-	 * @param name
-	 * @param value
-	 * @param maxAge
-	 * @deprecated user other setCookie method instead
-	 */
-	public static void setCookie(HttpServletResponse response, String name, String value, int maxAge) {
-		 Cookie cookie = new Cookie(name, value);
-		 
-		 cookie.setMaxAge(maxAge);
-		 cookie.setDomain(DOMAIN_NAME);
-		 
-		 response.addCookie(cookie);
-	}
-	
-	public static void setProfileCookie(HttpServletRequest request, HttpServletResponse response, CustomerProfile customerProfile) {
+ 	public static void setProfileCookie(HttpServletRequest request, HttpServletResponse response, CustomerProfile customerProfile) {
 		String cookieValue = customerProfile.getGroupId()+"|"+customerProfile.getUserName()+"|"+customerProfile.getFirstName()+"|"+customerProfile.getLastName();
 		
 		setCookie(request, response, PROFILE_COOKIE_NAME, cookieValue, SECONDS_PER_MONTH);

@@ -629,8 +629,14 @@
            
        charsRepo[ii] = point;
        
-       chartData.addRow(['', meterToMPH(speed)]);
-     
+       //chartData.addRow(['', meterToMPH(speed)]);
+	   if (ii%10 == 0) {
+          chartData.addRow([ii+1+'', meterToMPH(speed)]);
+	   }
+	   else {
+	     chartData.addRow(['', meterToMPH(speed)]);
+	   }
+	 
 	   if (options == null) {
 	      options = {
              width: 740,
