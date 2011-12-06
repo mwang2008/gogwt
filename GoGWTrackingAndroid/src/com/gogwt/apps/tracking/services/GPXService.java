@@ -17,6 +17,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.gogwt.apps.tracking.activities.LocationTrackingActivity;
 import com.gogwt.apps.tracking.data.GLocation;
 import com.gogwt.apps.tracking.data.GPXPoint;
 import com.gogwt.apps.tracking.data.ICollectionListener;
@@ -24,9 +25,9 @@ import com.gogwt.apps.tracking.data.IRemoteInterface;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.request.LocationRequest;
 import com.gogwt.apps.tracking.data.response.LocationResponse;
-import com.gogwt.apps.tracking.dataaccess.dao.LocationDAO;
 import com.gogwt.apps.tracking.services.http.SendLocation;
 import com.gogwt.apps.tracking.utils.GwtLog;
+import com.gogwt.apps.tracking.utils.NotifyMessageUtils;
 import com.gogwt.apps.tracking.utils.SessionManager;
 
 /**
@@ -121,7 +122,7 @@ public class GPXService extends Service {
 
 		// notify that we've stopped
 		// NotifyMessageUtils.showNotifyMsg(getApplicationContext(),
-		// "GoGPS Tracking Stoped at " + endGPSTime, info);
+		//   "GoGPS Tracking Stoped at " + endGPSTime, info);
 
 		Toast.makeText(getApplicationContext(),
 				"GPS Tracking - Tracking stopped " + info, Toast.LENGTH_SHORT)
@@ -175,6 +176,7 @@ public class GPXService extends Service {
 				request.setProfile(profile);
 
 				// todo process result later
+				GwtLog.d(TAG, request.toString());
 				LocationResponse result = sendLocation.httpPost(request);
 
 			} catch (Throwable t) {
@@ -213,12 +215,13 @@ public class GPXService extends Service {
 		startEnableGPSTime = android.text.format.DateFormat.format(
 				"yyyy-MM-dd hh:mm:ss", new java.util.Date()).toString();
 
-		String gpsProviderInfo = "Tracking start at " + gpsUpdateRate
+		String gpsProviderInfo = "Tracking starts at " + gpsUpdateRate
 				+ "s intervals with [" + provider + "] as the provider";
 
-		// NotifyMessageUtils.showNotifyMsg(getApplicationContext(),
-		// "GoGPS starts: " + startEnableGPSTime, gpsProviderInfo);
-
+		//NotifyMessageUtils.showNotifyMsg(getApplicationContext(),
+		//    "GoGPS starts: " + startEnableGPSTime, gpsProviderInfo);        
+		NotifyMessageUtils.showNotifyMsgWithResume(LocationTrackingActivity.class, this.getApplicationContext(), "GPS - Start", gpsProviderInfo);
+		
 		Toast.makeText(getApplicationContext(), "GPS Tracking - Start ",
 				Toast.LENGTH_SHORT).show();
 	}
@@ -297,10 +300,14 @@ public class GPXService extends Service {
 				totalDistance += distance;
 			} else {
 				// first time
-				firstTime = System.currentTimeMillis();
+				//firstTime = System.currentTimeMillis();
 				totalDistance = 0;
 			}
 
+			//if (firstTime == -1) {
+			firstTime = SessionManager.getGpxContext().getFirstTime(); //System.currentTimeMillis();
+			//}
+			
 			point.startTime = firstTime;
 			point.totalDistance = totalDistance;
 
@@ -340,8 +347,7 @@ public class GPXService extends Service {
 				for (ICollectionListener listener : listeners) {
 					try {
 						// Note: listener.updateLocation(point) is not working
-						// as
-						// point bind to different thread
+						// as point bind to different thread
 						listener.handleLocationUpdated();
 					} catch (RemoteException e) {
 						Log.w(TAG, "Failed to notify listener " + listener, e);
@@ -351,7 +357,7 @@ public class GPXService extends Service {
 
 			double distance=0.0;
 			if (srvLastLocation != null) {
-				distance = location.distanceTo(srvLastLocation);			 
+				distance = location.distanceTo(srvLastLocation);	//in meters		 
 				srvTotalDistance += distance;
 			} else {
 				srvTotalDistance = 0;
@@ -372,7 +378,8 @@ public class GPXService extends Service {
 			gLocation.setSpeed(location.getSpeed());
 			gLocation.setTime(location.getTime());
 			gLocation.setDistance(distance);
-			gLocation.setStartTime(firstTime);
+			//gLocation.setStartTime(firstTime);
+			gLocation.setStartTime(SessionManager.getGpxContext().getFirstTime());
 			gLocation.setTotalDistance(srvTotalDistance);
 
 			synchronized (locationList) {

@@ -27,7 +27,7 @@ public class SendLocation {
 	 		MediaType mediaType = MediaType.APPLICATION_JSON;
 			 
 			final String url = ServerURLFactory.getSendLocationURL();
-			GwtLog.i(TAG, " ---  url=" + url);
+			GwtLog.d(TAG, " ---  url=" + url);
 			
 			HttpHeaders requestHeaders = new HttpHeaders();
 			requestHeaders.setContentType(mediaType);

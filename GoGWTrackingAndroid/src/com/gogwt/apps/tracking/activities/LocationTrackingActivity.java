@@ -2,6 +2,7 @@ package com.gogwt.apps.tracking.activities;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -23,16 +24,19 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.gogwt.apps.tracking.R;
@@ -42,6 +46,8 @@ import com.gogwt.apps.tracking.data.IRemoteInterface;
 import com.gogwt.apps.tracking.services.GPXService;
 import com.gogwt.apps.tracking.utils.GeoRect;
 import com.gogwt.apps.tracking.utils.GwtLog;
+import com.gogwt.apps.tracking.utils.NotifyMessageUtils;
+import com.gogwt.apps.tracking.utils.SessionManager;
 import com.gogwt.apps.tracking.utils.StringUtils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -78,7 +84,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	private Projection mProjection;
     private Drawable markerDot = null;
     private DrawPolylineOverlay drawPolylineOverlay;
-    private boolean mIsBound = false;
+   // private boolean mIsBound = false;
     private ToggleButton togglebutton;
     
 	@Override
@@ -192,9 +198,9 @@ public class LocationTrackingActivity extends MapActivity implements
 		String remoteName = GPXService.GPX_SERVICE;
 		Intent intent = new Intent(remoteName);
 		bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-		mIsBound = true;
-		
-		super.onStart();
+		 	
+		SessionManager.getGpxContext().startTrack();
+ 		super.onStart();
 	}
 
 	@Override
@@ -213,9 +219,9 @@ public class LocationTrackingActivity extends MapActivity implements
 	public void onDestroy() {
 		super.onDestroy();
 		GwtLog.d(TAG, " == onDestroy");
-		if (mIsBound) {
-			unbindService(serviceConnection);
-			mIsBound = false;
+		if (SessionManager.getGpxContext().isGPSBound()) {
+			unbindService(serviceConnection);			
+			SessionManager.getGpxContext().setAppStart(false);
 		}
 		 
 		
@@ -228,17 +234,19 @@ public class LocationTrackingActivity extends MapActivity implements
 		   // Perform action on clicks
 	     if (togglebutton.isChecked()) {
 		    //Toast.makeText(this, "Start", Toast.LENGTH_SHORT).show();
-		    if (!mIsBound) {
+		    if (!SessionManager.getGpxContext().isGPSBound()) {
 				String remoteName = GPXService.GPX_SERVICE;
 				Intent intent = new Intent(remoteName);
 				bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-				mIsBound = true;		    	
+				SessionManager.getGpxContext().setGPSBound(true);
 		    }
 	     } else {
-	        //Toast.makeText(this, "Stop", Toast.LENGTH_SHORT).show();
-			if (mIsBound) {
+	        //pause
+			if (SessionManager.getGpxContext().isGPSBound()) {
 				unbindService(serviceConnection);
-				mIsBound = false;
+				SessionManager.getGpxContext().setGPSBound(false);
+				
+				NotifyMessageUtils.showNotifyMsgWithResume(LocationTrackingActivity.class, this.getApplicationContext(), "GPS - Pause", "GPS is paused");
 			}
 	     }
 	  }
@@ -251,9 +259,18 @@ public class LocationTrackingActivity extends MapActivity implements
 		if (tabId.equals(LOGOUT)) {
 
 			//pgxPointList.clear();
-			if (mIsBound) {
+			if (SessionManager.getGpxContext().isGPSBound()) {
 				unbindService(serviceConnection);
-				mIsBound = false;
+				//mIsBound = false;
+				SessionManager.getGpxContext().setGPSBound(false);
+ 				
+				String startEnableGPSTime = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", SessionManager.getGpxContext().getAppStartTime()).toString();
+				String endEnableGPSTime   = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", new java.util.Date()).toString();
+				String msg = "GPS started at " + startEnableGPSTime;
+				msg += " and ended at " +  endEnableGPSTime;
+				//NotifyMessageUtils.showNotifyMsgOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);
+				//todo: mwang
+				NotifyMessageUtils.sendCustomNotificationWithOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);
 			}
 		 		
 		    /* todo: add back later
@@ -268,6 +285,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			   intent = new Intent().setClass(this, MainMenuActivity.class);
 			}
 			*/
+			
 			Intent intent = null;
 			intent = new Intent().setClass(this, MainMenuActivity.class);
 			startActivity(intent);
@@ -286,6 +304,30 @@ public class LocationTrackingActivity extends MapActivity implements
 		updateView();
 	}
 
+	@Override  
+	public boolean onCreateOptionsMenu(Menu menu) {  	   
+		 MenuInflater inflater = getMenuInflater();
+		 inflater.inflate(R.menu.main_menu, menu);		 
+		 return true;
+	}  
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_setting:     
+	        	//Toast.makeText(this, "You pressed the setting!", Toast.LENGTH_LONG).show();
+	        	startActivity(new Intent(this, SettingPrefsActivity.class));
+	            break;
+	        case R.id.menu_help:     
+	        	Toast.makeText(this, "You pressed the help!", Toast.LENGTH_LONG).show();
+	            break;
+	        case R.id.menu_logout: 	        	
+	        	startActivity(new Intent(this, LogoutActivity.class));	     
+	            break;
+	    }
+	    return true;
+	}
+	
 	private void showView(final GPXPoint point) {
 		Log.d(TAG, "***** showView currentTabId= " + currentTabId);
 		if (LIST_TAB_TAG.equals(currentTabId)) {
@@ -339,22 +381,22 @@ public class LocationTrackingActivity extends MapActivity implements
 		//int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
 		String speedStr = StringUtils.format(mileperhour) + " mph [ ";		
 		speedStr += gpxPoint.speed + " f/s]";	 
-		info.add("Current speed:" + speedStr);
-		
-	
+		info.add("Current speed: " + speedStr);
+			
 		// totalDistance
 		DecimalFormat dec = new DecimalFormat("#.00");
 		String str = dec.format(gpxPoint.totalDistance*0.000621371192); //meters + " ms";
 		String strKm = dec.format(gpxPoint.totalDistance*0.000621371192*1.609);  //kilometer
 				
-		info.add("Total distance:" + str + " mi [" + strKm + " km]");
+		info.add("Total distance: " + str + " mi [" + strKm + " km]");
 
 		CharSequence diff = DateUtils.getRelativeTimeSpanString(gpxPoint.startTime, System.currentTimeMillis(), 0);		
-		info.add("GPS start:" + diff);
+		info.add("GPS start: " + diff);
 
 		// lat,lng
-		info.add("Latitude:" + gpxPoint.latitude / 1000000.00);
-		info.add("Lontitude:" + gpxPoint.longitude / 1000000.00);
+		DecimalFormat decformat = new DecimalFormat("#.00000");
+		info.add("Latitude: " + decformat.format(gpxPoint.latitude / 1000000.00));
+		info.add("Lontitude: " + decformat.format(gpxPoint.longitude / 1000000.00));
 
 		listView.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, info));

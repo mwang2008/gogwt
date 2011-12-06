@@ -1,10 +1,15 @@
 package com.gogwt.apps.tracking.activities;
 
+import static com.gogwt.apps.tracking.GoGWTConstants.AUTO_START;
+import static com.gogwt.apps.tracking.GoGWTConstants.INTERVAL;
+import static com.gogwt.apps.tracking.GoGWTConstants.UNIT;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,10 +21,12 @@ import android.widget.Toast;
 
 import com.gogwt.apps.tracking.AbstractMenuActivity;
 import com.gogwt.apps.tracking.R;
-import com.gogwt.apps.tracking.services.GPXService;
+import com.gogwt.apps.tracking.receiver.StartupReceiver;
+import com.gogwt.apps.tracking.utils.GwtLog;
 
 
 public class MainMenuActivity extends AbstractMenuActivity {
+	protected static final String TAG = MainMenuActivity.class.getSimpleName();
 	
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -31,6 +38,14 @@ public class MainMenuActivity extends AbstractMenuActivity {
 			createGpsDisabledAlert();
 		}
 		
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String keyVal = sharedPreferences.getString(UNIT, "unknown");
+		String interval = sharedPreferences.getString(INTERVAL, "999");
+		boolean autoStart = sharedPreferences.getBoolean(AUTO_START, false);
+		GwtLog.d(TAG, "========||||||| **** MainMenuActivity onReceive: keyVal="+keyVal);
+		GwtLog.d(TAG, "========||||||| **** MainMenuActivity onReceive: interval="+interval);
+		GwtLog.d(TAG, "========||||||| **** MainMenuActivity onReceive: autoStart="+autoStart);
+
 	}
 	
 	@Override
@@ -64,27 +79,26 @@ public class MainMenuActivity extends AbstractMenuActivity {
 	}
 	
 	@Override  
-	  public boolean onCreateOptionsMenu(Menu menu) {  
+	public boolean onCreateOptionsMenu(Menu menu) {  
 	   
 		 MenuInflater inflater = getMenuInflater();
 		 inflater.inflate(R.menu.main_menu, menu);
 		 
 		 return true;
-	  }  
+	}  
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.menu_icon:     
-	        	Toast.makeText(this, "You pressed the icon!", Toast.LENGTH_LONG).show();
+	        case R.id.menu_setting:     
+	        	//Toast.makeText(this, "You pressed the setting!", Toast.LENGTH_LONG).show();
+	        	startActivity(new Intent(this, SettingPrefsActivity.class));
 	            break;
-	        case R.id.menu_map:     
-	        	Toast.makeText(this, "You pressed the text!", Toast.LENGTH_LONG).show();
+	        case R.id.menu_help:     
+	        	Toast.makeText(this, "You pressed the help!", Toast.LENGTH_LONG).show();
 	            break;
-	        case R.id.menu_logout: 
-	        	//todo 
-	        	//startActivity(new Intent(this, LogoutActivity.class));	     
-	        	Toast.makeText(this, "You pressed the logout!", Toast.LENGTH_LONG).show();
+	        case R.id.menu_logout: 	        	
+	        	startActivity(new Intent(this, LogoutActivity.class));	     
 	            break;
 	    }
 	    return true;
