@@ -26,7 +26,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textOn="Pause"
-              android:textOff="Start"
+              android:textOff="Continue"
               android:checked="true"
             />
           <TableRow android:baselineAligned="false">
@@ -69,8 +69,8 @@
             </LinearLayout>
 
 		     <!--  
-		        czhao:    0pMwFTdixXK-a2cyjPHDeeO7HmVHdvLlhdcl7sA
-		        cypress:  0pMwFTdixXK8Or1NSmw_l2wlAjnHv_TvEpNi-Sg
+		        czhao:    0pMwFTdixXK-a2cyjPHDeeO7HmVHdvLlhdcl7sA		       
+		        cypress win7 64: 0QbYlxgYsf8JaV_h9ue5jJ4Kv3ur4ydNCjyegiQ
 		        prod:     0pMwFTdixXK9Q7HsSwt-Y7t0SW9ru0iPhrJC5tA
 		     -->
            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -80,9 +80,8 @@
                 <com.google.android.maps.MapView
                     android:id="@+id/mapview" android:layout_width="fill_parent"
                     android:layout_height="fill_parent" android:clickable="true"
-                    android:apiKey="0pMwFTdixXK8Or1NSmw_l2wlAjnHv_TvEpNi-Sg"
-                    
-                    />
+                    android:apiKey="0QbYlxgYsf8JaV_h9ue5jJ4Kv3ur4ydNCjyegiQ"
+                />
            </LinearLayout>
  		
        
