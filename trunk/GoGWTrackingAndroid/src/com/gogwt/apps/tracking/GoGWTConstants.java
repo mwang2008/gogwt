@@ -13,6 +13,12 @@ public final class GoGWTConstants {
     public final static String UNKNOWN = "unknown";
     public final static String PASSWORD = "password";
    
+    //app preference
+    public final static String APP_PREFERENCE_SETTING = "appPreferenceSetting";
+    public final static String UNIT = "prefreed_unit";
+    public final static String INTERVAL = "server_interval";
+    public final static String AUTO_START = "auto_start";
+    
     
     //QA
     public final static String REST_URL_PREFIX = "http://10.0.121.162/tracking/en-us/";

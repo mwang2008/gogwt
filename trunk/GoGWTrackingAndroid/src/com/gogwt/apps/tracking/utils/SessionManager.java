@@ -2,12 +2,14 @@ package com.gogwt.apps.tracking.utils;
 
 import android.content.Context;
 
+import com.gogwt.apps.tracking.data.GPXContext;
 import com.gogwt.apps.tracking.data.Profile;
 
 public final class SessionManager {
 	
     private static Profile profile;
-
+    private static GPXContext gpxContext;
+    
 	public static Profile getProfile(Context context) {
 		if (profile == null) {
 			//check preference
@@ -40,4 +42,16 @@ public final class SessionManager {
 		
 		SharedPreferenceUtils.clearProfile(context);
 	}
+
+	public static GPXContext getGpxContext() {
+		if (gpxContext == null) {
+			gpxContext = new GPXContext();
+		}
+		return gpxContext;
+	}
+	
+
+	 
+	
+	
 }
