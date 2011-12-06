@@ -12,6 +12,14 @@
         <item>Start Tracking</item>
         <item>Log Out</item>		
 	</string-array>
+
+    <string-array name="main_menu_items_with_pause">
+        <item>Start Tracking</item>
+        <item>Continue Tracking</item>
+        <item>Log Out</item>        		
+	</string-array>
+	
+	<string name="window_title_preferences">Preferences</string>
 	
     <string name="text_rss_description">These examples retrieve the RSS feed from blog.springsource.com. 
     RSS feeds can be retrieved with the SyndFeedHttpMessageConverter or the more specific 
