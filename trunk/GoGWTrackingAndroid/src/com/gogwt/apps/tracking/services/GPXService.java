@@ -1,17 +1,23 @@
 package com.gogwt.apps.tracking.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -29,6 +35,8 @@ import com.gogwt.apps.tracking.services.http.SendLocation;
 import com.gogwt.apps.tracking.utils.GwtLog;
 import com.gogwt.apps.tracking.utils.NotifyMessageUtils;
 import com.gogwt.apps.tracking.utils.SessionManager;
+
+ 
 
 /**
  * <pre>
@@ -81,7 +89,8 @@ public class GPXService extends Service {
 	private Timer timer;
 	private SendLocation sendLocation;
 	private ArrayList<GLocation> locationList = new ArrayList<GLocation>();
-
+	private SmsContentObserver smsContentObserver = null;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -101,6 +110,7 @@ public class GPXService extends Service {
 		Log.d(TAG, "==== onStart");
 
 		initGPSProvider(intent);
+		registerContentObservers();
 	}
 
 	@Override
@@ -132,6 +142,8 @@ public class GPXService extends Service {
 			timer.cancel();
 			timer = null;
 		}
+		
+		unregisterContentObservers();
 	}
 
 	@Override
@@ -168,8 +180,10 @@ public class GPXService extends Service {
 				LocationRequest request = new LocationRequest();
 				List<GLocation> mylocationList = new ArrayList<GLocation>();
 				synchronized (locationList) {
-					mylocationList.addAll(locationList);
-					locationList.clear();
+					if (locationList != null && !locationList.isEmpty()) {
+					   mylocationList.addAll(locationList);
+					   locationList.clear();
+					}
 				}
 
 				request.setLocations(mylocationList);
@@ -458,4 +472,87 @@ public class GPXService extends Service {
 			return locInfo;
 		}
 	};
+	
+	class SmsContentObserver extends ContentObserver {
+		public SmsContentObserver(Handler h) {
+			super(h);
+		}
+		
+		@Override
+		public void onChange(boolean selfChange) {
+			Log.d("== SmsContentObserver ", "SmsContentObserver.onChange( "
+					+ selfChange + ")");
+			
+			chechSMS();
+			
+		}
+		
+		@Override
+	    public boolean deliverSelfNotifications() {
+	        return true;
+	    }
+	}
+
+	private String CONTENT_URI = "content://sms";
+	private Handler handler = new Handler();
+	private void registerContentObservers() {
+		ContentResolver contentResolver = getContentResolver();
+		smsContentObserver = new SmsContentObserver(handler);
+		Uri smsUri = Uri.parse(CONTENT_URI);
+		contentResolver.registerContentObserver(smsUri, true,
+				smsContentObserver);
+		GwtLog.d("== registerContentObservers", "registerContentObservers");
+	}
+
+	private void unregisterContentObservers() {
+		ContentResolver contentResolver = getContentResolver();
+		if (smsContentObserver != null) { 
+			contentResolver.unregisterContentObserver(smsContentObserver);
+			smsContentObserver = null;
+		}
+		GwtLog.d("== unregisterContentObservers", "unregisterContentObservers");
+	}
+	
+	private void chechSMS() {
+		final int MESSAGE_TYPE_INBOX  = 1;
+		final int MESSAGE_TYPE_SENT   = 2;
+		final int INBOX_READ = 1;
+	 	
+		ContentResolver contentResolver = getContentResolver();
+		
+		//type 1=inbox : 2=send   
+		//read 0=new : 1=read
+		String[] projection = {"address","date", "read", "type", "body"};
+		StringBuilder whereBuf = new StringBuilder();
+		whereBuf.append("type="+MESSAGE_TYPE_SENT);
+		whereBuf.append(" or ");
+		whereBuf.append(" (type="+MESSAGE_TYPE_INBOX);
+		whereBuf.append(" and ");
+		whereBuf.append(" read="+INBOX_READ +")");
+		
+		Cursor mCurSms = contentResolver.query(Uri.parse(CONTENT_URI),
+				projection, whereBuf.toString(), null, "DATE desc");
+		
+ 		int addressCol = mCurSms.getColumnIndex("address");
+ 		int dateCol = mCurSms.getColumnIndex("date");
+ 		int readCol = mCurSms.getColumnIndex("read");
+ 		int typeCol = mCurSms.getColumnIndex("type");
+ 		int bodyCol = mCurSms.getColumnIndex("body");
+		mCurSms.moveToFirst();
+		if (mCurSms.getCount() > 0) {
+			do {
+				String str = "=== In SEND address: "
+						+ mCurSms.getString(addressCol);
+ 				str += " date: " + new Date(mCurSms.getLong(dateCol)) + " : " + mCurSms.getLong(dateCol);
+ 				str += " read: " + mCurSms.getString(readCol);				
+ 				str += " type: " + mCurSms.getString(typeCol);
+ 				str += " body: " + mCurSms.getString(bodyCol);
+
+				Log.i("====== MyMain testSMS ", str);
+			} while (mCurSms.moveToNext());
+		} else {
+			Log.i("====== MyMain testSMS ", "no result");
+		}
+		mCurSms.close();
+	}
 }

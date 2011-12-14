@@ -1,8 +1,9 @@
 package com.gogwt.apps.tracking.activities;
 
+import static com.gogwt.apps.tracking.GoGWTConstants.UNIT;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -11,17 +12,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -33,10 +30,10 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.gogwt.apps.tracking.R;
@@ -44,6 +41,7 @@ import com.gogwt.apps.tracking.data.GPXPoint;
 import com.gogwt.apps.tracking.data.ICollectionListener;
 import com.gogwt.apps.tracking.data.IRemoteInterface;
 import com.gogwt.apps.tracking.services.GPXService;
+import com.gogwt.apps.tracking.services.http.HttpService;
 import com.gogwt.apps.tracking.utils.GeoRect;
 import com.gogwt.apps.tracking.utils.GwtLog;
 import com.gogwt.apps.tracking.utils.NotifyMessageUtils;
@@ -53,19 +51,15 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-import com.google.android.maps.Projection;
 
 public class LocationTrackingActivity extends MapActivity implements
 		OnTabChangeListener, View.OnTouchListener, View.OnClickListener {
 	protected static final String TAG = LocationTrackingActivity.class
 			.getSimpleName();
-
 	private static final String LIST_TAB_TAG = "List";
 	private static final String MAP_TAB_TAG = "Map";
 	//private static final String STOP_TRACKING_TAB_TAG = "Stop Tracking";
-	private static final String LOGOUT = "Logout";
+	private static final String STOP = "stop";
 	private String currentTabId = LIST_TAB_TAG;
 	private TabHost tabHost;
 	private ListView listView;
@@ -75,23 +69,15 @@ public class LocationTrackingActivity extends MapActivity implements
 	private TextView speedinfoView;
 	
 	private Handler handler;
-	private MapItemizedOverlay mItemizedOverlay;
-
-	private IRemoteInterface mRemoteInterface = null;
-	private ArrayList<GPXPoint> pgxPointList = null;
-	private boolean isFirstPoint;
-	private GeoPoint lastPoint = null;
-	private Projection mProjection;
-    private Drawable markerDot = null;
+	 	private IRemoteInterface mRemoteInterface = null;
+	
     private DrawPolylineOverlay drawPolylineOverlay;
-   // private boolean mIsBound = false;
     private ToggleButton togglebutton;
     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		GwtLog.i(TAG, "====== LocationTrackingActivity onCreate \n\n");
-		//Debug.startMethodTracing("gogwtmap");
-		
+	 	
 		super.onCreate(savedInstanceState);
 		 // We don't need a window title bar:
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -103,13 +89,8 @@ public class LocationTrackingActivity extends MapActivity implements
 			createGpsDisabledAlert();
 		}
 		
+	 	handler = new Handler();
 	
-		// Remove the window's background because the MapView
-	    //getWindow().setBackgroundDrawable(null);
-
-		handler = new Handler();
-		pgxPointList = new ArrayList<GPXPoint>();
-
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
 		tabHost.setup(); // required if using findViewById
 		tabHost.setOnTabChangedListener(this);
@@ -131,8 +112,8 @@ public class LocationTrackingActivity extends MapActivity implements
 		mapView.getOverlays().add(drawPolylineOverlay);
 		
 		mapController = mapView.getController();
-		mapController.setZoom(7); // Zoom 1 is world view
-		mProjection = mapView.getProjection();
+		mapController.setZoom(10); // Zoom 1 is world view
+		//mProjection = mapView.getProjection();
 		//mapView.setReticleDrawMode(MapView.ReticleDrawMode.DRAW_RETICLE_UNDER);
 		 
 		speedinfoView = (TextView) findViewById(R.id.speedinfo);
@@ -155,7 +136,7 @@ public class LocationTrackingActivity extends MapActivity implements
 					}
 				}));
 
-		tabHost.addTab(tabHost.newTabSpec(LOGOUT)
+		tabHost.addTab(tabHost.newTabSpec(STOP)
 				.setIndicator("Stop")
 				.setContent(new TabContentFactory() {
 					public View createTabContent(String arg0) {
@@ -233,7 +214,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	   if (togglebutton == paramView) {
 		   // Perform action on clicks
 	     if (togglebutton.isChecked()) {
-		    //Toast.makeText(this, "Start", Toast.LENGTH_SHORT).show();
+		     
 		    if (!SessionManager.getGpxContext().isGPSBound()) {
 				String remoteName = GPXService.GPX_SERVICE;
 				Intent intent = new Intent(remoteName);
@@ -256,13 +237,13 @@ public class LocationTrackingActivity extends MapActivity implements
 	public void onTabChanged(String tabId) {
 		GwtLog.d(TAG, "***** onTabChanged tabId="+tabId + " , id=" +tabHost.getCurrentTab());
 	
-		if (tabId.equals(LOGOUT)) {
+		if (tabId.equals(STOP)) {
 
 			//pgxPointList.clear();
 			if (SessionManager.getGpxContext().isGPSBound()) {
 				unbindService(serviceConnection);
 				//mIsBound = false;
-				SessionManager.getGpxContext().setGPSBound(false);
+				
  				
 				String startEnableGPSTime = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", SessionManager.getGpxContext().getAppStartTime()).toString();
 				String endEnableGPSTime   = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", new java.util.Date()).toString();
@@ -271,6 +252,7 @@ public class LocationTrackingActivity extends MapActivity implements
 				//NotifyMessageUtils.showNotifyMsgOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);
 				//todo: mwang
 				NotifyMessageUtils.sendCustomNotificationWithOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);
+				
 			}
 		 		
 		    /* todo: add back later
@@ -285,6 +267,8 @@ public class LocationTrackingActivity extends MapActivity implements
 			   intent = new Intent().setClass(this, MainMenuActivity.class);
 			}
 			*/
+			HttpService.stopTracking(this.getApplicationContext());
+			SessionManager.getGpxContext().stopTrack();
 			
 			Intent intent = null;
 			intent = new Intent().setClass(this, MainMenuActivity.class);
@@ -370,23 +354,36 @@ public class LocationTrackingActivity extends MapActivity implements
 
 	private void showList(GPXPoint gpxPoint) {
 		GwtLog.d(TAG, "***** showList point= " + gpxPoint.latitude);
-
+		
+		//add point to collection of polyline defined in drawPolylineOverlay 
+		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
+		
 		final List<String> info = new ArrayList<String>();
 
 		speedinfoView.setText(" ");
-		
-		// currrent speed
-	    double mileperhour = StringUtils.meterPerSecToMilePerHour(gpxPoint.speed); /// / 5280.00;
-		
-		//int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
-		String speedStr = StringUtils.format(mileperhour) + " mph [ ";		
-		speedStr += gpxPoint.speed + " f/s]";	 
-		info.add("Current speed: " + speedStr);
+
+		SharedPreferences appPreference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		String unit = appPreference.getString(UNIT, "mi");
+		if (StringUtils.equalsIgnoreCase(unit, "mi")) {
+			// currrent speed
+		    double speed = StringUtils.meterPerSecToMilePerHour(gpxPoint.speed);
+			String speedStr = StringUtils.format(speed) + " mph [ ";		
+			speedStr += StringUtils.format(StringUtils.meterToFeet(gpxPoint.speed)) + " f/s]";
+			info.add("Current speed: " + speedStr);
+		}
+		else {
+		    double speed = StringUtils.meterPerSecToKilometerPerHour(gpxPoint.speed);
+			String speedStr = StringUtils.format(speed) + " kph [ ";		
+			speedStr += StringUtils.format(gpxPoint.speed) + " m/s]";
+			info.add("Current speed: " + speedStr);			
+		}
+	
+
 			
 		// totalDistance
-		DecimalFormat dec = new DecimalFormat("#.00");
-		String str = dec.format(gpxPoint.totalDistance*0.000621371192); //meters + " ms";
-		String strKm = dec.format(gpxPoint.totalDistance*0.000621371192*1.609);  //kilometer
+		//DecimalFormat dec = new DecimalFormat("#.00");
+		String str = StringUtils.format(gpxPoint.totalDistance*0.000621371192); //meters + " ms";
+		String strKm = StringUtils.format(gpxPoint.totalDistance*0.000621371192*1.609);  //kilometer
 				
 		info.add("Total distance: " + str + " mi [" + strKm + " km]");
 
@@ -404,19 +401,29 @@ public class LocationTrackingActivity extends MapActivity implements
 	}
 
 	private void updateSpeedInfoView(final GPXPoint gpxPoint) {
-		// speed
-		double mileperhour = StringUtils.meterPerSecToMilePerHour(gpxPoint.speed); /// / 5280.00;
 		
-		//int feetLeft = (int) (gpxPoint.speed - numOfMile * 5280);
-		String speedStr = StringUtils.format(mileperhour) + " mph [ ";		
-		speedStr += gpxPoint.speed + " feet/s]";
-		speedinfoView.setText(speedStr);
-	}
+		SharedPreferences appPreference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		String unit = appPreference.getString(UNIT, "mi");
+		if (StringUtils.equalsIgnoreCase(unit, "mi")) {
+			// speed
+			double mileperhour = StringUtils.meterPerSecToMilePerHour(gpxPoint.speed); 
+			String speedStr = StringUtils.format(mileperhour) + " mph [ ";		
+			speedStr += StringUtils.format(StringUtils.meterToFeet(gpxPoint.speed)) + " f/s]";
+			speedinfoView.setText(speedStr);
+		}
+		else {
+			double kilometerperhour = StringUtils.meterPerSecToKilometerPerHour(gpxPoint.speed); 
+			String speedStr = StringUtils.format(kilometerperhour) + " kph [ ";
+			speedStr += StringUtils.format(gpxPoint.speed) + " m/s]";
+			speedinfoView.setText(speedStr);
+		}
+ 	}
 
 	private void showMap(final GPXPoint gpxPoint) {
-		GwtLog.d(TAG, "***** new showMap  " );
+		GwtLog.d(TAG, "***** showMap  " );
 		updateSpeedInfoView(gpxPoint);
 		
+		//add point to overlay and call postInvalidate to trigger draw
 		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
 		mapView.postInvalidate();
 				
@@ -463,64 +470,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		    return r.contains(geoPoint);
     }
 
-	private void showMap_ori(final GPXPoint gpxPoint) {
-		GwtLog.d(TAG, "***** showMap= " );
- 		updateSpeedInfoView(gpxPoint);
 
-		mapView.invalidate();
-		//mapView.postInvalidate();
-
-		List<Overlay> mapOverlays = mapView.getOverlays();
-		//instead of remove all polylines and markers, only remove marker
-		
-		for (Overlay mapOverlay : mapOverlays) {
-			if (mapOverlay instanceof MapItemizedOverlay) {
-				mapOverlays.remove(mapOverlay);
-				break;
-			}
-		}
-		
-		
-		//mapOverlays.clear();
-
-		final GeoPoint point = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
-		
-		// add marker
-		OverlayItem overlayitem = new OverlayItem(point, "", "");
-		
-		if (markerDot == null) {
-			markerDot = this.getResources().getDrawable(R.drawable.red_circle);  //red_circle	red_dot		
-			markerDot.setBounds(-10, -10, markerDot.getIntrinsicWidth() - 7, markerDot.getIntrinsicHeight() - 7);
-		}
-		mItemizedOverlay = new MapItemizedOverlay(markerDot, this);		
-		    
-		   
-	    overlayitem.setMarker( mItemizedOverlay.getDrawable());
-		//overlayitem.setMarker(null);
-	    mItemizedOverlay.addOverlay(overlayitem);
-	    mapOverlays.add(mItemizedOverlay);
-	    
-		// add line		
-		if (drawPolylineOverlay == null) {
-			drawPolylineOverlay = new DrawPolylineOverlay(this);
-		}
-		
-		drawPolylineOverlay.addNewGPXPoint(gpxPoint);
-		
-		
-		if (lastPoint == null) {
-			mapController.animateTo(point);
-			lastPoint = point;
-			mapController.setZoom(10);
-			return;
-		}
-		 
-     	mapOverlays.add(drawPolylineOverlay);
-		
-		//mapOverlays.add(new DrawLinesOverlay(point));
-     	 
-	    
-	}
 
 	/**
 	 * serviceConnection is used for binding onServiceConnected is called after
@@ -551,7 +501,39 @@ public class LocationTrackingActivity extends MapActivity implements
 			updateView();
 		}
 	};
+	
+	private void createGpsDisabledAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Your GPS is disabled! Would you like to enable it?")
+				.setCancelable(false)
+				.setPositiveButton("Enable GPS",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								showGpsOptions();
+							}
+						});
+		builder.setNegativeButton("Do nothing",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 
+	private void showGpsOptions() {
+		Intent gpsOptionsIntent = new Intent(
+				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		startActivity(gpsOptionsIntent);
+	}
+	/**
+	 * 
+	 * @author michael.wang
+	 * 
+	 */
+	//private ArrayList<GPXPoint> pgxPointList = null;
+	/*
 	class DrawLinesOverlay extends Overlay {
 		// Projection projection;
 		GeoPoint newPoint;
@@ -602,32 +584,66 @@ public class LocationTrackingActivity extends MapActivity implements
 			canvas.drawPath(path, mPaint);
 		}
 	}
+    */
+	
+	/*private void showMap_ori(final GPXPoint gpxPoint) {
+	GwtLog.d(TAG, "***** showMap= " );
+		updateSpeedInfoView(gpxPoint);
 
-	private void createGpsDisabledAlert() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Your GPS is disabled! Would you like to enable it?")
-				.setCancelable(false)
-				.setPositiveButton("Enable GPS",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								showGpsOptions();
-							}
-						});
-		builder.setNegativeButton("Do nothing",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
+	mapView.invalidate();
+	//mapView.postInvalidate();
 
-	private void showGpsOptions() {
-		Intent gpsOptionsIntent = new Intent(
-				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		startActivity(gpsOptionsIntent);
+	List<Overlay> mapOverlays = mapView.getOverlays();
+	//instead of remove all polylines and markers, only remove marker
+	
+	for (Overlay mapOverlay : mapOverlays) {
+		if (mapOverlay instanceof MapItemizedOverlay) {
+			mapOverlays.remove(mapOverlay);
+			break;
+		}
 	}
+	
+	
+	//mapOverlays.clear();
+
+	final GeoPoint point = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
+	
+	// add marker
+	OverlayItem overlayitem = new OverlayItem(point, "", "");
+	
+	if (markerDot == null) {
+		markerDot = this.getResources().getDrawable(R.drawable.red_circle);  //red_circle	red_dot		
+		markerDot.setBounds(-10, -10, markerDot.getIntrinsicWidth() - 7, markerDot.getIntrinsicHeight() - 7);
+	}
+	mItemizedOverlay = new MapItemizedOverlay(markerDot, this);		
+	    
+	   
+    overlayitem.setMarker( mItemizedOverlay.getDrawable());
+	//overlayitem.setMarker(null);
+    mItemizedOverlay.addOverlay(overlayitem);
+    mapOverlays.add(mItemizedOverlay);
+    
+	// add line		
+	if (drawPolylineOverlay == null) {
+		drawPolylineOverlay = new DrawPolylineOverlay(this);
+	}
+	
+	drawPolylineOverlay.addNewGPXPoint(gpxPoint);
+	
+	
+	if (lastPoint == null) {
+		mapController.animateTo(point);
+		lastPoint = point;
+		mapController.setZoom(10);
+		return;
+	}
+	 
+ 	mapOverlays.add(drawPolylineOverlay);
+	
+	//mapOverlays.add(new DrawLinesOverlay(point));
+ 	 
+    
+}*/
 
 	
 }
