@@ -1,15 +1,10 @@
 package com.gogwt.apps.tracking.activities;
 
-import static com.gogwt.apps.tracking.GoGWTConstants.AUTO_START;
-import static com.gogwt.apps.tracking.GoGWTConstants.INTERVAL;
-import static com.gogwt.apps.tracking.GoGWTConstants.UNIT;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,8 +16,6 @@ import android.widget.Toast;
 
 import com.gogwt.apps.tracking.AbstractMenuActivity;
 import com.gogwt.apps.tracking.R;
-import com.gogwt.apps.tracking.receiver.StartupReceiver;
-import com.gogwt.apps.tracking.utils.GwtLog;
 
 
 public class MainMenuActivity extends AbstractMenuActivity {
@@ -37,16 +30,7 @@ public class MainMenuActivity extends AbstractMenuActivity {
 		if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			createGpsDisabledAlert();
 		}
-		
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String keyVal = sharedPreferences.getString(UNIT, "unknown");
-		String interval = sharedPreferences.getString(INTERVAL, "999");
-		boolean autoStart = sharedPreferences.getBoolean(AUTO_START, false);
-		GwtLog.d(TAG, "========||||||| **** MainMenuActivity onReceive: keyVal="+keyVal);
-		GwtLog.d(TAG, "========||||||| **** MainMenuActivity onReceive: interval="+interval);
-		GwtLog.d(TAG, "========||||||| **** MainMenuActivity onReceive: autoStart="+autoStart);
-
-	}
+ 	}
 	
 	@Override
 	protected String getDescription() {

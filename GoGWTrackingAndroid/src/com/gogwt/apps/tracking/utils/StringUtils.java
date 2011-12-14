@@ -39,8 +39,18 @@ public class StringUtils {
 		return numOfMile + " miles, " + feetLeft + " feet";
 	}
 	 
+	public static double meterToFeet(double meter) {
+	 	//1 meter = 3.2808399 feet
+	 	return meter*3.2808399f;
+	}
+	
 	public static double meterPerSecToMilePerHour(double meterInSec) {
-		//1 meter / second = 2.23693629 mile / hour
+		//1 meter / second = 3.6 mile / hour
+		return meterInSec* 3.6f;						
+	}
+	
+	public static double meterPerSecToKilometerPerHour(double meterInSec) {
+		//1 meter / second = 2.23693629*1.6 kilometer / hour
 		return meterInSec* 2.23693629f;
 						
 	}

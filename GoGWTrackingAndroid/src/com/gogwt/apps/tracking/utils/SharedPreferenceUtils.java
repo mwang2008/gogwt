@@ -30,7 +30,7 @@ public class SharedPreferenceUtils {
 		Editor edit = userPreference.edit();
 		edit.clear();
 		edit.putString(GROUP_ID, profile.getGroupId());
-		edit.putString(DISPLAY_NAME, profile.getPhoneNumber());
+		edit.putString(DISPLAY_NAME, profile.getDisplayName());
 		edit.putString(PHONE_NUMBER, profile.getPhoneNumber());		
 		edit.putString(SERVER_USER_NAME, profile.getServerUsername());
 		edit.putString(SERVER_FIRST_NAME, profile.getServerFirstName());

@@ -73,20 +73,17 @@ class DrawPolylineOverlay extends Overlay {
 	private GeoPoint mLastReferencePoint;
 	private Rect mLastViewRect;
     private int numCycle;
+    
+    
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, false);
 		//GwtLog.d(TAG, "== before shadow DrawPolylineOverlay draw " + numRun++);		 
 		if (shadow) {
 		  return;
 		}
-		 GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);//+ ", zoomLevel="+zoomLevel);
-		
-		
-/*
-		if (mPendingPoints.isEmpty()) {
-			return;
-		}*/
-		
+		GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);//+ ", zoomLevel="+zoomLevel);
+		GwtLog.d(TAG, "== mGpxPointList.size="+mGpxPointList.size());
+ 		
 		Path path = null;
 		
 		Projection projection = getMapProjection(mapView);
@@ -100,7 +97,7 @@ class DrawPolylineOverlay extends Overlay {
  			final GeoPoint referencePoint = projection.fromPixels(0, 0);
  			 
 			int newPoints = mPendingPoints.drainTo(mGpxPointList);
-
+			GwtLog.d(TAG, "== after adding new points mGpxPointList.size="+mGpxPointList.size());
 			boolean newProjection = !viewRect.equals(mLastViewRect) || !referencePoint.equals(mLastReferencePoint);
 			
 			GwtLog.d(TAG, "  newProjection ="+newProjection );
