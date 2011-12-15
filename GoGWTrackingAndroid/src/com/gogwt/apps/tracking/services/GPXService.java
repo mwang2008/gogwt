@@ -95,7 +95,7 @@ public class GPXService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		GwtLog.i(TAG, "==== onCreate");
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		//locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		int currentTimerRate = TIMER_UPDATE_RATE_IN_SEC;
 		timer = new Timer("GPXService-Timer");
@@ -242,10 +242,10 @@ public class GPXService extends Service {
 
 	private String changeRequestLocationFrequency(int updateRate) {
 		String provider = null;
-		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+		if (getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			provider = LocationManager.GPS_PROVIDER;
 		} else {
-			if (locationManager
+			if (getLocationManager()
 					.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 				provider = LocationManager.NETWORK_PROVIDER;
 				Toast.makeText(this, "Provider NETWORK_PROVIDER", 3000).show();
@@ -255,14 +255,20 @@ public class GPXService extends Service {
 		}
 
 		if (provider != null) {
-			locationManager.removeUpdates(trackListener);
-			locationManager.requestLocationUpdates(provider, updateRate, 0,
+			getLocationManager().removeUpdates(trackListener);
+			getLocationManager().requestLocationUpdates(provider, updateRate, 0,
 					trackListener);
 		}
 
 		return provider;
 	}
 
+	private LocationManager getLocationManager() {
+		if (locationManager == null) {
+		   locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		}
+		return locationManager;
+	}
 	/**
 	 * remote interface
 	 */
