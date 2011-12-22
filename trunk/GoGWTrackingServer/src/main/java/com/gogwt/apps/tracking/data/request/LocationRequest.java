@@ -3,13 +3,15 @@ package com.gogwt.apps.tracking.data.request;
 import java.util.List;
 
 import com.gogwt.apps.tracking.data.GLocation;
+import com.gogwt.apps.tracking.data.GSmsData;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.Setting;
 
 public class LocationRequest {
     private List<GLocation> locations;
     private Profile  profile;
- 
+    private List<GSmsData> smsDataList;
+    
 	public List<GLocation> getLocations() {
 		return locations;
 	}
@@ -30,6 +32,16 @@ public class LocationRequest {
 		return (locations != null && !locations.isEmpty());
 	}
 	
+	 
+
+	public List<GSmsData> getSmsDataList() {
+		return smsDataList;
+	}
+
+	public void setSmsDataList(List<GSmsData> smsDataList) {
+		this.smsDataList = smsDataList;
+	}
+
 	public String toString() {
 
 		StringBuilder sbuf = new StringBuilder();
@@ -44,7 +56,18 @@ public class LocationRequest {
 			sbuf.append(" No location ");
 		}
 		
-		sbuf.append(profile);
+		int j=0;
+		if (smsDataList != null && !smsDataList.isEmpty()) {
+		    for (GSmsData smsData : smsDataList) {
+		    	sbuf.append("j=" + j++ + ", "+ smsData.toString());
+		    }
+		}
+		else {
+			sbuf.append(" No SMS ");
+		}
+		
+		
+		sbuf.append(profile.toString());
 		 
 	 	sbuf.append("]");
 

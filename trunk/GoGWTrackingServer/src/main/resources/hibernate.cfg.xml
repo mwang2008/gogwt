@@ -24,8 +24,8 @@
         <property name="cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
         
         <property name="cache.use_query_cache">true</property>
-        <property name="cache.use_second_level_cache">true</property>
-        <property name="hibernate.cache.use_structured_entries">true</property>
+        <property name="cache.use_second_level_cache">false</property>
+        <property name="hibernate.cache.use_structured_entries">false</property>
         
         
         <!-- Echo all executed SQL to stdout -->

@@ -82,45 +82,71 @@ public class HibernateCustomerDAO implements CustomerDAO {
 	 * @param customerProfile
 	 * @return
 	 */
-	public List<TrackingMobileData> retrieveLocationsSnapShot(
+	public List<TrackingMobileData> retrieveMinLocationsSnapShot(
 			CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException {
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
-	 			/*
-			 select * from (select display_name, start_time, max(time) as mintime from tracking_mobile where groupId='g5' group by display_name, start_time) as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.mintime; 
-			 */
+	 		/*
+			 select * from (select display_name, start_time, min(time) as mintime from tracking_mobile where groupId='gogwteam' group by display_name, start_time) as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.mintime;
+			 select * from (select display_name, start_time, max(time) as maxtime from tracking_mobile where groupId='gogwteam' group by display_name, start_time ) as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.maxtime;
+			*/
+			
 			String SQL_QUERY_MIN = "select * from (" +
 			                        "select display_name, start_time, min(time) as mintime " +
 			                        "from tracking_mobile where groupId=:groupId group by display_name, start_time"+ 
 			                        ") as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.mintime"; 
-			String SQL_QUERY_MAX = "select * from (" +
-                    "select display_name, start_time, max(time) as maxtime " +
-                    "from tracking_mobile where groupId=:groupId group by display_name, start_time"+ 
-                    ") as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.maxtime"; 
-
-	 
+		 
 			SQLQuery queryMin = session.createSQLQuery(SQL_QUERY_MIN);		
 			queryMin.addEntity(TrackingMobileData.class);
 			queryMin.setString("groupId", customerProfile.getGroupId());
 			List<TrackingMobileData> resultMin = queryMin.list();
+	 
+			tx.commit();
 			
+			return resultMin;
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+
+			e.printStackTrace();
+			throw new AppRemoteException("error for creating retrieveLocationsSnapShot", e);
+		} finally {
+			if (session != null) {
+				// session.close();
+			}
+		}
+	 }	
+	 
+	public List<TrackingMobileData> retrieveMaxLocationsSnapShot(
+			CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+	 		/*
+			 select * from (select display_name, start_time, min(time) as mintime from tracking_mobile where groupId='gogwteam' group by display_name, start_time) as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.mintime;
+			 select * from (select display_name, start_time, max(time) as maxtime from tracking_mobile where groupId='gogwteam' group by display_name, start_time ) as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.maxtime;
+			*/
+		 	String SQL_QUERY_MAX = "select * from (" +
+                                    "select display_name, start_time, max(time) as maxtime " +
+                                    "from tracking_mobile where groupId=:groupId group by display_name, start_time"+ 
+                                    ") as x inner join tracking_mobile as f on f.display_name = x.display_name and f.start_time = x.start_time and f.time = x.maxtime"; 
+
+	  	
 			SQLQuery queryMax = session.createSQLQuery(SQL_QUERY_MAX);	
 			queryMax.addEntity(TrackingMobileData.class);
 			queryMax.setString("groupId", customerProfile.getGroupId());
 			List<TrackingMobileData> resultMax = queryMax.list();
 			
-			
-			List<TrackingMobileData> retList = new ArrayList<TrackingMobileData>();
 		 
-			retList.addAll(resultMin);
-			retList.addAll(resultMax);
- 
 			tx.commit();
 			
-			return retList;
+			return resultMax;
 		} catch (Exception e) {
 			if (tx != null) {
 				tx.rollback();
@@ -137,6 +163,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 
 	/**
 	 * retrieve historial track detail.
+	 * @deprecated use getTrack instead
 	 */
 	public List<TrackingMobileData> getHistorialTrackDetail(String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException {
 		Session session = null;
@@ -147,7 +174,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			
 			Query query = null;
 			
-			query = session.createQuery("from TrackingMobileData where groupId=:groupId and displayName=:displayName and startTime=:startTime  order by displayName, startTime");
+			query = session.createQuery("from TrackingMobileData where groupId=:groupId and displayName=:displayName and startTime=:startTime  order by displayName, startTime");			
 			query.setParameter("groupId", groupId);
 			query.setParameter("displayName", displayName);
 			query.setParameter("startTime", startTimeLong);
@@ -171,6 +198,43 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		}
 	}
 	 
+	/**
+	 * 
+	 */
+	public List<TrackingMobileData> getTrack(String userName, String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			
+		 
+			String SQL_QUERY = "select * from tracking_mobile where groupId=:groupId and display_name=:displayName and start_time=:startTime order by display_name, start_time";
+ 
+            SQLQuery query = session.createSQLQuery(SQL_QUERY);	
+            query.addEntity(TrackingMobileData.class);
+            query.setParameter("groupId", groupId);
+			query.setParameter("displayName", displayName);
+			query.setParameter("startTime", startTimeLong);
+            List<TrackingMobileData> result = query.list();
+ 		
+			tx.commit();
+			
+			return result;
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+
+			e.printStackTrace();
+			throw new AppRemoteException("error for getTrack", e);
+		} finally {
+			if (session != null && session.isOpen()) {
+				//session.close();  //no need to close it, as getCurrentSession(), commit and rollBack close connection
+			}
+		}	
+	}
+	
 	public int deleteTrack(String userName, String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException {
 		Session session = null;
 		Transaction tx = null;
@@ -201,36 +265,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		 
 	}
 	
-	public List<TrackingMobileData> getTrack(String userName, String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException {
-		Session session = null;
-		Transaction tx = null;
-		try {
-			session = HibernateUtil.getSessionFactory().getCurrentSession();
-			tx = session.beginTransaction();
-		    String hql = "from TrackingMobileData where groupId=:groupId and displayName=:displayName and startTime=:startTime";
-		    Query query = session.createQuery(hql);
-		    query.setParameter("groupId", groupId);
-			query.setParameter("displayName", displayName);
-			query.setParameter("startTime", startTimeLong);
-			
-			List<TrackingMobileData> result = query.list();
-			
-			tx.commit();
-			
-			return result;
-		} catch (Exception e) {
-			if (tx != null) {
-				tx.rollback();
-			}
 
-			e.printStackTrace();
-			throw new AppRemoteException("error for deleteTrack", e);
-		} finally {
-			if (session != null && session.isOpen()) {
-				//session.close();  //no need to close it, as getCurrentSession(), commit and rollBack close connection
-			}
-		}	
-	}
 	
 	public List<TrackingMobileData> retrieveLocations(
 			CustomerProfile customerProfile, Calendar endCal, Calendar startCal)

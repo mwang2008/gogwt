@@ -5,7 +5,7 @@
      
    var jq = jQuery.noConflict();
    var map;
-   //var chart = null;
+   var chart = null;
    var gpolys = [];
    var gmarkers = [];
    var gicons = [];
@@ -42,7 +42,7 @@
    /*GDispItem*/
    var lastDispLocations = null;
    
-   //google.load("visualization", "1", {packages:["columnchart"]});
+   google.load("visualization", "1", {packages:["columnchart"]});
 
    jq(document).ready(function() {
      
@@ -79,8 +79,8 @@
        
       showMaps(map);
   
-      //google.setOnLoadCallback(drawChart);
-      //chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      google.setOnLoadCallback(drawChart);
+      chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
       
 	  <%--
       /*------------------------------------------------------+
@@ -135,8 +135,7 @@
  	            clearSideBar();
 	            clearPolyline();
 				clearMarker();
-				clearInfo();
-				//clearChart();
+				clearChart();
 	            showLeftSidebar(data);	        
 	         }
            
@@ -193,12 +192,10 @@
              
            var polyLocNum = gpolys[index].getPath().length;
 
-		   /*
 		   if (changeChart == true && index == currentIndex) {
               replotHistoryChart(locs, polyLocNum, index, dispName, color);
 			  changeChart = false;
 		   }
-		   */
 	 	   
            //myLog("=*** length="+locs.length + ",index="+index +", dispName="+dispName + " ,polyLocNum="+polyLocNum + ",locs.length=" + locs.length + ",totalRuntime="+totalRuntime);
            for (var i=polyLocNum; i<locs.length; i++) {
@@ -207,12 +204,10 @@
                  
                  gpolys[index].getPath().push(point);                  
                  hasNewLoc = true;  			 
-				 lasttimeWithData = new Date();	
-                 /* 				 
+				 lasttimeWithData = new Date();	 				 
                  if (index == currentIndex) {
   					plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, point)
-                 }	
-                 */				 
+                 }				 				  
 	       }
     
            if (hasNewLoc) {             
@@ -259,12 +254,10 @@
       	    //map.openInfoWindowHtml(point,html);                
          }); 
          
-		 /*
          google.maps.event.addListener(poly,'mousemove', function(event) {          
 		    document.getElementById("locInfo").innerHTML = "";
 		 });
-        */
-		
+        
          //square.png
          google.maps.event.addListener(poly,'mousemove', function(event) {     
             var locPoint;		 
@@ -495,10 +488,6 @@
 	    chartData = null;
    }
 	
-   function clearInfo() {
-       document.getElementById("locInfo").innerHTML = "";
-   }
-   
    function clearMarker() {
 	   if (gmarkers && gmarkers.length>0) {
           for (var i=0; i < gmarkers.length; i++) {

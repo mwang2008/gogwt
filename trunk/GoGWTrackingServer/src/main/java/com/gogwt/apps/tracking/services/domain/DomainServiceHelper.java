@@ -173,6 +173,7 @@ public final class DomainServiceHelper {
 	   line.setEndLng(location.getLongitude());
 	   line.setStartTime(location.getStartTime());
 	   line.setEndTime(location.getStartTime());
+	   line.setDispName(displayName);
 	   
 	   return line;
    }
