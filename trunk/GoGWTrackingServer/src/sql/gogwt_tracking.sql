@@ -12,10 +12,19 @@ CREATE TABLE `tracking_customer` (
   UNIQUE KEY tracking_customer_u1 (groupId)
 );
 ALTER TABLE tracking_customer AUTO_INCREMENT = 1221;
+ALTER TABLE tracking_customer ADD index(groupId);
 
-
+////////////////////////////////////////////////////
+// change log:
+// Nov 22, 2011 remove auto_increment
+//`id` mediumint(9) NOT NULL auto_increment,
+//  `id` varchar(100) NOT NULL,
+//  PRIMARY KEY  (`id`)
+//  `start_time` long NOT NULL,
+PRIMARY KEY  (`groupId`,`display_name`,start_time`)  
+//
 CREATE TABLE `tracking_mobile` (  
-  `id` mediumint(9) NOT NULL auto_increment,
+  `id` INT auto_increment,
   `groupId` varchar(30) NOT NULL,
   `phone_number` varchar(30) NOT NULL,
   `display_name` varchar(30) NOT NULL,
@@ -31,9 +40,12 @@ CREATE TABLE `tracking_mobile` (
   `start_time` long NOT NULL,
   `total_distance` decimal(10,2) NOT NULL,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`)    
 );
-ALTER TABLE tracking_mobile AUTO_INCREMENT = 1221;
+-- 1 to 1999 for use for local test;
+-- 2000 and above for production.
+//ALTER TABLE tracking_mobile AUTO_INCREMENT = 2000;   
+ALTER TABLE tracking_mobile ADD INDEX(groupId,display_name);
 
 ////////////////////////////////////////////////
 /// NOT USED
