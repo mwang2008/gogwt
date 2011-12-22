@@ -20,7 +20,8 @@ public interface CustomerDAO {
 	public void saveRemoteLoginUser(final CustomerProfile customerProfile) throws DisplayNameAlreadyLoginException, AppRemoteException;
 	
 	public int saveTrackingData(final List<TrackingMobileData> trackingMobileDataList) throws InvalidUserException, AppRemoteException;
-	public List<TrackingMobileData> retrieveLocationsSnapShot(CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException;
+	public List<TrackingMobileData> retrieveMinLocationsSnapShot(CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException;
+	public List<TrackingMobileData> retrieveMaxLocationsSnapShot(CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException;
 	public List<TrackingMobileData> getHistorialTrackDetail(String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException;
 	public List<TrackingMobileData> retrieveLocations(CustomerProfile customerProfile, Calendar endCal, Calendar startCal) throws InvalidUserException, AppRemoteException;
 	public int deleteTrack(String userName, String groupId, String displayName, long startTiemLong) throws InvalidUserException, AppRemoteException;

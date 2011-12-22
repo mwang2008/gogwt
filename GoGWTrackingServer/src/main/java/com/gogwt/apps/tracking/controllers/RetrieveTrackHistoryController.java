@@ -22,6 +22,7 @@ import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.GLocation;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
+import com.gogwt.apps.tracking.data.TrackingMobileDataCol;
 import com.gogwt.apps.tracking.data.response.DisplayResponse;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.RestBusinessDomainService;
@@ -66,17 +67,19 @@ public class RetrieveTrackHistoryController extends BaseAbstractController {
 		}
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
-		List<TrackingMobileData> locationList = service.retrieveLocationsSnapShot(customerProfile);
-	 			
+		//List<TrackingMobileData> locationList = service.retrieveLocationsSnapShot(customerProfile);
+		List<TrackingMobileDataCol> trackingMobileDataColList	= service.retrieveLocationsSnapShot(customerProfile);	
 		final ModelMap modelMap = new ModelMap();
-		if (locationList == null || locationList.isEmpty()) {
+		
+		if (trackingMobileDataColList == null || trackingMobileDataColList.isEmpty()) {
 			modelMap.addAttribute( "hasResult", false );
 		}
 		else {
 			modelMap.addAttribute( "hasResult", true );
-			ArrayList<ArrayList<TrackingMobileData>> groupLocationList = groupInDisplay(locationList);
-		    modelMap.addAttribute( "trackHistoryList", locationList );	
-		    modelMap.addAttribute( "trackHistoryGroupList", groupLocationList );	
+			//ArrayList<ArrayList<TrackingMobileData>> groupLocationList = groupInDisplay(locationList);
+		    //modelMap.addAttribute( "trackHistoryList", locationList );	
+		    //modelMap.addAttribute( "trackHistoryGroupList", groupLocationList );
+			modelMap.addAttribute( "trackHistoryGroupList", trackingMobileDataColList );
 		}
 		
 		return new ModelAndView("/tracking/show_history_tracking_list").addAllObjects(modelMap);

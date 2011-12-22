@@ -47,7 +47,7 @@
        var ajaxUrl = '${detailUrl}';      
    </script>
   
-   <script type="text/javascript" src="${env.contextPath}/jsp/tracking/trackingscript.jsp"></script>
+   <script type="text/javascript" src="${env.contextPath}/jsp/tracking/trackingscript_history.jsp"></script>
    <%-- <script type="text/javascript"> <%@ include file="/jsp/tracking/trackingscript.jsp"%>  </script>  --%>
    
    <style type="text/css">

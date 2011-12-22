@@ -108,7 +108,7 @@ public class RestClientController {
 	
 
 	/**
-	 * Send location 
+	 * Send enroll 
 	 * @param request
 	 * @return
 	 */
@@ -214,7 +214,7 @@ public class RestClientController {
 	
 	
 	/**
-	 * Called from client (browers), Ajax call to display track detail (not active track)
+	 * Called from client (browers), Ajax call to display track detail for history (not active track)
 	 * 
 	 * http://localhost/tracking/en-us/displaytrackdetail?groupId=g5&displayName=show+5&startTime=1
 	 * @param groupId
@@ -236,24 +236,30 @@ public class RestClientController {
 	}
 
 	
-	
+	/**
+	 * tracking/en-us/stoptracking
+	 * @param profile
+	 */
 	@RequestMapping(value="stoptracking", method=RequestMethod.POST, headers="Content-Type=application/xml")
-	public void stopTrackingXML(@RequestBody Profile profile) {
+	public @ResponseBody String stopTrackingXML(@RequestBody Profile profile) {
 		logger.debug(" ==== stopTrackingXML XML input: " + profile.toString());
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
-		 service.stopTracking(profile);
+		service.stopTracking(profile);
 		
+		return "success";
 		 
  	}
  
 	
 	
 	@RequestMapping(value="stoptracking", method=RequestMethod.POST, headers="Content-Type=application/json")
-	public void stopTrackingJSON(@RequestBody Profile profile) {
-		logger.debug(" ==== stopTrackingXML JSON input: " + profile.toString());
+	public @ResponseBody String stopTrackingJSON(@RequestBody Profile profile) {
+		logger.debug(" ==== stopTrackingJSON JSON input: " + profile.toString());
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		service.stopTracking(profile);
+		
+		return "success";
 	}
 	
 	

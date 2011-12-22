@@ -1388,7 +1388,25 @@ width:100% !important;
    vertical-align:top;
 }
 
- 
+ .bw_result_area_border {
+  border-top: 1px solid #080808;
+  border-left: 1px solid #080808;
+  border-right: 1px solid #080808;
+  border-bottom: 1px solid #080808;
+  width: 100%;
+  position: relative;
+  left: 2px;
+}
+
+.bw_result_name_row {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #000000;
+  background-color: #FFFFCC;
+  border-bottom: 1px solid #FFFFFF;
+  border-right: 1px solid #FFFFFF;
+}
+
 .result_area_border { 
   border:1px solid #080808;
   background-color:#FFF8C6;
