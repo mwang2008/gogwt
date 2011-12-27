@@ -46,6 +46,8 @@
 							        <c:param name="groupId" value="${env.customerProfile.groupId}"/>
 								    <c:param name="displayName" value="${track.start.displayName}"/>
 								    <c:param name="startTime" value="${track.start.startTime}"/>
+									<c:param name="startAddress" value="${track.start.address}"/>
+									<c:param name="endAddress" value="${track.end.address}"/>
 							     </c:url>							  
 							  
 							     &nbsp;&nbsp;&nbsp; <a href="${detailUrl}" > View Track Detail </a>    

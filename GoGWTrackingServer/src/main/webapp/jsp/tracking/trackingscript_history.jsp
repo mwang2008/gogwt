@@ -38,25 +38,25 @@
    var NUM_AUTO_REFERSH = 10;
    var IDLE_TIME_ALLOWED_IN_SEC = 300;
    var DEBUG = false;
+   var CHART_PAGE_SIZE = 200;
+   
+   var chartPageNum = 0;
+   var finishLoadPolyline = false;
    
    /*GDispItem*/
    var lastDispLocations = null;
-   
+  
    google.load("visualization", "1", {packages:["columnchart"]});
 
    jq(document).ready(function() {
-     
-      //hidden auto refersh button            
-      document.getElementById('autoRefersh').style.visibility='hidden';
-       
-      startTimer();
+        
+      //startTimer();
       
       var latlng;
       var g = google.maps;
   
       latlng = new g.LatLng(34.03, -84.19);
-      //latlng = new g.LatLng(41.30, 122.00);
-                    
+                     
       var myOptions = {
            zoom: 6,
            center: latlng,
@@ -64,7 +64,7 @@
       };
        
       map = new g.Map(document.getElementById("map_canvas"), myOptions); 
-      
+   		
       //add traffic
       trafficLayer = new g.TrafficLayer();
       
@@ -81,6 +81,8 @@
   
       google.setOnLoadCallback(drawChart);
       chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+	  document.getElementById('arrowLeft').style.visibility='hidden';
+	  
       
 	  <%--
       /*------------------------------------------------------+
@@ -104,6 +106,21 @@
 	      }
       }); 
 	  
+	  jq('#arrowLeft').click(function() {
+	     if (chartPageNum >0) {
+		     chartPageNum--;
+			 chartData = null;
+			 //document.getElementById('loadingImgLeft').style.display = 'block';
+			 showGoogleChart();
+			 //document.getElementById('loadingImgLeft').style.display = 'none';
+		 }	     		 
+	  });
+	  
+	  jq('#arrowRight').click(function() {
+		  chartPageNum++;
+		  chartData = null;		 
+		  showGoogleChart();		 
+	  });
 	  
       jq('#clearDebugPanel').click(function(){           
          clearLog();   
@@ -121,10 +138,8 @@
 	   | dispLocations                                        |
        +------------------------------------------------------*/ 
       --%>
-      function showMaps(map) {  
-    
-         //jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5', function(data) {
-		 //jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
+      function showMaps(map) {      
+  		 //jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
 		 var url = ajaxUrl;
 	     jq.getJSON(url, function(data) {    
              if (!data.dispLocations || data.dispLocations.length == 0) {  
@@ -148,6 +163,7 @@
 	  
              showLines(map, data);   
              lastDispLocations = data.dispLocations;
+ 			 
          }); <%-- end of getJSON --%>         
       }
     
@@ -167,7 +183,7 @@
 	        
 	     	       
 	       //mylocs = "data=" + data.dispLocations.length + ", locs="+locs.length + ", dispName="+dispName; 		
-		   mylocs = "Display Name: "+dispName; 		
+		   mylocs = "<b>Display Name:</b> "+dispName; 		
 	       document.getElementById("mylocs").innerHTML = mylocs;
 	     
 	       var pts = [];
@@ -189,25 +205,23 @@
               
            var point = null;
            var hasNewLoc = false;
-             
+           /*
            var polyLocNum = gpolys[index].getPath().length;
 
 		   if (changeChart == true && index == currentIndex) {
               replotHistoryChart(locs, polyLocNum, index, dispName, color);
 			  changeChart = false;
 		   }
-	 	   
+	 	   */
+		   
            //myLog("=*** length="+locs.length + ",index="+index +", dispName="+dispName + " ,polyLocNum="+polyLocNum + ",locs.length=" + locs.length + ",totalRuntime="+totalRuntime);
-           for (var i=polyLocNum; i<locs.length; i++) {
+		   for (var i=0; i<locs.length; i++) {
                  point = new g.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
                  bounds.extend(point);                
                  
                  gpolys[index].getPath().push(point);                  
                  hasNewLoc = true;  			 
-				 lasttimeWithData = new Date();	 				 
-                 if (index == currentIndex) {
-  					plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, point)
-                 }				 				  
+				 lasttimeWithData = new Date();	 		                   				
 	       }
     
            if (hasNewLoc) {             
@@ -225,7 +239,7 @@
   	    }); <%-- end of jq.each(data.dispLocations --%>
 	 	  
 	    <%-- fitBounds --%>	 
-	    if (totalCycle<5) {
+	    if (totalCycle<1) {
 	      map.fitBounds(bounds);
 	      totalCycle++;
 	    }
@@ -247,7 +261,7 @@
       	       point = event.latLng;
       	    }
 
-      	    infowindow.setContent(contentString +" currentIndex: " + index);        
+      	    infowindow.setContent(contentString + " currentIndex: " + index);        
       	    infowindow.setPosition(point);
       	            
       	    infowindow.open(map);
@@ -282,7 +296,15 @@
 			
 			document.getElementById("locInfo").innerHTML = info;
          }); 
-                    
+         		 
+	     // Listen for the map to emit "idle" events, then loading Google chart
+         google.maps.event.addListener(map, "idle", function(){         
+			 if (finishLoadPolyline == false) {
+			    showGoogleChart(); 
+			 }
+            finishLoadPolyline = true;
+         });				
+      		 
    }  <%-- end of createClickablePolyline --%>
    
    <%--
@@ -424,8 +446,10 @@
          var locs = dispItem.locs;
          var dispName = dispItem.dispName;
    	     var color = line.color;
-   	 
+   	      
          var glocation = locs[locs.length-1];
+		 
+		  
          createSideBar(index, color, line, glocation);
          
          lastTrackNames[dispName] = index;
@@ -442,16 +466,19 @@
       var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"click\");'>"+line.label +"</a>";
       sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br />';
           
-      sidebar += '&nbsp; Start Time: ' + formatDateFromTime(line.startTime) +  '<br />';
-      sidebar += '&nbsp; Current Speed: ' + glocation.speed + '<br />';
+      sidebar += '&nbsp;<br/> <b>From: </b><br>' + startAddress  +  '<br />';
+      sidebar += '&nbsp; at ' + formatDateFromTime(line.startTime) +  '<br />';
+      sidebar += '&nbsp; <br/> <b>To: </b><br/>' + endAddress +  '<br />';
+      sidebar += '&nbsp; at ' + formatDateFromTime(glocation.time) +  '<br />';
 	  
+	  <%--
 	  if (index == currentIndex) {
 		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" checked onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
 	  }
 	  else {
 		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
 	  }
-	  <%--
+	
 	  sidebar += '<br>';
 	  sidebar += '&nbsp; '  + 'poly num:' + index + '<br />';
       sidebar += '<hr>';
@@ -549,6 +576,7 @@
       	timer = setInterval(nextCycle, 10000);
     }
 	
+ 
 	var logMsg = '';
 	function myLog(msg) {
 	   myLog(msg,false);
@@ -590,13 +618,57 @@
 	    var yyyy = theDateTime.getFullYear()+"";
 		var yy = yyyy.substring(2);
 		
-        return theDateTime.getMonth() +"/" + theDateTime.getDate()+"/" + yy + " " + theDateTime.getHours() + ":" + theDateTime.getMinutes();
+		var hour='';
+		if (theDateTime.getHours()<10) {
+		    hour = '0';
+		}
+		hour += theDateTime.getHours();
+		
+		var minute = '';
+		if (theDateTime.getMinutes()<10) {
+		    minute = '0';
+		}
+		minute += theDateTime.getMinutes();
+		
+		var second = '';
+		if (theDateTime.getSeconds()<10) {
+		    second = '0';
+		}
+		second += theDateTime.getSeconds();
+		
+        return theDateTime.getMonth() +"/" + theDateTime.getDate()+"/" + yy + " " + hour + ":" + minute + ":" + second ;
    }		
+   
+   function formatTimeFromTime(theTimeInMillsec) {
+	    var theDateTime = new Date(theTimeInMillsec);
+	    var yyyy = theDateTime.getFullYear()+"";
+		var yy = yyyy.substring(2);
+			var hour='';
+		if (theDateTime.getHours()<10) {
+		    hour = '0';
+		}
+		hour += theDateTime.getHours();
+		
+		var minute = '';
+		if (theDateTime.getMinutes()<10) {
+		    minute = '0';
+		}
+		minute += theDateTime.getMinutes();
+		
+		var second = '';
+		if (theDateTime.getSeconds()<10) {
+		    second = '0';
+		}
+		second += theDateTime.getSeconds();
+		
+		
+        return hour + ":" + minute + ":" + second;
+   }	
    
    function meterToFeet(meterPerSec) {
        return meterPerSec*3.2808399;
    }
-   function meterToMPH(meterPerSec) {
+   function meterToMPH(meterPerSec) {    
        return meterPerSec*2.23693629;
    }
    
@@ -618,33 +690,88 @@
    function drawChart() {
    }
  
-   var options = null;
-   function plotCurrentChart(ii, index, dispName, color, time, speed, point) {       
+   function showGoogleChart() {
+       if (lastDispLocations == null) {
+	       return;
+	   }
+	  
+       jq.each(lastDispLocations, function(index, dispItem) {	    
+	       var line = dispItem.line;
+	       var locs = dispItem.locs;
+	       var dispName = dispItem.dispName;	    
+	       var color = line.color;		   
+		   var point = null;
+			
+           var startPos=0, endPos=0;			
+	       if (locs.length < CHART_PAGE_SIZE) {
+		       document.getElementById('arrowLeft').style.visibility='hidden';
+			   document.getElementById('arrowRight').style.visibility='hidden';
+			   startPos = 0;
+			   endPos = locs.length;
+		   }
+		   else {
+               if (chartPageNum == 0) {
+                   document.getElementById('arrowLeft').style.visibility='hidden';
+               }		
+               else if (chartPageNum*CHART_PAGE_SIZE >=locs.length) {
+                   document.getElementById('arrowRight').style.visibility='hidden';
+               } 
+			   else {
+			       document.getElementById('arrowLeft').style.visibility='visible';
+			       document.getElementById('arrowRight').style.visibility='visible';
+			   }		    		
+
+               startPos =  chartPageNum*CHART_PAGE_SIZE;
+			   if (startPos + CHART_PAGE_SIZE > locs.length) {
+			       endPos = locs.length
+			   }
+			   else {
+			       endPos = startPos + CHART_PAGE_SIZE;
+               }				   
+           }		   
+		   
+           if (endPos != 0) {
+		       for (var i=startPos; i<endPos; i++) {
+		           point = new google.maps.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
+		    	   plotCurrentSectionChart(i, index, dispName, color, locs[i].time, locs[i].speed, point);            
+	           } 
+		   }
+	   });
+   }
+ 
+   var options = null;   
+   function plotCurrentChart(ii, index, dispName, color, time, speed, point) { 
+       //chartData.addColumn('date', 'Start Date (Long)');
+	      //chartData.addColumn('number', 'Speed');
+   }
+   
+   function plotCurrentSectionChart(ii, index, dispName, color, time, speed, point) {       
       if (chartData == null) {
           chartData = new google.visualization.DataTable();
-          chartData.addColumn('string', 'Sample');
-	      chartData.addColumn('number', 'Speed');
+          chartData.addColumn('string', 'Chart');
+		  chartData.addColumn('number', 'Speed (mph) ');
+		 
           document.getElementById('chart_div').style.display = 'block'; 
-       }
-           
-       charsRepo[ii] = point;
-       
-       //chartData.addRow(['', meterToMPH(speed)]);
+       }           
+       charsRepo[ii] = point;     
+       var speedMPH = parseFloat(meterToMPH(speed).toFixed(2));
+   	   
 	   if (ii%10 == 0) {
-          chartData.addRow([ii+1+'', meterToMPH(speed)]);
+          chartData.addRow([formatTimeFromTime(time), speedMPH]);
 	   }
 	   else {
-	     chartData.addRow(['', meterToMPH(speed)]);
+	     chartData.addRow(['', speedMPH]);
 	   }
-	 
+	   
+	   
 	   if (options == null) {
 	      options = {
-             width: 740,
+             width: 500,
              height: 200,
              legend: 'none',
              title:  'Display Name: ' + dispName,
              titleY: 'Speed (mph)',
-             titleX: 'Time',
+             titleX: 'Time (hour : minute : second)',
              colors: [color,color],
              focusBorderColor: '#FFFFCC'
           };
@@ -652,16 +779,28 @@
 	   chart.draw(chartData, options);
 	    
        google.visualization.events.addListener(chart, 'onmouseover', function(e) {
+	      var chartIndex = e.row + chartPageNum*CHART_PAGE_SIZE;
+		  var pos = charsRepo[chartIndex];
+		   
+		  //alert("e.row="+e.row + ",pos="+pos + ",pos1="+pos1);
+		  
           if (matchMousemarker == null) {           
               matchMousemarker = new google.maps.Marker({
-                position: charsRepo[e.row],
+                position: charsRepo[chartIndex],
                 map: map,
                 icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
               });
            } else {
-              matchMousemarker.setPosition(charsRepo[e.row]);
+              matchMousemarker.setPosition(charsRepo[chartIndex]);
           }
+		    	   
+		   
+		  var locs = lastDispLocations[0].locs;
+		  var locInfo = "<b>Speed:</b> " + meterToMPH(locs[chartIndex].speed).toFixed(2)  + " (mph) <b>at</b> " + formatDateFromTime(locs[chartIndex].time);
+		  document.getElementById("chartLocInfo").innerHTML = locInfo;
+		  
       });
+	
    }
   
     
@@ -683,4 +822,7 @@
          matchMousemarker = null;
        }
    }
+   
+ 
+
    
