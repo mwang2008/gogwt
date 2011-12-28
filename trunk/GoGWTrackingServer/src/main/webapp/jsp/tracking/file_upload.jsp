@@ -5,6 +5,29 @@
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
    <title> Import Page </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
+   
+    <style type="text/css">
+       div.fileinputs {
+	      position: relative;
+       }
+
+       div.fakefile {
+	      position: absolute;
+	      top: 0px;
+	      left: 0px;
+	      z-index: 1;
+       }
+
+       input.file {
+	      position: relative;
+	      text-align: right;
+	      -moz-opacity:0 ;
+	      filter:alpha(opacity: 0);
+	      opacity: 0;
+	      z-index: 2;
+        }
+    </style>
+  
 </head>
 <body>
 
@@ -24,13 +47,14 @@
 	                <div id="Error"><form:errors path="*" cssClass="text12red" /></div>
                 </div>  
              </spring:hasBindErrors>
-                
+                <div class="fileinputs">
                     File: <form:input path="fileData" type="file"/>
-                </p>
+                    </p>
  
-                <p>
-                    <input type="submit" value="Select File" />
-                </p>
+                    <p>
+                      <input type="submit" value="Select File" />
+                    </p>
+				</div>
             </form:form>
           </td>
        </tr>

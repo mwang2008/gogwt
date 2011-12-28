@@ -8,7 +8,7 @@
 </head>
 <body>
    Add location
-   <form:form commandName="gLocation" action="${env.prefix}/addlocation" method="post">
+   <form:form commandName="gLocation" action="${env.prefix}/addlocation" method="post" enctype="multipart/form-data">
    
    <table>
        <tr>
@@ -52,16 +52,33 @@
        </tr>
         
        <tr>
-           <td> &nbsp; </td> <td> <input type="submit" name="action" value="Add" /> </td>
-                 
+           <td> &nbsp; </td> <td> <input type="submit" name="action" value="Add" /> </td>                
        </tr>
-   <tr>
-              <td> &nbsp; </td> <td> <input type="submit" name="action" value="Remove The Track" /> </td>
-                    
-       </tr>
+       <tr>
+          <td> &nbsp; </td> <td> <input type="submit" name="action" value="Remove The Track" /> </td>                    
+       </tr>	   
   </table>
-  </form:form>
   
+  
+  <hr> 
+  Load from file
+             
+                <legend>Upload Tracking cvs File</legend>
+             <p>
+			 <spring:hasBindErrors name="gLocation">
+                <div id="ErrorContainer">
+	                <div id="Error"><form:errors path="*" cssClass="text12red" /></div>
+                </div>  
+             </spring:hasBindErrors>
+                <div class="fileinputs">
+                    File: <form:input path="fileData" type="file"/>
+                    </p>
+ 
+                    <p>
+                      <input type="submit" name="action" value="Select File" />
+                    </p>
+				</div>
+            </form:form>
    
 </body>
 </html>

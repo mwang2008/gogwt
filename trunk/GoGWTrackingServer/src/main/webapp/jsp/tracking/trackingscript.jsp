@@ -55,8 +55,7 @@
       var g = google.maps;
   
       latlng = new g.LatLng(34.03, -84.19);
-      //latlng = new g.LatLng(41.30, 122.00);
-                    
+                      
       var myOptions = {
            zoom: 6,
            center: latlng,
@@ -119,13 +118,13 @@
 	   | data is DisplayResponse                              |
 	   | lastDispLocations kept the last data                 |  
 	   | dispLocations                                        |
-       +------------------------------------------------------*/ 
+	   | jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5', function(data) {
+	   | jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
+	   +------------------------------------------------------*/ 
       --%>
       function showMaps(map) {  
     
-         //jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5', function(data) {
-		 //jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
-		 var url = ajaxUrl;
+    	 var url = ajaxUrl;
 	     jq.getJSON(url, function(data) {    
              if (!data.dispLocations || data.dispLocations.length == 0) {  
                 document.getElementById("side_bar").innerHTML = "No tracking yet";
@@ -168,7 +167,7 @@
 	        
 	     	       
 	       //mylocs = "data=" + data.dispLocations.length + ", locs="+locs.length + ", dispName="+dispName; 		
-		   mylocs = "Display Name: "+dispName; 		
+		   mylocs = "<b>Display Name:</b> "+dispName; 		
 	       document.getElementById("mylocs").innerHTML = mylocs;
 	     
 	       var pts = [];
@@ -192,27 +191,16 @@
            var hasNewLoc = false;
              
            var polyLocNum = gpolys[index].getPath().length;
-
-		   /*
-		   if (changeChart == true && index == currentIndex) {
-              replotHistoryChart(locs, polyLocNum, index, dispName, color);
-			  changeChart = false;
-		   }
-		   */
-	 	   
+ 
            //myLog("=*** length="+locs.length + ",index="+index +", dispName="+dispName + " ,polyLocNum="+polyLocNum + ",locs.length=" + locs.length + ",totalRuntime="+totalRuntime);
            for (var i=polyLocNum; i<locs.length; i++) {
-                 point = new g.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
-                 bounds.extend(point);                
+               point = new g.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
+               bounds.extend(point);                
                  
-                 gpolys[index].getPath().push(point);                  
-                 hasNewLoc = true;  			 
-				 lasttimeWithData = new Date();	
-                 /* 				 
-                 if (index == currentIndex) {
-  					plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, point)
-                 }	
-                 */				 
+               gpolys[index].getPath().push(point);                  
+               hasNewLoc = true;  			 
+			   lasttimeWithData = new Date();	  
+               document.getElementById("speed"+index).innerHTML = "&nbsp;&nbsp;<b>Speed:</b> " + meterToMPH(locs[i].speed).toFixed(2) + " (mph)<br>" + "&nbsp;&nbsp;<b>Time:</b> " + formatDateFromTime(locs[i].time);	              					 
 	       }
     
            if (hasNewLoc) {             
@@ -446,18 +434,24 @@
    function createSideBar(index, color, line, glocation) {
       var sidebar = "";
            
-      var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"click\");'>"+line.label +"</a>";
-      sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br />';
-          
-      sidebar += '&nbsp; Start Time: ' + formatDateFromTime(line.startTime) +  '<br />';
-      sidebar += '&nbsp; Current Speed: ' + glocation.speed + '<br />';
+      var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"click\");'>"+'<span style="color:'+ color +'">'+line.label +'</span>' + "</a>";
 	  
+      sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br/>';
+          
+      sidebar += '&nbsp; <b>Start Time:</b> ' + formatDateFromTime(line.startTime) +  '<br/>';   
+  	  sidebar += '&nbsp;&nbsp;<div id="speed'+ index + '">&nbsp;</div>';
+	  	  
+	  //sidebar += '&nbsp; <b>Time:</b> ' + formatDateFromTime(glocation.time) + '<div id="time'+ index + '">&nbsp; x</div><br />';
+	  //sidebar += '&nbsp; <b>Speed:</b> ' + meterToMPH(glocation.speed).toFixed(2) + ' <div id="speed'+ index + '">&nbsp; x </div> (mph)<br />';
+	  
+	  <%-- Do not show Google Chart due to performance
 	  if (index == currentIndex) {
 		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" checked onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
 	  }
 	  else {
 		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
 	  }
+	  --%>
 	  <%--
 	  sidebar += '<br>';
 	  sidebar += '&nbsp; '  + 'poly num:' + index + '<br />';
@@ -530,7 +524,7 @@
             idleTime = new Date().getTime() - lasttimeWithData.getTime();
 			
 			//.format("mm/dd/yy h:MM:ss")
-			document.getElementById("xtimer").innerHTML = "Total Runtime: " + totalRuntime + "<br> Last With Data: " + formatDateFromTime(lasttimeWithData.getTime()) + "<br>Idle Time: "+idleTime +" (s)";
+			//document.getElementById("xtimer").innerHTML = "Total Runtime: " + totalRuntime + "<br> Last With Data: " + formatDateFromTime(lasttimeWithData.getTime()) + "<br>Idle Time: "+idleTime +" (s)";
 			
 			if (idleTime > IDLE_TIME_ALLOWED_IN_SEC*1000 ) {
                if (totalRuntime > NUM_AUTO_REFERSH) { 
@@ -601,7 +595,25 @@
 	    var yyyy = theDateTime.getFullYear()+"";
 		var yy = yyyy.substring(2);
 		
-        return theDateTime.getMonth() +"/" + theDateTime.getDate()+"/" + yy + " " + theDateTime.getHours() + ":" + theDateTime.getMinutes();
+        var hour='';
+		if (theDateTime.getHours()<10) {
+		    hour = '0';
+		}
+		hour += theDateTime.getHours();
+		
+		var minute = '';
+		if (theDateTime.getMinutes()<10) {
+		    minute = '0';
+		}
+		minute += theDateTime.getMinutes();
+		
+		var second = '';
+		if (theDateTime.getSeconds()<10) {
+		    second = '0';
+		}
+		second += theDateTime.getSeconds();
+		
+        return theDateTime.getMonth() +"/" + theDateTime.getDate()+"/" + yy + " " + hour + ":" + minute + ":" + second ;
    }		
    
    function meterToFeet(meterPerSec) {
