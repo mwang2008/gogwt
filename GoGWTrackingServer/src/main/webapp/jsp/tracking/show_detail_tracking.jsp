@@ -36,20 +36,21 @@
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>   
-   
    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-   
    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
    
    <script language=javascript>
        var MULTIPLE_RETRIEVE = false;
-       var ajaxUrl = '${detailUrl}';      
+       var ajaxUrl = '${detailUrl}';  
+       var startAddress = '${param.startAddress}';
+       var endAddress = '${param.endAddress}';	   
+	   
+	   
    </script>
   
    <script type="text/javascript" src="${env.contextPath}/jsp/tracking/trackingscript_history.jsp"></script>
-   <%-- <script type="text/javascript"> <%@ include file="/jsp/tracking/trackingscript.jsp"%>  </script>  --%>
-   
+     
    <style type="text/css">
       .buttonSubmitHide {
          display: none;
@@ -61,7 +62,7 @@
 <body>
  
 <%@ include file="/jsp/common/i_header.jspf"%>
-
+ 
 <c:set var="fromPage" value="trackdetail"/>
 <%@ include file="i_menu.jspf"%>
  
@@ -70,11 +71,11 @@
        <tr> 
           <td width="200" valign="top"> 
             <form name=xcv>
-	            <input id="autoRefersh" type="button"  value="Start Auto Refresh">
+	            
 	            <input id="showTraffic" type="button" value="Show Traffic">
 			    <input id="clearDebugPanel" type="button" value="Clear Log" style="display: none">	         
             </form>			
-            <div id="xtimer"> starting auto refresh </div><hr>
+             
             <div id="mylocs">locations </div><hr>
             <div id="side_bar" style="height: 450px; overflow:auto;"></div>
 			 <div id="thelog"/>
@@ -86,8 +87,25 @@
              <div id="container">  	   			    
 	            <div id="map_canvas" style="width:740px; height:350px"></div>
              </div> 
-             <div id="container">  
-	           <div id="chart_div" style="width:740px; height:200px" onmouseout="clearMatchMousemarker()"></div>
+			  <div id="container">  	   
+			    <table border="0" cellspacing="5" cellpadding="2">
+  				 <tr>			         
+				    <td valign="center">&nbsp;&nbsp;&nbsp; <div id="chartLocInfo" style="width:720px;height:20px; overflow:auto; background-color:lightgrey;"/> </td>                     
+				 </tr>
+         		</table>
+                			
+             </div> 
+             <div id="container">
+             	<table border="0" cellspacing="5" cellpadding="2">
+                   <tr align="center">
+				      <td align="left"> &nbsp;&nbsp;&nbsp;<img id="arrowLeft"  src="${env.contextPath}/images/arrow-left.png"> 
+					  <img id="loadingImgLeft" src="${env.contextPath}/images/loading.gif" style="display: none;"/>
+					  </td>
+				      <td align="center"><div id="chart_div" style="width:600px; height:200px" onmouseout="clearMatchMousemarker()"></div> </td>
+					  <td align="right"> <img id="arrowRight" src="${env.contextPath}/images/arrow-right.png"> 
+					  <img id="loadingImgRight" src="${env.contextPath}/images/loading.gif" style="display: none;"/>
+					  </td>
+			    </table>
              </div>
 			
           </td>
