@@ -13,7 +13,8 @@ public final class GwtConfig {
    	}
    	
    	if (env == GwtConfig.PROD) {
-   		return "http://74.244.61.229/";  //gogwt.com
+   		//return "http://74.244.61.229/";  //gogwt.com
+   		return "http://www.gogwt.com/";
    	}
    	
    	return "http://10.0.122.7/";

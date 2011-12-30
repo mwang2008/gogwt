@@ -81,14 +81,14 @@ class DrawPolylineOverlay extends Overlay {
 		if (shadow) {
 		  return;
 		}
-		GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);//+ ", zoomLevel="+zoomLevel);
-		GwtLog.d(TAG, "== mGpxPointList.size="+mGpxPointList.size());
+		//GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);//+ ", zoomLevel="+zoomLevel);
+		//GwtLog.d(TAG, "== mGpxPointList.size="+mGpxPointList.size());
  		
 		Path path = null;
 		
 		Projection projection = getMapProjection(mapView);
 		if (projection == null) {
-		      Log.w(TAG, "No projection, unable to draw");
+		      //Log.w(TAG, "No projection, unable to draw");
 		      return;
 		}
 		
@@ -97,37 +97,37 @@ class DrawPolylineOverlay extends Overlay {
  			final GeoPoint referencePoint = projection.fromPixels(0, 0);
  			 
 			int newPoints = mPendingPoints.drainTo(mGpxPointList);
-			GwtLog.d(TAG, "== after adding new points mGpxPointList.size="+mGpxPointList.size());
+			//GwtLog.d(TAG, "== after adding new points mGpxPointList.size="+mGpxPointList.size());
 			boolean newProjection = !viewRect.equals(mLastViewRect) || !referencePoint.equals(mLastReferencePoint);
 			
-			GwtLog.d(TAG, "  newProjection ="+newProjection );
+			//GwtLog.d(TAG, "  newProjection ="+newProjection );
 			
 			if (newPoints == 0 && mLastPath != null && !newProjection) {
-				GwtLog.d(TAG, " ---- newPoints ="+newPoints + ", mLastPath=" + (mLastPath!=null) + ", !newProjection=" + !newProjection);
-				if (mLastPath == mLastLastPath) {
+				//GwtLog.d(TAG, " ---- newPoints ="+newPoints + ", mLastPath=" + (mLastPath!=null) + ", !newProjection=" + !newProjection);
+			/*	if (mLastPath == mLastLastPath) {
 					 GwtLog.d(TAG, "  ===&&& no change for the path");
-				}
+				}*/
 				
 				path = mLastPath;
 				numCycle++;
 				if (numCycle > 10) {
 					return;
 				}
-				GwtLog.d(TAG, "  path 1 numCycle="+numCycle);
+				//GwtLog.d(TAG, "  path 1 numCycle="+numCycle);
 			} else {
 	 			int numPoints = mGpxPointList.size();
 	 			numCycle = 0;
 				if (numPoints < 2) {
-					GwtLog.d(TAG, "  path 2");
+					//GwtLog.d(TAG, "  path 2");
 					path = null;
 				} else if (mLastPath != null && !newProjection) {
 					// using existing path
-					GwtLog.d(TAG, "  path 3");
+					//GwtLog.d(TAG, "  path 3");
 					path = mLastPath;				 
 					updatePath(projection, canvas, mapView, viewRect, path, numPoints- newPoints);					
 				} else {
 					// new path
-					GwtLog.d(TAG, "  path 4");
+					//GwtLog.d(TAG, "  path 4");
 					path = new Path();
 					path.incReserve(numPoints);
 					updatePath(projection, canvas, mapView, viewRect, path, 0);
@@ -141,7 +141,7 @@ class DrawPolylineOverlay extends Overlay {
 
 		
 	 	if (path != null) {
-			GwtLog.d(TAG, "== canvas.drawPath  ");			
+			//GwtLog.d(TAG, "== canvas.drawPath  ");			
 			canvas.drawPath(path, mPaint);
 		}
  
@@ -154,7 +154,7 @@ class DrawPolylineOverlay extends Overlay {
 	
 	@Override
 	public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent, MapView paramMapView) {
-		GwtLog.d(TAG, "== onKeyDown paramInt=" + paramInt + ", paramKeyEvent=" + paramKeyEvent);
+		//GwtLog.d(TAG, "== onKeyDown paramInt=" + paramInt + ", paramKeyEvent=" + paramKeyEvent);
 		return super.onKeyDown(paramInt, paramKeyEvent, paramMapView);
 		
 	}
@@ -162,25 +162,25 @@ class DrawPolylineOverlay extends Overlay {
 	
 	@Override
 	public boolean onKeyUp(int paramInt, KeyEvent paramKeyEvent, MapView paramMapView) {
-		GwtLog.d(TAG, "== onKeyUp paramInt=" + paramInt + ", paramKeyEvent=" + paramKeyEvent);
+		//GwtLog.d(TAG, "== onKeyUp paramInt=" + paramInt + ", paramKeyEvent=" + paramKeyEvent);
 		return super.onKeyUp(paramInt, paramKeyEvent, paramMapView);
 	}
 	
 	@Override
 	public boolean onTap(GeoPoint paramGeoPoint, MapView paramMapView) {
-		GwtLog.d(TAG, "== onKeyUp paramGeoPoint.getLatitudeE6=" + paramGeoPoint.getLatitudeE6());
+		//GwtLog.d(TAG, "== onKeyUp paramGeoPoint.getLatitudeE6=" + paramGeoPoint.getLatitudeE6());
 		return super.onTap(paramGeoPoint, paramMapView);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent paramMotionEvent, MapView paramMapView) {
-		GwtLog.d(TAG, "== onTouchEvent paramMotionEvent=" + paramMotionEvent);
+		//GwtLog.d(TAG, "== onTouchEvent paramMotionEvent=" + paramMotionEvent);
 		return super.onTouchEvent(paramMotionEvent, paramMapView);
 	}
 	
 	@Override
 	public boolean onTrackballEvent(MotionEvent paramMotionEvent, MapView paramMapView) { 
-		GwtLog.d(TAG, "== onTrackballEvent paramMotionEvent=" + paramMotionEvent);
+		//GwtLog.d(TAG, "== onTrackballEvent paramMotionEvent=" + paramMotionEvent);
 		return super.onTrackballEvent(paramMotionEvent, paramMapView);
 	}
 	
@@ -194,7 +194,7 @@ class DrawPolylineOverlay extends Overlay {
 	private void updatePath(Projection projection, Canvas canvas, MapView mapView, Rect viewRect, Path path,
 			int startLocationIdx) {
 
-		GwtLog.d(TAG, "== DrawPolylineOverlay updatePath");
+		//GwtLog.d(TAG, "== DrawPolylineOverlay updatePath");
 		
 		// Whether to start a new segment on new valid and visible point.
 		// boolean newSegment = startLocationIdx > 0 ?

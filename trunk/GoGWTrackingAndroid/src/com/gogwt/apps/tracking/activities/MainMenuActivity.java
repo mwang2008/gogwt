@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 import com.gogwt.apps.tracking.AbstractMenuActivity;
 import com.gogwt.apps.tracking.R;
@@ -79,7 +78,7 @@ public class MainMenuActivity extends AbstractMenuActivity {
 	        	startActivity(new Intent(this, SettingPrefsActivity.class));
 	            break;
 	        case R.id.menu_help:     
-	        	Toast.makeText(this, "You pressed the help!", Toast.LENGTH_LONG).show();
+	            startActivity(new Intent(this, HelpActivity.class));	        	
 	            break;
 	        case R.id.menu_logout: 	        	
 	        	startActivity(new Intent(this, LogoutActivity.class));	     
