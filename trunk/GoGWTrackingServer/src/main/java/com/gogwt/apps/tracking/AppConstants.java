@@ -8,5 +8,5 @@ public class AppConstants {
 	
 	//session
 	public static final String ERROR_MSG = "session_error_msg";
-	public static final String TRACK_DATA_LIST = "session_track_data_list";
+	public static final String TRACK_DATA_WRAPPER = "session_track_data_wrapper";
 }

@@ -18,6 +18,7 @@ import org.hibernate.exception.GenericJDBCException;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
+import com.gogwt.apps.tracking.data.TrackingSmsData;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.exceptions.DisplayNameAlreadyLoginException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
@@ -72,6 +73,46 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		}
 
 	}
+	
+	@Override
+	public int saveSmsData(List<TrackingSmsData> smsDataList) throws InvalidUserException, AppRemoteException {
+		logger.debug("start saveTrackingData");
+		Session session = null;
+		Transaction tx = null;
+		try {
+			if (session == null || !session.isOpen()) {
+				session = HibernateUtil.getSessionFactory().openSession();
+			}
+
+			tx = session.beginTransaction();
+			int totalSaved = 0;
+			for (TrackingSmsData trackData : smsDataList) {
+				try {
+					session.save(trackData);
+					totalSaved++;
+				} catch (HibernateException e) {
+					e.printStackTrace();
+					tx.rollback();
+					logger.error(
+							"Error when insert sms data " + trackData.toString(), e);
+				}
+			}
+ 			tx.commit();
+
+			return totalSaved;
+
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+
+			e.printStackTrace();
+			throw new AppRemoteException("error for creating customer", e);
+		} finally {
+			if (session != null) {
+				// session.close();
+			}
+		}	}
 
 	/**
 	 * 
@@ -174,7 +215,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			
 			Query query = null;
 			
-			query = session.createQuery("from TrackingMobileData where groupId=:groupId and displayName=:displayName and startTime=:startTime  order by displayName, startTime");			
+			query = session.createQuery("from TrackingMobileData where groupId=:groupId and displayName=:displayName and startTime=:startTime  order by displayName, time");			
 			query.setParameter("groupId", groupId);
 			query.setParameter("displayName", displayName);
 			query.setParameter("startTime", startTimeLong);
@@ -198,6 +239,41 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		}
 	}
 	 
+	@Override
+	public List<TrackingSmsData> findAllTrackingSmsData(String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException {
+
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			
+			Query query = null;
+			
+			query = session.createQuery("from TrackingSmsData where groupId=:groupId and displayName=:displayName and startTime=:startTime  order by displayName, date");			
+			query.setParameter("groupId", groupId);
+			query.setParameter("displayName", displayName);
+			query.setParameter("startTime", startTimeLong);
+			
+			List<TrackingSmsData> result = query.list();
+			
+            tx.commit();
+
+			return result;
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+
+			e.printStackTrace();
+			throw new AppRemoteException("error for creating retrieveLocationsSnapShot", e);
+		} finally {
+			if (session != null) {
+				// session.close();
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 */
@@ -209,7 +285,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			tx = session.beginTransaction();
 			
 		 
-			String SQL_QUERY = "select * from tracking_mobile where groupId=:groupId and display_name=:displayName and start_time=:startTime order by display_name, start_time";
+			String SQL_QUERY = "select * from tracking_mobile where groupId=:groupId and display_name=:displayName and start_time=:startTime order by display_name, time";
  
             SQLQuery query = session.createSQLQuery(SQL_QUERY);	
             query.addEntity(TrackingMobileData.class);
@@ -474,5 +550,4 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			throws DisplayNameAlreadyLoginException, AppRemoteException {
 
 	}
-
 }

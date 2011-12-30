@@ -107,7 +107,12 @@
 					  </td>
 			    </table>
              </div>
-			
+			 <div id="container">
+			     <div style="width:740px;height:20px; overflow:auto; text-align: center; background-color:lightgrey;"/> <b>Messaging</b> </div>                     
+			 </div>
+			 <div id="container">  
+	           <div id="sms_div" style="width:740px;"></div>
+             </div>
           </td>
 		  
 		   

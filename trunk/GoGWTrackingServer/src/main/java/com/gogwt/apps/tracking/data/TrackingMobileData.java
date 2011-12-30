@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class TrackingMobileData extends GLocation {
 
-	private String id;	 
+	private long id;	 
 	private String phoneNumber;
 	private String displayName;	 
     private Date createDate;
@@ -13,11 +13,11 @@ public class TrackingMobileData extends GLocation {
     //used for UI only
     private String color;
 	
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

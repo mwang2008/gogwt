@@ -12,9 +12,7 @@
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>     
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>   
-   
-   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>      
    
    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
@@ -38,16 +36,17 @@
 
  
 <div id="container"> 
-   <table border="1">
+   <table border="1" cellspacing="2" cellpadding="2">
        <tr> 
           <td width="200" valign="top"> 
             <form name=xcv>
-	        <input id="autoRefersh" type="button"  value="Start Auto Refresh">
+			
+			<img id="autoRefersh" src="${env.contextPath}/images/start_auto_refresh.png" />	         
 	        <input id="showTraffic" type="button" value="Show Traffic">
 			<input id="clearDebugPanel" type="button" value="Clear Log" style="display: none">
 	         
             </form>			
-            <div id="xtimer"> starting auto refresh </div><hr>
+            <div id="xtimer"> </div><hr>
             <div id="mylocs">locations </div><hr>
             <div id="side_bar" style="height: 450px; overflow:auto;"></div>
 			 <div id="thelog"/>
@@ -59,8 +58,14 @@
              <div id="container">  	   			    
 	            <div id="map_canvas" style="width:740px; height:350px"></div>
              </div> 
+			 <div id="container">  	   			    
+	            &nbsp;
+             </div>
+			 <div id="container">
+			     <div style="width:740px;height:20px; overflow:auto; text-align: center; background-color:lightgrey;"/> <b>Messaging</b>  </div>                    
+			 </div>
              <div id="container">  
-	           <div id="chart_div" style="width:740px; height:200px" onmouseout="clearMatchMousemarker()"></div>
+	           <div id="sms_div" style="width:740px;"></div>
              </div>
 			
           </td>

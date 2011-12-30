@@ -171,6 +171,21 @@
 		</property>
 	</bean>
 
+    <!--  INTERNAL USAGE:  -->
+	<bean name="urlMappingPart3"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="name=interceptor/config/URLHandlerInterceptor" />
+				<ref bean="name=interceptor/config/CheckLoginInterceptor" />				
+			</list>
+		</property>
+		<property name="mappings">
+			<props>
+			 	<prop key="/**/addlocation/**/">name=controller/AddLocationController</prop>			 										
+			</props>
+		</property>
+	</bean>
 
 	<!-- Declare a view resolver -->
 	<bean id="viewResolver"

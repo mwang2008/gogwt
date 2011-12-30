@@ -1,7 +1,6 @@
 package com.gogwt.apps.tracking.services.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +8,12 @@ import java.util.Map;
 import com.gogwt.apps.tracking.data.GDispItem;
 import com.gogwt.apps.tracking.data.GLine;
 import com.gogwt.apps.tracking.data.GLocation;
+import com.gogwt.apps.tracking.data.GSmsData;
+import com.gogwt.apps.tracking.data.GSmsItem;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
+import com.gogwt.apps.tracking.data.TrackingSmsData;
+import com.gogwt.apps.tracking.utils.StringUtils;
 
 public final class DomainServiceHelper {
 
@@ -21,7 +24,7 @@ public final class DomainServiceHelper {
 	 * 
 	 * @return
 	 */
-   public static ArrayList<GDispItem> constructionActiveDisplayItemList(Map<String, List<GLocation>> activeMap ) {
+   public static ArrayList<GDispItem> constructionActiveDisplayItemLocList(Map<String, List<GLocation>> activeMap ) {
 	   if (activeMap == null || activeMap.isEmpty()) {
 		   return null;
 	   }
@@ -139,6 +142,108 @@ public final class DomainServiceHelper {
        return list;
    }
    
+    
+   /**
+    * 
+    * @param activeMsmMap  <displayName, List<GSmsData
+    * @return
+    */
+   public static ArrayList<GSmsItem> constructionActiveDisplaySmsItemList(Map<String, List<GSmsData>> activeMsmMap) {
+	   if (activeMsmMap == null || activeMsmMap.isEmpty()) {
+		   return null;
+	   }
+	   
+	   ArrayList<GSmsItem> msmItemList = new ArrayList<GSmsItem>();
+	   GSmsItem gSmsItem = null;
+	   String displayName = null;
+	   List<GSmsData> gSmsData = null;
+	   for (Map.Entry<String, List<GSmsData>> entry : activeMsmMap.entrySet()) {
+		   displayName = entry.getKey();
+		   gSmsData = entry.getValue();
+		   
+		   int index = fromResultList(displayName, msmItemList);
+		   
+		   if (index != -1) {
+			   msmItemList.get(index).getSmsList().addAll(gSmsData);
+		   }
+		   else {
+			   gSmsItem = new GSmsItem();
+			   gSmsItem.setDispName(displayName);
+			   gSmsItem.setSmsList(gSmsData);
+			   msmItemList.add(gSmsItem);
+		   }
+	   }
+	   
+	   return msmItemList;
+   }
+
+   public static ArrayList<GSmsItem> convertTrackingSmsListToGSmsItemList(final List<TrackingSmsData> trackingSmsList) {
+	   GSmsItem gsmsItem = convertTrackingSmsListToGSmsItem(trackingSmsList);
+	   
+	   if (gsmsItem == null) {
+		   return null;
+	   }
+	   
+	   ArrayList<GSmsItem> gSmsItemList = new ArrayList<GSmsItem>();
+	   gSmsItemList.add(gsmsItem);
+	   
+	   return gSmsItemList;
+   }
+
+	   
+   public static GSmsItem convertTrackingSmsListToGSmsItem(final List<TrackingSmsData> trackingSmsList) {
+	  if (trackingSmsList == null || trackingSmsList.isEmpty()) {
+		  return null;
+	  }
+	  	  
+	  GSmsItem gSmsItem = new GSmsItem();
+	  for (TrackingSmsData trackingSms : trackingSmsList) {
+		  if (StringUtils.equalsIgnoreCase(gSmsItem.getDispName(), trackingSms.getDisplayName())) {
+			  gSmsItem.getSmsList().addAll(convertTrackingSmsToGSmsItem(trackingSms));
+		  }
+		  else {			 
+			  gSmsItem.setSmsList(convertTrackingSmsToGSmsItem(trackingSms));
+			  gSmsItem.setDispName(trackingSms.getDisplayName());
+		  }
+	  }	  
+	  return gSmsItem;
+   }
+   
+   public static List<GSmsData> convertTrackingSmsToGSmsItem(final TrackingSmsData trackingSms) {
+	   if (trackingSms == null) {
+		   return null;
+	   }
+	   
+	     
+	   List<GSmsData> smsList = new ArrayList<GSmsData>();
+	   
+	   GSmsData gSmsData = new GSmsData();	   
+	   gSmsData.setAddress(trackingSms.getAddress());
+	   gSmsData.setBody(trackingSms.getBody());
+	   gSmsData.setDate(trackingSms.getDate());
+	   gSmsData.setRead(trackingSms.getRead());
+	   gSmsData.setType(trackingSms.getType());
+	   gSmsData.setStartTime(trackingSms.getStartTime());
+	   
+	   smsList.add(gSmsData);
+	   
+	    
+	   
+	   return smsList;
+   }
+   private static int fromResultList(final String displayName, ArrayList<GSmsItem> msmList) {
+	   if (msmList == null || msmList.isEmpty()) {
+		   return -1;
+	   }
+	   
+	   for (int i=0; i<msmList.size(); i++) {
+		   if (StringUtils.equalsIgnoreCase(displayName, msmList.get(i).getDispName())) {
+			   return i;
+		   }
+	   }
+	   return -1;
+   }
+	
    private static GLine convertToGLine(TrackingMobileData trackData, int numOfClient) {
 	   GLine line = new GLine();
 	   

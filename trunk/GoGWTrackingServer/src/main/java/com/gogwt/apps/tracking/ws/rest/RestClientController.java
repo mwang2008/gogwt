@@ -1,11 +1,10 @@
 package com.gogwt.apps.tracking.ws.rest;
 
 import static com.gogwt.apps.tracking.AppConstants.CUSTOMER_PROFILE;
-import static com.gogwt.apps.tracking.AppConstants.TRACK_DATA_LIST;
+import static com.gogwt.apps.tracking.AppConstants.TRACK_DATA_WRAPPER;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.GDispItem;
+import com.gogwt.apps.tracking.data.GSmsItem;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.Status;
+import com.gogwt.apps.tracking.data.TrackingDataWrapper;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
+import com.gogwt.apps.tracking.data.TrackingSmsData;
 import com.gogwt.apps.tracking.data.request.LocationRequest;
 import com.gogwt.apps.tracking.data.response.DisplayResponse;
 import com.gogwt.apps.tracking.data.response.EnrollResponse;
@@ -77,6 +79,7 @@ public class RestClientController {
 	
 	/**
 	 * Send location from android
+	 * http://localhost/tracking/en-us/mobilelocation  post
 	 * @param request
 	 * @return
 	 */
@@ -93,6 +96,7 @@ public class RestClientController {
 	
 	/**
 	 * Send location from android
+	 * http://localhost/tracking/en-us/mobilelocation  post
 	 * @param request
 	 * @return
 	 */
@@ -193,12 +197,12 @@ public class RestClientController {
 	}
 	
 	/**
-	 * Called from client (browers), Ajax call
-	 * 
+	 * Called from client (browsers), Ajax call
+	 * Active current track
 	 * http://localhost/tracking/en-us/displaycurrentlocation?groupId=g5&days=5
 	 * @param groupId
 	 * @param request
-	 * @return
+	 * @return displayResponse contains loc list and sms list
 	 */
 	@RequestMapping(value="displaycurrentlocation", method=RequestMethod.GET, headers="Accept=application/json")	
 	public @ResponseBody DisplayResponse displayCurrentLocationJSON(@RequestParam("groupId") String groupId, final HttpServletRequest request ) {
@@ -214,7 +218,7 @@ public class RestClientController {
 	
 	
 	/**
-	 * Called from client (browers), Ajax call to display track detail for history (not active track)
+	 * Called from client (browsers), Ajax call to display track detail for history (not active track)
 	 * 
 	 * http://localhost/tracking/en-us/displaytrackdetail?groupId=g5&displayName=show+5&startTime=1
 	 * @param groupId
@@ -267,20 +271,10 @@ public class RestClientController {
 	 *  PRIVATE METHODS 
 	 */
 	private DisplayResponse processCurrentDisp(String groupId, final HttpServletRequest request) { 
-		/*
-		HttpSession session = request.getSession();
-        CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
-
-        if (customerProfile != null) {
-        	groupId = customerProfile.getGroupId();
-        }
-        */
-        final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
-        //final Collection<GDispItem> dispLocation = service.getActiveLocationsByGroupId(customerProfile.getGroupId());
-        final ArrayList<GDispItem> dispLocation = service.getActiveLocationsByGroupId(groupId);
-         
-        DisplayResponse response = new DisplayResponse();
-        response.setDispLocations(dispLocation);
+	    final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
+          
+        DisplayResponse response = service.getActiveLocationsByGroupId(groupId);
+        
         logger.debug(" response " + response.toString());
         
         return response;
@@ -290,20 +284,30 @@ public class RestClientController {
 	private DisplayResponse processTrackDetailDisp(String groupId, String displayName, String startTime, String from, final HttpServletRequest request) {
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
-		final ArrayList<GDispItem> dispLocation; // = service.getHistorialTrackDetail(groupId, displayName, startTime);
-		 
+		final ArrayList<GDispItem> dispLocation; // = service.getHistorialTrackDetail(groupId, displayName, startTime);	 
+		List<TrackingSmsData> smsList;
+		
 		if (StringUtils.isSet(from) && from.equalsIgnoreCase("import")) {
 			//get from import function.
 			HttpSession session = request.getSession();
-			ArrayList<TrackingMobileData> trackDataList = (ArrayList<TrackingMobileData>)session.getAttribute(TRACK_DATA_LIST);
+			TrackingDataWrapper trackingDataWrapper = (TrackingDataWrapper)session.getAttribute(TRACK_DATA_WRAPPER);
+			ArrayList<TrackingMobileData> trackDataList = trackingDataWrapper.getLocList();
+		    smsList = trackingDataWrapper.getSmsList();
+			
 			dispLocation = service.convertTrackingMobileDataListToGDispItemList(trackDataList);			 
 		}
 		else {
+			//get from db
+			smsList = service.findAllSms(groupId, displayName, startTime);
 			dispLocation = service.getHistorialTrackDetail(groupId, displayName, startTime);
 		}
 		
+		final ArrayList<GSmsItem> smsItemList = DomainServiceHelper.convertTrackingSmsListToGSmsItemList(smsList);
+	 	 
 		DisplayResponse response = new DisplayResponse();
 	    response.setDispLocations(dispLocation);
+	    response.setSmsList(smsItemList);
+	    
 	    logger.debug(" response " + response.toString());
 	    
 		return response;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
+import com.gogwt.apps.tracking.data.TrackingSmsData;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.exceptions.DisplayNameAlreadyLoginException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
@@ -18,7 +19,7 @@ public interface CustomerDAO {
 	public CustomerProfile retrieveCustomerProfileByGroupId(final String groupId) throws InvalidUserException, AppRemoteException;
 	
 	public void saveRemoteLoginUser(final CustomerProfile customerProfile) throws DisplayNameAlreadyLoginException, AppRemoteException;
-	
+  	
 	public int saveTrackingData(final List<TrackingMobileData> trackingMobileDataList) throws InvalidUserException, AppRemoteException;
 	public List<TrackingMobileData> retrieveMinLocationsSnapShot(CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException;
 	public List<TrackingMobileData> retrieveMaxLocationsSnapShot(CustomerProfile customerProfile) throws InvalidUserException, AppRemoteException;
@@ -27,4 +28,6 @@ public interface CustomerDAO {
 	public int deleteTrack(String userName, String groupId, String displayName, long startTiemLong) throws InvalidUserException, AppRemoteException;
 	public List<TrackingMobileData> getTrack(String userName, String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException;
 	
+    public int saveSmsData(List<TrackingSmsData> smsDataList) throws InvalidUserException, AppRemoteException;
+    public List<TrackingSmsData> findAllTrackingSmsData(String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException;
 }

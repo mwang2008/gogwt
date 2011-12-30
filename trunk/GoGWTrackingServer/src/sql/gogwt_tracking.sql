@@ -46,6 +46,26 @@ CREATE TABLE `tracking_mobile` (
 -- 2000 and above for production.
 //ALTER TABLE tracking_mobile AUTO_INCREMENT = 2000;   
 ALTER TABLE tracking_mobile ADD INDEX(groupId,display_name);
+	
+///////////////////////////////////
+// read [0:1] 0 -- new,  1 -- read 
+// type [1:2] 1 -- receive(inbox), 2 -- send  
+//
+CREATE TABLE `tracking_sms` (  
+  `id` INT auto_increment,
+  `groupId` varchar(30) NOT NULL,
+  `display_name` varchar(30) NOT NULL,
+  `address` varchar(30) NOT NULL,  
+  `read` int,
+  `type` int,
+  `body` varchar(1024),
+  `date` DATE,
+  `start_time` long,
+  `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)    
+);
+//ALTER TABLE tracking_sms AUTO_INCREMENT = 2000;   
+ALTER TABLE tracking_sms ADD INDEX(groupId,display_name);
 
 ////////////////////////////////////////////////
 /// NOT USED

@@ -1,7 +1,6 @@
-/*
-  http://localhost/tracking/jsp/tracking/trackingscript.jsp
-*/
- 
+<%--
+  http://localhost/tracking/jsp/tracking/tackingscript_history.jsp
+--%> 
      
    var jq = jQuery.noConflict();
    var map;
@@ -141,33 +140,96 @@
       function showMaps(map) {      
   		 //jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
 		 var url = ajaxUrl;
-	     jq.getJSON(url, function(data) {    
+	     jq.getJSON(url, function(data) {            
+ 			 //-----
+             var hasValidData = false;
+			 
              if (!data.dispLocations || data.dispLocations.length == 0) {  
                 document.getElementById("side_bar").innerHTML = "No tracking yet";
-                return;
+                //return;
              }
-   	         if (hasTrackChanged(data)) {
- 	            clearSideBar();
-	            clearPolyline();
-				clearMarker();
-				clearChart();
-	            showLeftSidebar(data);	        
-	         }
-           
-			 if (DEBUG) {
-	           document.getElementById('clearDebugPanel').style.visibility='visible';
-	         }
-	         else {
-	           document.getElementById('clearDebugPanel').style.visibility='hidden';			
-             }
+			 else {
+	   	        if (hasTrackChanged(data)) {
+ 	               clearSideBar();
+	               clearPolyline();
+				   clearMarker();
+				   //clearInfo();				 
+	               showLeftSidebar(data);	        
+	            }
+				hasValidData = true;
+			    if (DEBUG) {
+	               document.getElementById('clearDebugPanel').style.visibility='visible';
+	            }
+	            else {
+	               document.getElementById('clearDebugPanel').style.visibility='hidden';			
+                }
 	  
-             showLines(map, data);   
-             lastDispLocations = data.dispLocations;
- 			 
+			    showLines(map, data);   		  
+			 }
+			 
+			 if (data.smsList) {
+			    hasValidData = true;
+			    showSmsInfo(data);
+			 }
+			 else {
+			    document.getElementById("sms_div").innerHTML = "No Message Sent/Recieved yet";
+			 }
+			 
+			 if (hasValidData == true) {
+                lastDispLocations = data.dispLocations;
+			 }
+			 
          }); <%-- end of getJSON --%>         
       }
     
+      <%--
+	     smsItem GSmsItem 
+		 smslist List<GSmsData>
+	  --%>
+	  function showSmsInfo(data) {	  
+	     jq.each(data.smsList, function(index, smsItem) {
+		       var smslist = smsItem.smsList;
+			   var displayName = smsItem.dispName;
+			   var smsData;
+			   
+			   var smsInfo = "";
+			   smsInfo += '<table  class="bw_result_area_border" cellspacing="2" cellpadding="2" border="0" width="100%">';
+			   smsInfo += ' <tr class="bw_result_name_row"> <td colspan="2"> ';								 
+			   smsInfo += '  <b>Display Name:</b> ' + displayName;  
+			   smsInfo += ' </td></tr>';
+			   
+			   
+			   for (var i=0; i<smslist.length; i++) {
+			      smsData = smslist[i];
+				  smsInfo += '<tr> <td colspan="2">';  
+				  smsInfo +=  smsContent(smsData);
+				  smsInfo += '</td></tr>';				    
+			   }
+			   smsInfo += '</table>';
+			   
+			   document.getElementById("sms_div").innerHTML = smsInfo;
+		  }); <%-- end of jq.each(data.smsList --%>		 	 
+	  }
       
+	  function smsContent(smsData) {
+	     var info='';
+	     if (smsData.type == 1) {
+		    info += "&nbsp;&nbsp;<b>Receive message</b> from " 
+		 }
+		 else if (smsData.type == 2) {
+		    info += "&nbsp;&nbsp;<b>Send msessage</b> to "
+		 }
+		 info += smsData.address;
+		 info += " at " + formatDateFromTime(smsData.date);
+		 
+		 if (smsData.body != 'XXDisableXX') {
+		     info += " with body: " + smsData.body;
+		 }
+		 
+		 return info;
+		 
+	  }
+	  
       function showLines(map, data) {
         
         jq.each(data.dispLocations, function(index, dispItem) {

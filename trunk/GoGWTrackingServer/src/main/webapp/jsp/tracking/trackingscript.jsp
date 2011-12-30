@@ -1,11 +1,11 @@
-/*
+<%--
   http://localhost/tracking/jsp/tracking/trackingscript.jsp
-*/
+--%>
  
      
    var jq = jQuery.noConflict();
    var map;
-   //var chart = null;
+   
    var gpolys = [];
    var gmarkers = [];
    var gicons = [];
@@ -15,7 +15,7 @@
    var infowindow = null;
    var bounds = null;
    var side_bar_arr = [];
-   var mousemarker = null;
+  
    var timer; 
    var totalRuntime = 0;
    var totalCycle = 0;
@@ -28,25 +28,17 @@
    var hasTrackingChanged = false;
    var trafficLayer;   
    var currentIndex = 0;
-   var changeChart = false;
-   
-   var chartData = null;
-   var charsRepo = [];
-   var matchMousemarker;
-   
-   var lasttimeWithData = null;
+  
+  var lasttimeWithData = null;
    var NUM_AUTO_REFERSH = 10;
    var IDLE_TIME_ALLOWED_IN_SEC = 300;
    var DEBUG = false;
    
    /*GDispItem*/
    var lastDispLocations = null;
-   
-   //google.load("visualization", "1", {packages:["columnchart"]});
-
+  
    jq(document).ready(function() {
-     
-      //hidden auto refersh button            
+             
       document.getElementById('autoRefersh').style.visibility='hidden';
        
       startTimer();
@@ -78,10 +70,7 @@
        
       showMaps(map);
   
-      //google.setOnLoadCallback(drawChart);
-      //chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-      
-	  <%--
+      <%--
       /*------------------------------------------------------+
        | Actions when user click Auto Refresh Button          | 
        +------------------------------------------------------*/     
@@ -113,45 +102,105 @@
       });
       
 	  <%--
-      /*------------------------------------------------------+
-       | Functions                                            | 
-	   | data is DisplayResponse                              |
-	   | lastDispLocations kept the last data                 |  
-	   | dispLocations                                        |
-	   | jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5', function(data) {
-	   | jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
-	   +------------------------------------------------------*/ 
+      /*-----------------------------------------------------------------------------------------------------------------------------+
+       | Functions                                                                                                                   | 
+	   | data is DisplayResponse                                                                                                     |
+	   | lastDispLocations kept the last data                                                                                        |  
+	   | dispLocations                                                                                                               |
+	   | jq.getJSON('${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5', function(data) {           |
+	   | jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		         |
+	   +-----------------------------------------------------------------------------------------------------------------------------*/ 
       --%>
       function showMaps(map) {  
     
     	 var url = ajaxUrl;
-	     jq.getJSON(url, function(data) {    
+	     jq.getJSON(url, function(data) { 
+             var hasValidData = false;
+			 
              if (!data.dispLocations || data.dispLocations.length == 0) {  
                 document.getElementById("side_bar").innerHTML = "No tracking yet";
-                return;
+                //return;
              }
-   	         if (hasTrackChanged(data)) {
- 	            clearSideBar();
-	            clearPolyline();
-				clearMarker();
-				clearInfo();
-				//clearChart();
-	            showLeftSidebar(data);	        
-	         }
-           
-			 if (DEBUG) {
-	           document.getElementById('clearDebugPanel').style.visibility='visible';
-	         }
-	         else {
-	           document.getElementById('clearDebugPanel').style.visibility='hidden';			
-             }
+			 else {
+	   	        if (hasTrackChanged(data)) {
+ 	               clearSideBar();
+	               clearPolyline();
+				   clearMarker();
+				   clearInfo();				 
+	               showLeftSidebar(data);	        
+	            }
+				hasValidData = true;
+			    if (DEBUG) {
+	               document.getElementById('clearDebugPanel').style.visibility='visible';
+	            }
+	            else {
+	               document.getElementById('clearDebugPanel').style.visibility='hidden';			
+                }
 	  
-             showLines(map, data);   
-             lastDispLocations = data.dispLocations;
+			    showLines(map, data);   		  
+			 }
+			 
+			 if (data.smsList) {
+			    hasValidData = true;
+			    showSmsInfo(data);
+			 }
+			 else {
+			    document.getElementById("sms_div").innerHTML = "No Message Sent/Recieved yet";
+			 }
+			 
+			 if (hasValidData == true) {
+                lastDispLocations = data.dispLocations;
+			 }
          }); <%-- end of getJSON --%>         
       }
-    
       
+	  <%--
+	     smsItem GSmsItem 
+		 smslist List<GSmsData>
+	  --%>
+	  function showSmsInfo(data) {	  
+	     jq.each(data.smsList, function(index, smsItem) {
+		       var smslist = smsItem.smsList;
+			   var displayName = smsItem.dispName;
+			   var smsData;
+			   
+			   var smsInfo = "";
+			   smsInfo += '<table  class="bw_result_area_border" cellspacing="2" cellpadding="2" border="0" width="100%">';
+			   smsInfo += ' <tr class="bw_result_name_row"> <td colspan="2"> ';								 
+			   smsInfo += '  <b>Display Name:</b> ' + displayName;  
+			   smsInfo += ' </td></tr>';
+	 		   
+			   for (var i=0; i<smslist.length; i++) {
+			      smsData = smslist[i];
+				  smsInfo += '<tr> <td colspan="2">';  
+				  smsInfo +=  smsContent(smsData);
+				  smsInfo += '</td></tr>';				    
+			   }
+			   smsInfo += '</table>';
+			   
+			   document.getElementById("sms_div").innerHTML = smsInfo;
+		  }); <%-- end of jq.each(data.smsList --%>		 	 
+	  }
+      
+	  function smsContent(smsData) {
+	     var info='';
+	     if (smsData.type == 1) {
+		    info += "&nbsp;&nbsp;<b>Receive message</b> from " 
+		 }
+		 else if (smsData.type == 2) {
+		    info += "&nbsp;&nbsp;<b>Send msessage</b> to "
+		 }
+		 info += smsData.address;
+		 info += " at " + formatDateFromTime(smsData.date);
+		 
+		 if (smsData.body != 'XXDisableXX') {
+		     info += " with body: " + smsData.body;
+		 }
+		 
+		 return info;
+		 
+	  }
+	  
       function showLines(map, data) {
         
         jq.each(data.dispLocations, function(index, dispItem) {
@@ -199,8 +248,9 @@
                  
                gpolys[index].getPath().push(point);                  
                hasNewLoc = true;  			 
-			   lasttimeWithData = new Date();	  
-               document.getElementById("speed"+index).innerHTML = "&nbsp;&nbsp;<b>Speed:</b> " + meterToMPH(locs[i].speed).toFixed(2) + " (mph)<br>" + "&nbsp;&nbsp;<b>Time:</b> " + formatDateFromTime(locs[i].time);	              					 
+			   lasttimeWithData = new Date();
+			   
+			   document.getElementById("speed"+index).innerHTML = "&nbsp;&nbsp;<b>Speed:</b> " + meterToMPH(locs[i].speed).toFixed(2) + " (mph)<br>" + "&nbsp;&nbsp;<b>Time:</b> " + formatDateFromTime(locs[i].time);	              					 
 	       }
     
            if (hasNewLoc) {             
@@ -243,17 +293,10 @@
       	    infowindow.setContent(contentString +" currentIndex: " + index);        
       	    infowindow.setPosition(point);
       	            
-      	    infowindow.open(map);
-      	    //map.openInfoWindowHtml(point,html);                
+      	    infowindow.open(map);      	         
          }); 
          
-		 /*
-         google.maps.event.addListener(poly,'mousemove', function(event) {          
-		    document.getElementById("locInfo").innerHTML = "";
-		 });
-        */
-		
-         //square.png
+          
          google.maps.event.addListener(poly,'mousemove', function(event) {     
             var locPoint;		 
       	    if (event) {
@@ -323,9 +366,6 @@
 		  if (endLocIndex == 0) {		     
 		     return null;			 
 		  }
-		  
-		  //insertedSpeed += "startLoc=" + startLocIndex + ",speed="+selectedTrackList[startLocIndex].speed +",endLocIndex=" + endLocIndex + ",speed="+selectedTrackList[endLocIndex].speed +" -- "  ;
-		   
 		  insertedSpeed += (selectedTrackList[startLocIndex].speed + selectedTrackList[endLocIndex].speed)/2.00;
 		  
 		  var speedTime = "<br>Date Time: " + formatDateFromTime((selectedTrackList[startLocIndex].time + selectedTrackList[endLocIndex].time)/2.00);
@@ -388,6 +428,10 @@
    function hasTrackChanged(data) {
       var retVal = false;
       
+	  if (data.hasNewTrack) {
+	     return true;
+	  }
+	  
       if (numLastTrackNames != data.dispLocations.length) {
          retVal = true;
       }
@@ -433,30 +477,14 @@
     
    function createSideBar(index, color, line, glocation) {
       var sidebar = "";
-           
+          
       var label = "<a href='javascript:google.maps.event.trigger(gpolys["+index+"],\"click\");'>"+'<span style="color:'+ color +'">'+line.label +'</span>' + "</a>";
 	  
       sidebar = '<input type="checkbox" id="poly'+index+'" checked="checked" onclick="togglePoly('+index+');">' + label + '<br/>';
           
       sidebar += '&nbsp; <b>Start Time:</b> ' + formatDateFromTime(line.startTime) +  '<br/>';   
   	  sidebar += '&nbsp;&nbsp;<div id="speed'+ index + '">&nbsp;</div>';
-	  	  
-	  //sidebar += '&nbsp; <b>Time:</b> ' + formatDateFromTime(glocation.time) + '<div id="time'+ index + '">&nbsp; x</div><br />';
-	  //sidebar += '&nbsp; <b>Speed:</b> ' + meterToMPH(glocation.speed).toFixed(2) + ' <div id="speed'+ index + '">&nbsp; x </div> (mph)<br />';
-	  
-	  <%-- Do not show Google Chart due to performance
-	  if (index == currentIndex) {
-		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" checked onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
-	  }
-	  else {
-		  sidebar += '<input type="radio" name="radioPoly" id="radioPoly" onclick="selectRadioPoly('+index+');">' + '<span style="color:'+ color +'">Display Speed Chart</span>' + '<br />';
-	  }
-	  --%>
-	  <%--
-	  sidebar += '<br>';
-	  sidebar += '&nbsp; '  + 'poly num:' + index + '<br />';
-      sidebar += '<hr>';
-      --%>    
+   
       side_bar_arr[index] = sidebar;
    }
            
@@ -485,10 +513,7 @@
          }
    }
     
-   function clearChart() {
-	    chartData = null;
-   }
-	
+  
    function clearInfo() {
        document.getElementById("locInfo").innerHTML = "";
    }
@@ -535,7 +560,7 @@
             }	       
 	 	 }
 		 else {
-		    document.getElementById("xtimer").innerHTML = "totalRuntime: " + totalRuntime ;
+		    //document.getElementById("xtimer").innerHTML = "totalRuntime: " + totalRuntime ;
 		    if (totalRuntime > NUM_AUTO_REFERSH) { 
                totalRuntime = 0;
 	           document.getElementById('autoRefersh').style.visibility='visible';
@@ -623,87 +648,4 @@
        return meterPerSec*2.23693629;
    }
    
-   function selectRadioPoly(poly_num) {    
-  	  changeChart = true;
-	  currentIndex = poly_num;
-   }    
-   
-   function changePlot(newIndex) {
-  	  changeChart = true;
-	  currentIndex = newIndex;
-   }
-   
-   <%--
-     /*
-	  *   do nothing, required by google.chart
-	  */
-   --%>   
-   function drawChart() {
-   }
  
-   var options = null;
-   function plotCurrentChart(ii, index, dispName, color, time, speed, point) {       
-      if (chartData == null) {
-          chartData = new google.visualization.DataTable();
-          chartData.addColumn('string', 'Sample');
-	      chartData.addColumn('number', 'Speed');
-          document.getElementById('chart_div').style.display = 'block'; 
-       }
-           
-       charsRepo[ii] = point;
-       
-       //chartData.addRow(['', meterToMPH(speed)]);
-	   if (ii%10 == 0) {
-          chartData.addRow([ii+1+'', meterToMPH(speed)]);
-	   }
-	   else {
-	     chartData.addRow(['', meterToMPH(speed)]);
-	   }
-	 
-	   if (options == null) {
-	      options = {
-             width: 740,
-             height: 200,
-             legend: 'none',
-             title:  'Display Name: ' + dispName,
-             titleY: 'Speed (mph)',
-             titleX: 'Time',
-             colors: [color,color],
-             focusBorderColor: '#FFFFCC'
-          };
-	   }
-	   chart.draw(chartData, options);
-	    
-       google.visualization.events.addListener(chart, 'onmouseover', function(e) {
-          if (matchMousemarker == null) {           
-              matchMousemarker = new google.maps.Marker({
-                position: charsRepo[e.row],
-                map: map,
-                icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-              });
-           } else {
-              matchMousemarker.setPosition(charsRepo[e.row]);
-          }
-      });
-   }
-  
-    
-   function replotHistoryChart(locs, polyLocNum, index, dispName, color) {
-	  var locPoint;
-	  chartData = null;
-	  
-	  for (var i=0; i<polyLocNum; i++) {
-	     locPoint = new google.maps.LatLng(locs[i].latitude/1.0e6, locs[i].longitude/1.0e6);
-		 bounds.extend(locPoint); 
-	     plotCurrentChart(i, index, dispName, color, locs[i].time, locs[i].speed, locPoint);
-      }
-   }
-   
-   // Remove the green rollover marker when the mouse leaves the chart
-   function clearMatchMousemarker() {
-       if (matchMousemarker != null) {
-         matchMousemarker.setMap(null);
-         matchMousemarker = null;
-       }
-   }
-   

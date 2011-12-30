@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
@@ -14,11 +13,15 @@ import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.GDispItem;
 import com.gogwt.apps.tracking.data.GLine;
 import com.gogwt.apps.tracking.data.GLocation;
+import com.gogwt.apps.tracking.data.GSmsData;
+import com.gogwt.apps.tracking.data.GSmsItem;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.Status;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
 import com.gogwt.apps.tracking.data.TrackingMobileDataCol;
+import com.gogwt.apps.tracking.data.TrackingSmsData;
 import com.gogwt.apps.tracking.data.request.LocationRequest;
+import com.gogwt.apps.tracking.data.response.DisplayResponse;
 import com.gogwt.apps.tracking.data.response.LocationResponse;
 import com.gogwt.apps.tracking.data.response.LoginResponse;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
@@ -47,12 +50,17 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 				int numOfInsert = getCustomerDAO().saveTrackingData(
 						trackingMobileDataList);
 			}
-
+			if (request.hasSmsData()) {
+				List<TrackingSmsData> smsDataList = convertToTrackingSmsData(request);
+				int numOfsmsInsert = getCustomerDAO().saveSmsData(smsDataList);
+			}
+			
 			logger.debug(" ===== RestBusinessDomainService.processLocation "
 					+ request.toString());
 
 			// save to memory
 			ActiveSharedLocation.addGroupIdLocationRequestMap(request);
+			ActiveSharedLocation.addGroupIdSmsRequestMap(request);
 		} catch (AppRemoteException e) {
             e.printStackTrace();
 		}
@@ -155,28 +163,67 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		return null;
 	}
 
+	public List<TrackingSmsData> findAllSms(String groupId,	String displayName, long startTimeLong) {
+		List<TrackingSmsData> trackingSmsList;
+		logger.debug("findAllSms ");
+		
+		try {
+			trackingSmsList = getCustomerDAO().findAllTrackingSmsData(groupId, displayName, startTimeLong);
+
+			return trackingSmsList;
+		} catch (AppRemoteException e) {
+			logger.error("Fail to get record of groupId=" + groupId
+					+ ",displayName=" + displayName + ",startTimeLong="
+					+ startTimeLong);
+		}
+
+		return null;
+		
+	}
 	/**
 	 * Get active locations from shared location, called by RestClientController
 	 * 
 	 * @param groupId
 	 * @return
 	 */
-	public ArrayList<GDispItem> getActiveLocationsByGroupId(final String groupId) {
+	//public DisplayResponse ArrayList<GDispItem> getActiveLocationsByGroupId(final String groupId) {
+	public DisplayResponse getActiveLocationsByGroupId(final String groupId) {
 		// displayName(corresponding mobile phone), locations
-		Map<String, List<GLocation>> activeMap = ActiveSharedLocation
+		Map<String, List<GLocation>> activeLocMap = ActiveSharedLocation
 				.getLocationMap(groupId);
 
+		
+		
 		if (logger.isDebugEnabled()) {
-			printOutActiveMap(activeMap);
+			printOutActiveMap(activeLocMap);
 		}
 
-		ArrayList<GDispItem> ret = DomainServiceHelper
-				.constructionActiveDisplayItemList(activeMap);
+		ArrayList<GDispItem> retLocList = DomainServiceHelper
+				.constructionActiveDisplayItemLocList(activeLocMap);
 
+		Map<String, List<GSmsData>> activeMsmMap = ActiveSharedLocation.getSmsMap(groupId);
+		
+		ArrayList<GSmsItem> msmList = DomainServiceHelper.constructionActiveDisplaySmsItemList(activeMsmMap);
+		 
 		if (logger.isDebugEnabled()) {
-			printOutGDispItem(ret);
+			printOutGDispItem(retLocList);
 		}
-		return ret;
+		
+		Boolean hasNewTrackBool = ActiveSharedLocation.getNewTrackMap().get(groupId);
+		boolean hasNewTrack = false;
+		if (hasNewTrackBool != null) {
+			hasNewTrack = hasNewTrackBool.booleanValue();
+		}
+		
+		DisplayResponse response = new DisplayResponse();
+		response.setDispLocations(retLocList);
+		response.setSmsList(msmList);
+		response.setHasNewTrack(hasNewTrack);
+		
+		//reset newtrack to false, as we already have one so far.
+		ActiveSharedLocation.getNewTrackMap().put(groupId, false);
+		
+		return response;
 	}
 
 	/**
@@ -242,8 +289,7 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 
 
 	
-	public ArrayList<GDispItem> convertTrackingMobileDataListToGDispItemList(
-			List<TrackingMobileData> retList) {
+	public ArrayList<GDispItem> convertTrackingMobileDataListToGDispItemList(List<TrackingMobileData> retList) {
 		GLine newGLine = null;
 		GDispItem dispItem = new GDispItem();
 
@@ -253,13 +299,10 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		for (TrackingMobileData track : retList) {
 			// first record
 			if (recordIndex == 0) {
-				newGLine = DomainServiceHelper.convertActiveToGLine(track,
-						track.getDisplayName(), 0);
+				newGLine = DomainServiceHelper.convertActiveToGLine(track, track.getDisplayName(), 0);
 				newGLine.setStartAddr(findAddress(track));
 			}
-
-			//newGLine.setEndTime(track.getTime());
-			
+ 		
 			glocation = DomainServiceHelper.convertToGLocation(track);
 			glocationList.add(glocation);
 
@@ -331,10 +374,47 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 
 	}
 
+	public List<TrackingSmsData> findAllSms(String groupId, String displayName, String startTime) {
+		List<TrackingSmsData> smsList;
+		try {
+			long startTimeLong = Long.parseLong(startTime);
+			smsList = getCustomerDAO().findAllTrackingSmsData(groupId, displayName, startTimeLong);
+            return smsList;
+		}
+		catch (AppRemoteException e) {
+			logger.error(e.getMessage() + ", groupId="+groupId +",displayName="+displayName + ",startTime="+startTime);
+		}
+		
+		return null;
+	}
+	
 	/**************************************************************
 	 * PRIVATE METHODS
 	 **************************************************************/
 
+	private List<TrackingSmsData> convertToTrackingSmsData(final LocationRequest request) {
+		List<TrackingSmsData> smsDataList = new ArrayList<TrackingSmsData>();
+		Profile profile = request.getProfile();
+		
+		TrackingSmsData trackingSmsData;
+		for (GSmsData smsData : request.getSmsDataList()) {
+			trackingSmsData = new TrackingSmsData();
+			
+			trackingSmsData.setGroupId(profile.getGroupId());
+			trackingSmsData.setDisplayName(profile.getDisplayName());
+			trackingSmsData.setAddress(smsData.getAddress());
+			trackingSmsData.setDate(smsData.getDate());
+			trackingSmsData.setRead(smsData.getRead());
+			trackingSmsData.setType(smsData.getType());
+			trackingSmsData.setBody(smsData.getBody());
+			trackingSmsData.setStartTime(smsData.getStartTime());
+			 
+			smsDataList.add(trackingSmsData);
+		}
+		
+		return smsDataList;
+	}
+	 	
 	private List<TrackingMobileData> convertToTrackingMobileData(
 			final LocationRequest request) {
 		List<TrackingMobileData> trackingMobileDataList = new ArrayList<TrackingMobileData>();
@@ -379,8 +459,11 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		if (activeMap != null) {
 			for (Map.Entry<String, List<GLocation>> item : activeMap.entrySet()) {
 				System.out.println(item.getKey());
-				for (GLocation location : item.getValue()) {
-					System.out.println("  " + location.toString());
+				//handle ConcurrentModificationException of ArrayList
+				synchronized (item.getValue()) {
+				   for (GLocation location : item.getValue()) {
+					  System.out.println("  " + location.toString());
+				   }
 				}
 			}
 		}
@@ -435,7 +518,7 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 		 * @param trackingData
 		 * @return
 		 */
-	private String findAddress(TrackingMobileData trackingData) {
+	public String findAddress(TrackingMobileData trackingData) {
 		BigDecimal lat, lng;
 		GeocoderRequest request = new GeocoderRequest();
 		
@@ -458,10 +541,13 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 				|| locationType == GeocoderLocationType.RANGE_INTERPOLATED) {
 			   return address;
 		    }
+		    else {
+		    	return "(latitude,longitude) : (" + trackingData.getLatitude() + ", " + trackingData.getLongitude() + ")"; 
+		    }
 		}
 		catch (Throwable e) {
 			//do nothing, just return null
 		}
-		return null;
+		return "(latitude,longitude) : (" + trackingData.getLatitude() + ", " + trackingData.getLongitude() + ")";
 	}
 }
