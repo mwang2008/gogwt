@@ -30,7 +30,7 @@ public final class GwtLog {
 
 	
 	public static void d(String tag, String msg, boolean forceLog) {
-		Log.i(tag, msg);		
+		Log.d(tag, msg);		
 	}
 	
 	public static void e(String tag, String msg, boolean forceLog) {

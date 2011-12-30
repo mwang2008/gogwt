@@ -16,10 +16,19 @@ public final class GPXContext {
 		firstTime = System.currentTimeMillis(); 
 	}
     
+	public void startApp() {
+		if (firstTime == -1) {
+			firstTime = System.currentTimeMillis(); 
+		}
+		isAppStart = true;
+	}
 	public void startTrack() {
 		reset();
 		setAppStartTime(new Date());
-		setFirstTime(System.currentTimeMillis());
+		if (firstTime == -1) {
+			firstTime = System.currentTimeMillis(); 
+		}
+		isAppStart = true;
 		setGPSBound(true);
 	}
 
@@ -91,9 +100,11 @@ public final class GPXContext {
 		return firstTime;
 	}
 
+	/*
 	public void setFirstTime(long firstTime) {
 		this.firstTime = firstTime;
 	}
+	*/
  
 	
 	

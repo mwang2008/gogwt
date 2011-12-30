@@ -18,7 +18,10 @@ public final class GoGWTConstants {
     public final static String UNIT = "prefreed_unit";
     public final static String INTERVAL = "server_interval";
     public final static String AUTO_START = "auto_start";
+    public final static String SEND_BODY = "send_body";
     
+    //fake message body
+    public final static String FAKE_MESSGE_BODY = "XXDisableXX";
     
     //QA
     public final static String REST_URL_PREFIX = "http://10.0.121.162/tracking/en-us/";

@@ -2,6 +2,7 @@ package com.gogwt.apps.tracking.activities;
 
 import static com.gogwt.apps.tracking.GoGWTConstants.AUTO_START;
 import static com.gogwt.apps.tracking.GoGWTConstants.INTERVAL;
+import static com.gogwt.apps.tracking.GoGWTConstants.SEND_BODY;
 import static com.gogwt.apps.tracking.GoGWTConstants.UNIT;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,18 +18,17 @@ import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class SettingPrefsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-	protected static final String TAG = SettingPrefsActivity.class
-	.getSimpleName();
+	protected static final String TAG = SettingPrefsActivity.class.getSimpleName();
 	
 	private SharedPreferences sharedPrefs;
-	private CheckBoxPreference enableUpdatePref;
-	private EditTextPreference welcomeMmessage;
-	private ListPreference perferredUnit;
-	private EditTextPreference gpsInterval;
-	private EditTextPreference serverInterval;
+ 	private ListPreference perferredUnit;
+ 	private EditTextPreference serverInterval;
 	private CheckBoxPreference autoStart;
+	private CheckBoxPreference sendBody;
 	private static String unitSummary;
 	private static String sendIntervalSummary;
+	private static String sendBodySummary; 
+	private static String autoStartSummary;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,28 +46,43 @@ public class SettingPrefsActivity extends PreferenceActivity implements SharedPr
 		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 		
 		initPreference(this);
-
-		
-	}
+ 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 	 
 		//Editor edit = appPreference.edit();
 		if (StringUtils.equalsIgnoreCase(key, UNIT)) {
-			String keyVal = sharedPreferences.getString(key, "mi");
-			String perferredUnitSummary = perferredUnit.getSummary().toString();
 			String unit = perferredUnit.getEntry().toString();
 			perferredUnit.setSummary(unitSummary + unit);
  		}
 		
 		if (StringUtils.equalsIgnoreCase(key, INTERVAL)) {
 			String keyVal = sharedPreferences.getString(key, "5");
-			
-			//edit.putInt(INTERVAL, keyVal);
-			serverInterval.setSummary(sendIntervalSummary + keyVal);
+	 		serverInterval.setSummary(sendIntervalSummary + keyVal);
 		}
-	}
+		
+		if (StringUtils.equalsIgnoreCase(key, SEND_BODY)) {
+			boolean sendBodyPre = sharedPreferences.getBoolean(key, false);
+			
+			if (sendBodyPre) {
+				sendBody.setSummary(sendBodySummary + "[YES]");
+			}
+			else {
+				sendBody.setSummary(sendBodySummary + "[NO]");
+			}
+		}
+		if (StringUtils.equalsIgnoreCase(key, AUTO_START)) {
+			boolean autoStartPre = sharedPreferences.getBoolean(key, false);
+			
+			if (autoStartPre) {
+				autoStart.setSummary(autoStartSummary + "[YES]");
+			}
+			else {
+				autoStart.setSummary(autoStartSummary + "[NO]");
+			}
+		}
+ 	}
 
 	@Override
 	public void onDestroy() {
@@ -76,36 +91,22 @@ public class SettingPrefsActivity extends PreferenceActivity implements SharedPr
  	}
 	
 	private void initPreference(Context context) {
-		
-		//enableUpdatePref = 	(CheckBoxPreference)getPreferenceScreen().findPreference("perform_updates");
-		//welcomeMmessage = (EditTextPreference)getPreferenceScreen().findPreference("welcome_message");
-	 
-		perferredUnit = (ListPreference)getPreferenceScreen().findPreference(UNIT);
+	 	perferredUnit = (ListPreference)getPreferenceScreen().findPreference(UNIT);
 		String unit = perferredUnit.getEntry().toString();
 		unitSummary = perferredUnit.getSummary().toString();
 		perferredUnit.setSummary(perferredUnit.getSummary() + unit);
 		
-		
-		//set number only
-		/*
-		gpsInterval = (EditTextPreference) getPreferenceScreen().findPreference("gps_interval");
-		gpsInterval.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
-		gpsInterval.setSummary(gpsInterval.getSummary() + gpsInterval.getText());
-		*/
-		
+	 	
 		serverInterval = (EditTextPreference) getPreferenceScreen().findPreference(INTERVAL);
 		serverInterval.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
 		sendIntervalSummary = serverInterval.getSummary().toString();
 		serverInterval.setSummary(serverInterval.getSummary() + serverInterval.getText());
 		
+		sendBody = (CheckBoxPreference)getPreferenceScreen().findPreference(SEND_BODY);
+		sendBodySummary = sendBody.getSummary().toString();
 		
-		/*
-		autoStart = (CheckBoxPreference)getPreferenceScreen().findPreference("auto_start");
-		autoStart.setChecked(false);
-		*/
 		autoStart = (CheckBoxPreference)getPreferenceScreen().findPreference(AUTO_START);
-		 
-		 
+		autoStartSummary = autoStart.getSummary().toString();		 
 	 
 	}
 }

@@ -33,7 +33,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.gogwt.apps.tracking.R;
@@ -54,12 +53,13 @@ import com.google.android.maps.MapView;
 
 public class LocationTrackingActivity extends MapActivity implements
 		OnTabChangeListener, View.OnTouchListener, View.OnClickListener {
-	protected static final String TAG = LocationTrackingActivity.class
-			.getSimpleName();
+	
+	protected static final String TAG = LocationTrackingActivity.class.getSimpleName();
+	
 	private static final String LIST_TAB_TAG = "List";
 	private static final String MAP_TAB_TAG = "Map";
-	//private static final String STOP_TRACKING_TAB_TAG = "Stop Tracking";
 	private static final String STOP = "stop";
+	
 	private String currentTabId = LIST_TAB_TAG;
 	private TabHost tabHost;
 	private ListView listView;
@@ -69,10 +69,11 @@ public class LocationTrackingActivity extends MapActivity implements
 	private TextView speedinfoView;
 	
 	private Handler handler;
-	 	private IRemoteInterface mRemoteInterface = null;
+	private IRemoteInterface mRemoteInterface = null;
 	
     private DrawPolylineOverlay drawPolylineOverlay;
     private ToggleButton togglebutton;
+    private boolean isFirstPoint;
     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,8 @@ public class LocationTrackingActivity extends MapActivity implements
 		if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			createGpsDisabledAlert();
 		}
+		
+		isFirstPoint = false;
 		
 	 	handler = new Handler();
 	
@@ -162,25 +165,29 @@ public class LocationTrackingActivity extends MapActivity implements
         
         statusRight.setText(startGPSTime);
         
+        if (!SessionManager.getGpxContext().isAppStart()) {
+            SessionManager.getGpxContext().startApp();
+        }
         
 		tabHost.setCurrentTab(1);
 		//tabHost.setCurrentTab(0);
  	}
 
 	@Override
-	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
+	protected boolean isRouteDisplayed() {		
 		return false;
 	}
 
 	@Override
 	protected void onStart() {
 		GwtLog.d(TAG, "**** onStart");
-		String remoteName = GPXService.GPX_SERVICE;
-		Intent intent = new Intent(remoteName);
-		bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-		 	
-		SessionManager.getGpxContext().startTrack();
+		if (!SessionManager.getGpxContext().isGPSBound()) {
+		    String remoteName = GPXService.GPX_SERVICE;
+		    Intent intent = new Intent(remoteName);
+		    bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+		    SessionManager.getGpxContext().startTrack();
+		} 	
+		
  		super.onStart();
 	}
 
@@ -200,6 +207,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	public void onDestroy() {
 		super.onDestroy();
 		GwtLog.d(TAG, " == onDestroy");
+		
 		if (SessionManager.getGpxContext().isGPSBound()) {
 			unbindService(serviceConnection);			
 			SessionManager.getGpxContext().setAppStart(false);
@@ -303,7 +311,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	        	startActivity(new Intent(this, SettingPrefsActivity.class));
 	            break;
 	        case R.id.menu_help:     
-	        	Toast.makeText(this, "You pressed the help!", Toast.LENGTH_LONG).show();
+	        	startActivity(new Intent(this, HelpActivity.class));
 	            break;
 	        case R.id.menu_logout: 	        	
 	        	startActivity(new Intent(this, LogoutActivity.class));	     
@@ -430,9 +438,13 @@ public class LocationTrackingActivity extends MapActivity implements
 		//recenter if not visible.
 		GeoPoint geoPoint = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
 	    if (gpxPoint != null && !locationIsVisible(geoPoint)) {	        
-	        MapController controller = mapView.getController();
-	        controller.animateTo(geoPoint);
-	     }
+	    	mapController = mapView.getController();			 
+	    	mapController.animateTo(geoPoint);	
+	    	if (!isFirstPoint) {
+	    		mapController.setZoom(14);
+	    		isFirstPoint = true;	    		
+	    	}
+	    }
 	}
 	
 	  @Override
@@ -464,10 +476,10 @@ public class LocationTrackingActivity extends MapActivity implements
 		            - mapView.getZoomButtonsController().getZoomControls().getHeight());
 		    int margin =
 		        Math.abs(marginTop.getLatitudeE6() - marginBottom.getLatitudeE6());
-		    GeoRect r = new GeoRect(center, latSpan, lonSpan);
-		    r.top += margin;
+		    GeoRect rec = new GeoRect(center, latSpan, lonSpan);
+		    rec.top += margin;
 
-		    return r.contains(geoPoint);
+		    return rec.contains(geoPoint);
     }
 
 
