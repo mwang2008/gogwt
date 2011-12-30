@@ -6,7 +6,7 @@ public class GDispItem {
 	private List<GLocation> locs;
 	private GLine line;
     private String dispName;
-    
+     
 	public List<GLocation> getLocs() {
 		return locs;
 	}
@@ -22,8 +22,7 @@ public class GDispItem {
 	public void setLine(GLine line) {
 		this.line = line;
 	}
-	
-	
+		
 	public String getDispName() {
 		return dispName;
 	}

@@ -1,13 +1,15 @@
 package com.gogwt.apps.tracking.data.response;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import com.gogwt.apps.tracking.data.GDispItem;
+import com.gogwt.apps.tracking.data.GSmsItem;
 
 public class DisplayResponse {
 	 
 	private ArrayList<GDispItem> dispLocations;
+	private boolean hasNewTrack = false;
+	private ArrayList<GSmsItem>  smsList;
 	
 
 	public ArrayList<GDispItem> getDispLocations() {
@@ -17,35 +19,7 @@ public class DisplayResponse {
 	public void setDispLocations(ArrayList<GDispItem> dispLocations) {
 		this.dispLocations = dispLocations;
 	}
-
- 	
-	
-	/*
-	 * public DisplayResponse() { mapData = new HashMap<String,
-	 * List<GLocation>>();
-	 * 
-	 * List<GLocation> arList = new ArrayList<GLocation>(); GLocation location =
-	 * new GLocation(); location.setLatitude(34030000);
-	 * location.setLongitude(-84190000); arList.add(location);
-	 * 
-	 * location = new GLocation(); location.setLatitude(34090000);
-	 * location.setLongitude(-84100000); arList.add(location);
-	 * 
-	 * mapData.put("u1", arList);
-	 * 
-	 * 
-	 * arList = new ArrayList<GLocation>(); location = new GLocation();
-	 * location.setLatitude(44030000); location.setLongitude(-84190000);
-	 * arList.add(location);
-	 * 
-	 * location = new GLocation(); location.setLatitude(44090000);
-	 * location.setLongitude(-84100000); arList.add(location);
-	 * 
-	 * mapData.put("u2", arList);
-	 * 
-	 * }
-	 */
-
+ 
 	public String toString() {
 
 		StringBuilder sbuf = new StringBuilder();
@@ -60,7 +34,17 @@ public class DisplayResponse {
 			}
 		}
 		else {
-			sbuf.append(" is null" );
+			sbuf.append(" loc is null" );
+		}
+		
+		if (smsList != null && !smsList.isEmpty()) {
+			for (int i=0; i<smsList.size(); i++) {
+				sbuf.append("i=" + i + ","+ smsList.get(i).toString());
+				sbuf.append("\n");
+			}
+		}
+		else {
+			sbuf.append(" sms is null" );
 		}
 		sbuf.append("]");
 
@@ -71,4 +55,21 @@ public class DisplayResponse {
 	public String getContent() {
 		return toString();
 	}
+
+	public boolean isHasNewTrack() {
+		return hasNewTrack;
+	}
+
+	public void setHasNewTrack(boolean hasNewTrack) {
+		this.hasNewTrack = hasNewTrack;
+	}
+
+	public ArrayList<GSmsItem> getSmsList() {
+		return smsList;
+	}
+
+	public void setSmsList(ArrayList<GSmsItem> smsList) {
+		this.smsList = smsList;
+	}
+ 
 }

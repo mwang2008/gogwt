@@ -32,8 +32,10 @@ public class LocationRequest {
 		return (locations != null && !locations.isEmpty());
 	}
 	
-	 
-
+	public boolean hasSmsData() {
+		return (smsDataList != null && !smsDataList.isEmpty());
+	}
+ 
 	public List<GSmsData> getSmsDataList() {
 		return smsDataList;
 	}

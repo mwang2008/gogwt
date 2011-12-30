@@ -33,8 +33,9 @@
          
         <mapping resource="com/gogwt/apps/tracking/service/domain/Customer.hbm.xml"/>
         <mapping resource="com/gogwt/apps/tracking/service/domain/TrackingMobileMovement.hbm.xml"/>
-         <mapping resource="com/gogwt/apps/tracking/service/domain/Stock.hbm.xml"/>
-          <mapping resource="com/gogwt/apps/tracking/service/domain/StockDailyRecord.hbm.xml"/>
+        <mapping resource="com/gogwt/apps/tracking/service/domain/TrackingSms.hbm.xml"/>
+        <mapping resource="com/gogwt/apps/tracking/service/domain/Stock.hbm.xml"/>
+        <mapping resource="com/gogwt/apps/tracking/service/domain/StockDailyRecord.hbm.xml"/>
         
     </session-factory>
 

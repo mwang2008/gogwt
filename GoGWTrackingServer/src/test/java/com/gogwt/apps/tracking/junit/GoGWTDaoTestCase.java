@@ -2,6 +2,7 @@ package com.gogwt.apps.tracking.junit;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -16,6 +17,7 @@ import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.Stock;
 import com.gogwt.apps.tracking.data.StockDailyRecord;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
+import com.gogwt.apps.tracking.data.TrackingSmsData;
 import com.gogwt.apps.tracking.exceptions.InvalidUserException;
 import com.gogwt.apps.tracking.services.dataaccess.CustomerDAO;
 import com.gogwt.apps.tracking.services.dataaccess.hibernate.HibernateCustomerDAO;
@@ -80,6 +82,51 @@ public class GoGWTDaoTestCase extends TestCase {
 		}
 		
 		return null;
+	}
+	
+	public void test_insertSms() throws Exception {
+		System.out.println(" test_insertSms ");
+		CustomerDAO dao = new HibernateCustomerDAO();
+		
+		List<TrackingSmsData> smsDataList = new ArrayList<TrackingSmsData>();
+		
+		TrackingSmsData smsData = new TrackingSmsData();
+		smsData.setDisplayName("dec29");
+		smsData.setGroupId("gogwteam");
+		smsData.setAddress("12323333");
+		smsData.setRead(0);
+		smsData.setType(1);
+		smsData.setBody("hi there");
+		smsData.setCreateDate(new Date());
+		smsData.setStartTime(System.currentTimeMillis());
+	 	
+		smsDataList.add(smsData);
+		
+		try {
+		   dao.saveSmsData(smsDataList);
+		}
+		catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void testRetriveTracking() throws Exception {
+		System.out.println(" testRetriveTracking ");
+		CustomerDAO dao = new HibernateCustomerDAO();
+		String groupId = "gogwteam";
+		String displayName = "dec15";
+		Long startTimeLong = Long.parseLong("1324317801280");
+		
+		
+		List<TrackingMobileData> retList = dao.getHistorialTrackDetail(groupId, displayName, startTimeLong);
+		
+		System.out.println(" \n\n ==== History Tracking Data from DB ==== ");
+		int i=0;
+		for (TrackingMobileData track : retList) {
+			System.out.println("i= " + i++ + "," + track.toString());
+		}
+		return;
 	}
 	
 	public void testGetallStocks() throws Exception {

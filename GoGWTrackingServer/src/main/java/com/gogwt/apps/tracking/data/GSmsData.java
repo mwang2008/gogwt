@@ -14,11 +14,16 @@ import java.util.Date;
 public class GSmsData implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	public String address;
-	public Date date;
-	public String read;
-	public String type;
+	
+
+	public transient String address;
+	
+	public transient Date date;
+	public transient int read;
+	public int type;
 	public String body;
+	public long startTime;
+	
 	
 	public String getAddress() {
 		return address;
@@ -32,16 +37,18 @@ public class GSmsData implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getRead() {
+	 
+	
+	public int getRead() {
 		return read;
 	}
-	public void setRead(String read) {
+	public void setRead(int read) {
 		this.read = read;
 	}
-	public String getType() {
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 	public String getBody() {
@@ -51,10 +58,15 @@ public class GSmsData implements Serializable {
 		this.body = body;
 	}
 	
-	 
+	public long getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
 	public String toString() {
 		StringBuilder sbuf = new StringBuilder();
-		sbuf.append(GLocation.class.getSimpleName());
+		sbuf.append(GSmsData.class.getSimpleName());
 		sbuf.append("[");
 		sbuf.append("address="+address);
 		sbuf.append(", date="+date);
@@ -62,9 +74,14 @@ public class GSmsData implements Serializable {
 		sbuf.append(", read="+read);
 		sbuf.append(", type="+type);
 		sbuf.append(", body="+body);
- 		sbuf.append("]");
+		sbuf.append(", startTime="+startTime);
+		sbuf.append("]");
 		
 		return sbuf.toString();
+	}
+	
+	public String getContent() {
+		return toString();
 	}
 }
 

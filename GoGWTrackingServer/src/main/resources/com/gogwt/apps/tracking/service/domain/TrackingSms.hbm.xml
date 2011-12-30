@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.gogwt.apps.tracking.data">
+
+    <class name="TrackingSmsData" table="tracking_sms">
+       
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="groupId" column="groupId"/>      
+        <property name="displayName" column="display_name"/>        
+        <property name="address"/>
+        <property name="read" column="g_read"/>
+        <property name="type" column="g_type"/> 
+        <property name="body"/>
+        <property name="date"/> 
+        <property name="startTime" column="start_time"/> 
+        <property name="createDate" column="create_date"/> 
+        
+     </class>
+</hibernate-mapping>
