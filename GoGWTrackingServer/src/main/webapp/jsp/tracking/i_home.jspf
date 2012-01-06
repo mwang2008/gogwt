@@ -1,0 +1,50 @@
+<%--
+  i_home.jspf
+--%>
+<div>
+<div style="text-align: center;">  
+   <img src="/tracking/images/android_xperia.jpg" atl="android">
+</div>
+<h2>GoGWT Real Time GPS Tracker	</h2>
+<h5>The Android powered phone live tracking supported by GoGWT.</h5>
+</p>
+Welcome to GoGWT official website of Real Time GPS Tracker. Once an Andoid phone user installed GoGWT Tracker app and enable it, the location of the phone will be send to GoGWT server. 
+With this site, you are able to monitor/view remotely of the movement of users under your group.
+
+</p>
+The information of Android phone's current location, moving speed and text message activities of sending and/or receiving are collected by the server. 
+
+</p>
+<h2>Who should use it</h2>
+
+There are unlimited possibilities what this tracking service can be used for. 
+<ul>
+<li>One safety use case:</li> Parent is able to check their children driving behaviors, whether they are over the speed limit and/or texting while driving.
+<li>Locate family member/friend:</li> You can find whether is your friends and view current traffic condition. 
+<li>Save the track for later review:</li> You can export the track as cvs file and review it later on. 
+</ul
+
+</p>
+<h2>How it works</h2>
+In the server:
+<ul>
+<li> Click Sign Up Now to create account, the group is used to represent for family, special group etc.</li>
+<li> Login with groupId, username and password, you can view current track or view history tracks.
+</ul>
+
+On the phone:
+<ul>
+<li> On your phone, downlaod GoGWT tracking from Android Market (search for gogwt)</li>
+<li> Launch the app and login with groupId and display name.</li>
+<li> Click Start to start tracking</li>
+<li> Click Stop to stop stracking</li>
+</ul>
+
+</p>
+<h2>Disclaimer</h2>
+<li>The application provids an easy to use tracking service which is free for your personal use. 
+<span style=”font-size:x-small;”>You agree that we do not have any liability for any inaccuracies or failures related to any services provided by GoGWT.</span>
+<li>For comercial use, please contact contat.gogwt @ gmail. com
+<li>The location data saved in the server may not be available after 30 days.
+</div>
+ 

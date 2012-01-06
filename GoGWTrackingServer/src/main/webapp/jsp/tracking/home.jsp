@@ -29,6 +29,7 @@
 	</c:choose>
     
     <div id="wrapperContent" style="position: relative">
+	   <%@ include file="i_home.jspf"%>
        <table> 
           <tr>
              <td> cc ccc  <td> 
