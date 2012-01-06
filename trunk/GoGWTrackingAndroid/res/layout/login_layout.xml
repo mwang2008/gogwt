@@ -95,4 +95,26 @@
 				android:text="Click here for help/demo">
 	</TextView>
 
+    <!-- Test Account  -->
+    <View android:id="@+id/space" 
+		android:layout_width="fill_parent" android:layout_height="6dp"
+		android:paddingTop="12px" android:paddingBottom="12px"
+    />
+        
+	<View android:id="@+id/divider" android:background="@drawable/black_white_gradient"
+		android:layout_width="fill_parent" android:layout_height="2dp"
+		android:paddingTop="12px" android:paddingBottom="12px"
+    />
+    <View android:id="@+id/space" 
+		android:layout_width="fill_parent" android:layout_height="20dp"
+		android:paddingTop="12px" android:paddingBottom="12px"
+    />
+	<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+				android:text="Demo Account">
+	</TextView>
+	<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+				android:text="@string/demo_account">
+	</TextView>
 </LinearLayout>

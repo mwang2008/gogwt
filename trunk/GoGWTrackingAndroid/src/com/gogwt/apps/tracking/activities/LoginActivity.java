@@ -65,7 +65,8 @@ public class LoginActivity extends AbstractAsyncActivity {
 		helpView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View paramView) {
-				Toast.makeText(getApplicationContext(), "Help/Demo", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getApplicationContext(), "Help/Demo", Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(getApplicationContext(), HelpActivity.class));
 			}			
 		});
     }

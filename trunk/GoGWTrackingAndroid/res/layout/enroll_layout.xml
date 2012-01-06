@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="fill_parent" android:scrollHorizontally="true" >
 
  	<TextView android:layout_width="fill_parent"
 		android:textAppearance="?android:attr/textAppearanceMedium"
@@ -13,7 +13,7 @@
      -->
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:stretchColumns="1" >
+		android:stretchColumns="1" android:scrollHorizontally="true" >
 		<TableRow android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 			
@@ -70,15 +70,21 @@
 		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/lastname">
 	        </EditText>
          </TableRow>
-	     <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/tableRow1">
+	     <TableRow android:layout_width="wrap_content"
+			android:scrollHorizontally="true" android:layout_height="wrap_content" android:id="@+id/tableRow1">
 	        
 	        <TextView android:layout_width="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
 				android:layout_height="wrap_content" android:text="@string/email"></TextView>
+			<!-- 	
 			<EditText android:layout_width="wrap_content"
 		       android:layout_height="wrap_content" android:inputType="textEmailAddress"
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/email">
+		       android:scrollHorizontally="true" android:id="@+id/email">		       
+	        </EditText>
+	         -->
+	         <EditText android:layout_width="94sp"
+		        android:layout_height="wrap_content"  android:inputType="textEmailAddress"
+		       android:scrollHorizontally="true" android:id="@+id/email">		       
 	        </EditText>
          </TableRow>
 	     <TableRow android:layout_width="fill_parent"
