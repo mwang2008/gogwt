@@ -31,6 +31,7 @@
         <activity android:name=".activities.ShowLocationListTabActivity" />
         <activity android:name=".activities.SaveTrackActivity" />
         <activity android:name=".activities.SettingPrefsActivity" />
+        <activity android:name=".activities.HelpActivity" />
          
         <service android:enabled="true" android:name=".services.GPXService">
 			<intent-filter>
@@ -50,8 +51,13 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>    
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>    
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SMS"></uses-permission>
     
       
     

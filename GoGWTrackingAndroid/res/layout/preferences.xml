@@ -31,6 +31,13 @@
             android:key="server_interval"
             android:summary="Time between two location communicated with server in seconds. Current value: "
             android:title="Send Interval" />
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="send_body"
+            android:summary="Send messaging body when receiving/sending message: "
+            android:title="Send Messaging body" />
+               
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -41,7 +48,7 @@
             android:defaultValue="false"
             android:key="auto_start"
             android:summary="Start automatically when this device is booting"
-            android:title="Autostart" />
+            android:title="Auto Start" />
     </PreferenceCategory>
 
     <!-- 
