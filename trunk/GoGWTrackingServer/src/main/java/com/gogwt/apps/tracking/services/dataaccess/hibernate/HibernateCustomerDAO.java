@@ -407,7 +407,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			tx.commit();
 
 			String idStr = request.getId();
-			System.out.println(" idStr=" + idStr);
+			//System.out.println(" idStr=" + idStr);
 
 			return idStr;
 
@@ -432,6 +432,9 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			e.printStackTrace();
 			throw new AppRemoteException("error for creating customer", e);
 		} finally {
+			if (tx != null) {
+				tx.rollback();
+			}
 			if (session != null) {
 				// session.close();
 			}

@@ -29,7 +29,7 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
 		CustomerProfile profile = getCustomerDAO().getCustomerById(id);
 	 	
 		//send email by using Google App Engine. 
-		NotificationEmail.sendEnrollEmail(profile);
+		new NotificationEmail().sendEnrollEmail(profile);
 		
 		return profile;
 	}

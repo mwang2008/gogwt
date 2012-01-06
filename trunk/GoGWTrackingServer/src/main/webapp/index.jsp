@@ -1,3 +1,4 @@
+<jsp:forward page="/en-us/home" />
 <html>
 <body>
 <h2>GoGWT Official Site</h2>
