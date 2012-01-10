@@ -28,7 +28,7 @@ public final class GoGWTConstants {
     public final static String REST_SIGNIN_URL = "http://10.0.121.162/tracking/en-us/restlogin";
     public final static String REST_LOCATION_URL = "http://10.0.121.162/tracking/en-us/restlocation";
     
-    
+    public final static String FROM_START_RECEIVER = "fromStartReceiver";
     
     //Prod
     

@@ -1,18 +1,14 @@
 package com.gogwt.apps.tracking.receiver;
 
 import static com.gogwt.apps.tracking.GoGWTConstants.AUTO_START;
-import static com.gogwt.apps.tracking.GoGWTConstants.INTERVAL;
-import static com.gogwt.apps.tracking.GoGWTConstants.UNIT;
+import static com.gogwt.apps.tracking.GoGWTConstants.FROM_START_RECEIVER;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.gogwt.apps.tracking.activities.LocationTrackingActivity;
-import com.gogwt.apps.tracking.activities.LogoutActivity;
-import com.gogwt.apps.tracking.utils.GwtLog;
+import com.gogwt.apps.tracking.GoGWTrackingMainActivity;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 /**
@@ -29,18 +25,18 @@ public class StartupReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		try {
-			if (StringUtils.equalsIgnoreCase(action,
-					Intent.ACTION_BOOT_COMPLETED)) {
+			if (StringUtils.equalsIgnoreCase(action, Intent.ACTION_BOOT_COMPLETED)) {
 
 				boolean autoStart = PreferenceManager
 						.getDefaultSharedPreferences(context).getBoolean(AUTO_START, false);
+				
 				if (autoStart) {
 					// start tracking by invoke LocationTrackingActivity
-					context.startActivity(new Intent(context,
-							LocationTrackingActivity.class));
+					Intent toIntent = new Intent(context, GoGWTrackingMainActivity.class);
+					toIntent.putExtra(FROM_START_RECEIVER, true);
+					context.startActivity(toIntent);
 				} else {
-					Log.i(TAG,
-							"Not starting tracking. Adjust the settings if you want to !");
+					Log.d(TAG,	"Not starting tracking. Adjust the settings if you want to !");
 				}
 			} else {
 				// this shouldn't happen !
@@ -50,7 +46,7 @@ public class StartupReceiver extends BroadcastReceiver {
 						+ ". This shouldn't happen !");
 			}
 		} catch (Throwable e) {
-            //not want to interrupt normal service, ignore exception.
+            //do not want to interrupt normal service, ignore exception.
 		}
 	}
 }

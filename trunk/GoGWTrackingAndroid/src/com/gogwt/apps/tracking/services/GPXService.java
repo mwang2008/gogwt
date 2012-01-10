@@ -119,7 +119,6 @@ public class GPXService extends Service {
 		int currentTimerRate = TIMER_UPDATE_RATE_IN_SEC;
 		timer = new Timer("GPXService-Timer");
 		timer.schedule(updateTask, 1000L, currentTimerRate * 1000L);
-
 	}
 
 	/**

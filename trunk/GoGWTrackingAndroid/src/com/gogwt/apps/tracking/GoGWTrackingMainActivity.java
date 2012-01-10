@@ -1,5 +1,6 @@
 package com.gogwt.apps.tracking;
 
+import static com.gogwt.apps.tracking.GoGWTConstants.FROM_START_RECEIVER;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 
+import com.gogwt.apps.tracking.activities.LocationTrackingActivity;
 import com.gogwt.apps.tracking.activities.LoginActivity;
 import com.gogwt.apps.tracking.activities.MainMenuActivity;
 import com.gogwt.apps.tracking.data.Profile;
@@ -42,8 +41,14 @@ public class GoGWTrackingMainActivity extends Activity {
 
 				Intent redirectIntent = null;
 				//if (!StringUtils.equalsIgnoreCase(savedGroupId, UNKNOWN)) {
-				if (profile != null) {
-					redirectIntent = new Intent(getApplicationContext(), MainMenuActivity.class);			
+				if (profile != null) {					
+					boolean isAutoStart = getIntent().getBooleanExtra(FROM_START_RECEIVER, false);
+					if (isAutoStart) {
+					   redirectIntent = new Intent(getApplicationContext(), LocationTrackingActivity.class);						 
+					}
+					else {
+					   redirectIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+					}
 				}
 				else {
 					redirectIntent = new Intent(getApplicationContext(), LoginActivity.class);
