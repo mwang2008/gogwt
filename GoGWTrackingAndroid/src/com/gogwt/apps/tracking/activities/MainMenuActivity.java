@@ -20,6 +20,7 @@ import com.gogwt.apps.tracking.R;
 public class MainMenuActivity extends AbstractMenuActivity {
 	protected static final String TAG = MainMenuActivity.class.getSimpleName();
 	
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
