@@ -84,6 +84,67 @@ public class GoGWTDaoTestCase extends TestCase {
 		return null;
 	}
 	
+	public void test_updateCustomer() throws Exception {
+		System.out.println(" test_updateCustomer ");
+		try {
+		   CustomerDAO dao = new HibernateCustomerDAO();
+		   CustomerProfile profile = dao.retrieveCustomerProfileByUsernameAndGroupId("gogwtuser", "gogwtid");
+		   System.out.println(" profile firstname= " + profile.getFirstName());
+		
+		   profile.setFirstName("updFirst");
+		   profile.setLastName("updLast");
+		
+		   CustomerProfile  updateProfile = dao.updateCustomer(profile);
+		
+		   System.out.println(" updateProfile firstname= " + updateProfile.getFirstName());
+		}
+		catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void test_insertCustomer() throws Exception {
+		System.out.println(" == Start test_insertCustomer");
+		try {
+			CustomerProfile profile = new CustomerProfile();
+			profile.setGroupId("gid2");
+			profile.setUserName("myusername2");
+			profile.setGroupName("Group ID2");
+			profile.setFirstName("myfirst2");
+			profile.setLastName("mylastname2");
+			profile.setEmail("mdl@gmail.com");
+			
+			profile.setPassword("pass");
+			profile.setActive(false);
+			profile.setPhoneNumber("4556666666");
+			profile.setCreateDate(new Date());
+			
+			 CustomerDAO dao = new HibernateCustomerDAO();
+			 dao.enrollCustomer(profile);
+		}
+		catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(" == End test_insertCustomer");
+	}
+	
+	public void test_retrieveCustomerProfileByUsernameAndGroupId() throws Exception {
+		System.out.println(" == Start test_retrieveCustomerProfileByUsernameAndGroupId");
+		try {
+			CustomerDAO dao = new HibernateCustomerDAO();
+			CustomerProfile profile = dao.retrieveCustomerProfileByUsernameAndGroupId(
+					"myusername2", "gid2");
+			System.out.println(" " + profile.getLastName());
+		}
+		catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(" == End test_retrieveCustomerProfileByUsernameAndGroupId");
+	}
+	 
+	
 	public void test_insertSms() throws Exception {
 		System.out.println(" test_insertSms ");
 		CustomerDAO dao = new HibernateCustomerDAO();
