@@ -14,8 +14,10 @@ public class CustomerProfile extends BaseBean {
 	private String userName;
 	private String password;
 	private String confirmPassword;
-	private Date createDate;
+    private String phoneNumber;
 	private boolean isLogin;
+	private boolean active = true;
+	private Date createDate;
 	
 	public String getId() {
 		return id;
@@ -89,13 +91,7 @@ public class CustomerProfile extends BaseBean {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
-	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
 
 /*	public boolean isLogin() {
 		return isLogin;
@@ -115,6 +111,33 @@ public class CustomerProfile extends BaseBean {
 	
 	public void setIsLogin(boolean isLogin) {
 		this.isLogin = isLogin;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+	public boolean getActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	
 }

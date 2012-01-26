@@ -13,6 +13,7 @@ public class Profile {
 	private String serverFirstName;
 	private String serverLastName;
 	private String serverEmail;
+	private String serverPhone;
 	
 	public Profile() {
 		super();		 
@@ -90,6 +91,15 @@ public class Profile {
 		this.serverEmail = serverEmail;
 	}
 	
+	
+	public String getServerPhone() {
+		return serverPhone;
+	}
+
+	public void setServerPhone(String serverPhone) {
+		this.serverPhone = serverPhone;
+	}
+
 	public String toString() {
 
 		StringBuilder sbuf = new StringBuilder();
@@ -102,6 +112,7 @@ public class Profile {
 		sbuf.append(",serverFirstName=" + serverFirstName);
 		sbuf.append(",serverLastName=" + serverLastName);
 		sbuf.append(",serverEmail=" + serverEmail);
+		sbuf.append(",serverPhone=" + serverPhone);
 	 	sbuf.append("]");
 
 		return sbuf.toString();

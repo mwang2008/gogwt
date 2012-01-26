@@ -1,10 +1,8 @@
 package com.gogwt.apps.tracking.services.dataaccess.hibernate;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -414,15 +412,17 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		} catch (ConstraintViolationException e) {
 			String sqlState = e.getSQLState();
 			String constrainName = e.getConstraintName();
-
+			e.printStackTrace();
+			
+			SQLException sqle = e.getSQLException();
+			
 			if (StringUtils.equals(SQL_DUPLICATE_RECORD, sqlState)) {
 				throw new DuplicatedUserNameException("Username of "
 						+ request.getUserName()
 						+ " has been used, please choose another one");
 			}
 
-			throw new AppRemoteException("unknown errore: "
-					+ request.getUserName());
+			throw new AppRemoteException("Errore: " + sqle.getMessage());					
 
 		} catch (Exception e) {
 			if (tx != null) {
@@ -432,9 +432,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			e.printStackTrace();
 			throw new AppRemoteException("error for creating customer", e);
 		} finally {
-			if (tx != null) {
-				tx.rollback();
-			}
+			 
 			if (session != null) {
 				// session.close();
 			}
@@ -469,10 +467,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		}
 	}
 
-	@Override
-	public CustomerProfile retrieveCustomerProfileByUsername(
-			LoginFormBean loginForm) throws InvalidUserException,
-			AppRemoteException {
+	public CustomerProfile retrieveCustomerProfileByUsernameAndGroupId(final String userName, final String groupId) throws InvalidUserException, AppRemoteException {
 		logger.debug("start retrieveCustomerProfileByUsername");
 
 		Session session = null;
@@ -483,8 +478,8 @@ public class HibernateCustomerDAO implements CustomerDAO {
 
 			Query query = session
 					.createQuery("from CustomerProfile where userName=:userName and groupId=:groupId");
-			query.setParameter("userName", loginForm.getUserName());
-			query.setParameter("groupId", loginForm.getGroupId());
+			query.setParameter("userName", userName);
+			query.setParameter("groupId", groupId);
 
 			List<CustomerProfile> result = query.list();
 
@@ -493,7 +488,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			if (result == null || result.isEmpty()) {
 				throw new InvalidUserException(
 						"invalid Username and/or GroupId: "
-								+ loginForm.getUserName());
+								+ userName);
 			}
 
 			return result.get(0);
@@ -503,12 +498,22 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			e.printStackTrace();
 			// throw new AppRemoteException("error for gettting customer", e);
 			throw new InvalidUserException("Wrong Username and/or GroupId "
-					+ loginForm.getUserName());
+					+ userName);
 		} finally {
 			if (session != null) {
 				// session.close();
 			}
 		}
+	}
+	
+	@Override
+	public CustomerProfile retrieveCustomerProfileByUsernameAndGroupId(
+			LoginFormBean loginForm) throws InvalidUserException,
+			AppRemoteException {
+		logger.debug("start retrieveCustomerProfileByUsername");
+
+		return retrieveCustomerProfileByUsernameAndGroupId(loginForm.getUserName(), loginForm.getGroupId());
+		 
 	}
 
 	@Override
@@ -542,15 +547,46 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			// throw new AppRemoteException("error for gettting customer", e);
 			throw new InvalidUserException("wrong username: " + groupId);
 		} finally {
+			
 			if (session != null) {
 				// session.close();
 			}
 		}
 	}
+	  
 
+	@Override
+	public CustomerProfile updateCustomer(CustomerProfile profile)
+			throws AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+			tx = session.beginTransaction();
+			CustomerProfile updateProfile = (CustomerProfile)session.merge(profile);
+			tx.commit();
+			
+			return updateProfile;
+		}
+
+		catch (GenericJDBCException e) {
+			e.printStackTrace();
+			// throw new AppRemoteException("error for gettting customer", e);
+			throw new AppRemoteException("wrong update GroupId=: " + profile.getGroupId() + ", username="+profile.getUserName());
+		} finally {
+			 
+			if (session != null) {
+				// session.close();
+			}
+		}	 
+	}
+	
 	@Override
 	public void saveRemoteLoginUser(CustomerProfile customerProfile)
 			throws DisplayNameAlreadyLoginException, AppRemoteException {
 
 	}
+
+
 }

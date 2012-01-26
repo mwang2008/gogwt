@@ -13,13 +13,13 @@
 <body>
 
 <%@ include file="/jsp/tracking/i_header.jspf"%>
-<c:set var="fromPage" value="Enroll"/>
-<%@ include file="i_menu.jspf"%>
+ 
+ <%@ include file="i_menu.jspf"%>
 
 <div id="container"> 
 <br>
-<form:form commandName="enrollCustomerFormBean" action="${env.prefix}/enroll" method="post">
-   <spring:hasBindErrors name="enrollCustomerFormBean">
+<form:form commandName="modifyCustomerFormBean" action="${env.prefix}/viewaccount" method="post">
+   <spring:hasBindErrors name="modifyCustomerFormBean">
       <div id="ErrorContainer">
 	      <div id="Error"><form:errors path="*" cssClass="text12red" /></div>
       </div>  
@@ -27,10 +27,17 @@
    <br/>
       
    <table border="0">
-     
+      <tr> 
+         <td colspan="2" align="center"> <b>View/Modify Account </b>  </td>
+       
+      </tr>
+	  <tr> 
+         <td colspan="2"> &nbsp; </td>
+       
+      </tr>
       <tr> 
          <td> <label for="groupId"><fmt:message key='label.GroupId'/></label>:   </td>
-         <td> <form:input id="groupId" path="groupId" size="30" maxlength="30"/>   </td>
+         <td> <form:hidden id="groupId" path="groupId"/> ${modifyCustomerFormBean.groupId}  </td>
       </tr>
       <tr> 
          <td> <label for="groupName"><fmt:message key='label.groupname'/></label>:   </td>
@@ -38,10 +45,9 @@
       </tr>      
       <tr> 
            <td> <label for="userName"><fmt:message key='label.userName'/></label>:   </td>
-           <td> <form:input id="userName" path="userName" size="30" maxlength="30"/>   </td>
-       </tr>
+           <td> <form:hidden id="userName" path="userName"/> ${modifyCustomerFormBean.userName}  </td>
+      </tr>
 
- 
       <tr> 
          <td> <label for="firstName"><fmt:message key='label.First.Name'/></label>:   </td>
          <td> <form:input id="firstName" path="firstName" size="30" maxlength="30"/>   </td>
@@ -50,6 +56,7 @@
          <td> <label for="lastName"><fmt:message key='label.Last.Name'/></label>:   </td>
          <td> <form:input id="lastName" path="lastName" size="30" maxlength="30"/>   </td>
       </tr>
+      
       <tr> 
           <td> <label for="phoneNumber"><fmt:message key='label.phoneNumber'/></label>:   </td>
           <td> <form:input id="phoneNumber" path="phoneNumber" size="30" maxlength="100"/>   </td>
@@ -59,22 +66,27 @@
           <td> <label for="email"><fmt:message key='label.email.address'/></label>:   </td>
           <td> <form:input id="email" path="email" size="30" maxlength="100"/>   </td>
       </tr>
-  
-       <tr> 
-           <td> <label for="password"><fmt:message key='label.password'/></label>:   </td>
-           <td> <form:password id="password" path="password" size="30" maxlength="30" showPassword="true"/>   </td>
-       </tr>
-       <tr> 
-           <td> <label for="confirmPassword"><fmt:message key='label.confirmPassword'/></label>:   </td>
-           <td> <form:password id="confirmPassword" path="confirmPassword" size="30" maxlength="100" showPassword="true"/>   </td>
-       </tr>
-        <tr> 
+      <tr> 
+         <td colspan="2"> &nbsp; </td>
+       
+      </tr>
+      <tr> 
             <td>&nbsp;</td>
-            <td colspan="1" align="center"> <input type="image" name="continue" src="${env.contextPath}/images/${env.languageId}-${env.countryId}/enroll.png" alt="<fmt:message key='button.Alt.Enroll'/>"  border="0" align="center">  </td>
+            <td colspan="1" align="center">   
+			  <input type="submit" name="continue" value="Update Account"  border="0" align="center"> 
+			</td>
        </tr>
    </table>
 </form:form>
 </div>
+
+ 
+<p>
+<div id="container"> 
+   <a href="${env.prefix}/changepassword" style="text-decoration:none">  <b>Change Password </b>  </a>  
+ 
+</div>
+
 
 
       <div id="container">
