@@ -359,72 +359,10 @@ public abstract class StringUtils {
 	}
 	
 	
-	/**
-	 * Returns boolean indicating if String has ONLY digits.
-	 * 
-	 * @param pValue
-	 *            - the value.
-	 * @return boolean indicating if String has ONLY digits.
-	 */
-	public static boolean hasOnlyDigits(String pValue) {
+ 
+	 
 
-		if (pValue == null) {
-			return true;
-		}
-
-		char chars[] = pValue.toCharArray();
-
-		for (int idx = 0; idx < chars.length; idx++) {
-			if (!Character.isDigit(chars[idx])) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns boolean indicating if String has no digits.
-	 * 
-	 * @param pValue
-	 *            - the value.
-	 * @return boolean indicating if String has no digits.
-	 */
-	public static boolean hasNoDigits(final String pValue) {
-		if (pValue == null) {
-			return true;
-		}
-
-		final char chars[] = pValue.toCharArray();
-
-		for (final char element : chars) {
-			if (Character.isDigit(element)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns string with non digit characters removed.
-	 * 
-	 * @param pValue
-	 *            - the value.
-	 * @return string with characters removed.
-	 */
-	public static String removeNonDigits(final String pValue) {
-		final StringBuilder returnValue = new StringBuilder();
-		final char chars[] = pValue.toCharArray();
-
-		for (final char element : chars) {
-			if (Character.isDigit(element)) {
-				returnValue.append(element);
-			}
-		}
-
-		return returnValue.toString();
-	}
+ 
 
 	/**
 	 * This method formats a (given) input value to mask out part of the value
@@ -500,59 +438,9 @@ public abstract class StringUtils {
 		return true;
 	}
 
-	/**
-	 * Returns string with whitespace removed.
-	 * 
-	 * @param pValue
-	 *            - the value.
-	 * @return string with whitespace removed.
-	 */
-	public static String removeWhiteSpace(final String pValue) {
-		if (isSet(pValue)) {
+ 
 
-			final StringBuilder returnValue = new StringBuilder();
-			final char chars[] = pValue.toCharArray();
-
-			for (final char element : chars) {
-				if (element != ' ') {
-					returnValue.append(element);
-				}
-			}
-
-			return returnValue.toString();
-		}
-
-		return null;
-	}
-
-	// ------------------------------------
-
-	/**
-	 * Returns string with apostrophe character removed.
-	 * 
-	 * @param pValue
-	 *            - the value.
-	 * @return string with apostrophe character removed.
-	 */
-	public static String removeApostrophe(final String pValue) {
-		// Using isEmpty() method instead of isSet() method. This allows strings
-		// with values "null".
-		if (!isEmpty(pValue)) {
-
-			final StringBuilder returnValue = new StringBuilder();
-			final char chars[] = pValue.toCharArray();
-
-			for (final char element : chars) {
-				if (element != '\'') {
-					returnValue.append(element);
-				}
-			}
-
-			return returnValue.toString();
-		}
-
-		return null;
-	}
+ 
 
 	/**
 	 * Remove special character from String
@@ -586,25 +474,6 @@ public abstract class StringUtils {
 		    return value;
 		  }
 	 
-	/**
-	 * Returns boolean indicating if String has no whitespace.
-	 * 
-	 * @param pValue
-	 *            - the value.
-	 * @return boolean indicating if String has no whitespace.
-	 */
-	public static boolean hasNoWhiteSpace(final String pValue) {
-		if (pValue == null) {
-			return true;
-		}
-
-		if (pValue.indexOf(' ') != -1) {
-			return false;
-		}
-
-		return true;
-	}
-
 	/**
 	 * Returns false if the value is null or empty ("").
 	 * 
@@ -844,5 +713,525 @@ public abstract class StringUtils {
 			DecimalFormat dec = new DecimalFormat("#0.00");
 			return dec.format(dl);
 		}
+		
+		/**
+
+		   * Returns true if the value is a valid phone number.
+
+		   * @param pValue -
+
+		   *          the value to check.
+
+		   * @return true if the value is a valid phone number.
+
+		   */
+
+		  public static boolean isValidPhoneNumber( final String pValue )
+
+		  {
+
+		    if ( pValue == null ) {
+
+		      return false;
+
+		    }
+
+
+
+		    final char phoneNumberChars[] = pValue.toCharArray();
+
+		    for( final char element : phoneNumberChars ) {
+
+		      if ( Character.isLetter( element ) ) {
+
+		        return false;
+
+		      }
+
+		    }
+
+		    return true;
+
+		  }
+
+
+
+		  /**
+
+		   * Returns string with non digit characters removed.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return string with characters removed.
+
+		   */
+
+		  public static String removeNonDigits( final String pValue )
+
+		  {
+
+		    final StringBuilder returnValue = new StringBuilder();
+
+		    final char chars[] = pValue.toCharArray();
+
+
+
+		    for( final char element : chars ) {
+
+		      if ( Character.isDigit( element ) ) {
+
+		        returnValue.append( element );
+
+		      }
+
+		    }
+
+
+
+		    return returnValue.toString();
+
+		  }
+
+
+
+		  /**
+
+		   * Returns string with whitespace removed.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return string with whitespace removed.
+
+		   */
+
+		  public static String removeWhiteSpace( final String pValue )
+
+		  {
+
+		    if ( isSet( pValue ) ) {
+
+
+
+		      final StringBuilder returnValue = new StringBuilder();
+
+		      final char chars[] = pValue.toCharArray();
+
+
+
+		      for( final char element : chars ) {
+
+		        if ( element != ' ' ) {
+
+		          returnValue.append( element );
+
+		        }
+
+		      }
+
+
+
+		      return returnValue.toString();
+
+		    }
+
+
+
+		    return null;
+
+		  }
+
+
+
+		  // ------------------------------------
+
+
+
+		  /**
+
+		   * Returns string with apostrophe character removed.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return string with apostrophe character removed.
+
+		   */
+
+		  public static String removeApostrophe( final String pValue )
+
+		  {
+
+		    // Using isEmpty() method instead of isSet() method. This allows strings
+
+		    // with values "null".
+
+		    if ( !isEmpty( pValue ) ) {
+
+
+
+		      final StringBuilder returnValue = new StringBuilder();
+
+		      final char chars[] = pValue.toCharArray();
+
+
+
+		      for( final char element : chars ) {
+
+		        if ( element != '\'' ) {
+
+		          returnValue.append( element );
+
+		        }
+
+		      }
+
+
+
+		      return returnValue.toString();
+
+		    }
+
+
+
+		    return null;
+
+		  }
+
+
+
+		  /**
+
+		   * Returns string with Smart Quotes removed.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return string with smart quotes removed.
+
+		   */
+
+		  public static String removeSmartQuotes( final String pValue )
+
+		  {
+
+		    if ( isSet( pValue ) ) {
+
+
+
+		      final StringBuilder returnValue = new StringBuilder();
+
+		      final char chars[] = pValue.toCharArray();
+
+
+
+		      for( final char element : chars ) {
+
+		        if ( ( !Character.isIdentifierIgnorable( element ) )
+
+		          && ( element != '\u8217' ) && ( element != '\u8216' )
+
+		          && ( element != '\u8217' ) && ( element != '\u8220' )
+
+		          && ( element != '\u8221' ) ) {
+
+		          returnValue.append( element );
+
+		        }
+
+		      }
+
+
+
+		      return returnValue.toString();
+
+		    }
+
+
+
+		    return null;
+
+		  }
+
+
+
+		  /**
+
+		   * Returns boolean indicating if String has ONLY digits.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return boolean indicating if String has ONLY digits.
+
+		   */
+
+		  public static boolean hasOnlyDigits( final String pValue )
+
+		  {
+
+		    if ( pValue == null ) {
+
+		      return true;
+
+		    }
+
+
+
+		    final char chars[] = pValue.toCharArray();
+
+
+
+		    for( final char element : chars ) {
+
+		      if ( !Character.isDigit( element ) ) {
+
+		        return false;
+
+		      }
+
+		    }
+
+
+
+		    return true;
+
+		  }
+
+
+
+		  // ------------------------------------
+
+
+
+		  /**
+
+		   * Returns boolean indicating if String has ONLY letters.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return boolean indicating if String has ONLY letters.
+
+		   */
+
+		  public static boolean hasOnlyLetters( final String pValue )
+
+		  {
+
+		    if ( pValue == null ) {
+
+		      return true;
+
+		    }
+
+
+
+		    final char chars[] = pValue.toCharArray();
+
+
+
+		    for( final char element : chars ) {
+
+		      if ( !Character.isLetter( element ) ) {
+
+		        return false;
+
+		      }
+
+		    }
+
+
+
+		    return true;
+
+		  }
+
+
+
+		  /**
+
+		   * Returns boolean indicating if String has letters or "-" or "_".
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return boolean indicating if String has letters,"-","_".
+
+		   */
+
+		  public static boolean hasOnlyLettersOrHyphenOrUnderscore( final String pValue )
+
+		  {
+
+		    if ( pValue == null ) {
+
+		      return true;
+
+		    }
+
+
+
+		    final char chars[] = pValue.toCharArray();
+
+
+
+		    for( final char element : chars ) {
+
+		      if ( !Character.isLetter( element ) && element != '-' && element != '_' ) {
+
+		        return false;
+
+		      }
+
+		    }
+
+
+
+		    return true;
+
+		  }
+
+
+
+		  // ------------------------------------
+
+
+
+		  /**
+
+		   * Returns boolean indicating if String has either letters or numbers only.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return boolean indicating if String has either letters or numbers only.
+
+		   */
+
+		  public static boolean hasOnlyLettersOrDigits( final String pValue )
+
+		  {
+
+		    if ( pValue == null ) {
+
+		      return true;
+
+		    }
+
+
+
+		    final char chars[] = pValue.toCharArray();
+
+
+
+		    for( final char element : chars ) {
+
+		      if ( !Character.isLetterOrDigit( element ) ) {
+
+		        return false;
+
+		      }
+
+		    }
+
+
+
+		    return true;
+
+		  }
+
+
+
+		  /**
+
+		   * Returns boolean indicating if String has no digits.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return boolean indicating if String has no digits.
+
+		   */
+
+		  public static boolean hasNoDigits( final String pValue )
+
+		  {
+
+		    if ( pValue == null ) {
+
+		      return true;
+
+		    }
+
+
+
+		    final char chars[] = pValue.toCharArray();
+
+
+
+		    for( final char element : chars ) {
+
+		      if ( Character.isDigit( element ) ) {
+
+		        return false;
+
+		      }
+
+		    }
+
+
+
+		    return true;
+
+		  }
+
+
+
+		  /**
+
+		   * Returns boolean indicating if String has no whitespace.
+
+		   * @param pValue -
+
+		   *          the value.
+
+		   * @return boolean indicating if String has no whitespace.
+
+		   */
+
+		  public static boolean hasNoWhiteSpace( final String pValue )
+
+		  {
+
+		    if ( pValue == null ) {
+
+		      return true;
+
+		    }
+
+
+
+		    if ( pValue.indexOf( ' ' ) != -1 ) {
+
+		      return false;
+
+		    }
+
+
+
+		    return true;
+
+		  }
 
 }

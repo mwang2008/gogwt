@@ -14,7 +14,11 @@
         <property name="userName" column="user_name"/>
         <property name="firstName" column="first_name"/>
         <property name="lastName" column="last_name"/>
-        <property name="email"/>        
+        <property name="email"/>  
+        <property name="phoneNumber" column="phone_number"/>        
+        <property name="active" not-null="true" >
+           <column sql-type="BOOLEAN" not-null="true" name="active" />
+        </property>            
         <property name="password"/>
         <property name="createDate" column="create_date"/>
         

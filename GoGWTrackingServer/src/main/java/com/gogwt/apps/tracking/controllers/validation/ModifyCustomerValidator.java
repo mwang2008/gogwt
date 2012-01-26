@@ -5,7 +5,7 @@ import org.springframework.validation.Errors;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
-public class EnrollCustomerValidator  extends BaseValidateAdapter {
+public class ModifyCustomerValidator extends BaseValidateAdapter {
 	@Override
 	public boolean supports(Class<?> clazz) {
 	 	return EnrollCustomerFormBean.class.isAssignableFrom(clazz);
@@ -16,9 +16,9 @@ public class EnrollCustomerValidator  extends BaseValidateAdapter {
 	@Override
 	public void validate(Object obj, Errors errors) {
 		final EnrollCustomerFormBean formBean = (EnrollCustomerFormBean) obj;
-		validateRequiredField(errors, "groupId", formBean.getGroupId(), "label.GroupId");
+		//validateRequiredField(errors, "groupId", formBean.getGroupId(), "label.GroupId");
 		validateRequiredField(errors, "groupName", formBean.getGroupId(), "label.groupname");
-	 	validateRequiredField(errors, "userName", formBean.getUserName(), "label.userName");
+	 	//validateRequiredField(errors, "userName", formBean.getUserName(), "label.userName");
 	 	
 	 	validateRequiredField(errors, "firstName", formBean.getFirstName(), "label.First.Name");
 	 	validateRequiredField(errors, "lastName", formBean.getLastName(), "label.Last.Name");
@@ -27,20 +27,10 @@ public class EnrollCustomerValidator  extends BaseValidateAdapter {
 	 	//validateRequiredField(errors, "confirmEmail", formBean.getConfirmPassword(), "label.confirmEmail");
 
 
-	 	validateRequiredField(errors, "password", formBean.getPassword(), "label.password");
-	 	validateRequiredField(errors, "confirmPassword", formBean.getConfirmPassword(), "label.confirmPassword");
-
 	 	if (StringUtils.equalsIgnoreCase("UNKNOWN", formBean.getGroupId())) {
 	 		errors.reject("error.wrong.groupId");		 		 
 		}
 		
-	 	//valid phone
-	 	
-	 	if (StringUtils.isSet(formBean.getPhoneNumber())) {
-	 		if (!isValidPhoneNumber(formBean.getPhoneNumber())) {
-	 			errors.reject("error.invalid.phonenumber");
-	 		}
-	 	}
 	 	 
 	 	//valid email and confirmEmail
 	 	if (StringUtils.isSet(formBean.getEmail())) {
@@ -48,31 +38,7 @@ public class EnrollCustomerValidator  extends BaseValidateAdapter {
 					errors.reject("error.invalid.email");
 			}	 		
 	 	}
-        
-	 	
-	 	/* not apply any username validation at this moment
-	 	//username
-	 	if (StringUtils.isSet(formBean.getUserName())) {
-	 		if (!isValidUsername(formBean.getUserName())) {
-	 			errors.reject("error.username.invalid.format");
-	 		}
-	 	}
-        */
-	 	
-	 	if (StringUtils.isSet(formBean.getPassword()) && StringUtils.isSet(formBean.getConfirmPassword())) {
-	 		if (StringUtils.equals(formBean.getPassword(), formBean.getConfirmPassword())) {
-	 			//if correct format
-	 			/* not apply it right now
-	 			if (!isValidPasswordFormat(formBean.getPassword())) {
-	 				errors.reject("error.password.invalid.format");
-	 			}
-	 			*/
-	 		}
-	 		else {
-	 			errors.reject("error.password.notmatch");
-	 		}
-	 	}
-	 	
+  
 
 	}
 

@@ -360,6 +360,8 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 			profile.setServerFirstName(customerProfile.getFirstName());
 			profile.setServerLastName(customerProfile.getLastName());
 			profile.setServerEmail(customerProfile.getEmail());
+			profile.setServerPhone(customerProfile.getPhoneNumber());
+			
 		} catch (AppRemoteException e) {
 			// PMD
 			logger.error(" could not find groupId = " + request.getGroupId());

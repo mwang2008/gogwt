@@ -15,9 +15,10 @@ import com.gogwt.apps.tracking.formbean.LoginFormBean;
 public interface CustomerDAO {
 	public String enrollCustomer(final CustomerProfile request) throws DuplicatedUserNameException, AppRemoteException;
 	public CustomerProfile getCustomerById(final String id) throws AppRemoteException;
-	public CustomerProfile retrieveCustomerProfileByUsername(final LoginFormBean loginForm) throws InvalidUserException, AppRemoteException;
+	public CustomerProfile retrieveCustomerProfileByUsernameAndGroupId(final LoginFormBean loginForm) throws InvalidUserException, AppRemoteException;
+	public CustomerProfile retrieveCustomerProfileByUsernameAndGroupId(final String userName, final String groupId) throws InvalidUserException, AppRemoteException;
 	public CustomerProfile retrieveCustomerProfileByGroupId(final String groupId) throws InvalidUserException, AppRemoteException;
-	
+	public CustomerProfile updateCustomer(CustomerProfile profile) throws AppRemoteException;
 	public void saveRemoteLoginUser(final CustomerProfile customerProfile) throws DisplayNameAlreadyLoginException, AppRemoteException;
   	
 	public int saveTrackingData(final List<TrackingMobileData> trackingMobileDataList) throws InvalidUserException, AppRemoteException;

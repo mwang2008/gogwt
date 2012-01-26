@@ -10,8 +10,8 @@ import com.gogwt.apps.tracking.exceptions.InvalidPasswordException;
 import com.gogwt.apps.tracking.exceptions.InvalidUserException;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.formbean.LoginFormBean;
+import com.gogwt.apps.tracking.formbean.PasswordFormBean;
 import com.gogwt.apps.tracking.services.communication.NotificationEmail;
-import com.gogwt.apps.tracking.services.dataaccess.CustomerDAO;
 import com.gogwt.apps.tracking.utils.ToStringUtils;
 
 public final class ProfileBusinessDomainService extends BaseBusinessDomainService {
@@ -39,7 +39,7 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
 		
 		CustomerProfile customerProfile;
 		 
-		customerProfile = getCustomerDAO().retrieveCustomerProfileByUsername(loginForm);
+		customerProfile = getCustomerDAO().retrieveCustomerProfileByUsernameAndGroupId(loginForm);
  		
 		if (customerProfile != null) {
 			if (!StringUtils.equals(customerProfile.getPassword(), loginForm.getPassword())) {
@@ -49,7 +49,25 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
 		return customerProfile;
 	}
 	
- 
+    public CustomerProfile updateCustomer(final EnrollCustomerFormBean formBean) throws InvalidUserException, AppRemoteException {
+    	
+    	 
+    	CustomerProfile customerProfile = getCustomerDAO().retrieveCustomerProfileByUsernameAndGroupId(formBean.getUserName(), formBean.getGroupId());
+    	customerProfile.setFirstName(formBean.getFirstName());
+    	customerProfile.setLastName(formBean.getLastName());
+    	customerProfile.setEmail(formBean.getEmail());
+    	//customerProfile.setPassword(formBean.getPassword());
+    	
+    	return getCustomerDAO().updateCustomer(customerProfile);
+    }
+    
+    public CustomerProfile changePassword(final PasswordFormBean formBean) throws InvalidUserException, AppRemoteException {
+    	//CustomerProfile customerProfile = getCustomerDAO().getCustomerById(formBean.getCustomerId());
+    	CustomerProfile customerProfile = getCustomerDAO().retrieveCustomerProfileByUsernameAndGroupId(formBean.getUserName(), formBean.getGroupId());
+    	customerProfile.setPassword(formBean.getNewPass());
+    	
+    	return getCustomerDAO().updateCustomer(customerProfile);
+    }
 
 	private CustomerProfile toCustomerProfile(final EnrollCustomerFormBean formBean) {
 		final CustomerProfile request = new CustomerProfile();
@@ -59,6 +77,7 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
 		request.setFirstName(formBean.getFirstName());
 		request.setLastName(formBean.getLastName());
 		request.setUserName(formBean.getUserName());
+		request.setPhoneNumber(formBean.getPhoneNumber());
 		request.setEmail(formBean.getEmail());
 		request.setPassword(formBean.getPassword());
 		
