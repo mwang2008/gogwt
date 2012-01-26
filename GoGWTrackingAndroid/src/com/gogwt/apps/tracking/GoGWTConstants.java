@@ -9,6 +9,7 @@ public final class GoGWTConstants {
     public final static String SERVER_FIRST_NAME = "server.firstname";
     public final static String SERVER_LAST_NAME = "server.lastname";
     public final static String SERVER_EMAIL = "server.email";
+    public final static String SERVER_PHONE = "server.phone";
     
     public final static String UNKNOWN = "unknown";
     public final static String PASSWORD = "password";
@@ -32,4 +33,14 @@ public final class GoGWTConstants {
     
     //Prod
     
+    //SMS
+    public static final String START_TRACK1 = "*starttrack#";
+    public static final String START_TRACK2 = "*startrack#";
+    public static final String START_TRACKING1 = "*starttracking#";
+    public static final String START_TRACKING2 = "*startracking#";	
+	public static final String LOCATION = "*location#";	
+	public static final String STOP_TRACK1 = "*stoptrack#";	
+	public static final String STOP_TRACK2 = "*stoptracking#";	
+	public static final String CONTENT_URI = "content://sms";
+	
 }

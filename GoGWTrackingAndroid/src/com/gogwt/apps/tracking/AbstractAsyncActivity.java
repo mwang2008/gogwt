@@ -6,7 +6,7 @@ import android.app.ProgressDialog;
 public class AbstractAsyncActivity extends Activity implements AsyncActivity {
 	
 	protected static final String TAG = AbstractAsyncActivity.class.getSimpleName();
-	protected int SOCKET_TIMEOUT = 1000;  // default to 1 seconds
+	protected int SOCKET_TIMEOUT = 30000;  // default to 30 seconds
 	private ProgressDialog progressDialog;
 	
 	private boolean destroyed = false;

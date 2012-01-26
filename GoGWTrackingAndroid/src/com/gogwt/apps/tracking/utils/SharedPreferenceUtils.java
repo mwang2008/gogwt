@@ -36,6 +36,7 @@ public class SharedPreferenceUtils {
 		edit.putString(SERVER_FIRST_NAME, profile.getServerFirstName());
 		edit.putString(SERVER_LAST_NAME, profile.getServerLastName());
 		edit.putString(SERVER_EMAIL, profile.getServerEmail());
+		edit.putString(SERVER_PHONE, profile.getServerPhone());
 		edit.commit();
 	}
 	
@@ -56,6 +57,7 @@ public class SharedPreferenceUtils {
 		profile.setServerFirstName(userPreference.getString(SERVER_FIRST_NAME, UNKNOWN));
 		profile.setServerLastName(userPreference.getString(SERVER_LAST_NAME, UNKNOWN));
 		profile.setServerEmail(userPreference.getString(SERVER_EMAIL, UNKNOWN));
+		profile.setServerPhone(userPreference.getString(SERVER_PHONE, UNKNOWN));
 		
 		return profile;
 	}

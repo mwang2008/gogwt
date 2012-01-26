@@ -29,6 +29,11 @@ import com.gogwt.apps.tracking.utils.GwtLog;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 
+/**
+ * 
+ * @author Michael.Wang
+ * @deprecated use LocationTrackingActivity
+ */
 public class ShowLocationMainTabActivity extends TabActivity implements
 		OnTabChangeListener, OnClickListener {
 

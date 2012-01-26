@@ -5,6 +5,7 @@ import static com.gogwt.apps.tracking.GoGWTConstants.INTERVAL;
 import static com.gogwt.apps.tracking.GoGWTConstants.SEND_BODY;
 import static com.gogwt.apps.tracking.GoGWTConstants.UNIT;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -15,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 
 import com.gogwt.apps.tracking.R;
+import com.gogwt.apps.tracking.services.SmsService;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class SettingPrefsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -77,9 +79,13 @@ public class SettingPrefsActivity extends PreferenceActivity implements SharedPr
 			
 			if (autoStartPre) {
 				autoStart.setSummary(autoStartSummary + "[YES]");
+				 Intent myIntent = new Intent(getApplicationContext(), SmsService.class);
+				 startService(myIntent);	
 			}
 			else {
 				autoStart.setSummary(autoStartSummary + "[NO]");
+				Intent myIntent = new Intent(getApplicationContext(), SmsService.class);
+				stopService(myIntent);
 			}
 		}
  	}

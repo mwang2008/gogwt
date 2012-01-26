@@ -1,6 +1,7 @@
 package com.gogwt.apps.tracking.services;
 
-import static com.gogwt.apps.tracking.GoGWTConstants.*;
+import static com.gogwt.apps.tracking.GoGWTConstants.FAKE_MESSGE_BODY;
+import static com.gogwt.apps.tracking.GoGWTConstants.SEND_BODY;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,6 +110,7 @@ public class GPXService extends Service {
 	
 	private SmsContentObserver smsContentObserver = null;
 	private long lastTimeSMSRetrive = -1;
+	private final Object gpxPointLocationLock = new Object();
 	
 	@Override
 	public void onCreate() {
@@ -127,12 +129,12 @@ public class GPXService extends Service {
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-
+		 
 		GwtLog.d(TAG, "==== onStart");
 		initGPSProvider(intent);
 		registerContentObservers();
 	}
-
+ 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -302,19 +304,23 @@ public class GPXService extends Service {
 	/**
 	 * remote interface
 	 */
+	
 	private final IRemoteInterface.Stub mRemoteInterfaceBinder = new IRemoteInterface.Stub() {
 		public Location getLastLocation() {
 			GwtLog.d("interface", "===== getLastLocation() called");
 			return lastLocation;
 		}
-
+		
+		@Override
 		public GPXPoint getGPXPoint() {
 			GwtLog.i("interface", "==== getGPXPoint() called");
-			if (currentLocation == null) {
-				return null;
+			synchronized (gpxPointLocationLock) {
+			   if (currentLocation == null) {
+				 return null;
+			   }
+			 
+			   return fromCurlocation();
 			}
-
-			return fromCurlocation();
 		}
 
 		@Override

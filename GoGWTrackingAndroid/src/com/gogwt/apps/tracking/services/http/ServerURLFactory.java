@@ -9,7 +9,7 @@ public class ServerURLFactory {
 	}
 	
 	public static String getLoginURL() {
-		return  GwtConfig.getHost() + "tracking/en-us/mobilelogin";
+		return  GwtConfig.getHost(true) + "tracking/en-us/mobilelogin";
 	}
 	
 	public static String stopTracking() {
@@ -17,6 +17,6 @@ public class ServerURLFactory {
 	}
 	
 	public static String mobileEnrollURL() {
-		return GwtConfig.getHost() + "tracking/en-us/mobileenroll";
+		return GwtConfig.getHost(false) + "tracking/en-us/mobileenroll";
 	}
 }

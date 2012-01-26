@@ -17,6 +17,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
@@ -40,6 +42,7 @@ import com.gogwt.apps.tracking.data.GPXPoint;
 import com.gogwt.apps.tracking.data.ICollectionListener;
 import com.gogwt.apps.tracking.data.IRemoteInterface;
 import com.gogwt.apps.tracking.services.GPXService;
+import com.gogwt.apps.tracking.services.SmsService;
 import com.gogwt.apps.tracking.services.http.HttpService;
 import com.gogwt.apps.tracking.utils.GeoRect;
 import com.gogwt.apps.tracking.utils.GwtLog;
@@ -51,6 +54,12 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+/**
+ * 
+ * The main class for display map.
+ * @author michael.wang
+ *
+ */
 public class LocationTrackingActivity extends MapActivity implements
 		OnTabChangeListener, View.OnTouchListener, View.OnClickListener {
 	
@@ -75,6 +84,14 @@ public class LocationTrackingActivity extends MapActivity implements
     private ToggleButton togglebutton;
     private boolean isFirstPoint;
     
+    private Messenger smsService = null;
+    boolean smsIsBound;
+	boolean gpxIsBound;
+	
+	final Messenger mMessenger = new Messenger(new IncomingHandler());
+
+
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		GwtLog.i(TAG, "====== LocationTrackingActivity onCreate \n\n");
@@ -184,10 +201,11 @@ public class LocationTrackingActivity extends MapActivity implements
 		if (!SessionManager.getGpxContext().isGPSBound()) {
 		    String remoteName = GPXService.GPX_SERVICE;
 		    Intent intent = new Intent(remoteName);
-		    bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+		    bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);		    
 		    SessionManager.getGpxContext().startTrack();
+		    gpxIsBound = true;
 		} 	
-		
+		doSmsBindService();
  		super.onStart();
 	}
 
@@ -211,9 +229,17 @@ public class LocationTrackingActivity extends MapActivity implements
 		if (SessionManager.getGpxContext().isGPSBound()) {
 			unbindService(serviceConnection);			
 			SessionManager.getGpxContext().setAppStart(false);
+			gpxIsBound = false;
 		}
-		 
 		
+		if (SessionManager.getGpxContext().isStartGPXService()) {
+			stopService(new Intent(getApplicationContext(), GPXService.class));
+		}
+		
+		doSmsUnbindService();
+		if (SessionManager.getGpxContext().isStartSmsService()) {
+			stopService(new Intent(getApplicationContext(), SmsService.class));
+		}
 	}
 
 	@Override
@@ -539,123 +565,54 @@ public class LocationTrackingActivity extends MapActivity implements
 				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		startActivity(gpsOptionsIntent);
 	}
-	/**
-	 * 
+	
+	
+	/*****************************************************
+	 * sms Service
 	 * @author michael.wang
-	 * 
+	 *
 	 */
-	//private ArrayList<GPXPoint> pgxPointList = null;
-	/*
-	class DrawLinesOverlay extends Overlay {
-		// Projection projection;
-		GeoPoint newPoint;
-
-		public DrawLinesOverlay(GeoPoint point) {
-			// this.projection = projection;
-			this.newPoint = point;
-		}
-
-		public void draw(Canvas canvas, MapView mapv, boolean shadow) {
-			super.draw(canvas, mapv, shadow);
-
-			if (pgxPointList == null || pgxPointList.isEmpty()) {
-				return;
+	//call back from service
+	class IncomingHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case SmsService.MSG_SET_INT_VALUE:
+				//textSmsValue.setText("Int Message: " + msg.arg1);
+				break;
+			case SmsService.MSG_SET_STRING_VALUE:
+				//String str1 = msg.getData().getString("str1");
+				//textSmsValue.setText("Str Message: " + str1);
+				break;
+			default:
+				super.handleMessage(msg);
 			}
-
-			Paint mPaint = new Paint();
-			mPaint.setDither(true);
-			mPaint.setColor(Color.RED);
-			mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-			mPaint.setStrokeJoin(Paint.Join.ROUND);
-			mPaint.setStrokeCap(Paint.Cap.ROUND);
-			mPaint.setStrokeWidth(2);
-
-			if (lastPoint == null) {
-				lastPoint = newPoint;
-				return;
-			}
-
-			Path path = new Path();
-			Point currentPnt = new Point();
-			Point lastPnt = new Point();
-            
-			GeoPoint currentGeoPoint = null;
-			GeoPoint theLastGeoPoint = null;
-			for (GPXPoint gpxPoint : pgxPointList) {
-				currentGeoPoint = new GeoPoint(gpxPoint.latitude,
-						gpxPoint.longitude);
-				if (theLastGeoPoint != null) {
-					mProjection.toPixels(currentGeoPoint, currentPnt);
-					mProjection.toPixels(theLastGeoPoint, lastPnt);
-
-					path.moveTo(lastPnt.x, lastPnt.y);
-					path.lineTo(currentPnt.x, currentPnt.y);
-				}
-				theLastGeoPoint = currentGeoPoint;
-			}
-			canvas.drawPath(path, mPaint);
-		}
-	}
-    */
-	
-	/*private void showMap_ori(final GPXPoint gpxPoint) {
-	GwtLog.d(TAG, "***** showMap= " );
-		updateSpeedInfoView(gpxPoint);
-
-	mapView.invalidate();
-	//mapView.postInvalidate();
-
-	List<Overlay> mapOverlays = mapView.getOverlays();
-	//instead of remove all polylines and markers, only remove marker
-	
-	for (Overlay mapOverlay : mapOverlays) {
-		if (mapOverlay instanceof MapItemizedOverlay) {
-			mapOverlays.remove(mapOverlay);
-			break;
 		}
 	}
 	
-	
-	//mapOverlays.clear();
+	private ServiceConnection smsConnection = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			GwtLog.i(TAG, "onServiceConnected ");			
+			smsService = new Messenger(service);			 
+		}
 
-	final GeoPoint point = new GeoPoint(gpxPoint.latitude, gpxPoint.longitude);
+		public void onServiceDisconnected(ComponentName className) {
+			// This is called when the connection with the service has been
+			// unexpectedly disconnected - process crashed.
+			smsService = null;		 
+		}
+	}; 
 	
-	// add marker
-	OverlayItem overlayitem = new OverlayItem(point, "", "");
-	
-	if (markerDot == null) {
-		markerDot = this.getResources().getDrawable(R.drawable.red_circle);  //red_circle	red_dot		
-		markerDot.setBounds(-10, -10, markerDot.getIntrinsicWidth() - 7, markerDot.getIntrinsicHeight() - 7);
-	}
-	mItemizedOverlay = new MapItemizedOverlay(markerDot, this);		
-	    
-	   
-    overlayitem.setMarker( mItemizedOverlay.getDrawable());
-	//overlayitem.setMarker(null);
-    mItemizedOverlay.addOverlay(overlayitem);
-    mapOverlays.add(mItemizedOverlay);
-    
-	// add line		
-	if (drawPolylineOverlay == null) {
-		drawPolylineOverlay = new DrawPolylineOverlay(this);
+	void doSmsBindService() {
+		bindService(new Intent(this, SmsService.class), smsConnection, Context.BIND_AUTO_CREATE);
+		smsIsBound = true;	
 	}
 	
-	drawPolylineOverlay.addNewGPXPoint(gpxPoint);
-	
-	
-	if (lastPoint == null) {
-		mapController.animateTo(point);
-		lastPoint = point;
-		mapController.setZoom(10);
-		return;
+	void doSmsUnbindService() {
+		if (smsIsBound) {		 
+			// Detach our existing connection.
+			unbindService(smsConnection);
+			smsIsBound = false;			 
+		}
 	}
-	 
- 	mapOverlays.add(drawPolylineOverlay);
-	
-	//mapOverlays.add(new DrawLinesOverlay(point));
- 	 
-    
-}*/
-
-	
 }

@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,8 +29,10 @@ import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.response.LoginResponse;
 import com.gogwt.apps.tracking.services.http.ServerURLFactory;
+import com.gogwt.apps.tracking.utils.GwtLog;
 import com.gogwt.apps.tracking.utils.SessionManager;
 import com.gogwt.apps.tracking.utils.StringUtils;
+import com.gogwt.apps.tracking.utils.secure.HttpUtils;
 
 public class LoginActivity extends AbstractAsyncActivity {
 	protected static final String TAG = LoginActivity.class.getSimpleName();
@@ -69,6 +73,22 @@ public class LoginActivity extends AbstractAsyncActivity {
 				startActivity(new Intent(getApplicationContext(), HelpActivity.class));
 			}			
 		});
+		
+		///test button
+		Button testBtn = (Button) findViewById(R.id.testButton);		 
+		testBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				double latitude = 33.331929;
+				double longitude = -83.327283;
+				
+				Intent toIntent = new Intent(getApplicationContext(), ShowMarkerOnMapActivity.class);
+				toIntent.putExtra("lat", latitude);
+				toIntent.putExtra("lng", longitude);
+				//Toast.makeText(getApplicationContext(), "Click testBtn", Toast.LENGTH_LONG).show();
+				startActivity(toIntent);
+			}
+		});
     }
     
 	// ***************************************
@@ -87,6 +107,7 @@ public class LoginActivity extends AbstractAsyncActivity {
 			}*/
 
 			result.getProfile().setPhoneNumber(getMyPhoneNumber());	
+			
 			//for quick access, use session
 			SessionManager.saveProfile(getApplicationContext(), result.getProfile());
 
@@ -96,8 +117,20 @@ public class LoginActivity extends AbstractAsyncActivity {
 			// startActivityForResult(myIntent, 0);
 			startActivity(toMainIntent);
 		} else {
-			Toast.makeText(this, result.getStatus().getMsg(), Toast.LENGTH_LONG)
-					.show();
+			//Toast.makeText(this, result.getStatus().getMsg(), Toast.LENGTH_LONG).show();
+			//show error message
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			alertDialog.setTitle("Error Message");
+			alertDialog.setMessage(result.getStatus().getMsg());
+			
+			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Try Again", new DialogInterface.OnClickListener() {
+			      public void onClick(DialogInterface dialog, int which) {
+			    	  Toast.makeText(getApplicationContext(), "Continue", Toast.LENGTH_SHORT)
+						.show();   
+                  } 
+			});
+	 
+			alertDialog.show();
 		}
 	}
 
@@ -168,7 +201,7 @@ public class LoginActivity extends AbstractAsyncActivity {
 				MediaType mediaType = MediaType.APPLICATION_JSON;
 				 
 				final String url = ServerURLFactory.getLoginURL(); //REST_SIGNIN_URL;
-				Log.i(TAG, " ---  url=" + url);
+				GwtLog.i(TAG, " ---  url=" + url);
 				
 				HttpHeaders requestHeaders = new HttpHeaders();
 				requestHeaders.setContentType(mediaType);
@@ -176,11 +209,11 @@ public class LoginActivity extends AbstractAsyncActivity {
 				HttpEntity<Profile> requestEntity = new HttpEntity<Profile>(
 						profile, requestHeaders);
 
-				HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+				HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(HttpUtils.getNewHttpClient());
 				requestFactory.setReadTimeout(SOCKET_TIMEOUT);
  			
 				RestTemplate restTemplate = new RestTemplate(requestFactory);
-				
+				 
 				ResponseEntity<LoginResponse> response = restTemplate.exchange(
 						url, HttpMethod.POST, requestEntity,
 						LoginResponse.class);
@@ -210,7 +243,12 @@ public class LoginActivity extends AbstractAsyncActivity {
 			dismissProgressDialog();
 
 			// return the response body to the calling class
-			showResult(result);
+			try {
+			   showResult(result);
+			}
+			catch (Throwable e) {
+				//not want to 
+			}
 		}
 	}
 	
