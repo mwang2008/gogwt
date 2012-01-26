@@ -1,5 +1,9 @@
 package com.gogwt.apps.tracking.activities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +19,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.gogwt.apps.tracking.AbstractMenuActivity;
 import com.gogwt.apps.tracking.R;
-
+import com.gogwt.apps.tracking.data.Profile;
+import com.gogwt.apps.tracking.utils.SessionManager;
+import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class MainMenuActivity extends AbstractMenuActivity {
 	protected static final String TAG = MainMenuActivity.class.getSimpleName();
@@ -30,6 +36,9 @@ public class MainMenuActivity extends AbstractMenuActivity {
 		if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			createGpsDisabledAlert();
 		}
+		
+	 
+
  	}
 	
 	@Override
@@ -39,7 +48,21 @@ public class MainMenuActivity extends AbstractMenuActivity {
 
 	@Override
 	protected String[] getMenuItems() {
-		return getResources().getStringArray(R.array.main_menu_items);  //string.xml
+		
+		String [] strArr = getResources().getStringArray(R.array.main_menu_items);  //string.xml
+		List<String> strings = 
+		     new ArrayList<String>(Arrays.asList(strArr));
+		
+		//if this device is the same number as account holder
+		Profile profile = SessionManager.getProfile(getApplicationContext());
+		if (profile != null && StringUtils.isPhoneMatched(profile.getPhoneNumber(), profile.getServerPhone())) {
+			strings.add("Remote admin:\n get current location \n start/stop tracking");
+		}
+		 
+		String[] finalArr = strings.toArray(new String[strings.size()]);
+
+		//return getResources().getStringArray(R.array.main_menu_items);  //string.xml
+		return finalArr;
 	}
 
 	@Override
@@ -53,6 +76,9 @@ public class MainMenuActivity extends AbstractMenuActivity {
 					break;			 
  				case 1:
 					cls = LogoutActivity.class;
+					break;
+				case 2:
+					cls = AdminInvokeActivity.class;
 					break;
 				default:
 					break;
@@ -91,13 +117,14 @@ public class MainMenuActivity extends AbstractMenuActivity {
 	private void createGpsDisabledAlert() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Your GPS is disabled! Would you like to enable it?")
-				.setCancelable(false)
-				.setPositiveButton("Enable GPS",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								showGpsOptions();
-							}
-						});
+				.setCancelable(false);
+		
+		builder.setPositiveButton("Enable GPS",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						showGpsOptions();
+					}
+				});
 		builder.setNegativeButton("Do nothing",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {

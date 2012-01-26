@@ -9,6 +9,7 @@ public class Profile {
 	private String serverFirstName;
 	private String serverLastName;
 	private String serverEmail;
+	private String serverPhone;
 	
 	public Profile() {
 		super();		 
@@ -84,6 +85,14 @@ public class Profile {
 
 	public void setServerEmail(String serverEmail) {
 		this.serverEmail = serverEmail;
+	}
+
+	public String getServerPhone() {
+		return serverPhone;
+	}
+
+	public void setServerPhone(String serverPhone) {
+		this.serverPhone = serverPhone;
 	}
 	
     

@@ -11,7 +11,8 @@ public class EnrollCustomerFormBean {
 	private String userName;
 	private String password;
 	private String confirmPassword;
-
+	private String phoneNumber;
+	
 	public String getGroupId() {
 		return groupId;
 	}
@@ -75,5 +76,14 @@ public class EnrollCustomerFormBean {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
 }
 

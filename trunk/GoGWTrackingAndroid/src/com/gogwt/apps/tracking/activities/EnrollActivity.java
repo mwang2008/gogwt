@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gogwt.apps.tracking.AbstractAsyncActivity;
+import com.gogwt.apps.tracking.GwtConfig;
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.data.Profile;
@@ -79,8 +82,19 @@ public class EnrollActivity extends AbstractAsyncActivity {
 			startActivity(toMainIntent);
 			
 		} else {
-			Toast.makeText(this, result.getStatus().getMsg(), Toast.LENGTH_LONG)
-					.show();
+			//Toast.makeText(this, result.getStatus().getMsg(), Toast.LENGTH_LONG).show();
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			alertDialog.setTitle("Error Message");
+			alertDialog.setMessage(result.getStatus().getMsg());
+			
+			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Try Again", new DialogInterface.OnClickListener() {
+			      public void onClick(DialogInterface dialog, int which) {
+			    	  Toast.makeText(getApplicationContext(), "Continue", Toast.LENGTH_SHORT)
+						.show();   
+                  } 
+			});
+	 
+			alertDialog.show();
 		}
 	}
     
@@ -91,7 +105,7 @@ public class EnrollActivity extends AbstractAsyncActivity {
 		 */
 		@Override
 		protected void onPreExecute() {
-			showLoadingProgressDialog("Logging in, Please wait... ");
+			showLoadingProgressDialog("Enrollment, Please wait... ");
 
 		}
 
@@ -124,7 +138,10 @@ public class EnrollActivity extends AbstractAsyncActivity {
 				return response.getBody();
 
 			} catch (Exception e) {
-				Log.e(TAG, e.getMessage(), e);				
+				Log.e(TAG, e.getMessage(), e);
+				if (GwtConfig.DEBUG) {
+				   e.printStackTrace();
+				}
 			}
 			
 			//server error 
@@ -161,6 +178,8 @@ public class EnrollActivity extends AbstractAsyncActivity {
 		EditText usernameText = (EditText) findViewById(R.id.username);
 		EditText firstnameText = (EditText) findViewById(R.id.firstname);
 		EditText lastnameText = (EditText) findViewById(R.id.lastname);
+		
+		EditText phoneText = (EditText) findViewById(R.id.phone);
 		EditText emailText = (EditText) findViewById(R.id.email);
 		EditText passwordText = (EditText) findViewById(R.id.password);
 		EditText passwordconfirmText = (EditText) findViewById(R.id.passwordconfirm);
@@ -171,7 +190,8 @@ public class EnrollActivity extends AbstractAsyncActivity {
 		String groupname = groupnameText.getText().toString();
 		String username = usernameText.getText().toString();
 		String firstname = firstnameText.getText().toString();
-		String lastname = lastnameText.getText().toString();
+		String lastname = lastnameText.getText().toString(); //"fake" ;//lastnameText.getText().toString();
+		String phone = phoneText.getText().toString();
 		String email = emailText.getText().toString();
 		String password = passwordText.getText().toString();
 		String passwordconfirm = passwordconfirmText.getText().toString();
@@ -219,6 +239,14 @@ public class EnrollActivity extends AbstractAsyncActivity {
 			}
 			sbud.append("Please enter Last Name");
 			hasError = true;		
+		}
+		
+		if (!StringUtils.isSet(phone)) {
+			if (hasError) {
+				sbud.append("\n");
+			}
+			sbud.append("Please enter Phone Number");
+			hasError = true;	
 		}
 		
 		if (!StringUtils.isSet(email)) {
@@ -269,9 +297,10 @@ public class EnrollActivity extends AbstractAsyncActivity {
 		bean.setUserName(username);
 		bean.setFirstName(firstname);
 		bean.setLastName(lastname);
+		bean.setPhoneNumber(phone);
 		bean.setEmail(email);
 		bean.setPassword(password);
-
+		
 		return bean;
 
 	}

@@ -35,6 +35,7 @@ public final class GPXPoint implements Parcelable {
 		readFromParcel(src);
 	}
 	
+	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(latitude);
 		dest.writeInt(longitude);
@@ -63,6 +64,7 @@ public final class GPXPoint implements Parcelable {
 	    totalDistance = src.readDouble();
  	}
 
+	@Override
 	public int describeContents() {
 		// nothing special
 		return 0;

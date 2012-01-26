@@ -11,7 +11,27 @@ public final class GPXContext {
 	private boolean pause = false;
 	private long firstTime = -1;
 	
-	
+	private boolean startSmsService = false;
+	private boolean startGPXService = false;
+ 	
+ 
+
+	public boolean isStartGPXService() {
+		return startGPXService;
+	}
+
+	public void setStartGPXService(boolean startGPXService) {
+		this.startGPXService = startGPXService;
+	}
+
+	public boolean isStartSmsService() {
+		return startSmsService;
+	}
+
+	public void setStartSmsService(boolean startSmsService) {
+		this.startSmsService = startSmsService;
+	}
+
 	public GPXContext() {
 		firstTime = System.currentTimeMillis(); 
 	}
@@ -106,6 +126,7 @@ public final class GPXContext {
 	}
 	*/
  
+	
 	
 	
 }
