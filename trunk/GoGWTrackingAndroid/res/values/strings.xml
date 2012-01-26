@@ -63,7 +63,8 @@
     <string name="groupname">Group Name</string>
     <string name="username">User Name</string>
     <string name="firstname">First Name</string>
-    <string name="lastname">Last Name</string>
+    <string name="lastname">Last Name</string>    
+    <string name="phone">Mobile Phone</string>
     <string name="email">Email Address</string>
     <string name="password">Password</string>
     <string name="passwordconfirm">Confirm Password</string>
@@ -71,5 +72,8 @@
     <!-- SaveTrackActivity -->
     <string name="trackdetail">Track Detail</string> 
     <string name="trackdesc">Track Description</string>
-      
+     
+    <!-- AdminInvokeActivity -->
+    <string name="admin_remote">You can get current location of remote user, and/or start/stop tracking</string> 
+    <string name="mapInstruction">Click green arrow for direction/navigation</string> 
 </resources>

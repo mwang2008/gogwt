@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+<!--     <TextView android:layout_width="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_height="wrap_content" android:id="@+id/companyid"
+		android:text="@string/admin_remote"></TextView> -->
+<!--     
+    <View android:id="@+id/space" 
+		android:layout_width="fill_parent" android:layout_height="2dp"
+		android:paddingTop="12px" android:paddingBottom="12px"
+    /> -->
+            
+	<TextView android:layout_width="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_height="wrap_content" android:id="@+id/remotephone"
+		android:text="Remote phone number"></TextView>
+
+	<EditText android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:inputType="number"
+		android:id="@+id/phone">
+		<requestFocus></requestFocus>
+	</EditText>
+	
+	<Button android:layout_height="wrap_content" android:gravity="right"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="wrap_content" android:id="@+id/currentLoc"
+		android:text="Get Current Location">
+	</Button>
+	
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:stretchColumns="1" android:scrollHorizontally="true" >
+	  <TableRow android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+	
+	    <Button android:layout_height="wrap_content" android:gravity="center"
+	       android:textAppearance="?android:attr/textAppearanceMedium"
+		   android:layout_width="wrap_content" android:id="@+id/startTrack"
+		   android:text="Start Tracking">
+	    </Button>	
+	
+	    <Button android:layout_height="wrap_content" android:gravity="center"
+	       android:textAppearance="?android:attr/textAppearanceMedium"
+		   android:layout_width="wrap_content" android:id="@+id/stopTrackBtn"
+		   android:text="Stop Tracking">
+	     </Button>	      
+	   </TableRow>   
+	 </TableLayout>
+		
+
+	
+	  
+    <View android:id="@+id/space" 
+		android:layout_width="fill_parent" android:layout_height="2dp"
+		android:paddingTop="12px" android:paddingBottom="12px"
+    />
+	<View android:id="@+id/divider" android:background="@drawable/black_white_gradient"
+		android:layout_width="fill_parent" android:layout_height="2dp"
+		android:paddingTop="12px" android:paddingBottom="12px"
+		 />
+    <View android:id="@+id/space" 
+		android:layout_width="fill_parent" android:layout_height="2dp"
+		android:paddingTop="12px" android:paddingBottom="12px"
+    />
+   
+    <!-- layout_alignParentTop="true" -->
+    
+   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:padding="1dip">
+      
+     <com.google.android.maps.MapView
+        android:id="@+id/mapviewX"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:apiKey="0QbYlxgYsf8JaV_h9ue5jJ4Kv3ur4ydNCjyegiQ"
+        android:clickable="true" />
+     
+         
+     <TextView android:layout_width="fill_parent"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_height="wrap_content" android:id="@+id/remoteSms"
+		android:text="@string/mapInstruction" android:gravity="center" 
+		android:textColor="#000000"
+		android:layout_alignParentTop="true" />
+     
+     <TextView android:layout_width="fill_parent"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_height="wrap_content" android:id="@+id/remoteSmsAddress"
+		android:text="XYZ" android:gravity="center" 
+		android:textColor="#000000"
+		android:layout_alignParentBottom="true" />
+     
+   </RelativeLayout>  
+     
+
+  
+   	    	
+		     <!--  
+		        czhao:    0pMwFTdixXK-a2cyjPHDeeO7HmVHdvLlhdcl7sA		       
+		        cypress win7 64: 0QbYlxgYsf8JaV_h9ue5jJ4Kv3ur4ydNCjyegiQ
+		        prod:     0pMwFTdixXK9Q7HsSwt-Y7t0SW9ru0iPhrJC5tA
+		     -->
+  
+  		    
+</LinearLayout>

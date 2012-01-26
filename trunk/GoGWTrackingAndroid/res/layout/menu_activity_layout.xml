@@ -4,8 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_centerVertical="true"
+    android:id="@+id/top_view"
     >
-    		
+    
+    
+ 			
 	<TextView
 		android:id="@+id/text_view_description"
 		android:layout_width="fill_parent"
@@ -26,5 +29,4 @@
 			/>
 
 	</AbsoluteLayout>
-	
-</LinearLayout>
+ </LinearLayout>

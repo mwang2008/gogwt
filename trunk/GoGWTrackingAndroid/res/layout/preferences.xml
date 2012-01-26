@@ -45,7 +45,7 @@
         android:title="System Settigns" >
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="auto_start"
             android:summary="Start automatically when this device is booting"
             android:title="Auto Start" />
