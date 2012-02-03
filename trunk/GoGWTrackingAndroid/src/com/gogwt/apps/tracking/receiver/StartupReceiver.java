@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 
+import com.gogwt.apps.tracking.services.DummyService;
 import com.gogwt.apps.tracking.services.SmsService;
 import com.gogwt.apps.tracking.utils.GwtLog;
 import com.gogwt.apps.tracking.utils.SessionManager;
@@ -32,7 +33,7 @@ public class StartupReceiver extends BroadcastReceiver {
 				boolean autoStart = PreferenceManager
 						.getDefaultSharedPreferences(context).getBoolean(AUTO_START, false);
 				
-				GwtLog.d(TAG,	"==== onReceive autoStart="+autoStart);
+				GwtLog.d(TAG,	"$$$$$==== onReceive autoStart="+autoStart);
 				if (autoStart) {
 					// start tracking by invoke LocationTrackingActivity
 					/*
@@ -41,11 +42,13 @@ public class StartupReceiver extends BroadcastReceiver {
 					context.startActivity(toIntent);
 					*/
 					GwtLog.d(TAG,	"==== onReceive isRunning="+SmsService.isRunning);
-					//if (SmsService.isRunning == false) {
-					   Intent myIntent = new Intent(context, SmsService.class);
+					//if (SmsService.isRunning == false) { 
+					   //Intent myIntent = new Intent(context, SmsService.class);
+					   //use DummyService to keep app live
+					   Intent myIntent = new Intent(context, DummyService.class);
 					   context.startService(myIntent);	
 					   SessionManager.getGpxContext().setStartSmsService(true);
-					   //SmsService.isRunning = true;
+					   
 					   GwtLog.d(TAG,	"==== onReceive after isRunning="+SmsService.isRunning);
 					//}
 				} else {

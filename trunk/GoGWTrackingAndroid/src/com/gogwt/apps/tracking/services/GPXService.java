@@ -528,7 +528,7 @@ public class GPXService extends Service {
 		@Override
 		public void onChange(boolean selfChange) {
 			super.onChange(selfChange);
-			Log.d("== SmsContentObserver ", "SmsContentObserver.onChange( " + selfChange + ")");
+			GwtLog.d(TAG, "SmsContentObserver.onChange( " + selfChange + ")");
 			
 			//catch all exception, do not want SMS function to affect others. 
 			//as SMS function is undocument. 
@@ -537,6 +537,7 @@ public class GPXService extends Service {
 			}
 			catch (Throwable e) {
 			   //skip, nothing	
+				GwtLog.d(TAG, "error send/receive sms: " + e.getMessage());
 			}			
 		}
 		
@@ -669,7 +670,7 @@ public class GPXService extends Service {
 			}
 			
 		} else {
-			Log.i("====== MyMain testSMS ", "no result");
+			GwtLog.i("====== MyMain testSMS ", "no result");
 		}
 		mCurSms.close();
 	}

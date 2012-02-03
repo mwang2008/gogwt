@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,15 +15,15 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,17 +31,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GPXPoint;
 import com.gogwt.apps.tracking.data.ICollectionListener;
 import com.gogwt.apps.tracking.data.IRemoteInterface;
+import com.gogwt.apps.tracking.processor.SendSmsManager;
 import com.gogwt.apps.tracking.services.GPXService;
 import com.gogwt.apps.tracking.services.SmsService;
 import com.gogwt.apps.tracking.services.http.HttpService;
@@ -68,6 +72,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	private static final String LIST_TAB_TAG = "List";
 	private static final String MAP_TAB_TAG = "Map";
 	private static final String STOP = "stop";
+	protected static final int CREATE_REQUEST_CODE = 1;
 	
 	private String currentTabId = LIST_TAB_TAG;
 	private TabHost tabHost;
@@ -87,8 +92,9 @@ public class LocationTrackingActivity extends MapActivity implements
     private Messenger smsService = null;
     boolean smsIsBound;
 	boolean gpxIsBound;
+	private GPXPoint currentPoint;
 	
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
+	//final Messenger mMessenger = new Messenger(new IncomingHandler());
 
 
 	
@@ -186,8 +192,7 @@ public class LocationTrackingActivity extends MapActivity implements
             SessionManager.getGpxContext().startApp();
         }
         
-		tabHost.setCurrentTab(1);
-		//tabHost.setCurrentTab(0);
+		tabHost.setCurrentTab(1);	
  	}
 
 	@Override
@@ -205,7 +210,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		    SessionManager.getGpxContext().startTrack();
 		    gpxIsBound = true;
 		} 	
-		doSmsBindService();
+		//doSmsBindService();
  		super.onStart();
 	}
 
@@ -236,7 +241,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			stopService(new Intent(getApplicationContext(), GPXService.class));
 		}
 		
-		doSmsUnbindService();
+		//doSmsUnbindService();
 		if (SessionManager.getGpxContext().isStartSmsService()) {
 			stopService(new Intent(getApplicationContext(), SmsService.class));
 		}
@@ -283,8 +288,7 @@ public class LocationTrackingActivity extends MapActivity implements
 				String endEnableGPSTime   = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", new java.util.Date()).toString();
 				String msg = "GPS started at " + startEnableGPSTime;
 				msg += " and ended at " +  endEnableGPSTime;
-				//NotifyMessageUtils.showNotifyMsgOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);
-				//todo: mwang
+				//NotifyMessageUtils.showNotifyMsgOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);				 
 				NotifyMessageUtils.sendCustomNotificationWithOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);
 				
 			}
@@ -325,7 +329,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	@Override  
 	public boolean onCreateOptionsMenu(Menu menu) {  	   
 		 MenuInflater inflater = getMenuInflater();
-		 inflater.inflate(R.menu.main_menu, menu);		 
+		 inflater.inflate(R.menu.location_tracking_menu, menu);		 
 		 return true;
 	}  
 
@@ -339,6 +343,25 @@ public class LocationTrackingActivity extends MapActivity implements
 	        case R.id.menu_help:     
 	        	startActivity(new Intent(this, HelpActivity.class));
 	            break;
+	        case R.id.menu_sendlocation:     
+	        	//Toast.makeText(this, "You pressed the sendlocation!", Toast.LENGTH_LONG).show();
+	        	
+	        	if (currentPoint == null) {
+	        		Toast.makeText(this, "Your current location is not available yet, please try again", Toast.LENGTH_LONG).show();
+	        	}
+	        	else {
+	        		GwtLog.d(TAG, "-----== lat="+currentPoint.latitude + ",lng="+currentPoint.longitude);
+	        	    //Intent myIntent = new Intent(this, SendCurrentLocationActivity.class);
+	        	    //myIntent.putExtra(CURRENT_LOCATION, currentPoint);
+	        	    //startActivityForResult(myIntent, CREATE_REQUEST_CODE);
+	        		try {
+	        		   showLocDialog();
+	        		}
+	        		catch (Throwable e) {
+	        			GwtLog.d(TAG, " showLocDialog error  " + e.getMessage());
+	        		}
+	        	}
+	            break;
 	        case R.id.menu_logout: 	        	
 	        	startActivity(new Intent(this, LogoutActivity.class));	     
 	            break;
@@ -346,8 +369,65 @@ public class LocationTrackingActivity extends MapActivity implements
 	    return true;
 	}
 	
+	private void showLocDialog() {
+		LayoutInflater factory = LayoutInflater.from(this);
+		final View textEntryView = factory.inflate(R.layout.alert_dialog_loc_entry, null);
+		//sendSMS
+		
+		final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		alertDialog.setView(textEntryView);
+		alertDialog.setTitle("Send Current Location");
+		//alertDialog.setMessage("");
+		
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Send", new DialogInterface.OnClickListener() {
+		      public void onClick(DialogInterface dialog, int which) {
+		    	  EditText phoneNumberText = (EditText) alertDialog.findViewById(R.id.remotePhone);
+		    	  String phone = phoneNumberText.getText().toString();
+		    	  if (!StringUtils.isSet(phone)) {
+					  Toast.makeText(getApplicationContext(),"Please enter phone number", Toast.LENGTH_LONG).show();						 
+				  }
+		    	  else {
+		    		  //Toast.makeText(getApplicationContext(), "Send location to " + phone, Toast.LENGTH_LONG).show();
+		    		  
+			    	  //create new thread to send sms
+		        	  StringBuilder sbud = new StringBuilder("My current location: http://maps.google.com/?q="); 
+					  sbud.append(currentPoint.latitude/1e6);
+					  sbud.append(",");
+					  sbud.append(currentPoint.longitude/1e6);
+					  
+ 					  PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 
+				    			(int)System.currentTimeMillis(), new Intent(getApplicationContext(), SendSmsManager.class), 0);
+ 
+ 					  new SendSmsTask().execute(phone, null, sbud.toString(), pIntent);
+ 					  alertDialog.dismiss();
+			    	  			    	 
+		    	  }
+             } 
+		});
+ 
+		alertDialog.show();
+	}
+	
+	private class SendSmsTask extends AsyncTask<Object, Void, Boolean> {
+		 
+		
+		@Override
+		protected Boolean doInBackground(Object... params) {
+			String callerNum = (String)params[0];
+			String senderNum = (String)params[1];
+			String body = (String)params[2];
+			PendingIntent sentIntent = (PendingIntent)params[3];
+			GwtLog.d(TAG, "---- Send location to " + callerNum + ", " + body);
+			//Toast.makeText(getApplicationContext(), "Send location to " + callerNum + ", " + body, Toast.LENGTH_LONG).show(); 
+			
+		 	SendSmsManager.getInstance().sendTextMessage(callerNum, senderNum, body, sentIntent);  
+	 		return true;
+		}
+		
+	}
+	
 	private void showView(final GPXPoint point) {
-		Log.d(TAG, "***** showView currentTabId= " + currentTabId);
+		GwtLog.d(TAG, "***** showView currentTabId= " + currentTabId);
 		if (LIST_TAB_TAG.equals(currentTabId)) {
 			showList(point);
 			return;
@@ -363,24 +443,20 @@ public class LocationTrackingActivity extends MapActivity implements
 			@Override
 			public void run() {
 				GwtLog.d(TAG, "***** updateView run ");
-				try {
-					// mRemoteInterface=null, meaning GPXService is not bind yet.
+				try {					
 					if (mRemoteInterface != null) {
-						GPXPoint point = mRemoteInterface.getGPXPoint();
-						if (point != null) {
-							//pgxPointList.add(point);
-							showView(point);
+						currentPoint = mRemoteInterface.getGPXPoint();
+						if (currentPoint != null) {
+							showView(currentPoint);
 						}
 					}
 					else {
+						// mRemoteInterface=null, meaning GPXService is not bind yet.
 						speedinfoView.setText("Waiting for GPS signal ...");
 					}
 
 				} catch (Throwable t) {
-					GwtLog.e(
-							TAG,
-							"***** Error while updating the UI with GPXService",
-							t);
+					GwtLog.e(TAG, "***** Error while updating the UI with GPXService",t);
 				}
 			}
 		});
@@ -411,9 +487,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			speedStr += StringUtils.format(gpxPoint.speed) + " m/s]";
 			info.add("Current speed: " + speedStr);			
 		}
-	
-
-			
+ 			
 		// totalDistance
 		//DecimalFormat dec = new DecimalFormat("#.00");
 		String str = StringUtils.format(gpxPoint.totalDistance*0.000621371192); //meters + " ms";
@@ -475,13 +549,8 @@ public class LocationTrackingActivity extends MapActivity implements
 	
 	  @Override
 	  public boolean onTouch(View view, MotionEvent event) {
-		  GwtLog.d(TAG, "***** new onTouch  " ); 
-	    /*if (keepMyLocationVisible && event.getAction() == MotionEvent.ACTION_MOVE) {
-	      if (!locationIsVisible(currentLocation)) {
-	        keepMyLocationVisible = false;
-	      }
-	    }*/
-	    return false;
+		  GwtLog.d(TAG, "***** new onTouch  " ); 	  
+	      return false;
 	  }
 	  
 
@@ -491,7 +560,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		    }
 		    GeoPoint center = mapView.getMapCenter();
 		    int latSpan = mapView.getLatitudeSpan();
-		    int lonSpan = mapView.getLongitudeSpan();
+		    int lngSpan = mapView.getLongitudeSpan();
 
 		    // Bottom of map view is obscured by zoom controls/buttons.
 		    // Subtract a margin from the visible area:
@@ -502,7 +571,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		            - mapView.getZoomButtonsController().getZoomControls().getHeight());
 		    int margin =
 		        Math.abs(marginTop.getLatitudeE6() - marginBottom.getLatitudeE6());
-		    GeoRect rec = new GeoRect(center, latSpan, lonSpan);
+		    GeoRect rec = new GeoRect(center, latSpan, lngSpan);
 		    rec.top += margin;
 
 		    return rec.contains(geoPoint);
@@ -522,13 +591,13 @@ public class LocationTrackingActivity extends MapActivity implements
 			try {
 				mRemoteInterface.addListener(collectorListener);
 			} catch (RemoteException e) {
-				Log.e(TAG, "Failed to add listener", e);
+				GwtLog.e(TAG, "Failed to add listener", e);
 			}
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			Log.i(TAG, "==== onServiceDisconnected");
+			GwtLog.i(TAG, "==== onServiceDisconnected");
 			mRemoteInterface = null;
 		}
 	};
@@ -565,54 +634,4 @@ public class LocationTrackingActivity extends MapActivity implements
 				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		startActivity(gpsOptionsIntent);
 	}
-	
-	
-	/*****************************************************
-	 * sms Service
-	 * @author michael.wang
-	 *
-	 */
-	//call back from service
-	class IncomingHandler extends Handler {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case SmsService.MSG_SET_INT_VALUE:
-				//textSmsValue.setText("Int Message: " + msg.arg1);
-				break;
-			case SmsService.MSG_SET_STRING_VALUE:
-				//String str1 = msg.getData().getString("str1");
-				//textSmsValue.setText("Str Message: " + str1);
-				break;
-			default:
-				super.handleMessage(msg);
-			}
-		}
-	}
-	
-	private ServiceConnection smsConnection = new ServiceConnection() {
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			GwtLog.i(TAG, "onServiceConnected ");			
-			smsService = new Messenger(service);			 
-		}
-
-		public void onServiceDisconnected(ComponentName className) {
-			// This is called when the connection with the service has been
-			// unexpectedly disconnected - process crashed.
-			smsService = null;		 
-		}
-	}; 
-	
-	void doSmsBindService() {
-		bindService(new Intent(this, SmsService.class), smsConnection, Context.BIND_AUTO_CREATE);
-		smsIsBound = true;	
-	}
-	
-	void doSmsUnbindService() {
-		if (smsIsBound) {		 
-			// Detach our existing connection.
-			unbindService(smsConnection);
-			smsIsBound = false;			 
-		}
-	}
-}
+ }

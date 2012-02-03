@@ -28,17 +28,19 @@ public class MainMenuActivity extends AbstractMenuActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
+
+		Profile profile = SessionManager.getProfile(getApplicationContext());
+		if (profile != null) {
+			setTitle(profile.getGroupId() + " : " + profile.getDisplayName());
+		}
 		
 		//check GPS
 		LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			createGpsDisabledAlert();
 		}
-		
-	 
-
  	}
 	
 	@Override
@@ -56,7 +58,7 @@ public class MainMenuActivity extends AbstractMenuActivity {
 		//if this device is the same number as account holder
 		Profile profile = SessionManager.getProfile(getApplicationContext());
 		if (profile != null && StringUtils.isPhoneMatched(profile.getPhoneNumber(), profile.getServerPhone())) {
-			strings.add("Remote admin:\n get current location \n start/stop tracking");
+			strings.add("Remote Control:\n get current location \n start/stop tracking");
 		}
 		 
 		String[] finalArr = strings.toArray(new String[strings.size()]);
