@@ -74,21 +74,7 @@ public class LoginActivity extends AbstractAsyncActivity {
 			}			
 		});
 		
-		///test button
-		Button testBtn = (Button) findViewById(R.id.testButton);		 
-		testBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				double latitude = 33.331929;
-				double longitude = -83.327283;
-				
-				Intent toIntent = new Intent(getApplicationContext(), ShowMarkerOnMapActivity.class);
-				toIntent.putExtra("lat", latitude);
-				toIntent.putExtra("lng", longitude);
-				//Toast.makeText(getApplicationContext(), "Click testBtn", Toast.LENGTH_LONG).show();
-				startActivity(toIntent);
-			}
-		});
+	
     }
     
 	// ***************************************

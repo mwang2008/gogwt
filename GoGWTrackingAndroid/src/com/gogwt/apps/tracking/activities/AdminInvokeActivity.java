@@ -1,7 +1,8 @@
 package com.gogwt.apps.tracking.activities;
 
 import static com.gogwt.apps.tracking.GoGWTConstants.CONTENT_URI;
-import static com.gogwt.apps.tracking.GoGWTConstants.LOCATION;
+import static com.gogwt.apps.tracking.GoGWTConstants.GOGWT_TAG;
+import static com.gogwt.apps.tracking.GoGWTConstants.*;
 import static com.gogwt.apps.tracking.GoGWTConstants.START_TRACK1;
 import static com.gogwt.apps.tracking.GoGWTConstants.STOP_TRACK1;
 
@@ -10,8 +11,11 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -41,14 +45,24 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
+/**
+ * Used by group owner
+ * @author michael.wang
+ *
+ */
 public class AdminInvokeActivity extends MapActivity {
 	private static final String TAG = AdminInvokeActivity.class.getSimpleName();
 
+	public static final String ACTION_NAME = AdminInvokeActivity.class.getSimpleName();
+	
 	private Button btnCurrentLoc, btnStartTrack, btnStopTrack;
 	private TextView textRemoteSms, remoteSmsAddress;
+	private EditText phoneNumberText;
 	private SmsManager smsManager;
 	private SmsContentObserver smsContentObserver = null;
 	private MapView mapView;
+	private static boolean isOnForeground;
+	private IntentFilter mIntentFilter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,10 +79,12 @@ public class AdminInvokeActivity extends MapActivity {
 		mapView.setVisibility(View.INVISIBLE);
 		
 		GwtLog.i(TAG, "==== Service onCreate start.");
-		registerContentObservers();
+		//registerContentObservers();  
 
 		textRemoteSms = (TextView) findViewById(R.id.remoteSms);
 		remoteSmsAddress = (TextView) findViewById(R.id.remoteSmsAddress);
+		
+		phoneNumberText = (EditText) findViewById(R.id.phone);
 		
 		smsManager = SmsManager.getDefault();
 
@@ -80,39 +96,96 @@ public class AdminInvokeActivity extends MapActivity {
 		btnStartTrack.setOnClickListener(btnStartTrackListener);
 		btnStopTrack.setOnClickListener(btnStopTrackListener);
 
+	    mIntentFilter = new IntentFilter();
+	    mIntentFilter.addAction(ACTION_NAME);
 
 		//todo: test remove it
+		/*
 		int latE6 = (int)(33.329998333333336*1e6);
 		int lngE6 = (int)(-83.32999833333334*1e6);		
 		String address = "146,S Wesley Chapel Rd,Eatonton,31024,United States";
 		showMarkerOnMap(latE6, lngE6, address);
-
+        */
 	}
 
+	private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	    	
+	    	GSmsData theGSmsData = (GSmsData)intent.getExtras().get(AdminInvokeActivity.ACTION_NAME+"_SMS_DATA");
+	    	
+	    	if (theGSmsData == null) {
+	    		GwtLog.d(TAG, "== BroadcastReceiver onReceive intent.getExtras return null");
+	    	}
+	    	
+	    	String body = theGSmsData.getBody();    	
+	    	GwtLog.d(TAG, "== before mIntentReceiver onReceive " + body);
+	    	if (!StringUtils.isSet(body)) {
+				return;
+			}
+ 	    	//Toast.makeText(getApplicationContext(), fromSmsReciever, Toast.LENGTH_LONG).show(); 
+			
+			if (body.startsWith(ADMIN)) {
+				if (body.contains("maps.google.com")) {
+					// display google map			
+					new ReverseGeocodeTask().execute(body);
+				}
+				else {
+					//remove signature
+					body = body.replaceAll(ADMIN, "");
+					mapView.setVisibility(View.INVISIBLE);
+					textRemoteSms.setText(body);
+					textRemoteSms.setTextColor(getResources().getColor(R.color.white));
+					remoteSmsAddress.setText("");
+				}		 
+			}
+	    	GwtLog.d(TAG, "== after mIntentReceiver onReceive " + body);
+	    }
+	};
+
+	@Override
+	protected void onResume() {
+	   GwtLog.d(TAG, "== onPause.");
+	   registerReceiver(mIntentReceiver, mIntentFilter);
+	   isOnForeground = true;
+	   super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+	   GwtLog.d(TAG, "== onPause.");
+	   unregisterReceiver(mIntentReceiver);
+	   isOnForeground = false;
+	   super.onPause();
+	}
+
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		try {
 			GwtLog.i(TAG, "== Service onDestroy.");
-			unregisterContentObservers();
+			//unregisterContentObservers();
 			// isRunning = false;
 			smsManager = null;
 		} catch (Throwable e) {
+			GwtLog.d(TAG, "== error unregisterContentObservers" + e.getMessage());
 			// ingore error
 		}
 	}
+	 
+	 
 
 	private OnClickListener btnCurrentLocListener = new OnClickListener() {
 		public void onClick(View v) {
-			EditText phoneNumberText = (EditText) findViewById(R.id.phone);
+			
 			String phone = phoneNumberText.getText().toString();
 			if (!StringUtils.isSet(phone)) {
 				Toast.makeText(getApplicationContext(),
 						"Please enter phone number", Toast.LENGTH_LONG).show();
 				return;
 			}
-
-			/* todo: 
+			
 			final PendingIntent pIntent = PendingIntent.getActivity(
 					getApplicationContext(), (int) System.currentTimeMillis(),
 					new Intent(getApplicationContext(),
@@ -121,16 +194,9 @@ public class AdminInvokeActivity extends MapActivity {
 			GwtLog.d(TAG, "=== sendSmsBackToSender:sendLocationWithSms number="
 					+ phone + ", body=" + body);
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
-			*/
 			
-			//todo: test remove it
-			int latE6 = (int)(33.329998333333336*1e6);
-			int lngE6 = (int)(-83.32999833333334*1e6);
-			showMarkerOnMap(latE6, lngE6, "sbud.toString()");
-			
-			//test reverse geocode
-			//String str = "http://map.google.com/?q=33.329998333333336,-83.32999833333334";
-			//new ReverseGeocodeTask().execute(str);			
+			phoneNumberText.setText(phone);
+ 
 		}
 	};
 
@@ -148,7 +214,7 @@ public class AdminInvokeActivity extends MapActivity {
 					getApplicationContext(), (int) System.currentTimeMillis(),
 					new Intent(getApplicationContext(),
 							AdminInvokeActivity.class), 0);
-			final String body = START_TRACK1;
+			final String body = START_TRACK;
 			GwtLog.d(TAG, "=== sendSmsBackToSender:sendLocationWithSms number="
 					+ phone + ", body=" + body);
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
@@ -169,7 +235,7 @@ public class AdminInvokeActivity extends MapActivity {
 					getApplicationContext(), (int) System.currentTimeMillis(),
 					new Intent(getApplicationContext(),
 							AdminInvokeActivity.class), 0);
-			final String body = STOP_TRACK1;
+			final String body = STOP_TRACK;
 			GwtLog.d(TAG, "=== sendSmsBackToSender:sendLocationWithSms number="
 					+ phone + ", body=" + body);
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
@@ -178,6 +244,7 @@ public class AdminInvokeActivity extends MapActivity {
 
 	/**
 	 * monitor the changes of content://sms
+	 * @deprecated
 	 */
 	private void registerContentObservers() {
 		GwtLog.i(TAG, "registerContentObservers");
@@ -191,6 +258,9 @@ public class AdminInvokeActivity extends MapActivity {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private void unregisterContentObservers() {
 		Log.i(TAG, "unregisterContentObservers");
 		if (smsContentObserver != null) {
@@ -204,7 +274,7 @@ public class AdminInvokeActivity extends MapActivity {
 	 * Invoked whenever user send/receive sms
 	 * 
 	 * @author michael.wang
-	 * 
+	 * @deprecated
 	 */
 	class SmsContentObserver extends ContentObserver {
 		public SmsContentObserver(Handler h) {
@@ -233,8 +303,16 @@ public class AdminInvokeActivity extends MapActivity {
 	}
 
 	/**
+	 * whereBuf.append("(type="+TYPE_SENT); whereBuf.append(" or ");
+	 * whereBuf.append("type="+TYPE_RECEIVE + ") and date > " +
+	 * lastTimeSMSRetrive);
+	 * 
+	 * whereBuf.append(" (type="+TYPE_RECEIVE); whereBuf.append(" and ");
+	 * whereBuf.append(" read="+READ_READ +")");
+	
 	 * filter on when sent event or read sms action. read [0:1] 0 -- new, 1 --
 	 * read type [1:2] 1 -- receive(inbox), 2 -- send
+	 * @deprecated
 	 */
 	private void chechSMS() throws Throwable {
 		final int TYPE_RECEIVE = 1;
@@ -249,21 +327,9 @@ public class AdminInvokeActivity extends MapActivity {
 		String[] projection = { "address", "date", "read", "type", "body" };
 		StringBuilder whereBuf = new StringBuilder();
 		whereBuf.append("type=" + TYPE_RECEIVE);
-
-		/*
-		 * whereBuf.append("(type="+TYPE_SENT); whereBuf.append(" or ");
-		 * whereBuf.append("type="+TYPE_RECEIVE + ") and date > " +
-		 * lastTimeSMSRetrive);
-		 * 
-		 * whereBuf.append(" (type="+TYPE_RECEIVE); whereBuf.append(" and ");
-		 * whereBuf.append(" read="+READ_READ +")");
-		 */
-
+ 
 		Cursor mCurSms = contentResolver.query(Uri.parse(CONTENT_URI),
 				projection, whereBuf.toString(), null, "DATE desc");
-
-		// Cursor mCurSms =
-		// contentResolver.query(Uri.parse(CONTENT_URI),null,null,null,"DATE desc");
 
 		int addressCol = mCurSms.getColumnIndex("address");
 		int dateCol = mCurSms.getColumnIndex("date");
@@ -285,7 +351,7 @@ public class AdminInvokeActivity extends MapActivity {
 
 				smsData.body = mCurSms.getString(bodyCol);
 
-				sendSmsBackToSender(smsData);
+				sendSmsBackToSenderXXX(smsData);
 
 				String str = "=== address: " + smsData.getAddress();
 				str += " date: " + smsData.getDate() + " : ";
@@ -295,7 +361,7 @@ public class AdminInvokeActivity extends MapActivity {
 				str += " body: " + smsData.getBody();
 				str += " startTime: " + smsData.getStartTime();
 
-				GwtLog.d("====== MySmsService testSMS ", str);
+				GwtLog.d(TAG, "==== AdminInvokeActivity " + str);
 
 			} while (mCurSms.moveToNext());
 		}
@@ -306,22 +372,27 @@ public class AdminInvokeActivity extends MapActivity {
 	 * Display message from remote
 	 * 
 	 * @param smsData
+	 * @deprecated
 	 */
-	private synchronized void sendSmsBackToSender(GSmsData smsData)
+	private synchronized void sendSmsBackToSenderXXX(GSmsData smsData)
 			throws Throwable {
 		String body = smsData.getBody();
 		if (!StringUtils.isSet(body)) {
 			return;
 		}
 
-		if (body.contains("maps.google.com")) {
-			// display google map
-			new ReverseGeocodeTask().execute(body);
-
-			return;
+		if (body.startsWith(ADMIN)) {
+			if (body.contains("maps.google.com")) {
+				// display google map			
+				new ReverseGeocodeTask().execute(body);
+			}
+			else {
+				mapView.setVisibility(View.INVISIBLE);
+				textRemoteSms.setText(smsData.getBody());
+				textRemoteSms.setTextColor(getResources().getColor(R.color.white));
+				remoteSmsAddress.setText("");
+			}		 
 		}
-
-		
 	}
 
 	//=== showResult Address[addressLines=[0:"146 S Wesley Chapel Rd",1:"Eatonton, GA 31024",2:"USA"],
@@ -330,6 +401,9 @@ public class AdminInvokeActivity extends MapActivity {
 	//countryName=United States,hasLatitude=true,latitude=33.331929,hasLongitude=true,
 	//longitude=-83.327283,phone=null,url=null,extras=null]
 	//=== showResult 146 S Wesley Chapel Rd
+	/**
+	 * ReverseGeocodeTask call back
+	 */
 	private void showResult(final AddressWraper wrapper) {
 		GwtLog.d(TAG, "=== showResult ");
 		
@@ -371,38 +445,30 @@ public class AdminInvokeActivity extends MapActivity {
  
 		GwtLog.d(TAG, "=== showResult " + sbud.toString());
 		
-       
-		/*
-		//show on the map
-		textGoogleMapLink.setText(wrapper.input);
-		textGoogleMapLink.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent toIntent = new Intent(getApplicationContext(), ShowMarkerOnMapActivity.class);
-				toIntent.putExtra("lat", wrapper.latPoint);
-				toIntent.putExtra("lng", wrapper.lngPoint);
-				
-				startActivity(toIntent);
-			}
-		});*/
-		
+ 		//show on the map	 
 		int latE6 = (int)(wrapper.latPoint*1e6);
 		int lngE6 = (int)(wrapper.lngPoint*1e6);
-		showMarkerOnMap(latE6, lngE6, sbud.toString()+2);
+		showMarkerOnMap(latE6, lngE6, sbud.toString());
 
  	}
 
 	/**
-	 *  showResult 146,S Wesley Chapel Rd,Eatonton,31024,United States
+	 * showResult 146,S Wesley Chapel Rd,Eatonton,31024,United States
+	 * tap action is on  DrawMarkerOverlay
 	 * @param latE6
 	 * @param lngE6
 	 */
 	private void showMarkerOnMap(int latE6, int lngE6, String address) {
-	 	//String latlng = latE6/1e6 + "," + lngE6/1e6;
+	 	String latlng = latE6/1e6 + "," + lngE6/1e6;
 		//textRemoteSms.setText(latlng);
+	 	address += "\n(" + latlng + ")";
 		remoteSmsAddress.setText(address);
 		mapView.setVisibility(View.VISIBLE);
 		
+		String mapInstruction = getResources().getString(R.string.mapInstruction);
+		textRemoteSms.setText(mapInstruction);
+		textRemoteSms.setTextColor(getResources().getColor(R.color.black));
+		 
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		Drawable drawable = this.getResources().getDrawable(R.drawable.google_green_arrow);
 		DrawMarkerOverlay itemizedOverlay = new DrawMarkerOverlay(drawable, this);
@@ -448,7 +514,7 @@ public class AdminInvokeActivity extends MapActivity {
 					AddressWraper addressWraper = new AddressWraper(body, myList.get(0), latPoint, lngPoint);
 					return addressWraper;
 				} catch (Throwable e) {
-				    			
+					GwtLog.d(TAG, "=== ReverseGeocodeTask error= "+e.getMessage());			
 				}				
 			}
 			return null;
@@ -462,6 +528,7 @@ public class AdminInvokeActivity extends MapActivity {
 				showResult(result);
 			} catch (Throwable e) {
 				// not want to
+				GwtLog.d(TAG, "=== ReverseGeocodeTask onPostExecute= "+e.getMessage());	
 			}
 		}
 
@@ -472,6 +539,7 @@ public class AdminInvokeActivity extends MapActivity {
 		String  input;
 		double latPoint;
 		double lngPoint;
+		
 		public AddressWraper(String pInput, Address pAddress, double latPoint, double lngPoint) {
 			input = pInput;
 			address = pAddress;
@@ -486,4 +554,7 @@ public class AdminInvokeActivity extends MapActivity {
 		return false;
 	}
 
+	public static boolean isOnForeground() {
+		return isOnForeground;
+	}	
 }

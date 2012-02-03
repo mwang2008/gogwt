@@ -16,7 +16,7 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 
 import com.gogwt.apps.tracking.R;
-import com.gogwt.apps.tracking.services.SmsService;
+import com.gogwt.apps.tracking.services.DummyService;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class SettingPrefsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -79,12 +79,12 @@ public class SettingPrefsActivity extends PreferenceActivity implements SharedPr
 			
 			if (autoStartPre) {
 				autoStart.setSummary(autoStartSummary + "[YES]");
-				 Intent myIntent = new Intent(getApplicationContext(), SmsService.class);
+				 Intent myIntent = new Intent(getApplicationContext(), DummyService.class);
 				 startService(myIntent);	
 			}
 			else {
 				autoStart.setSummary(autoStartSummary + "[NO]");
-				Intent myIntent = new Intent(getApplicationContext(), SmsService.class);
+				Intent myIntent = new Intent(getApplicationContext(), DummyService.class);
 				stopService(myIntent);
 			}
 		}

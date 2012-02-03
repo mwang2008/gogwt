@@ -21,6 +21,8 @@ public final class GoGWTConstants {
     public final static String AUTO_START = "auto_start";
     public final static String SEND_BODY = "send_body";
     
+    public final static String CURRENT_LOCATION = "current_location";
+    
     //fake message body
     public final static String FAKE_MESSGE_BODY = "XXDisableXX";
     
@@ -33,14 +35,41 @@ public final class GoGWTConstants {
     
     //Prod
     
+  
     //SMS
+    //used for internal
+    public static final String START_TRACK = "*istarttrack#";
+    public static final String LOCATION = "*ilocation#";  
+    public static final String STOP_TRACK = "*istoptrack#";	
+    
+    public static final int SMS_GOGWT = 1;
+    public static final int SMS_USER = 2;
+    public static final int SMS_NONE = 0;
+    
+    //user activity
     public static final String START_TRACK1 = "*starttrack#";
     public static final String START_TRACK2 = "*startrack#";
+    public static final String START_TRACK3 = "#starttrack*";
+    public static final String START_TRACK4 = "#startrack*";
+
     public static final String START_TRACKING1 = "*starttracking#";
     public static final String START_TRACKING2 = "*startracking#";	
-	public static final String LOCATION = "*location#";	
+    public static final String START_TRACKING3 = "#starttracking*";
+    public static final String START_TRACKING4 = "#startracking*";	
+    
+    public static final String LOCATION1 = "*location#";
+    public static final String LOCATION2 = "#location*";
+     
 	public static final String STOP_TRACK1 = "*stoptrack#";	
 	public static final String STOP_TRACK2 = "*stoptracking#";	
+	public static final String STOP_TRACK3 = "#stoptrack*";	
+	public static final String STOP_TRACK4 = "#stoptracking*";	
+	
+	
 	public static final String CONTENT_URI = "content://sms";
+	
+	public static final String GOGWT_TAG = "GoGWT:";
+	public static final String ADMIN = "admin:";
+	
 	
 }

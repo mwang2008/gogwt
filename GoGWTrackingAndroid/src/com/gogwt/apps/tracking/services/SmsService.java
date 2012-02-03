@@ -1,7 +1,7 @@
 package com.gogwt.apps.tracking.services;
 
 import static com.gogwt.apps.tracking.GoGWTConstants.CONTENT_URI;
-import static com.gogwt.apps.tracking.GoGWTConstants.LOCATION;
+import static com.gogwt.apps.tracking.GoGWTConstants.*;
 import static com.gogwt.apps.tracking.GoGWTConstants.START_TRACK1;
 import static com.gogwt.apps.tracking.GoGWTConstants.START_TRACK2;
 import static com.gogwt.apps.tracking.GoGWTConstants.START_TRACKING1;
@@ -281,7 +281,7 @@ public class SmsService extends Service {
 					   str += " body: " + smsData.getBody();
 					   str += " startTime: " + smsData.getStartTime();
 
-					   GwtLog.d("====== MySmsService testSMS ", str);
+					   GwtLog.d(TAG, str);
 				     
 					//seed back to client
 					sendMessageBackToUI(str);		 
@@ -294,7 +294,7 @@ public class SmsService extends Service {
 			}
 
 		} else {
-			GwtLog.i("====== MySmsService testSMS ", "no result");
+			GwtLog.i(TAG, "no result");
 		}
 		mCurSms.close();
 	}
@@ -338,16 +338,21 @@ public class SmsService extends Service {
 		}
 			
 		//3.2 send location back to caller
-		if (StringUtils.equalsIgnoreCase(LOCATION, body)) {
+		if (StringUtils.equalsIgnoreCase(body, LOCATION1) || 
+				StringUtils.equalsIgnoreCase(body, LOCATION2)) {
 		   	sendCurrentLocation(smsManager, smsData, provider);
 		   	return;
 		}
 		
 	 	//3.3 enable/start tracking 
 		if (StringUtils.equalsIgnoreCase(START_TRACK1, body) || 
-						StringUtils.equalsIgnoreCase(START_TRACK2, body) ||
-						StringUtils.equalsIgnoreCase(START_TRACKING1, body) ||
-						StringUtils.equalsIgnoreCase(START_TRACKING2, body) ) {
+			StringUtils.equalsIgnoreCase(START_TRACK2, body) ||
+			StringUtils.equalsIgnoreCase(START_TRACK3, body) ||
+			StringUtils.equalsIgnoreCase(START_TRACK4, body) ||
+			StringUtils.equalsIgnoreCase(START_TRACKING1, body) ||
+			StringUtils.equalsIgnoreCase(START_TRACKING2, body) ||
+			StringUtils.equalsIgnoreCase(START_TRACKING3, body) ||
+			StringUtils.equalsIgnoreCase(START_TRACKING4, body) ) {
 			if (!SessionManager.getGpxContext().isStartGPXService()) {	
 			   Intent myIntent = new Intent(getApplicationContext(), com.gogwt.apps.tracking.services.GPXService.class);
 			   getApplicationContext().startService(myIntent);	
@@ -366,7 +371,10 @@ public class SmsService extends Service {
 		}
 					 
 		//3.4 disable/stop tracking: may not stop the service if the server is stated with bind.
-		if (StringUtils.equalsIgnoreCase(STOP_TRACK1, body) || StringUtils.equalsIgnoreCase(STOP_TRACK2, body)) {
+		if (StringUtils.equalsIgnoreCase(STOP_TRACK1, body) ||
+			StringUtils.equalsIgnoreCase(STOP_TRACK2, body) ||
+			StringUtils.equalsIgnoreCase(STOP_TRACK3, body) ||
+			StringUtils.equalsIgnoreCase(STOP_TRACK4, body)) {
 			if (SessionManager.getGpxContext().isStartGPXService()) {	
 				Intent myIntent = new Intent(getApplicationContext(), com.gogwt.apps.tracking.services.GPXService.class);
 				getApplicationContext().stopService(myIntent);	
