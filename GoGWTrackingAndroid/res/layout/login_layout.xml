@@ -76,13 +76,6 @@
 			</Button>
 		</TableRow>
 	</TableLayout>
-
-        <!--  Test button -->
-		<Button android:layout_height="wrap_content" android:gravity="right"
-			    android:textAppearance="?android:attr/textAppearanceMedium"
-				android:layout_width="wrap_content" android:id="@+id/testButton"
-				android:text="Test Button">
-			</Button>
 			
     <!--  Help -->
     <View android:id="@+id/space" 

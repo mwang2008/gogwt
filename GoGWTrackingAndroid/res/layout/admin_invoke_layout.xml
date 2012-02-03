@@ -84,14 +84,15 @@
      <TextView android:layout_width="fill_parent"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_height="wrap_content" android:id="@+id/remoteSms"
-		android:text="@string/mapInstruction" android:gravity="center" 
+		android:text="" 
+		android:gravity="center" 
 		android:textColor="#000000"
 		android:layout_alignParentTop="true" />
      
      <TextView android:layout_width="fill_parent"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_height="wrap_content" android:id="@+id/remoteSmsAddress"
-		android:text="XYZ" android:gravity="center" 
+		android:text="" android:gravity="center" 
 		android:textColor="#000000"
 		android:layout_alignParentBottom="true" />
      
