@@ -42,16 +42,22 @@ public class HibernateCustomerDAO implements CustomerDAO {
 
 			tx = session.beginTransaction();
 			int totalSaved = 0;
+			int index = 0;
 			for (TrackingMobileData trackData : trackingMobileDataList) {
 				try {
+	
 					session.save(trackData);
+				    if (index%20 == 0) {  //20, same as the JDBC batch size
+				    	session.flush();  //flush a batch of inserts and release memory:
+				        session.clear();
+					}
 					totalSaved++;
+					index++;
 				} catch (HibernateException e) {
-					logger.error(
-							"Error when insert tracking data "
-									+ trackData.toString(), e);
+					logger.error("Error when insert tracking data "	+ trackData.toString(), e);
 				}
 			}
+			
 			// session.getTransaction().commit();
 			tx.commit();
 
