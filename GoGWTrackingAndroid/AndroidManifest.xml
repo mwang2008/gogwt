@@ -16,11 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 
-       <activity android:name=".activities.MainMenuActivity" android:screenOrientation="portrait"/>      
-        <activity android:name=".activities.LocationTrackingActivity" android:screenOrientation="portrait"/>     
-         -->
-        <activity android:name=".MyTestConfigActivity" />
+    
+        
         <activity android:name=".activities.LoginActivity" /> 
         <activity android:name=".activities.EnrollActivity" />
         <activity android:name=".activities.LogoutActivity" />       
@@ -32,20 +29,46 @@
         <activity android:name=".activities.SaveTrackActivity" />
         <activity android:name=".activities.SettingPrefsActivity" />
         <activity android:name=".activities.HelpActivity" />
-         
-        <service android:enabled="true" android:name=".services.GPXService">
+        <activity android:name=".activities.AdminInvokeActivity" />
+        <activity android:name=".activities.ShowMarkerOnMapActivity" />
+           
+        <service android:enabled="true" android:process=":remote" android:name=".services.GPXService">
 			<intent-filter>
 				<action android:name="com.gogwt.apps.tracking.services.GPXService.SERVICE" />				 
 			</intent-filter>
 		</service>
  
-        <receiver android:enabled="true" android:name=".receiver.StartupReceiver">           
+        <!-- 
+        <service android:enabled="true" android:process=":remotesms" android:name="com.gogwt.apps.tracking.services.SmsService">
+			<intent-filter>
+				<action android:name="com.gogwt.apps.tracking.services.SmsService" />				 
+			</intent-filter>
+		</service> 
+	     -->
+	     
+	    <service android:enabled="true" android:process=":remotedummy" android:name="com.gogwt.apps.tracking.services.DummyService">
+			<intent-filter>
+				<action android:name="com.gogwt.apps.tracking.services.DummyService" />				 
+			</intent-filter>
+		</service> 
+			
+		
+        <receiver  android:name=".receiver.StartupReceiver">           
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
-				<category android:name="android.intent.category.DEFAULT" />
+				<!-- android:enabled="true"
+				  <category android:name="android.intent.category.DEFAULT" />
+				  <category android:name="android.intent.category.HOME" />
+				 -->
+				
  			</intent-filter>
 		</receiver>
 		
+		<receiver android:name=".receiver.SmsReceiver">
+			<intent-filter android:priority="999">				 
+			   <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>		
+			</intent-filter>
+		</receiver>
     </application>
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
