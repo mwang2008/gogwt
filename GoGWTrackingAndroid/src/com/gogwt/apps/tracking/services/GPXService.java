@@ -179,6 +179,7 @@ public class GPXService extends Service {
 	@Override
 	public boolean onUnbind(Intent intent) {
 		GwtLog.d(TAG, "==== onUnbind");
+		firstTime = -1;
 		return super.onUnbind(intent);
 	}
 
@@ -191,9 +192,7 @@ public class GPXService extends Service {
 
 			try {
 				GwtLog.d(TAG, "== Timer task doing work - "	+ System.currentTimeMillis());
-				// Toast.makeText(getApplicationContext(), "Timer:  " +
-				// TIMER_UPDATE_RATE_IN_SEC + " sec",
-				// Toast.LENGTH_SHORT).show();
+				 
 				if (sendLocation == null) {
 					sendLocation = new SendLocation();
 				}
@@ -360,11 +359,13 @@ public class GPXService extends Service {
 				totalDistance = 0;
 			}
 
-			//if (firstTime == -1) {
-			firstTime = SessionManager.getGpxContext().getFirstTime(); //System.currentTimeMillis();
-			//}
+			/*
+			if (firstTime == -1) {
+			   firstTime = System.currentTimeMillis(); //SessionManager.getGpxContext().getFirstTime(); //System.currentTimeMillis();
+			}
+			*/
 			
-			point.startTime = firstTime;
+			point.startTime = getFirstTime();
 			point.totalDistance = totalDistance;
 
 			lastLocation = currentLocation;
@@ -375,7 +376,7 @@ public class GPXService extends Service {
 	};
 
 	/**
-	 * 
+	 * GPS, listening the geocode changes.
 	 */
 	private LocationListener trackListener = new LocationListener() {
 
@@ -434,8 +435,8 @@ public class GPXService extends Service {
 			gLocation.setSpeed(location.getSpeed());
 			gLocation.setTime(location.getTime());
 			gLocation.setDistance(distance);
-			//gLocation.setStartTime(firstTime);
-			gLocation.setStartTime(SessionManager.getGpxContext().getFirstTime());
+			gLocation.setStartTime(getFirstTime());
+			//gLocation.setStartTime(SessionManager.getGpxContext().getFirstTime());
 			gLocation.setTotalDistance(srvTotalDistance);
 
 			synchronized (locationList) {
@@ -482,7 +483,7 @@ public class GPXService extends Service {
 
 			double distance = location.distanceTo(lastLocation);
 			gLocation.setDistance(distance);
-			gLocation.setStartTime(firstTime);
+			gLocation.setStartTime(getFirstTime());
 			gLocation.setTotalDistance(totalDistance);
 
 			// save to db, save at end
@@ -638,7 +639,7 @@ public class GPXService extends Service {
 						smsData.body = FAKE_MESSGE_BODY;	
 					}
 					
-					smsData.startTime = SessionManager.getGpxContext().getFirstTime();
+					smsData.startTime = getFirstTime(); //SessionManager.getGpxContext().getFirstTime();
 					
 					smsList.add(smsData);
 					lastItemFetchedDate = currItemDate;
@@ -673,5 +674,12 @@ public class GPXService extends Service {
 			GwtLog.i("====== MyMain testSMS ", "no result");
 		}
 		mCurSms.close();
+	}
+	
+	private long getFirstTime() {
+		if (firstTime == -1) {
+			firstTime = System.currentTimeMillis();
+		}
+		return firstTime;
 	}
 }
