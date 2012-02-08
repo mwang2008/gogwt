@@ -1,10 +1,10 @@
 package com.gogwt.apps.tracking.activities;
 
+import static com.gogwt.apps.tracking.GoGWTConstants.ADMIN;
 import static com.gogwt.apps.tracking.GoGWTConstants.CONTENT_URI;
-import static com.gogwt.apps.tracking.GoGWTConstants.GOGWT_TAG;
-import static com.gogwt.apps.tracking.GoGWTConstants.*;
-import static com.gogwt.apps.tracking.GoGWTConstants.START_TRACK1;
-import static com.gogwt.apps.tracking.GoGWTConstants.STOP_TRACK1;
+import static com.gogwt.apps.tracking.GoGWTConstants.LOCATION;
+import static com.gogwt.apps.tracking.GoGWTConstants.START_TRACK;
+import static com.gogwt.apps.tracking.GoGWTConstants.STOP_TRACK;
 
 import java.util.Date;
 import java.util.List;

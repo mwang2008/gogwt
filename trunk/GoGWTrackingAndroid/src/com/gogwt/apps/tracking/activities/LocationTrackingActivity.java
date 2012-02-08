@@ -19,7 +19,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Messenger;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
@@ -46,7 +45,6 @@ import com.gogwt.apps.tracking.data.ICollectionListener;
 import com.gogwt.apps.tracking.data.IRemoteInterface;
 import com.gogwt.apps.tracking.processor.SendSmsManager;
 import com.gogwt.apps.tracking.services.GPXService;
-import com.gogwt.apps.tracking.services.SmsService;
 import com.gogwt.apps.tracking.services.http.HttpService;
 import com.gogwt.apps.tracking.utils.GeoRect;
 import com.gogwt.apps.tracking.utils.GwtLog;
@@ -89,15 +87,11 @@ public class LocationTrackingActivity extends MapActivity implements
     private ToggleButton togglebutton;
     private boolean isFirstPoint;
     
-    private Messenger smsService = null;
-    boolean smsIsBound;
-	boolean gpxIsBound;
+    //private Messenger smsService = null;
+    //boolean smsIsBound;
+	//boolean gpxIsBound;
 	private GPXPoint currentPoint;
-	
-	//final Messenger mMessenger = new Messenger(new IncomingHandler());
-
-
-	
+		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		GwtLog.i(TAG, "====== LocationTrackingActivity onCreate \n\n");
@@ -176,8 +170,6 @@ public class LocationTrackingActivity extends MapActivity implements
 	            GwtLog.d(TAG, "**** tab.height="+tabHost.getTabWidget().getChildAt(i).getLayoutParams().height);
 	            tabHost.getTabWidget().getChildAt(i).getLayoutParams().height /= 2;  //30
 		}
-		//TextView tv = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
-        //tv.setTextColor(Color.parseColor("#000000"));  status_right
 		
 		togglebutton = (ToggleButton) findViewById(R.id.togglebutton);
 		togglebutton.setOnClickListener(this);
@@ -208,9 +200,8 @@ public class LocationTrackingActivity extends MapActivity implements
 		    Intent intent = new Intent(remoteName);
 		    bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);		    
 		    SessionManager.getGpxContext().startTrack();
-		    gpxIsBound = true;
-		} 	
-		//doSmsBindService();
+		    //gpxIsBound = true;
+		} 		
  		super.onStart();
 	}
 
@@ -234,7 +225,7 @@ public class LocationTrackingActivity extends MapActivity implements
 		if (SessionManager.getGpxContext().isGPSBound()) {
 			unbindService(serviceConnection);			
 			SessionManager.getGpxContext().setAppStart(false);
-			gpxIsBound = false;
+			//gpxIsBound = false;
 		}
 		
 		if (SessionManager.getGpxContext().isStartGPXService()) {
@@ -242,9 +233,9 @@ public class LocationTrackingActivity extends MapActivity implements
 		}
 		
 		//doSmsUnbindService();
-		if (SessionManager.getGpxContext().isStartSmsService()) {
+/*		if (SessionManager.getGpxContext().isStartSmsService()) {
 			stopService(new Intent(getApplicationContext(), SmsService.class));
-		}
+		}*/
 	}
 
 	@Override
@@ -281,9 +272,7 @@ public class LocationTrackingActivity extends MapActivity implements
 			//pgxPointList.clear();
 			if (SessionManager.getGpxContext().isGPSBound()) {
 				unbindService(serviceConnection);
-				//mIsBound = false;
-				
- 				
+		 		
 				String startEnableGPSTime = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", SessionManager.getGpxContext().getAppStartTime()).toString();
 				String endEnableGPSTime   = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss", new java.util.Date()).toString();
 				String msg = "GPS started at " + startEnableGPSTime;
@@ -305,7 +294,9 @@ public class LocationTrackingActivity extends MapActivity implements
 			   intent = new Intent().setClass(this, MainMenuActivity.class);
 			}
 			*/
+			//notify server that this Device is stop tracking 
 			HttpService.stopTracking(this.getApplicationContext());
+			
 			SessionManager.getGpxContext().stopTrack();
 			
 			Intent intent = null;
@@ -326,6 +317,9 @@ public class LocationTrackingActivity extends MapActivity implements
 		updateView();
 	}
 
+	/**
+	 * Load menu
+	 */
 	@Override  
 	public boolean onCreateOptionsMenu(Menu menu) {  	   
 		 MenuInflater inflater = getMenuInflater();
@@ -350,11 +344,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	        		Toast.makeText(this, "Your current location is not available yet, please try again", Toast.LENGTH_LONG).show();
 	        	}
 	        	else {
-	        		GwtLog.d(TAG, "-----== lat="+currentPoint.latitude + ",lng="+currentPoint.longitude);
-	        	    //Intent myIntent = new Intent(this, SendCurrentLocationActivity.class);
-	        	    //myIntent.putExtra(CURRENT_LOCATION, currentPoint);
-	        	    //startActivityForResult(myIntent, CREATE_REQUEST_CODE);
-	        		try {
+	          		try {
 	        		   showLocDialog();
 	        		}
 	        		catch (Throwable e) {
@@ -408,10 +398,13 @@ public class LocationTrackingActivity extends MapActivity implements
 		alertDialog.show();
 	}
 	
+	/**
+	 * Send sms with different thread
+	 * @author Michael.Wang
+	 *
+	 */
 	private class SendSmsTask extends AsyncTask<Object, Void, Boolean> {
-		 
-		
-		@Override
+ 		@Override
 		protected Boolean doInBackground(Object... params) {
 			String callerNum = (String)params[0];
 			String senderNum = (String)params[1];
@@ -500,8 +493,8 @@ public class LocationTrackingActivity extends MapActivity implements
 
 		// lat,lng
 		DecimalFormat decformat = new DecimalFormat("#.00000");
-		info.add("Latitude: " + decformat.format(gpxPoint.latitude / 1000000.00));
-		info.add("Lontitude: " + decformat.format(gpxPoint.longitude / 1000000.00));
+		info.add("Latitude: " + decformat.format(gpxPoint.latitude / 1e6));
+		info.add("Lontitude: " + decformat.format(gpxPoint.longitude / 1e6));
 
 		listView.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, info));
