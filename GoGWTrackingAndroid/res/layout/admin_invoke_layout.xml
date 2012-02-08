@@ -67,7 +67,11 @@
     />
    
     <!-- layout_alignParentTop="true" -->
-    
+    	     <!--  
+		        czhao:    0pMwFTdixXK-a2cyjPHDeeO7HmVHdvLlhdcl7sA		       
+		        cypress win7 64: 0QbYlxgYsf8JaV_h9ue5jJ4Kv3ur4ydNCjyegiQ
+		        prod:     0pMwFTdixXK9Q7HsSwt-Y7t0SW9ru0iPhrJC5tA
+		     -->
    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
@@ -101,11 +105,7 @@
 
   
    	    	
-		     <!--  
-		        czhao:    0pMwFTdixXK-a2cyjPHDeeO7HmVHdvLlhdcl7sA		       
-		        cypress win7 64: 0QbYlxgYsf8JaV_h9ue5jJ4Kv3ur4ydNCjyegiQ
-		        prod:     0pMwFTdixXK9Q7HsSwt-Y7t0SW9ru0iPhrJC5tA
-		     -->
+	
   
   		    
 </LinearLayout>
