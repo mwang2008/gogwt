@@ -1,41 +1,45 @@
 package com.gogwt.apps.tracking.activities;
 
 import static com.gogwt.apps.tracking.GoGWTConstants.ADMIN;
-import static com.gogwt.apps.tracking.GoGWTConstants.CONTENT_URI;
 import static com.gogwt.apps.tracking.GoGWTConstants.LOCATION;
 import static com.gogwt.apps.tracking.GoGWTConstants.START_TRACK;
 import static com.gogwt.apps.tracking.GoGWTConstants.STOP_TRACK;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.ContentObserver;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.provider.Contacts.Phones;
 import android.telephony.SmsManager;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TwoLineListItem;
 
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GSmsData;
+import com.gogwt.apps.tracking.provider.QuickContactSearcher;
+import com.gogwt.apps.tracking.provider.QuickContactSearcher.MyContact;
 import com.gogwt.apps.tracking.utils.GwtLog;
 import com.gogwt.apps.tracking.utils.StringUtils;
 import com.google.android.maps.GeoPoint;
@@ -58,21 +62,25 @@ public class AdminInvokeActivity extends MapActivity {
 	private Button btnCurrentLoc, btnStartTrack, btnStopTrack;
 	private TextView textRemoteSms, remoteSmsAddress;
 	private EditText phoneNumberText;
-	private SmsManager smsManager;
-	private SmsContentObserver smsContentObserver = null;
+	private SmsManager smsManager;	
 	private MapView mapView;
 	private static boolean isOnForeground;
 	private IntentFilter mIntentFilter;
-	
+ 	private LinearLayout phonesecLayout;
+    private static String lastPhoneNum;
+    
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// We don't need a window title bar:
-	    //requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setTitle("Remote Activity");
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setTitle("Remote Activity");
 
 		setContentView(R.layout.admin_invoke_layout);
 		
+		phonesecLayout = (LinearLayout)this.findViewById(R.id.phonesec);		
+	    phonesecLayout.setVisibility(View.GONE);
+	    
 		// setup map view
 	    mapView = (MapView) findViewById(R.id.mapviewX);		 
 		mapView.setBuiltInZoomControls(true);
@@ -85,7 +93,9 @@ public class AdminInvokeActivity extends MapActivity {
 		remoteSmsAddress = (TextView) findViewById(R.id.remoteSmsAddress);
 		
 		phoneNumberText = (EditText) findViewById(R.id.phone);
-		
+		if (StringUtils.isSet(lastPhoneNum)) {
+			phoneNumberText.setText(lastPhoneNum);
+		}
 		smsManager = SmsManager.getDefault();
 
 		btnCurrentLoc = (Button) findViewById(R.id.currentLoc);
@@ -99,6 +109,31 @@ public class AdminInvokeActivity extends MapActivity {
 	    mIntentFilter = new IntentFilter();
 	    mIntentFilter.addAction(ACTION_NAME);
 
+	 
+	    
+		Intent intent = getIntent();
+		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+			// user selects from contact suggestion list 
+			String name = intent.getDataString(); 
+			procSelectedContacts(name);
+			
+		} else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			// user clicks search without select from suggestion list
+			String query = intent.getStringExtra(SearchManager.QUERY);
+		  	GwtLog.i(TAG, "--- onCreate ACTION_SEARCH query=" + query);
+		  	
+		  	//search from contact repository, not necessary as SuggestionProvider already did that
+   	    }
+		
+		Button searchBtn = (Button) findViewById(R.id.search);
+		searchBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//invoke SuggestionProvider
+				onSearchRequested();
+			}
+		});
+		
 		//todo: test remove it
 		/*
 		int latE6 = (int)(33.329998333333336*1e6);
@@ -108,6 +143,108 @@ public class AdminInvokeActivity extends MapActivity {
         */
 	}
 
+	/**
+	 * Request phone list, if the person has multiple phone number, show the list
+	 * otherwise hide show list section and set phone number to phoneNumberText
+	 * @param contactName
+	 */
+	private void procSelectedContacts(String contactName) {
+		
+		List<MyContact> myPhoneContacts = QuickContactSearcher.getInstance().searchPhonesByPartialName(this, contactName);
+        
+		if (myPhoneContacts == null || myPhoneContacts.isEmpty()) {
+	        Toast.makeText(this, "Could not find, please type in phone number", Toast.LENGTH_LONG).show();
+	        return;
+        }
+
+        if (myPhoneContacts.size() == 1) {
+        	phoneNumberText.setText(myPhoneContacts.get(0).number);
+	        return;
+        }
+
+        phonesecLayout.setVisibility(View.VISIBLE);
+       
+        ListView phoneList = (ListView) findViewById(R.id.phoneList);
+    	TextView contactNameView = (TextView)this.findViewById(R.id.contactName);
+
+        contactNameView.setText(contactName);
+        
+        PhoneAdapter phoneAdapter = new PhoneAdapter(myPhoneContacts);
+        phoneList.setAdapter(phoneAdapter);
+        phoneList.setOnItemClickListener(phoneAdapter);
+        //phoneList.setVisibility(View.VISIBLE);
+        
+	}
+	
+	/**
+	 * After user click phone : Mobile phonenumber 
+	 * @param theContact
+	 */
+	private void handlePhoneList(QuickContactSearcher.MyContact theContact) {		
+		phoneNumberText.setText(theContact.number);
+		phonesecLayout.setVisibility(View.GONE);
+	}
+	
+	class PhoneAdapter extends  BaseAdapter implements AdapterView.OnItemClickListener {
+		private final List<QuickContactSearcher.MyContact> mContacts;
+		private final LayoutInflater mInflater;
+		
+		public PhoneAdapter(List<QuickContactSearcher.MyContact> contacts) {
+			mContacts = contacts;
+			mInflater = (LayoutInflater) AdminInvokeActivity.this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+ 		}
+		
+		@Override
+		public int getCount() {
+			return mContacts.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return position;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TwoLineListItem view = (convertView != null) ? (TwoLineListItem) convertView
+					: createView(parent);
+
+			bindView(view, mContacts.get(position));
+			return view;
+		}
+
+		private TwoLineListItem createView(ViewGroup parent) {
+			TwoLineListItem item = (TwoLineListItem) mInflater.inflate(
+					android.R.layout.simple_list_item_2, parent, false);
+
+			// item.getText2().setSingleLine();
+			// item.setHorizontallyScrolling(true);
+			// item.getText2().setEllipsize(TextUtils.TruncateAt.END);
+			return item;
+		}
+
+		private void bindView(TwoLineListItem view,
+				QuickContactSearcher.MyContact contact) {
+			 
+			view.getText1().setText(
+						Phones.getDisplayLabel(getApplicationContext(),
+								contact.type, "label"));
+			view.getText2().setText(contact.number);
+			 
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+				handlePhoneList(mContacts.get(position));
+		}
+	}
 	private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
@@ -178,6 +315,7 @@ public class AdminInvokeActivity extends MapActivity {
 
 	private OnClickListener btnCurrentLocListener = new OnClickListener() {
 		public void onClick(View v) {
+			phonesecLayout.setVisibility(View.GONE);
 			
 			String phone = phoneNumberText.getText().toString();
 			if (!StringUtils.isSet(phone)) {
@@ -196,12 +334,13 @@ public class AdminInvokeActivity extends MapActivity {
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
 			
 			phoneNumberText.setText(phone);
- 
+			lastPhoneNum = phone;
 		}
 	};
 
 	private OnClickListener btnStartTrackListener = new OnClickListener() {
 		public void onClick(View v) {
+			phonesecLayout.setVisibility(View.GONE);
 			EditText phoneNumberText = (EditText) findViewById(R.id.phone);
 			String phone = phoneNumberText.getText().toString();
 			if (!StringUtils.isSet(phone)) {
@@ -218,11 +357,14 @@ public class AdminInvokeActivity extends MapActivity {
 			GwtLog.d(TAG, "=== sendSmsBackToSender:sendLocationWithSms number="
 					+ phone + ", body=" + body);
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
+			
+			lastPhoneNum = phone;
 		}
 	};
 
 	private OnClickListener btnStopTrackListener = new OnClickListener() {
 		public void onClick(View v) {
+			phonesecLayout.setVisibility(View.GONE);
 			EditText phoneNumberText = (EditText) findViewById(R.id.phone);
 			String phone = phoneNumberText.getText().toString();
 			if (!StringUtils.isSet(phone)) {
@@ -239,161 +381,12 @@ public class AdminInvokeActivity extends MapActivity {
 			GwtLog.d(TAG, "=== sendSmsBackToSender:sendLocationWithSms number="
 					+ phone + ", body=" + body);
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
+			
+			lastPhoneNum = phone;
 		}
 	};
 
-	/**
-	 * monitor the changes of content://sms
-	 * @deprecated
-	 */
-	private void registerContentObservers() {
-		GwtLog.i(TAG, "registerContentObservers");
-
-		if (smsContentObserver == null) {
-			ContentResolver contentResolver = getContentResolver();
-			smsContentObserver = new SmsContentObserver(new Handler());
-			Uri smsUri = Uri.parse(CONTENT_URI);
-			contentResolver.registerContentObserver(smsUri, true,
-					smsContentObserver);
-		}
-	}
-
-	/**
-	 * @deprecated
-	 */
-	private void unregisterContentObservers() {
-		Log.i(TAG, "unregisterContentObservers");
-		if (smsContentObserver != null) {
-			ContentResolver contentResolver = getContentResolver();
-			contentResolver.unregisterContentObserver(smsContentObserver);
-			smsContentObserver = null;
-		}
-	}
-
-	/**
-	 * Invoked whenever user send/receive sms
-	 * 
-	 * @author michael.wang
-	 * @deprecated
-	 */
-	class SmsContentObserver extends ContentObserver {
-		public SmsContentObserver(Handler h) {
-			super(h);
-		}
-
-		@Override
-		public void onChange(boolean selfChange) {
-			super.onChange(selfChange);
-			Log.i(TAG, "SmsContentObserver.onChange( " + selfChange + ")");
-
-			// catch all exception, do not want SMS function to affect others.
-			// as SMS function is undocument.
-			try {
-				chechSMS();
-			} catch (Throwable e) {
-				// skip, nothing
-				GwtLog.d(TAG, "onChange " + e.getMessage());
-			}
-		}
-
-		@Override
-		public boolean deliverSelfNotifications() {
-			return true;
-		}
-	}
-
-	/**
-	 * whereBuf.append("(type="+TYPE_SENT); whereBuf.append(" or ");
-	 * whereBuf.append("type="+TYPE_RECEIVE + ") and date > " +
-	 * lastTimeSMSRetrive);
-	 * 
-	 * whereBuf.append(" (type="+TYPE_RECEIVE); whereBuf.append(" and ");
-	 * whereBuf.append(" read="+READ_READ +")");
-	
-	 * filter on when sent event or read sms action. read [0:1] 0 -- new, 1 --
-	 * read type [1:2] 1 -- receive(inbox), 2 -- send
-	 * @deprecated
-	 */
-	private void chechSMS() throws Throwable {
-		final int TYPE_RECEIVE = 1;
-		final int TYPE_SENT = 2;
-		final int READ_READ = 1;
-		final int READ_UNREAD = 0;
-
-		ContentResolver contentResolver = getContentResolver();
-
-		// type 1=inbox : 2=send
-		// read 0=new : 1=read
-		String[] projection = { "address", "date", "read", "type", "body" };
-		StringBuilder whereBuf = new StringBuilder();
-		whereBuf.append("type=" + TYPE_RECEIVE);
- 
-		Cursor mCurSms = contentResolver.query(Uri.parse(CONTENT_URI),
-				projection, whereBuf.toString(), null, "DATE desc");
-
-		int addressCol = mCurSms.getColumnIndex("address");
-		int dateCol = mCurSms.getColumnIndex("date");
-		int readCol = mCurSms.getColumnIndex("read");
-		int typeCol = mCurSms.getColumnIndex("type");
-		int bodyCol = mCurSms.getColumnIndex("body"); // "body"
-		mCurSms.moveToFirst();
-		long currItemDate;
-		if (mCurSms.getCount() > 0) {
-			do {
-				currItemDate = mCurSms.getLong(dateCol);
-
-				GSmsData smsData = new GSmsData();
-
-				smsData.address = mCurSms.getString(addressCol);
-				smsData.date = new Date(currItemDate);
-				smsData.read = mCurSms.getInt(readCol);
-				smsData.type = mCurSms.getInt(typeCol);
-
-				smsData.body = mCurSms.getString(bodyCol);
-
-				sendSmsBackToSenderXXX(smsData);
-
-				String str = "=== address: " + smsData.getAddress();
-				str += " date: " + smsData.getDate() + " : ";
-				str += mCurSms.getLong(dateCol);
-				str += " read: " + smsData.getRead();
-				str += " type: " + smsData.getType();
-				str += " body: " + smsData.getBody();
-				str += " startTime: " + smsData.getStartTime();
-
-				GwtLog.d(TAG, "==== AdminInvokeActivity " + str);
-
-			} while (mCurSms.moveToNext());
-		}
-		mCurSms.close();
-	}
-
-	/**
-	 * Display message from remote
-	 * 
-	 * @param smsData
-	 * @deprecated
-	 */
-	private synchronized void sendSmsBackToSenderXXX(GSmsData smsData)
-			throws Throwable {
-		String body = smsData.getBody();
-		if (!StringUtils.isSet(body)) {
-			return;
-		}
-
-		if (body.startsWith(ADMIN)) {
-			if (body.contains("maps.google.com")) {
-				// display google map			
-				new ReverseGeocodeTask().execute(body);
-			}
-			else {
-				mapView.setVisibility(View.INVISIBLE);
-				textRemoteSms.setText(smsData.getBody());
-				textRemoteSms.setTextColor(getResources().getColor(R.color.white));
-				remoteSmsAddress.setText("");
-			}		 
-		}
-	}
+   
 
 	//=== showResult Address[addressLines=[0:"146 S Wesley Chapel Rd",1:"Eatonton, GA 31024",2:"USA"],
 	//feature=146,admin=Georgia,sub-admin=null,locality=Eatonton,
