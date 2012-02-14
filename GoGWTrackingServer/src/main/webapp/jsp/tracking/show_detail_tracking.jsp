@@ -69,7 +69,8 @@
 <div id="container"> 
    <table border="1">
        <tr> 
-          <td width="200" valign="top"> 
+          <!-- left bar -->
+		  <td width="200" valign="top">  
             <form name=xcv>
 	            
 	            <input id="showTraffic" type="button" value="Show Traffic">
@@ -77,10 +78,27 @@
             </form>			
              
             <div id="mylocs">locations </div><hr>
+			<div id=""> 
+				<c:url value="/${env.languageId}-${env.countryId}/export" var="exportUrl">
+				    <c:param name="groupId" value="${env.customerProfile.groupId}"/>
+				    <c:param name="displayName" value="${param.displayName}"/>
+					<c:param name="startTime" value="${param.startTime}"/>
+				</c:url>								  
+				&nbsp;&nbsp;&nbsp; <a href="${exportUrl}" > Export Track </a>
+				<br>
+        		 <c:url value="/${env.languageId}-${env.countryId}/trackdelete" var="deleteUrl">
+				     <c:param name="groupId" value="${env.customerProfile.groupId}"/>
+				     <c:param name="displayName" value="${param.displayName}"/>
+					 <c:param name="startTime" value="${param.startTime}"/>
+				 </c:url>								  
+				&nbsp;&nbsp;&nbsp; <a href="${deleteUrl}" > Delete Track </a> 
+ 			</div>
+			<hr>
             <div id="side_bar" style="height: 450px; overflow:auto;"></div>
-			 <div id="thelog"/>
-          </td>
-          <td valign="top" width="760" align="left">		  
+			<div id="thelog"/>
+         </td>
+		 
+         <td valign="top" width="760" align="left">		  
 		     <div id="container">  	   
 			    <div id="locInfo" style="width:740px; overflow:auto; background-color:lightgrey;"/>	            
              </div> 			 
