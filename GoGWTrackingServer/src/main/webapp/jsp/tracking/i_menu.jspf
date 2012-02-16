@@ -74,7 +74,7 @@
                        </tbody>
                     </table>
                  </td>
-                 
+             
                  <td style="vertical-align: top;" class="gwt-Label bw_top_menu" align="right">
 				    <a href="${env.prefix}/viewaccount" style="text-decoration:none">
                        <span class="gwt-Label bw_top_menu">  View Account &nbsp;</span>
@@ -84,6 +84,7 @@
                        <span class="gwt-Label bw_top_menu">  Logout &nbsp;</span>
                     </a>
                  </td>
+			
               </tr>
             </tbody>
          </table>
