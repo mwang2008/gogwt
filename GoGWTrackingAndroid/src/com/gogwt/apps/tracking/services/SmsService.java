@@ -259,7 +259,7 @@ public class SmsService extends Service {
 					GSmsData smsData = new GSmsData();
 
 					smsData.address = mCurSms.getString(addressCol);
-					smsData.date = new Date(currItemDate);
+					smsData.date = new Date().getTime(); //new Date(currItemDate);
 					smsData.read = mCurSms.getInt(readCol);
 					smsData.type = mCurSms.getInt(typeCol);
 
