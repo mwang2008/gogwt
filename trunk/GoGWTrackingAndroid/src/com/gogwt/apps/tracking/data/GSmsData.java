@@ -15,7 +15,7 @@ public class GSmsData implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	public String address;
-	public Date date;
+	public long date;
 	public int read;
 	public int type;
 	public String body;
@@ -27,13 +27,13 @@ public class GSmsData implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Date getDate() {
+ 	
+	public long getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
-	
 	public int getRead() {
 		return read;
 	}
