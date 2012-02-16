@@ -6,7 +6,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,13 +16,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.provider.Contacts.People;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,9 +33,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -44,6 +52,8 @@ import com.gogwt.apps.tracking.data.GPXPoint;
 import com.gogwt.apps.tracking.data.ICollectionListener;
 import com.gogwt.apps.tracking.data.IRemoteInterface;
 import com.gogwt.apps.tracking.processor.SendSmsManager;
+import com.gogwt.apps.tracking.provider.QuickContactSearcher;
+import com.gogwt.apps.tracking.provider.QuickContactSearcher.MyContact;
 import com.gogwt.apps.tracking.services.GPXService;
 import com.gogwt.apps.tracking.services.http.HttpService;
 import com.gogwt.apps.tracking.utils.GeoRect;
@@ -63,7 +73,7 @@ import com.google.android.maps.MapView;
  *
  */
 public class LocationTrackingActivity extends MapActivity implements
-		OnTabChangeListener, View.OnTouchListener, View.OnClickListener {
+		OnTabChangeListener, View.OnTouchListener, View.OnClickListener, PhoneContactIF {
 	
 	protected static final String TAG = LocationTrackingActivity.class.getSimpleName();
 	
@@ -71,6 +81,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	private static final String MAP_TAB_TAG = "Map";
 	private static final String STOP = "stop";
 	protected static final int CREATE_REQUEST_CODE = 1;
+	private static final int PICK_CONTACT2 = 21;
 	
 	private String currentTabId = LIST_TAB_TAG;
 	private TabHost tabHost;
@@ -91,7 +102,10 @@ public class LocationTrackingActivity extends MapActivity implements
     //boolean smsIsBound;
 	//boolean gpxIsBound;
 	private GPXPoint currentPoint;
-		
+	private Dialog locDialog;	
+	private EditText phoneNumberText;
+	private LinearLayout dialogPhonesec;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		GwtLog.i(TAG, "====== LocationTrackingActivity onCreate \n\n");
@@ -140,7 +154,7 @@ public class LocationTrackingActivity extends MapActivity implements
 
 		// stop tracking
 		stopTrackingview = new TextView(this);
-
+		 
 		// add views to tab host
 		tabHost.addTab(tabHost.newTabSpec(LIST_TAB_TAG)
 				.setIndicator("Text").setContent(new TabContentFactory() {
@@ -281,19 +295,7 @@ public class LocationTrackingActivity extends MapActivity implements
 				NotifyMessageUtils.sendCustomNotificationWithOnceTime(MainMenuActivity.class, this.getApplicationContext(), "GPS - Stop", msg);
 				
 			}
-		 		
-		    /* todo: add back later
-	 		Intent intent = null;
-			if (pgxPointList !=null && !pgxPointList.isEmpty()) {
-			   intent = new Intent().setClass(this, SaveTrackActivity.class);
-               Bundle extras = new Bundle();
-               extras.putParcelableArrayList("locs", pgxPointList);
-               intent.putExtras(extras);
-			}
-			else {
-			   intent = new Intent().setClass(this, MainMenuActivity.class);
-			}
-			*/
+		 				
 			//notify server that this Device is stop tracking 
 			HttpService.stopTracking(this.getApplicationContext());
 			
@@ -337,7 +339,7 @@ public class LocationTrackingActivity extends MapActivity implements
 	        case R.id.menu_help:     
 	        	startActivity(new Intent(this, HelpActivity.class));
 	            break;
-	        case R.id.menu_sendlocation:     
+	        case R.id.menu_currentlocation:     
 	        	//Toast.makeText(this, "You pressed the sendlocation!", Toast.LENGTH_LONG).show();
 	        	
 	        	if (currentPoint == null) {
@@ -345,13 +347,13 @@ public class LocationTrackingActivity extends MapActivity implements
 	        	}
 	        	else {
 	          		try {
-	        		   showLocDialog();
+	          			showLocationDialog();
 	        		}
 	        		catch (Throwable e) {
 	        			GwtLog.d(TAG, " showLocDialog error  " + e.getMessage());
 	        		}
 	        	}
-	            break;
+	            break;	         
 	        case R.id.menu_logout: 	        	
 	        	startActivity(new Intent(this, LogoutActivity.class));	     
 	            break;
@@ -359,6 +361,136 @@ public class LocationTrackingActivity extends MapActivity implements
 	    return true;
 	}
 	
+	/**
+	 * Create custom dialog 
+	 */
+	private void showLocationDialog() {
+		locDialog = new Dialog(LocationTrackingActivity.this);
+		locDialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+		locDialog.setContentView(R.layout.custom_location_dialog);		 
+		locDialog.setTitle("Send Current Location");
+		
+		locDialog.setCancelable(true);
+		phoneNumberText = (EditText) locDialog.findViewById(R.id.remotePhone);
+		dialogPhonesec = (LinearLayout)locDialog.findViewById(R.id.dialogPhonesec);
+		
+		Button sendSMS = (Button)locDialog.findViewById(R.id.sendSMS);
+		sendSMS.setOnClickListener(new OnClickListener() {
+           @Override
+           public void onClick(View v) {
+        	  
+		       String phone = phoneNumberText.getText().toString();
+		       if (!StringUtils.isSet(phone)) {
+					  Toast.makeText(getApplicationContext(),"Please enter phone number", Toast.LENGTH_LONG).show();						 
+			   }
+		       else {
+		    	  //Toast.makeText(getApplicationContext(), "Send location to " + phone, Toast.LENGTH_LONG).show();
+		    		  
+			      //create new thread to send sms
+		          StringBuilder sbud = new StringBuilder("My current location: http://maps.google.com/?q="); 
+				  sbud.append(currentPoint.latitude/1e6);
+				  sbud.append(",");
+				  sbud.append(currentPoint.longitude/1e6);
+					  
+ 				  PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 
+				   			(int)System.currentTimeMillis(), new Intent(getApplicationContext(), SendSmsManager.class), 0);
+ 
+ 				  new SendSmsTask().execute(phone, null, sbud.toString(), pIntent);
+  		          locDialog.cancel();
+		       }
+            }
+        });
+		
+		   
+		Button searchBtn = (Button)locDialog.findViewById(R.id.dialogSearch);
+		searchBtn.setOnClickListener(new OnClickListener() {
+           @Override
+           public void onClick(View v) {
+        	   //get contact list from contact resource
+    		   Intent intent = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
+    	       startActivityForResult(intent, PICK_CONTACT2); 				    	            
+           }
+        });
+		   
+		Button dialogCancel = (Button)locDialog.findViewById(R.id.dialogCancel);
+		dialogCancel.setOnClickListener(new OnClickListener() {
+		    @Override
+			public void onClick(View v) {
+		    	locDialog.cancel();
+		 	}
+		});   
+		   
+		locDialog.show();
+		locDialog.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_dialog_info);
+	}
+
+	/**
+	 * Response for the call of startActivityForResult(intent, PICK_CONTACT2); 
+	 */
+	@Override
+	public void onActivityResult(int reqCode, int resultCode, Intent data) {
+	    super.onActivityResult(reqCode, resultCode, data);
+	    try {
+	        if (resultCode == Activity.RESULT_OK && data != null) {
+	        	if (reqCode == PICK_CONTACT2) {
+	        		//show list 
+		            Uri contactData = data.getData();	 	            
+		            Cursor cur = managedQuery(contactData, null, null, null, null);
+       		
+		            if (cur == null) {
+		            	Toast.makeText(this, "could not find the person", Toast.LENGTH_LONG).show();
+		            	return;
+		            }
+		            
+		            cur.moveToFirst();		            
+		          
+		            String name = cur.getString(cur.getColumnIndexOrThrow(People.NAME));
+	                //String number = cur.getString(cur.getColumnIndexOrThrow(People.NUMBER));
+	                
+	                //close cursor
+	                cur.close();
+	                
+	                List<MyContact> myPhoneContacts = QuickContactSearcher.getInstance().searchPhonesByPartialName(this, name);
+	                if (myPhoneContacts == null || myPhoneContacts.isEmpty()) {
+	        	        Toast.makeText(this, "Could not find the person phone number, please type in phone number", Toast.LENGTH_LONG).show();
+	        	        return;
+	                }
+	                
+	                if (myPhoneContacts.size() == 1) {
+	                	phoneNumberText.setText(myPhoneContacts.get(0).number);
+	        	        return;
+	                }
+	                
+	                dialogPhonesec.setVisibility(View.VISIBLE);
+	                
+	        		//Toast.makeText(this, name + "," + number, Toast.LENGTH_LONG).show();
+	                TextView dialogContactName = (TextView)locDialog.findViewById(R.id.dialogContactName);
+	                dialogContactName.setText(name);
+	                ListView mList = (ListView)locDialog.findViewById(R.id.dialogList);
+	                
+	                PhoneAdapter phoneAdapter = new PhoneAdapter(myPhoneContacts, getApplicationContext(), this);
+	                mList.setAdapter(phoneAdapter);
+	                mList.setOnItemClickListener(phoneAdapter);	                 
+	        	}
+	        }	     
+        } catch (IllegalArgumentException e) {           
+           GwtLog.d("IllegalArgumentException :: ", e.toString());
+        } catch (Exception e) {
+           GwtLog.d("Error :: ", e.toString());
+        }
+	}
+	
+	/**
+	 * After user click phone : Mobile phonenumber 
+	 * @param theContact
+	 */
+	public void handlePhoneList(QuickContactSearcher.MyContact theContact) {		
+		phoneNumberText.setText(theContact.number);		
+		dialogPhonesec.setVisibility(View.GONE);
+	}
+	/**
+	 * @deprecated use showLocationDialog
+	 */
 	private void showLocDialog() {
 		LayoutInflater factory = LayoutInflater.from(this);
 		final View textEntryView = factory.inflate(R.layout.alert_dialog_loc_entry, null);

@@ -54,7 +54,7 @@ import com.google.android.maps.OverlayItem;
  * @author michael.wang
  *
  */
-public class AdminInvokeActivity extends MapActivity {
+public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 	private static final String TAG = AdminInvokeActivity.class.getSimpleName();
 
 	public static final String ACTION_NAME = AdminInvokeActivity.class.getSimpleName();
@@ -168,8 +168,9 @@ public class AdminInvokeActivity extends MapActivity {
     	TextView contactNameView = (TextView)this.findViewById(R.id.contactName);
 
         contactNameView.setText(contactName);
+        Object dd = AdminInvokeActivity.class;
         
-        PhoneAdapter phoneAdapter = new PhoneAdapter(myPhoneContacts);
+        PhoneAdapter phoneAdapter = new PhoneAdapter(myPhoneContacts, getApplicationContext(), this);
         phoneList.setAdapter(phoneAdapter);
         phoneList.setOnItemClickListener(phoneAdapter);
         //phoneList.setVisibility(View.VISIBLE);
@@ -180,12 +181,12 @@ public class AdminInvokeActivity extends MapActivity {
 	 * After user click phone : Mobile phonenumber 
 	 * @param theContact
 	 */
-	private void handlePhoneList(QuickContactSearcher.MyContact theContact) {		
+	public void handlePhoneList(QuickContactSearcher.MyContact theContact) {		
 		phoneNumberText.setText(theContact.number);
 		phonesecLayout.setVisibility(View.GONE);
 	}
 	
-	class PhoneAdapter extends  BaseAdapter implements AdapterView.OnItemClickListener {
+	/*class PhoneAdapter extends  BaseAdapter implements AdapterView.OnItemClickListener {
 		private final List<QuickContactSearcher.MyContact> mContacts;
 		private final LayoutInflater mInflater;
 		
@@ -244,7 +245,7 @@ public class AdminInvokeActivity extends MapActivity {
 				long id) {
 				handlePhoneList(mContacts.get(position));
 		}
-	}
+	}*/
 	private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
