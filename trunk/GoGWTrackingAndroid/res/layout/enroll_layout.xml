@@ -1,132 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:scrollHorizontally="true" >
+	android:layout_height="fill_parent" android:scrollHorizontally="true">
 
- 	<TextView android:layout_width="fill_parent"
+	<TextView android:layout_width="fill_parent"
 		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_height="wrap_content" 
-		android:text="@string/enrollment" android:gravity="center"></TextView>
+		android:layout_height="wrap_content" android:text="@string/enrollment"
+		android:gravity="center"></TextView>
 
-    <!--
-    android:background="#FFF" android:layout_height="25dp" android:textSize="20dp" 
-    android:scrollbars="vertical"
-     -->
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:stretchColumns="1" android:scrollHorizontally="true" >
-		<TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-			
-			<TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:layout_height="wrap_content" android:id="@+id/companyid"
-				android:text="@string/groupId" android:textSize="15dp" ></TextView>
-			<EditText android:inputType="textPersonName" 
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/groupId" >
-		       <requestFocus></requestFocus>
-	        </EditText>	        
-	     </TableRow>   
-	 
-	     <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/tableRow1" android:verticalSpacing="2px">
-	        <TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:id="@+id/companyid"
-				android:text="@string/groupname"></TextView>
-			<EditText  android:inputType="textPersonName"
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/groupname">
-	        </EditText>
-	      </TableRow>  
+	<!-- android:background="#FFF" android:layout_height="25dp" android:textSize="20dp" 
+		android:scrollbars="vertical" -->
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
 
-	     <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/tableRow1">     
-	        <TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:text="@string/username"></TextView>
-			<EditText android:layout_width="wrap_content"
-		       android:layout_height="wrap_content" android:inputType="textPersonName"
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/username">
-	        </EditText>
-	     </TableRow>   
-	     <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/tableRow1">
-	        
-	        <TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:text="@string/firstname"></TextView>
-			<EditText android:layout_width="wrap_content"
-		       android:layout_height="wrap_content" android:inputType="textPersonName"
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/firstname">
-	        </EditText>
-         </TableRow>
-          
-         <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/tableRow1">
+		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:orientation="vertical">
 
-   			<TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:text="@string/lastname"></TextView>
-			<EditText android:layout_width="wrap_content"
-		       android:layout_height="wrap_content" android:inputType="textPersonName"
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/lastname">
-	        </EditText>
-         </TableRow>  
-           
-         <TableRow android:layout_width="wrap_content"
-			android:scrollHorizontally="true" android:layout_height="wrap_content" android:id="@+id/tableRow1">
-	        
-	        <TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:text="@string/phone"></TextView>
-		 
-	         <EditText android:layout_width="94sp" 
-		        android:layout_height="wrap_content"  android:inputType="number"
-		       android:scrollHorizontally="true" android:id="@+id/phone">		       
-	        </EditText>
-         </TableRow>
-	     <TableRow android:layout_width="wrap_content"
-			android:scrollHorizontally="true" android:layout_height="wrap_content" android:id="@+id/tableRow1">
-	        
-	        <TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:text="@string/email"></TextView>
-		 
-	         <EditText android:layout_width="94sp"
-		        android:layout_height="wrap_content"  android:inputType="textEmailAddress"
-		       android:scrollHorizontally="true" android:id="@+id/email">		       
-	        </EditText>
-         </TableRow>
-	     <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/tableRow1">
-	        
-	        <TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:text="@string/password"></TextView>
-			<EditText android:layout_width="wrap_content"
-		       android:layout_height="wrap_content" android:inputType="textPassword"
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/password">
-	        </EditText>
-         </TableRow>
-	     <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/tableRow1">
-	        	            
-	        <TextView android:layout_width="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="15dp"
-				android:layout_height="wrap_content" android:text="@string/passwordconfirm"></TextView>
+			<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:stretchColumns="1" android:scrollHorizontally="true">
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
 
-			<EditText android:layout_width="wrap_content"
-		       android:layout_height="wrap_content" android:inputType="textPassword"
-		       android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/passwordconfirm">
-	        </EditText>
-         </TableRow>
-	     <TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-	        
-	        <Button android:layout_height="wrap_content" android:gravity="center"
-				android:layout_width="wrap_content" android:id="@+id/enroll"
-				android:text="@string/enroll">
-			</Button>
-		 </TableRow>
-     </TableLayout>			
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:layout_height="wrap_content" android:id="@+id/companyid"
+						android:text="@string/groupId" android:textSize="15dp"></TextView>
+					<EditText android:inputType="textPersonName"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:id="@+id/groupId">
+						<requestFocus></requestFocus>
+					</EditText>
+				</TableRow>
+
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:id="@+id/tableRow1"
+					android:verticalSpacing="2px">
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:id="@+id/companyid" android:text="@string/groupname"></TextView>
+					<EditText android:inputType="textPersonName"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:id="@+id/groupname">
+					</EditText>
+				</TableRow>
+
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:id="@+id/tableRow1">
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:text="@string/username"></TextView>
+					<EditText android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:inputType="textPersonName"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:id="@+id/username">
+					</EditText>
+				</TableRow>
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:id="@+id/tableRow1">
+
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:text="@string/firstname"></TextView>
+					<EditText android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:inputType="textPersonName"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:id="@+id/firstname">
+					</EditText>
+				</TableRow>
+
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:id="@+id/tableRow1">
+
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:text="@string/lastname"></TextView>
+					<EditText android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:inputType="textPersonName"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:id="@+id/lastname">
+					</EditText>
+				</TableRow>
+
+				<TableRow android:layout_width="wrap_content"
+					android:scrollHorizontally="true" android:layout_height="wrap_content"
+					android:id="@+id/tableRow1">
+
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:text="@string/phone"></TextView>
+
+					<EditText android:layout_width="94sp"
+						android:layout_height="wrap_content" android:inputType="number"
+						android:scrollHorizontally="true" android:id="@+id/phone">
+					</EditText>
+				</TableRow>
+				<TableRow android:layout_width="wrap_content"
+					android:scrollHorizontally="true" android:layout_height="wrap_content"
+					android:id="@+id/tableRow1">
+
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:text="@string/email"></TextView>
+
+					<EditText android:layout_width="94sp"
+						android:layout_height="wrap_content" android:inputType="textEmailAddress"
+						android:scrollHorizontally="true" android:id="@+id/email">
+					</EditText>
+				</TableRow>
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:id="@+id/tableRow1">
+
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:text="@string/password"></TextView>
+					<EditText android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:inputType="textPassword"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:id="@+id/password">
+					</EditText>
+				</TableRow>
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:id="@+id/tableRow1">
+
+					<TextView android:layout_width="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textSize="15dp" android:layout_height="wrap_content"
+						android:text="@string/passwordconfirm"></TextView>
+
+					<EditText android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:inputType="textPassword"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:id="@+id/passwordconfirm">
+					</EditText>
+				</TableRow>
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+					<Button android:layout_height="wrap_content"
+						android:gravity="center" android:layout_width="wrap_content"
+						android:id="@+id/enroll" android:text="@string/enroll">
+					</Button>
+				</TableRow>
+			</TableLayout>
+		</RelativeLayout>
+	</ScrollView>
 </LinearLayout>
