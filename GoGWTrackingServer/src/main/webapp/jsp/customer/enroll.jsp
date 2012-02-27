@@ -14,9 +14,18 @@
 
 <%@ include file="/jsp/tracking/i_header.jspf"%>
 <c:set var="fromPage" value="Enroll"/>
-<%@ include file="i_menu.jspf"%>
+
+<%@ include file="/jsp/tracking/i_home_menu.jspf"%>
+<%-- @ include file="i_menu.jspf" --%>
+
 
 <div id="container"> 
+
+<table width="972" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <%-- left --%>
+    <td align="left" width="500"> 
+ 
 <br>
 <form:form commandName="enrollCustomerFormBean" action="${env.prefix}/enroll" method="post">
    <spring:hasBindErrors name="enrollCustomerFormBean">
@@ -26,8 +35,7 @@
    </spring:hasBindErrors>
    <br/>
       
-   <table border="0">
-     
+   <table border="0">    
       <tr> 
          <td> <label for="groupId"><fmt:message key='label.GroupId'/></label>:   </td>
          <td> <form:input id="groupId" path="groupId" size="30" maxlength="30"/>   </td>
@@ -39,9 +47,7 @@
       <tr> 
            <td> <label for="userName"><fmt:message key='label.userName'/></label>:   </td>
            <td> <form:input id="userName" path="userName" size="30" maxlength="30"/>   </td>
-       </tr>
-
- 
+      </tr>
       <tr> 
          <td> <label for="firstName"><fmt:message key='label.First.Name'/></label>:   </td>
          <td> <form:input id="firstName" path="firstName" size="30" maxlength="30"/>   </td>
@@ -74,8 +80,31 @@
        </tr>
    </table>
 </form:form>
+ 
+	</td>
+	
+	<td align="left">
+	<table class="bw_content_area_border_4side" cellpadding="2" cellspacing="2" border="0">
+     <tr>
+       <td valign="top">   
+          <table class="bw_promobox">
+   	        <tr>
+    		  <td class="bw_content_area_text12">
+      		     <b>More Description:</b> <br>
+      		     1. Once enroll, you will be the group owner.<br>
+				 2. Mobile Phone should be your Anroid phone number.<br>
+      		</td>
+      	     </tr>
+   	     </table>
+   	  </td>
+    </tr>
+   </table>   
+  </td>
+ <tr>
+</table>
 </div>
 
+   	
 
       <div id="container">
           <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="/jsp/tracking/i_footer.jspf"%></div>

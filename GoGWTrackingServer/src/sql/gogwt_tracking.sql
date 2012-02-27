@@ -6,7 +6,9 @@ CREATE TABLE `tracking_customer` (
   `first_name` varchar(300) NOT NULL,
   `last_name` varchar(300) NOT NULL,
   `email` varchar(500) NOT NULL,
+  `phone_number` varchar(50) NOT NULL,
   `password` varchar(300) NOT NULL,
+  `active` tinyint(1),
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   UNIQUE KEY tracking_customer_u1 (groupId)
@@ -59,7 +61,7 @@ CREATE TABLE `tracking_sms` (
   `read` int,
   `type` int,
   `body` varchar(1024),
-  `date` DATE,
+  `date` long,
   `start_time` long,
   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)    

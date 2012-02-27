@@ -129,7 +129,8 @@ public class ExportController extends BaseAbstractController {
 					out.print(',');
 					out.print(trackingSms.getAddress());
 					out.print(',');
-					out.print(DateUtils.toString(trackingSms.getDate()));
+					//out.print(DateUtils.toString(trackingSms.getDate()));
+					out.print(trackingSms.getDate());
 					out.print(',');
 					out.print(trackingSms.getRead());
 					out.print(',');

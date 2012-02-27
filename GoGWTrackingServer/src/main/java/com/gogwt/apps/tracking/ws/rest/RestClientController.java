@@ -5,6 +5,7 @@ import static com.gogwt.apps.tracking.AppConstants.TRACK_DATA_WRAPPER;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.data.EnrollResult;
 import com.gogwt.apps.tracking.data.GDispItem;
 import com.gogwt.apps.tracking.data.GSmsItem;
 import com.gogwt.apps.tracking.data.Profile;
@@ -46,7 +48,7 @@ public class RestClientController {
 	protected static Logger logger = Logger.getLogger("RestServiceController");
 	
  	/**
-	 * http://localhost/tracking/test
+	 * http://localhost/tracking/en-us/resttest
 	 * @return
 	 */
 	@RequestMapping(value="/resttest", method=RequestMethod.GET)
@@ -58,22 +60,24 @@ public class RestClientController {
 	
 	@RequestMapping(value="mobilelogin", method=RequestMethod.POST, headers="Content-Type=application/xml")
 	public @ResponseBody LoginResponse sendLocationXML(@RequestBody Profile request) {
-		logger.debug(" ==== sendLocation XML input: " + request.toString());
+		logger.debug(" ==== mobilelogin XML input: " + request.toString());
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		LoginResponse response = service.retrieveCustomerProfileByGroupId(request);
 		
-		logger.debug(" ==== response: " + response.toString());
+		logger.info(" ==== mobilelogin response: " + response.toString());
 		return response;
  	}
 	
 	@RequestMapping(value="mobilelogin", method=RequestMethod.POST, headers="Content-Type=application/json")
+	//@RequestMapping(value="mobilelogin", method=RequestMethod.GET, headers="Content-Type=application/json")
 	public @ResponseBody LoginResponse sendLoginJSON(@RequestBody Profile request) {
-		logger.debug(" ==== sendLocation JSON input: " + request.toString());
+		//logger.debug(" ==== mobilelogin JSON input: " + request.toString());
+		System.out.println(" ==== mobilelogin JSON input: " + request.toString());
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		LoginResponse response = service.retrieveCustomerProfileByGroupId(request);
 		
-		logger.debug(" ==== response: " + response.toString());
+		System.out.println(" ==== mobilelogin response: " + response.toString());
 		return response;
 	}
 	
@@ -116,9 +120,10 @@ public class RestClientController {
 	 * @param request
 	 * @return
 	 */
+	/*
 	@RequestMapping(value="mobileenroll", method=RequestMethod.POST, headers="Content-Type=application/xml")
 	public @ResponseBody EnrollResponse sendEnrollXML(@RequestBody EnrollCustomerFormBean request) {
-		logger.debug(" ==== sendEnrollXML XML input: " + request.toString());
+		logger.info(" ==== sendEnrollXML XML input: " + request.toString());
 		
 		final ProfileBusinessDomainService businessService = LookupBusinessService
 				.getProfileBusinessDomainService();
@@ -145,9 +150,10 @@ public class RestClientController {
 		}
 	 	 
 		response.setStatus(status);
-		logger.debug(" ==== response: " + response.toString());
+		logger.info(" ==== response: " + response.toString());
 		return response;
  	}
+	*/
 	
 	/**
 	 * Send location
@@ -156,7 +162,7 @@ public class RestClientController {
 	 */
 	@RequestMapping(value="mobileenroll", method=RequestMethod.POST, headers="Content-Type=application/json")
 	public @ResponseBody EnrollResponse sendEnrollJSON(@RequestBody EnrollCustomerFormBean request) {
-		logger.debug(" ==== sendEnrollJSON JSON input: " + request.toString());
+		System.out.println(" ==== sendEnrollJSON JSON input: " + request.toString());
 		final ProfileBusinessDomainService businessService = LookupBusinessService
 				.getProfileBusinessDomainService();
 
@@ -166,7 +172,22 @@ public class RestClientController {
 		try {
 			CustomerProfile customerProfile = businessService.enrollCustomer(request);
 			status.setCode(200);
-			response.setCustomerProfile(customerProfile);
+			EnrollResult result = new EnrollResult();
+			
+			result.setId(customerProfile.getId());
+			result.setGroupId(customerProfile.getGroupId());
+			result.setGroupName(customerProfile.getGroupName());
+			result.setFirstName(customerProfile.getFirstName());
+			result.setLastName(customerProfile.getLastName());
+			result.setEmail(customerProfile.getEmail());
+			result.setUserName(customerProfile.getUserName());
+			result.setPhoneNumber(customerProfile.getPhoneNumber());
+			result.setLogin(customerProfile.getLogin());
+			result.setActive(customerProfile.getActive());
+			result.setCreateDate(customerProfile.getCreateDate());
+			
+			//todo: response.setCustomerProfile(customerProfile);
+			response.setResult(result);
 			
 		} catch (DuplicatedUserNameException e) {			
 			status.setCode(600);
@@ -180,7 +201,15 @@ public class RestClientController {
 		}
 	 	 
 		response.setStatus(status);
-		logger.debug(" ==== response: " + response.toString());
+		 
+		System.out.println(" ==== response: status="+response.getStatus().getCode());
+		if (response.getResult() != null) {
+			System.out.println(" groupId="+response.getResult().getGroupId());
+			System.out.println(" username="+response.getResult().getUserName());
+			System.out.println(" firstname="+response.getResult().getFirstName());
+			System.out.println(" lastName="+response.getResult().getLastName());
+		}
+		
 		return response;
 	}
 	
