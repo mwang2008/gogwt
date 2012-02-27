@@ -175,8 +175,9 @@ public class ImportController extends BaseAbstractController {
 			smsData.setDisplayName(rawData[2]);
 			smsData.setAddress(rawData[3]);
 			
-			Date theDate = DateUtils.toDate(rawData[4]);
-			smsData.setDate(theDate);
+			//Date theDate = DateUtils.toDate(rawData[4]);
+			//smsData.setDate(theDate);
+			smsData.setDate(Long.parseLong(rawData[4]));
 			smsData.setRead(Integer.parseInt(rawData[5]));
 			smsData.setType(Integer.parseInt(rawData[6]));
 			smsData.setBody(rawData[7]);

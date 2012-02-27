@@ -698,9 +698,15 @@
 		}
 		second += theDateTime.getSeconds();
 		
-        return theDateTime.getMonth() +"/" + theDateTime.getDate()+"/" + yy + " " + hour + ":" + minute + ":" + second ;
+        return twoDigital(theDateTime.getMonth()+1) +"/" + twoDigital(theDateTime.getDate())+"/" + yyyy + " " + hour + ":" + minute + ":" + second;
    }		
    
+   function twoDigital(theNum) {
+      if (theNum<10) {
+	     theNum = '0' + theNum;
+	  }
+	  return theNum;
+   }
    function formatTimeFromTime(theTimeInMillsec) {
 	    var theDateTime = new Date(theTimeInMillsec);
 	    var yyyy = theDateTime.getFullYear()+"";

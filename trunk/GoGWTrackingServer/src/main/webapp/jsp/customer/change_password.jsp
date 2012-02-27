@@ -38,15 +38,15 @@
       </tr>
       <tr> 
          <td> <label for="oldPass"><fmt:message key='label.old.password'/></label>:   </td>
-         <td>  <form:input id="oldPass" path="oldPass" size="30" maxlength="50"/>  </td>
+         <td>  <form:password id="oldPass" path="oldPass" size="30" maxlength="50" showPassword="true"/>  </td>
       </tr>
       <tr> 
          <td> <label for="newPass"><fmt:message key='label.new.password'/></label>:   </td>
-         <td> <form:input id="newPass" path="newPass" size="30" maxlength="50"/>   </td>
+         <td> <form:password id="newPass" path="newPass" size="30" maxlength="50" showPassword="true"/>   </td>
       </tr>          
       <tr> 
          <td> <label for="newPassConfirm"><fmt:message key='label.new.confirmPassword'/></label>:   </td>
-         <td> <form:input id="newPassConfirm" path="newPassConfirm" size="30" maxlength="30"/>   </td>
+         <td> <form:password id="newPassConfirm" path="newPassConfirm" size="30" maxlength="30" showPassword="true"/>   </td>
       </tr>
      
 	  <tr> 

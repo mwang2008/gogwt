@@ -39,6 +39,7 @@ public class ViewAccountController extends BaseAbstractController {
 		    requestForm.setGroupId(customerProfile.getGroupId());
 		    requestForm.setGroupName(customerProfile.getGroupName());
 		    requestForm.setUserName(customerProfile.getUserName());
+		    requestForm.setPhoneNumber(customerProfile.getPhoneNumber());
 		    requestForm.setFirstName(customerProfile.getFirstName());
 		    requestForm.setLastName(customerProfile.getLastName());
 		    requestForm.setEmail(customerProfile.getEmail());		     

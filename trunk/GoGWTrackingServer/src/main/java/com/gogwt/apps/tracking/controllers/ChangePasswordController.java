@@ -21,6 +21,7 @@ import com.gogwt.apps.tracking.formbean.PasswordFormBean;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
 import com.gogwt.apps.tracking.utils.CookieUtils;
+import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class ChangePasswordController extends BaseAbstractController {
 	private static Logger logger = Logger
@@ -59,14 +60,21 @@ public class ChangePasswordController extends BaseAbstractController {
 
 		// call login
 		try {
+			HttpSession session = request.getSession();
+			CustomerProfile customerProfile = (CustomerProfile) session.getAttribute(CUSTOMER_PROFILE);
+			
+			if (!StringUtils.equals(formBean.getOldPass(), customerProfile.getPassword())) {
+				final ModelMap modelMap = new ModelMap();
+				errors.reject("error.oldpassword.wrong");
+				return super.showForm(request, response, errors, modelMap);
+			}
+			
 			ProfileBusinessDomainService businessService = LookupBusinessService
 					.getProfileBusinessDomainService();
 
-			CustomerProfile customerProfile = businessService
+			customerProfile = businessService
 					.changePassword(formBean);
-
-			HttpSession session = request.getSession();
-
+			
 			// set cookie
 			CookieUtils.setProfileCookie(request, response, customerProfile);
 

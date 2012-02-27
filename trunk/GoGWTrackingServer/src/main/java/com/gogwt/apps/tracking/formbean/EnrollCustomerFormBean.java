@@ -2,6 +2,8 @@ package com.gogwt.apps.tracking.formbean;
 
 import java.io.Serializable;
 
+import com.gogwt.apps.tracking.data.GLocation;
+
 public class EnrollCustomerFormBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -87,4 +89,22 @@ public class EnrollCustomerFormBean implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public String toString() {
+		StringBuilder sbuf = new StringBuilder();
+		sbuf.append(GLocation.class.getSimpleName());
+		sbuf.append("[");
+		sbuf.append("groupId="+groupId);
+		sbuf.append(", groupName="+groupName);
+		sbuf.append(", firstName="+firstName);
+		sbuf.append(", lastName="+lastName);
+		sbuf.append(", email="+email);
+		sbuf.append(", userName="+userName);
+		sbuf.append(", phoneNumber="+phoneNumber);
+		 
+		 
+		sbuf.append("]");
+		
+		return sbuf.toString();
+	}
+	 
 }
