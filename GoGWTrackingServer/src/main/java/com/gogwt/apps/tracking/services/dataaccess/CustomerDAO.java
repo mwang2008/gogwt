@@ -19,6 +19,7 @@ public interface CustomerDAO {
 	public CustomerProfile retrieveCustomerProfileByUsernameAndGroupId(final String userName, final String groupId) throws InvalidUserException, AppRemoteException;
 	public CustomerProfile retrieveCustomerProfileByGroupId(final String groupId) throws InvalidUserException, AppRemoteException;
 	public CustomerProfile updateCustomer(CustomerProfile profile) throws AppRemoteException;
+	public void deleteAccountByGroupIdNuserName(final String groupId, final String userName) throws AppRemoteException;
 	public void saveRemoteLoginUser(final CustomerProfile customerProfile) throws DisplayNameAlreadyLoginException, AppRemoteException;
   	
 	public int saveTrackingData(final List<TrackingMobileData> trackingMobileDataList) throws InvalidUserException, AppRemoteException;

@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.data.LoginStatus;
 import com.gogwt.apps.tracking.utils.CookieUtils;
 
 /**
@@ -47,6 +48,7 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 			if (customerProfile == null) {
 			   CustomerProfile profile = CookieUtils.getCookieProfile(request);
 			   if (profile != null) {
+				  profile.setStatus(LoginStatus.IMPLICIT);
 				  session.setAttribute(CUSTOMER_PROFILE, profile);
 			   }
 			}

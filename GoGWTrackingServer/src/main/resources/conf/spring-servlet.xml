@@ -134,7 +134,12 @@
 		<property name="formView"><value>/customer/view_account</value></property>
 		<property name="successView"><value>viewaccount</value></property>
    </bean>
-   		 
+   
+   <!--  Delete Account  -->	
+   <bean name="name=controller/DeleteAccountController"
+		class="com.gogwt.apps.tracking.controllers.DeleteAccountController" >
+   </bean>
+    
    <!--  Change Password  -->	
    <bean name="name=controller/ChangePasswordController"
 		class="com.gogwt.apps.tracking.controllers.ChangePasswordController" >
@@ -192,11 +197,12 @@
 				<prop key="/**/export/**/">name=controller/ExportController</prop>
 				<prop key="/**/importtrack/**/">name=controller/ImportController</prop>
 				<prop key="/**/viewaccount/**/">name=controller/ViewAccountController</prop>
+				<prop key="/**/deleteaccount/**/">name=controller/DeleteAccountController</prop>
 				<prop key="/**/changepassword/**/">name=controller/ChangePasswordController</prop>
 			</props>
 		</property>
 	</bean>
-
+ 
     <!--  INTERNAL USAGE:  -->
 	<bean name="urlMappingPart3"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
