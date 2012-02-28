@@ -22,6 +22,7 @@ import com.gogwt.apps.tracking.formbean.LoginFormBean;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
 import com.gogwt.apps.tracking.utils.CookieUtils;
+import com.gogwt.apps.tracking.utils.PasswordEncoder;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class LoginController extends BaseAbstractController {
@@ -69,7 +70,10 @@ public class LoginController extends BaseAbstractController {
 			CustomerProfile customerProfile = businessService.retrieveCustomerProfileByUsername(formBean);
 			
 			//if password does not match
-			if (customerProfile == null || !StringUtils.equalsIgnoreCase(customerProfile.getPassword(), password)) {
+			String encrypedPassword = PasswordEncoder.getInstance().encode(password);
+			
+			//if (customerProfile == null || !StringUtils.equalsIgnoreCase(customerProfile.getPassword(), password)) {
+			if (customerProfile == null || !StringUtils.equalsIgnoreCase(customerProfile.getPassword(), encrypedPassword)) {
 				final ModelMap modelMap = new ModelMap();
 				errors.reject("error.invalid.login");
 				return super.showForm(request, response, errors, modelMap);

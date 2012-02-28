@@ -25,6 +25,7 @@
     <bean name="name=validator/ImportValidator" class="com.gogwt.apps.tracking.controllers.validation.ImportValidator" />
     <bean name="name=validator/ChangePasswordValidator" class="com.gogwt.apps.tracking.controllers.validation.ChangePasswordValidator" />
     <bean name="name=validator/ModifyCustomerValidator" class="com.gogwt.apps.tracking.controllers.validation.ModifyCustomerValidator" />
+    <bean name="name=validator/ForgotPasswordValidator" class="com.gogwt.apps.tracking.controllers.validation.ForgotPasswordValidator" />
 
 	<!-- ========================= INTERCEPTOR ========================= -->
 	<bean name="name=interceptor/config/URLHandlerInterceptor"
@@ -149,6 +150,15 @@
 		<property name="successView"><value>changepassword</value></property>
    </bean>		
  
+    <!--  Forgot Password  -->	
+   <bean name="name=controller/ForgotPasswordController"
+		class="com.gogwt.apps.tracking.controllers.ForgotPasswordController" >
+		<property name="commandName"><value>forgotPasswordFormBean</value></property>
+		<property name="validator"><ref bean="name=validator/ForgotPasswordValidator" /></property>
+		<property name="formView"><value>/tracking/forgot_password</value></property>
+		<property name="successView"><value>forgotpassword</value></property>
+   </bean>
+   
    <!--  FAQs -->
    <bean name="name=controller/FAQController"
 		class="com.gogwt.apps.tracking.controllers.GenericController" >
@@ -168,13 +178,14 @@
 				<prop key="/**/home/**/">name=controller/tracking/HomeController</prop>
 				<prop key="/**/enroll/**/">name=controller/EnrollCustomerController</prop>				
 				<prop key="/**/login/**/">name=controller/LoginController</prop>
+				<prop key="/**/forgotpassword/**/">name=controller/ForgotPasswordController</prop>
 				<prop key="/**/error/**/">name=controller/ErrorController</prop>	
 				<prop key="/**/faq/**/">name=controller/FAQController</prop>
 													
 			</props>
 		</property>
 	</bean>
-	
+   
 	<!--  the actions which need login -->
 	<bean name="urlMappingPart2"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">

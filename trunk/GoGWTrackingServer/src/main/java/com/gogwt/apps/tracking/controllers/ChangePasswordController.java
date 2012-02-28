@@ -21,6 +21,7 @@ import com.gogwt.apps.tracking.formbean.PasswordFormBean;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
 import com.gogwt.apps.tracking.utils.CookieUtils;
+import com.gogwt.apps.tracking.utils.PasswordEncoder;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class ChangePasswordController extends BaseAbstractController {
@@ -36,7 +37,7 @@ public class ChangePasswordController extends BaseAbstractController {
 		final PasswordFormBean requestForm = new PasswordFormBean();
 		if (customerProfile != null) {
 			requestForm.setCustomerId(customerProfile.getId());
-			requestForm.setOldPass(customerProfile.getPassword());
+			//requestForm.setOldPass(customerProfile.getPassword());
 			requestForm.setGroupId(customerProfile.getGroupId());
 			requestForm.setUserName(customerProfile.getUserName());			
 		}
@@ -63,7 +64,10 @@ public class ChangePasswordController extends BaseAbstractController {
 			HttpSession session = request.getSession();
 			CustomerProfile customerProfile = (CustomerProfile) session.getAttribute(CUSTOMER_PROFILE);
 			
-			if (!StringUtils.equals(formBean.getOldPass(), customerProfile.getPassword())) {
+			//check old password
+			String encrypedPassword = PasswordEncoder.getInstance().encode(formBean.getOldPass()); 
+			//if (!StringUtils.equals(formBean.getOldPass(), customerProfile.getPassword())) {
+			if (!StringUtils.equals(encrypedPassword, customerProfile.getPassword())) {
 				final ModelMap modelMap = new ModelMap();
 				errors.reject("error.oldpassword.wrong");
 				return super.showForm(request, response, errors, modelMap);
