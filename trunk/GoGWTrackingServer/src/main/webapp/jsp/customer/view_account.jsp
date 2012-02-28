@@ -9,6 +9,10 @@
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
    <title> Enrollment </title>       
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
+   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>      
+
 </head>
 <body>
 
@@ -73,7 +77,12 @@
       <tr> 
             <td>&nbsp;</td>
             <td colspan="1" align="center">   
-			  <input type="submit" name="continue" value="Update Account"  border="0" align="center"> 
+			  <input type="submit" name="updateaccount" value="Update Account"  border="0" align="center"> 
+</form:form>  
+<form:form commandName="modifyCustomerFormBean" action="${env.prefix}/deleteaccount" method="post">
+ <form:hidden id="groupId" path="groupId"/> 
+ <form:hidden id="userName" path="userName"/>
+			  <input type="submit" name="deleteaccount" value="Delete Account"  border="0" align="center"> 
 			</td>
        </tr>
    </table>

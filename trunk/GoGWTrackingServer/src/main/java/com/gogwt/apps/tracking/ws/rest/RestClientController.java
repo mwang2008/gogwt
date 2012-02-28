@@ -204,10 +204,10 @@ public class RestClientController {
 		 
 		System.out.println(" ==== response: status="+response.getStatus().getCode());
 		if (response.getResult() != null) {
-			System.out.println(" groupId="+response.getResult().getGroupId());
-			System.out.println(" username="+response.getResult().getUserName());
-			System.out.println(" firstname="+response.getResult().getFirstName());
-			System.out.println(" lastName="+response.getResult().getLastName());
+			System.out.println("    groupId="+response.getResult().getGroupId());
+			System.out.println("    username="+response.getResult().getUserName());
+			System.out.println("    firstname="+response.getResult().getFirstName());
+			System.out.println("    lastName="+response.getResult().getLastName());
 		}
 		
 		return response;

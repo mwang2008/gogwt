@@ -61,6 +61,11 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
     	return getCustomerDAO().updateCustomer(customerProfile);
     }
     
+    public void deleteAccountByGroupIdNuserName(final String groupId, final String userName) throws AppRemoteException {
+    	
+    	 getCustomerDAO().deleteAccountByGroupIdNuserName(groupId, userName);
+    }
+    
     public CustomerProfile changePassword(final PasswordFormBean formBean) throws InvalidUserException, AppRemoteException {
     	//CustomerProfile customerProfile = getCustomerDAO().getCustomerById(formBean.getCustomerId());
     	CustomerProfile customerProfile = getCustomerDAO().retrieveCustomerProfileByUsernameAndGroupId(formBean.getUserName(), formBean.getGroupId());

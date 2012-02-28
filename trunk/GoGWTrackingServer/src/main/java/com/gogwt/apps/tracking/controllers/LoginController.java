@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.data.LoginStatus;
 import com.gogwt.apps.tracking.exceptions.InvalidPasswordException;
 import com.gogwt.apps.tracking.exceptions.InvalidUserException;
 import com.gogwt.apps.tracking.formbean.LoginFormBean;
@@ -75,15 +76,16 @@ public class LoginController extends BaseAbstractController {
 			}
 			
 			//so far, success login
+			customerProfile.setStatus(LoginStatus.EXPLICIT);
 	 		session.setAttribute(CUSTOMER_PROFILE, customerProfile);
-			
-	 		String targetURL =  getSuccessURL(request);
-	 		if (StringUtils.isSet(targetURL)) {
-	 			return new ModelAndView(new RedirectView(targetURL)); 
-	 		}
 	 		
 	 		//set cookie
 	 		CookieUtils.setProfileCookie(request, response, customerProfile);
+
+	 		String targetURL =  getSuccessURL(request);
+	 		if (StringUtils.isSet(targetURL)) {
+	 			return new ModelAndView(new RedirectView(targetURL)); 
+	 		}	 		
 	 					
 	 		String successView = getSuccessView();
 			return new ModelAndView(new RedirectView(successView));

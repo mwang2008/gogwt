@@ -18,6 +18,7 @@ public class CustomerProfile extends BaseBean {
 	private boolean isLogin;
 	private boolean active = true;
 	private Date createDate;
+	private LoginStatus status;
 	
 	public String getId() {
 		return id;
@@ -138,6 +139,14 @@ public class CustomerProfile extends BaseBean {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public LoginStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(LoginStatus status) {
+		this.status = status;
 	}
 	
 }

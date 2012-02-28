@@ -588,6 +588,32 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		}	 
 	}
 	
+	public void deleteAccountByGroupIdNuserName(final String groupId, final String userName) throws AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+			tx = session.beginTransaction();
+			Query query = session.createQuery("delete from CustomerProfile where groupId=:groupId and userName=:userName");
+			query.setParameter("groupId", groupId);
+			query.setParameter("userName", userName);
+			query.executeUpdate(); 
+			
+			tx.commit();
+		}
+
+		catch (GenericJDBCException e) {
+			e.printStackTrace();			
+			throw new AppRemoteException("wrong delete GroupId=: " + groupId + ", username="+userName);
+		} finally {
+			 
+			if (session != null) {
+				// session.close();
+			}
+		}	 
+	}
+	
 	@Override
 	public void saveRemoteLoginUser(CustomerProfile customerProfile)
 			throws DisplayNameAlreadyLoginException, AppRemoteException {

@@ -1,6 +1,7 @@
 package com.gogwt.apps.tracking.controllers;
 
 import static com.gogwt.apps.tracking.AppConstants.CUSTOMER_PROFILE;
+import static com.gogwt.apps.tracking.AppConstants.ENV;
 
 import java.util.Map;
 
@@ -14,7 +15,9 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.gogwt.apps.tracking.config.interceptor.UrlMappingElem;
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.data.LoginStatus;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
@@ -32,8 +35,12 @@ public class ViewAccountController extends BaseAbstractController {
 	
 	protected Object formBackingObject(final HttpServletRequest request)
 			throws Exception {
+		
+		
+		
 		HttpSession session = request.getSession();
 		CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
+	 	 
 		final EnrollCustomerFormBean requestForm = new EnrollCustomerFormBean();
 		if (customerProfile != null) {
 		    requestForm.setGroupId(customerProfile.getGroupId());
@@ -51,7 +58,18 @@ public class ViewAccountController extends BaseAbstractController {
 			final HttpServletResponse response, final BindException errors,
 			final Map controlModel) throws Exception {
 		logger.debug("ViewAccountController - In showForm()");
-
+		
+		final UrlMappingElem env = (UrlMappingElem)request.getAttribute(ENV);
+		HttpSession session = request.getSession();
+		CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
+		
+		//if implicit, require login
+		if (!(customerProfile.getStatus() == LoginStatus.EXPLICIT)) {
+			//redirect to login page
+			String targetURL = env.getPrefix() + "/login?successURL=" + env.getPrefix()+"/viewaccount";
+			return new ModelAndView(new RedirectView(targetURL));
+			//response.sendRedirect(targetURL);
+		}
 		return super.showForm(request, response, errors, controlModel);
 
 	}
