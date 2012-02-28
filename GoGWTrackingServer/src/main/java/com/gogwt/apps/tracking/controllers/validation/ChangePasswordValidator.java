@@ -15,6 +15,7 @@ public class ChangePasswordValidator extends BaseValidateAdapter {
 	@Override
 	public void validate(Object obj, Errors errors) {
 		final PasswordFormBean formBean = (PasswordFormBean) obj;
+
 		 
 		validateRequiredField(errors, "oldPass", formBean.getOldPass(), "label.old.password");
 		validateRequiredField(errors, "newPass", formBean.getNewPass(), "label.new.password");
@@ -22,16 +23,11 @@ public class ChangePasswordValidator extends BaseValidateAdapter {
 
 	 	if (StringUtils.isSet(formBean.getNewPass()) && StringUtils.isSet(formBean.getNewPassConfirm())) {
 	 		if (StringUtils.equals(formBean.getNewPass(), formBean.getNewPassConfirm())) {
-	 			//if correct format
-	 			/* not apply it right now
-	 			if (!isValidPasswordFormat(formBean.getPassword())) {
-	 				errors.reject("error.password.invalid.format");
-	 			}
-	 			*/
 	 		}
 	 		else {
 	 			errors.reject("error.password.notmatch");
 	 		}
 	 	}
+	 	 
 	}
 }

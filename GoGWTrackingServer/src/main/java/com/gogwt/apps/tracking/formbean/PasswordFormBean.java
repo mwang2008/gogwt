@@ -10,7 +10,8 @@ public class PasswordFormBean implements Serializable {
 	private String oldPass;
 	private String newPass;
 	private String newPassConfirm;
- 
+    private String email;
+    
 	public String getCustomerId() {
 		return customerId;
 	}
@@ -63,4 +64,13 @@ public class PasswordFormBean implements Serializable {
 		this.newPassConfirm = newPassConfirm;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	
 }

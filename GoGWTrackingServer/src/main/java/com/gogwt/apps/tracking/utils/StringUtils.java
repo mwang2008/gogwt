@@ -18,6 +18,7 @@ package com.gogwt.apps.tracking.utils;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 
 
 
@@ -41,7 +42,19 @@ public abstract class StringUtils {
 	private static final char AMPERSAND = '&';
 	private static final char EQUALS = '=';
 	private static final String DEFAULT_ENCODE = "UTF-8";
+	private static final String RAND_COL = "#$%!0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static Random rnd = new Random();
 
+	/*
+	 * Generate 
+	 */
+	public static String randomString( int len ) {
+	   StringBuilder sb = new StringBuilder( len );
+	   for( int i = 0; i < len; i++ ) 
+	      sb.append( RAND_COL.charAt( rnd.nextInt(RAND_COL.length()) ) );
+	   return sb.toString();
+	}
+	
 	/**
 	 * <p> Return "" if parameter = null </p>
 	 * 

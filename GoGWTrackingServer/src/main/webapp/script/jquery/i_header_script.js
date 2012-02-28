@@ -10,8 +10,8 @@ jq(document).ready(function() {
    // Method to show Login window
    openLoginForm();
 	
-   // Method to close PCR Login window
-   closePCRForm();
+   // Method to close Login window
+   closeLoginForm();
 
    // Method to close the Login window when click
    hideLoginWindow();
@@ -44,7 +44,7 @@ function hideLoginWindow() {
             }
       });
       
-      // By pressing Esc Key PCR Window will be closed.
+      // By pressing Esc Key Login Window will be closed.
       jq(document).keypress(function(e) {
             if (e.keyCode == 27) {
                   jq('#pcrMainForm').hide();
@@ -79,7 +79,7 @@ function initLoginForm() {
 }
 
 /* Method to open PCR Login window */
-function closePCRForm() {
+function closeLoginForm() {
       jq('div.closeBtn').click(function() {
             
 		jq('#pcrSignInFormContent').hide();
