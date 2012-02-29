@@ -12,13 +12,12 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.location.Location;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GPXPoint;
-import com.gogwt.apps.tracking.utils.GwtLog;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -29,23 +28,49 @@ class DrawPolylineOverlay extends Overlay {
 			.getSimpleName();
 	
 	private static int numRun = 0;
+	private static final int QUEUQ_CAPACITY = 5000;
 	
 	GPXPoint mNewGPXPoint;
 	GPXPoint mLastGPXPoint;
 
-	private ArrayList<GPXPoint> mGpxPointList = null;
+	//private ArrayList<GPXPoint> mGpxPointList = null;
+	private ArrayList<GPXLocation> nGpxPointList = null;
 	private Paint mPaint;
 	private Projection mProjection;
 	private Path mLastPath;
 	private Path mLastLastPath;
 	 
-	private final BlockingQueue<GPXPoint> mPendingPoints;
+	//private final BlockingQueue<GPXPoint> mPendingPoints;
+	private final BlockingQueue<GPXLocation> nPendingPoints;
     private Context mContext;
     private Drawable mStatsMarker;
     
-	public DrawPolylineOverlay(Context context) {
-		mGpxPointList = new ArrayList<GPXPoint>(1024);
+    /**
+     * 
+     */
+    private static class GPXLocation {
+    	final boolean valid;
+    	final GeoPoint geoPoint;
+		
+		public GPXLocation(int lat, int lng) {
+			super();
+			this.valid = isValidLocation(lat, lng);
+			this.geoPoint = valid ? getGeoPoint(lat, lng) : null;
+		}
 
+		public boolean isValidLocation(int lat, int lng) {
+		    return Math.abs(lat/1e6) <= 90 && Math.abs(lng/1e6) <= 180;
+		}
+		
+		public GeoPoint getGeoPoint(int lat, int lng) {
+			return new GeoPoint(lat, lng);
+		}
+    }
+    
+	public DrawPolylineOverlay(Context context) {
+		//mGpxPointList = new ArrayList<GPXPoint>(1024);
+		nGpxPointList = new ArrayList<GPXLocation>(1024);
+		
 		mPaint = new Paint();
 		mPaint.setDither(true);
 		mPaint.setColor(Color.RED);
@@ -62,33 +87,95 @@ class DrawPolylineOverlay extends Overlay {
 	    //mStatsMarker.setBounds(0, 0, markerWidth, markerHeight);
 	    mStatsMarker.setBounds(-10, -10, markerWidth - 7, markerHeight - 7);
 	    
-		mPendingPoints = new ArrayBlockingQueue<GPXPoint>(10000, true);
+		//mPendingPoints = new ArrayBlockingQueue<GPXPoint>(QUEUQ_CAPACITY, true);
+		nPendingPoints = new ArrayBlockingQueue<GPXLocation>(QUEUQ_CAPACITY, true);
 	}
 
 	public void addNewGPXPoint(GPXPoint newGPXPoint) {
 		mNewGPXPoint = newGPXPoint;
-		mPendingPoints.offer(mNewGPXPoint);
+		//mPendingPoints.offer(mNewGPXPoint);
+		nPendingPoints.offer(new GPXLocation(newGPXPoint.latitude, newGPXPoint.longitude));
 	}
 
 	private GeoPoint mLastReferencePoint;
 	private Rect mLastViewRect;
     private int numCycle;
     
-    
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, false);
-		//GwtLog.d(TAG, "== before shadow DrawPolylineOverlay draw " + numRun++);		 
+
 		if (shadow) {
 		  return;
 		}
-		//GwtLog.d(TAG, "== after shadow DrawPolylineOverlay draw " + numRun++);//+ ", zoomLevel="+zoomLevel);
-		//GwtLog.d(TAG, "== mGpxPointList.size="+mGpxPointList.size());
- 		
+	 		
 		Path path = null;
 		
 		Projection projection = getMapProjection(mapView);
 		if (projection == null) {
-		      //Log.w(TAG, "No projection, unable to draw");
+		      return;
+		}
+		
+		Rect viewRect = getMapViewRect(mapView);
+		synchronized (nGpxPointList) {
+ 			final GeoPoint referencePoint = projection.fromPixels(0, 0);
+ 			 
+			int newPoints = nPendingPoints.drainTo(nGpxPointList);
+			//GwtLog.d(TAG, "== after adding new points mGpxPointList.size="+mGpxPointList.size());
+			boolean newProjection = !viewRect.equals(mLastViewRect) || !referencePoint.equals(mLastReferencePoint);
+
+			if (newPoints == 0 && mLastPath != null && !newProjection) {		 		
+				path = mLastPath;
+				numCycle++;
+				if (numCycle > 10) {
+					return;
+				}				 
+			} else {
+	 			int numPoints = nGpxPointList.size();
+	 			numCycle = 0;
+				if (numPoints < 2) {
+					path = null;
+				} else if (mLastPath != null && !newProjection) {
+					// using existing path
+					path = mLastPath;				 
+					updatePath(projection, canvas, mapView, viewRect, path, numPoints- newPoints);					
+				} else {
+					// new path
+					path = new Path();
+					path.incReserve(numPoints);
+					updatePath(projection, canvas, mapView, viewRect, path, 0);
+				}
+				mLastLastPath = mLastPath;
+				mLastPath = path;
+			}
+			mLastReferencePoint = referencePoint;
+			mLastViewRect = viewRect; 
+		}
+
+		
+	 	if (path != null) {
+			//GwtLog.d(TAG, "== canvas.drawPath  ");			
+			canvas.drawPath(path, mPaint);
+		}
+ 
+		//draw marker with last point
+		if (nGpxPointList.size()>0) {
+		   drawMarker(canvas, projection, nGpxPointList.get(nGpxPointList.size()-1));
+		}
+		
+	}
+	
+	/*
+	public void draw_mGpxPointList(Canvas canvas, MapView mapView, boolean shadow) {
+		super.draw(canvas, mapView, false);
+
+		if (shadow) {
+		  return;
+		}
+	 		
+		Path path = null;
+		
+		Projection projection = getMapProjection(mapView);
+		if (projection == null) {
 		      return;
 		}
 		
@@ -99,35 +186,24 @@ class DrawPolylineOverlay extends Overlay {
 			int newPoints = mPendingPoints.drainTo(mGpxPointList);
 			//GwtLog.d(TAG, "== after adding new points mGpxPointList.size="+mGpxPointList.size());
 			boolean newProjection = !viewRect.equals(mLastViewRect) || !referencePoint.equals(mLastReferencePoint);
-			
-			//GwtLog.d(TAG, "  newProjection ="+newProjection );
-			
-			if (newPoints == 0 && mLastPath != null && !newProjection) {
-				//GwtLog.d(TAG, " ---- newPoints ="+newPoints + ", mLastPath=" + (mLastPath!=null) + ", !newProjection=" + !newProjection);
-			/*	if (mLastPath == mLastLastPath) {
-					 GwtLog.d(TAG, "  ===&&& no change for the path");
-				}*/
-				
+
+			if (newPoints == 0 && mLastPath != null && !newProjection) {		 		
 				path = mLastPath;
 				numCycle++;
 				if (numCycle > 10) {
 					return;
-				}
-				//GwtLog.d(TAG, "  path 1 numCycle="+numCycle);
+				}				 
 			} else {
 	 			int numPoints = mGpxPointList.size();
 	 			numCycle = 0;
 				if (numPoints < 2) {
-					//GwtLog.d(TAG, "  path 2");
 					path = null;
 				} else if (mLastPath != null && !newProjection) {
 					// using existing path
-					//GwtLog.d(TAG, "  path 3");
 					path = mLastPath;				 
 					updatePath(projection, canvas, mapView, viewRect, path, numPoints- newPoints);					
 				} else {
 					// new path
-					//GwtLog.d(TAG, "  path 4");
 					path = new Path();
 					path.incReserve(numPoints);
 					updatePath(projection, canvas, mapView, viewRect, path, 0);
@@ -148,9 +224,9 @@ class DrawPolylineOverlay extends Overlay {
 		//draw marker with last point
 		if (mGpxPointList.size()>0) {
 		   drawMarker(canvas, projection, mGpxPointList.get(mGpxPointList.size()-1));
-		}
-		
+		}	
 	}
+	*/
 	
 	@Override
 	public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent, MapView paramMapView) {
@@ -190,6 +266,16 @@ class DrawPolylineOverlay extends Overlay {
 		            -mStatsMarker.getIntrinsicWidth() / 2, -mStatsMarker.getIntrinsicHeight());
 
 	}
+	
+	void drawMarker(Canvas canvas, Projection projection, GPXLocation gpxPoint) {
+		if (gpxPoint.valid) {
+		   GeoPoint point = new GeoPoint(gpxPoint.geoPoint.getLatitudeE6(), gpxPoint.geoPoint.getLongitudeE6());
+		   drawElement(canvas, projection, point, mStatsMarker,
+		            -mStatsMarker.getIntrinsicWidth() / 2, -mStatsMarker.getIntrinsicHeight());
+		}
+
+	}
+	
 
 	private void updatePath(Projection projection, Canvas canvas, MapView mapView, Rect viewRect, Path path,
 			int startLocationIdx) {
@@ -213,10 +299,14 @@ class DrawPolylineOverlay extends Overlay {
 		
 		// Loop over track points.
 		GeoPoint geoPoint = null;
-		for (int i = startLocationIdx; i < mGpxPointList.size(); ++i) {
-			GPXPoint loc = mGpxPointList.get(i);
+		for (int i = startLocationIdx; i < nGpxPointList.size(); ++i) {
+			GPXLocation loc = nGpxPointList.get(i);
 
-			geoPoint = new GeoPoint(loc.latitude, loc.longitude);
+			if (loc.valid == false) {
+				continue;
+			}
+			
+			geoPoint = new GeoPoint(loc.geoPoint.getLatitudeE6(), loc.geoPoint.getLongitudeE6());
 
 	 		// Either move to beginning of a new segment or continue the old
 			// one.
@@ -265,6 +355,7 @@ class DrawPolylineOverlay extends Overlay {
 		return new Rect(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2);
 	}
 
+	/*
 	public void draw_good(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, shadow);
 		synchronized (mGpxPointList) {
@@ -306,7 +397,7 @@ class DrawPolylineOverlay extends Overlay {
 		mLastGPXPoint = mNewGPXPoint;
 
 		// todo: revisit it later: only draw new line
-		/*
+		 
 		 * mProjection.toPixels(newPoint, currentPnt);
 		 * mProjection.toPixels(lastPoint, lastPnt);
 		 * 
@@ -314,13 +405,13 @@ class DrawPolylineOverlay extends Overlay {
 		 * currentPnt.y);
 		 * 
 		 * lastPoint = newPoint;
-		 */
+		  
 
 		canvas.drawPath(path, mPaint);
 
 		mLastPath = path;
 	}
-
+   */
 	Projection getMapProjection(MapView mapView) {
 		return mapView.getProjection();
 	}
