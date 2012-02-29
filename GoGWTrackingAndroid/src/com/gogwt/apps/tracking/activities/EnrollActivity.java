@@ -27,6 +27,7 @@ import com.gogwt.apps.tracking.data.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.response.EnrollResponse;
 import com.gogwt.apps.tracking.services.http.ServerURLFactory;
+import com.gogwt.apps.tracking.utils.GwtLog;
 import com.gogwt.apps.tracking.utils.SessionManager;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
@@ -61,16 +62,25 @@ public class EnrollActivity extends AbstractAsyncActivity {
 	// ***************************************
 	private void showResult(EnrollResponse result) {
 
-		Log.i(TAG, " ---  " + result.toString());
-
+		GwtLog.i(TAG, " --- result from server " + result.getMyStr() + 
+				",status="+result.getStatus().getCode());
+		if (result.getResult() != null) {
+			GwtLog.i(TAG, "  -- groupId=" + result.getResult().getGroupId());
+			GwtLog.i(TAG, "  -- username=" + result.getResult().getUserName());
+			GwtLog.i(TAG, "  -- firstname=" + result.getResult().getFirstName());
+			GwtLog.i(TAG, "  -- lastname=" + result.getResult().getLastName());
+			GwtLog.i(TAG, "  -- isLogin=" + result.getResult().isLogin());
+		}
+		
+ 
 		if (result.getStatus().getCode() == 200) {
 			Toast.makeText(this, "Success logged in", Toast.LENGTH_LONG).show();
 
 		 	Profile profile = new Profile();
-		 	profile.setGroupId(result.getCustomerProfile().getGroupId());
+		 	profile.setGroupId(result.getResult().getGroupId());
 		 	profile.setRememberMe(true);
-		 	profile.setServerFirstName(result.getCustomerProfile().getFirstName());
-		 	profile.setServerLastName(result.getCustomerProfile().getLastName());
+		 	profile.setServerFirstName(result.getResult().getFirstName());
+		 	profile.setServerLastName(result.getResult().getLastName());
 		 	
 			//for quick access, use session
 			SessionManager.saveProfile(getApplicationContext(), profile);
@@ -96,6 +106,7 @@ public class EnrollActivity extends AbstractAsyncActivity {
 	 
 			alertDialog.show();
 		}
+		 
 	}
     
     private class SendEnrollTask extends AsyncTask<EnrollCustomerFormBean, Void, EnrollResponse> {
