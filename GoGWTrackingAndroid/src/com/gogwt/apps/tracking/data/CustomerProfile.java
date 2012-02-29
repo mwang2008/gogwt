@@ -2,6 +2,11 @@ package com.gogwt.apps.tracking.data;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author michael.wang
+ * @deprecated use EnrollResult
+ */
 public class CustomerProfile extends BaseBean {
 	private String id;
 	private String groupId;
@@ -12,8 +17,10 @@ public class CustomerProfile extends BaseBean {
 	private String userName;
 	private String password;
 	private String confirmPassword;
-	private Date createDate;
+    private String phoneNumber;
 	private boolean isLogin;
+	private boolean active = true;
+	private Date createDate;
 	
 	public String getId() {
 		return id;
@@ -113,6 +120,22 @@ public class CustomerProfile extends BaseBean {
 	
 	public void setIsLogin(boolean isLogin) {
 		this.isLogin = isLogin;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }
 
