@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.gogwt.apps.tracking.activities.LocationTrackingActivity;
 import com.gogwt.apps.tracking.activities.LoginActivity;
 import com.gogwt.apps.tracking.activities.MainMenuActivity;
 import com.gogwt.apps.tracking.data.Profile;
@@ -44,7 +43,7 @@ public class GoGWTrackingMainActivity extends Activity {
 				if (profile != null) {					
 					boolean isAutoStart = getIntent().getBooleanExtra(FROM_START_RECEIVER, false);
 					if (isAutoStart) {
-					   redirectIntent = new Intent(getApplicationContext(), LocationTrackingActivity.class);						 
+					   //redirectIntent = new Intent(getApplicationContext(), LocationTrackingActivity.class);						 
 					}
 					else {
 					   redirectIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
@@ -69,19 +68,19 @@ public class GoGWTrackingMainActivity extends Activity {
 			public void run() {
 				//init DB
 				
-				Log.i(this.getClass().getSimpleName(), "==== initializeApplication");
-				
+				Log.i(TAG, "==== initializeApplication");
+				/*todo: comment, no database for this release.  
 				// Initialize the database
 				DatabaseHelper dbHelper = new DatabaseHelper(context);				
 				try {
 					SQLiteDatabase database = dbHelper.getWritableDatabase();
-					//dbHelper.onCreate(database);
+					dbHelper.onCreate(database);
 				} catch (Exception e) {
 					Log.e(this.getClass().getSimpleName(), "====" + e.getMessage(), e);
 				} finally {
 					dbHelper.close();
 				}
-				
+				*/
 				Message msg = callback.obtainMessage();
 				callback.sendMessage(msg);
 			}
