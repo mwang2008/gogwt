@@ -1,5 +1,6 @@
 package com.gogwt.apps.tracking.data;
 
+
 public class Profile {
 	private String groupId;
 	private String displayName; 
@@ -94,7 +95,5 @@ public class Profile {
 	public void setServerPhone(String serverPhone) {
 		this.serverPhone = serverPhone;
 	}
-	
-    
     
 }
