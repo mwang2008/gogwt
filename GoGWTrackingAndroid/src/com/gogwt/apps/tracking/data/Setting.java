@@ -1,15 +1,12 @@
 package com.gogwt.apps.tracking.data;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
-
-@Root(name = "setting")
+ 
 public class Setting {
-	@Element
+	 
 	private int servreCallIntervalInSec;
-	@Element
+	 
 	private int gpsIntervalInSec;
-	@Element
+ 
 	private boolean gpsEnable;
 
 	public Setting() {

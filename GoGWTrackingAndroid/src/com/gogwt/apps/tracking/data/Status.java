@@ -1,13 +1,10 @@
 package com.gogwt.apps.tracking.data;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
-
-@Root
+ 
 public class Status {
-	@Element
+ 
 	private int code;
-	@Element
+	 
 	private String msg;
 
 	public Status() {}
