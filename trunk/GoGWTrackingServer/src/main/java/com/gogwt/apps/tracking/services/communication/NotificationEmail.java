@@ -10,7 +10,9 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
+import com.gogwt.apps.tracking.AppConstants;
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.formbean.ContactUsFormBean;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
 
 public class NotificationEmail {
@@ -22,6 +24,7 @@ public class NotificationEmail {
 	private static final String emailURL = "http://gogwtmail.appspot.com/notifyemail";
 	private String EMAIL_TEMPLATE = "/enrollemail_template.html";
 	private String FORGOT_PASSWORD_EMAIL_TEMPLATE = "/forgot_password_template.html";
+	private String CUSTOMER_COMMENTS_EMAIL_TEMPLATE = "/customer_comments_template.html";
 
 	public void sendEnrollEmail(final CustomerProfile profile) {
 		logger.debug("=sendEnrollEmail");
@@ -70,6 +73,49 @@ public class NotificationEmail {
 		
 	}
 
+	public void sendCustomerComments(ContactUsFormBean formBean) {
+		logger.debug("sendCustomerComments");
+		HttpClient client = new HttpClient();
+		PostMethod method = new PostMethod(emailURL);
+		try {
+			NameValuePair[] data = {
+					new NameValuePair("to", AppConstants.MAIN_EMAIL_LIST),
+					new NameValuePair("subject", formBean.getSubject()),
+					new NameValuePair("body", constructCustomerCommentsBody(formBean)) };
+			method.setRequestBody(data);
+
+			int statusCode = client.executeMethod(method);
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			method.releaseConnection();
+		}
+	}
+	
+	private String constructCustomerCommentsBody(final ContactUsFormBean formBean) {
+		InputStream in = this.getClass().getResourceAsStream(CUSTOMER_COMMENTS_EMAIL_TEMPLATE);
+		
+		try {
+			String body = IOUtils.toString(in, "UTF-8");
+			body = body.replaceAll("\\$\\{name\\}", formBean.getName());
+			body = body.replaceAll("\\$\\{email\\}", formBean.getEmail());
+			body = body.replaceAll("\\$\\{phone\\}", formBean.getPhone());
+			
+			body = body.replaceAll("\\$\\{subject\\}", formBean.getSubject());
+			body = body.replaceAll("\\$\\{body\\}", formBean.getComment());
+			return body;
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+		
+	}
+	
 	private String constructForgotPasswordBody(final CustomerProfile profile, String newPassword) {
 		InputStream in = this.getClass().getResourceAsStream(FORGOT_PASSWORD_EMAIL_TEMPLATE);
 		try {

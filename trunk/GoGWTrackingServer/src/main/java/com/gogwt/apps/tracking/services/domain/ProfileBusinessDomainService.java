@@ -7,6 +7,7 @@ import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
 import com.gogwt.apps.tracking.exceptions.InvalidUserException;
+import com.gogwt.apps.tracking.formbean.ContactUsFormBean;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
 import com.gogwt.apps.tracking.formbean.LoginFormBean;
 import com.gogwt.apps.tracking.formbean.PasswordFormBean;
@@ -112,6 +113,10 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
     	//4, then send email
     	new NotificationEmail().sendForgotPasswordEmail(customerProfile, newPassword);
     	
+    }
+    
+    public void sendCustomerComments(ContactUsFormBean formBean) {
+    	new NotificationEmail().sendCustomerComments(formBean);	
     }
     
 	private CustomerProfile toCustomerProfile(final EnrollCustomerFormBean formBean) {
