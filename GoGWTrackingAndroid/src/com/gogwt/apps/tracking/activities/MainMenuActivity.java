@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -70,6 +69,7 @@ public class MainMenuActivity extends AbstractMenuActivity {
 	@Override
 	protected OnItemClickListener getMenuOnItemClickListener() {
 		return new OnItemClickListener() {
+			
 			public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {
 				Class<?> cls = null;
 				switch (position) {
@@ -80,12 +80,18 @@ public class MainMenuActivity extends AbstractMenuActivity {
 					cls = LogoutActivity.class;
 					break;
 				case 2:
-					cls = AdminInvokeActivity.class;
+					 	cls = AdminInvokeActivity.class;
 					break;
 				default:
 					break;
 				}
-				startActivity(new Intent(parentView.getContext(), cls));
+				
+				Intent nextIntent = new Intent(parentView.getContext(), cls);
+				//nextIntent.putExtra("from_intent", MainMenuActivity.class);
+				
+				SessionManager.setFromActivityCls(MainMenuActivity.class);
+				
+				startActivity(nextIntent);
 			}
 		};
 	}
