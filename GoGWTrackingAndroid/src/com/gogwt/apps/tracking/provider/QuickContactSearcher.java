@@ -3,6 +3,9 @@ package com.gogwt.apps.tracking.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gogwt.apps.tracking.utils.GwtLog;
+import com.gogwt.apps.tracking.utils.StringUtils;
+
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
@@ -43,10 +46,20 @@ public class QuickContactSearcher {
 		
 		String[] proj = new String[]
 			                  		 {People._ID, People.TYPE, People.NAME, People.NUMBER, People.LABEL};
-	    String search = People.NAME + " like \'%" + query +"%\'";
-		Cursor cursor = context.getContentResolver().query(People.CONTENT_URI, proj,
+		Cursor cursor;
+		if (StringUtils.isSet(query)) {
+			query = query.trim();
+			query = query.replaceAll(" ", "%");
+		    String search = People.NAME + " like \'%" + query +"%\'";
+		    GwtLog.d("QuickContactSearcher", "== search="+search);
+		    cursor = context.getContentResolver().query(People.CONTENT_URI, proj,
 				search, null, "name asc");
-		 
+	    }
+		else {
+			cursor = context.getContentResolver().query(People.CONTENT_URI, proj,
+					null, null, "name asc");
+		}
+	    
 		
 		if (cursor == null) {
 			return null;
@@ -65,6 +78,8 @@ public class QuickContactSearcher {
 		}
 		return myContacts;
 	}
+	
+	 
 	
 	public List<MyContact> searchContactsByPartialName(Activity activity, String query) {
 		List<MyContact> myContacts = new ArrayList<MyContact>();
@@ -91,6 +106,8 @@ public class QuickContactSearcher {
 				myContacts.add(contact) ;
 			} while (cursor.moveToNext());
 		}
+		
+		cursor.close();
 		return myContacts;
 	}
 	
@@ -131,7 +148,7 @@ public class QuickContactSearcher {
 			} while (cursor.moveToNext());
 		}
 		
-		
+		cursor.close();
 		return myContacts;
 	}
 
