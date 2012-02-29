@@ -130,4 +130,26 @@ public class StringUtils {
 			
 			return true;
 		}
+	  
+		/**
+		  * Returns true if the value is a valid phone number.
+		  * @param pValue -
+		  *          the value to check.
+		  * @return true if the value is a valid phone number.
+		   */
+		  public static boolean isValidPhoneNumber( final String pValue ) {
+
+		    if ( pValue == null ) {
+		      return false;
+		    }
+		    final char phoneNumberChars[] = pValue.toCharArray();
+
+		    for( final char element : phoneNumberChars ) {
+		      if ( Character.isLetter( element ) ) {
+		        return false;
+		      }
+		    }
+
+		    return true;
+		  }
 }
