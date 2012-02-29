@@ -9,6 +9,7 @@ public final class SessionManager {
 	
     private static Profile profile;
     private static GPXContext gpxContext;
+    private static Class<?> fromActivityCls;
     
 	public static Profile getProfile(Context context) {
 		if (profile == null) {
@@ -50,7 +51,13 @@ public final class SessionManager {
 		return gpxContext;
 	}
 	
+	public static void setFromActivityCls(Class<?> theFromActivityCls) {
+		fromActivityCls = theFromActivityCls;
+	}
 
+	public static Class<?> getFromActivityCls() {
+		return fromActivityCls;
+	}
 	 
 	
 	
