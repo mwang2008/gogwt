@@ -19,28 +19,26 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Contacts.Phones;
 import android.telephony.SmsManager;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TwoLineListItem;
 
 import com.gogwt.apps.tracking.R;
 import com.gogwt.apps.tracking.data.GSmsData;
 import com.gogwt.apps.tracking.provider.QuickContactSearcher;
 import com.gogwt.apps.tracking.provider.QuickContactSearcher.MyContact;
 import com.gogwt.apps.tracking.utils.GwtLog;
+import com.gogwt.apps.tracking.utils.SessionManager;
 import com.gogwt.apps.tracking.utils.StringUtils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -50,7 +48,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 /**
- * Used by group owner
+ * Functions used by group owner
  * @author michael.wang
  *
  */
@@ -68,7 +66,7 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 	private IntentFilter mIntentFilter;
  	private LinearLayout phonesecLayout;
     private static String lastPhoneNum;
-    
+     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,6 +110,9 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 	 
 	    
 		Intent intent = getIntent();
+		 
+		
+		//"from_intent"
 		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
 			// user selects from contact suggestion list 
 			String name = intent.getDataString(); 
@@ -170,7 +171,7 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
         contactNameView.setText(contactName);
         Object dd = AdminInvokeActivity.class;
         
-        PhoneAdapter phoneAdapter = new PhoneAdapter(myPhoneContacts, getApplicationContext(), this);
+        PhoneAdapter phoneAdapter = new PhoneAdapter(false, myPhoneContacts, getApplicationContext(), this);
         phoneList.setAdapter(phoneAdapter);
         phoneList.setOnItemClickListener(phoneAdapter);
         //phoneList.setVisibility(View.VISIBLE);
@@ -181,71 +182,11 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 	 * After user click phone : Mobile phonenumber 
 	 * @param theContact
 	 */
-	public void handlePhoneList(QuickContactSearcher.MyContact theContact) {		
+	public void handlePhoneList(QuickContactSearcher.MyContact theContact, boolean isContact) {		
 		phoneNumberText.setText(theContact.number);
 		phonesecLayout.setVisibility(View.GONE);
 	}
-	
-	/*class PhoneAdapter extends  BaseAdapter implements AdapterView.OnItemClickListener {
-		private final List<QuickContactSearcher.MyContact> mContacts;
-		private final LayoutInflater mInflater;
-		
-		public PhoneAdapter(List<QuickContactSearcher.MyContact> contacts) {
-			mContacts = contacts;
-			mInflater = (LayoutInflater) AdminInvokeActivity.this
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
- 		}
-		
-		@Override
-		public int getCount() {
-			return mContacts.size();
-		}
 
-		@Override
-		public Object getItem(int position) {
-			return position;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			TwoLineListItem view = (convertView != null) ? (TwoLineListItem) convertView
-					: createView(parent);
-
-			bindView(view, mContacts.get(position));
-			return view;
-		}
-
-		private TwoLineListItem createView(ViewGroup parent) {
-			TwoLineListItem item = (TwoLineListItem) mInflater.inflate(
-					android.R.layout.simple_list_item_2, parent, false);
-
-			// item.getText2().setSingleLine();
-			// item.setHorizontallyScrolling(true);
-			// item.getText2().setEllipsize(TextUtils.TruncateAt.END);
-			return item;
-		}
-
-		private void bindView(TwoLineListItem view,
-				QuickContactSearcher.MyContact contact) {
-			 
-			view.getText1().setText(
-						Phones.getDisplayLabel(getApplicationContext(),
-								contact.type, "label"));
-			view.getText2().setText(contact.number);
-			 
-		}
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-				handlePhoneList(mContacts.get(position));
-		}
-	}*/
 	private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
@@ -336,6 +277,13 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 			
 			phoneNumberText.setText(phone);
 			lastPhoneNum = phone;
+
+			String sentTime = android.text.format.DateFormat.format(
+					"hh:mm:ss", new java.util.Date()).toString();
+			String notifyMsg = "The message is sent out for location @ " + sentTime;
+			Toast.makeText(getApplicationContext(),
+					notifyMsg, Toast.LENGTH_LONG).show();
+			 
 		}
 	};
 
@@ -360,6 +308,12 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
 			
 			lastPhoneNum = phone;
+			
+			String sentTime = android.text.format.DateFormat.format(
+					"hh:mm:ss", new java.util.Date()).toString();
+			String notifyMsg = "The message is sent out to start remote tracking @ " + sentTime;
+			Toast.makeText(getApplicationContext(),
+					notifyMsg, Toast.LENGTH_LONG).show();
 		}
 	};
 
@@ -384,6 +338,12 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 			smsManager.sendTextMessage(phone, null, body, pIntent, null);
 			
 			lastPhoneNum = phone;
+			
+			String sentTime = android.text.format.DateFormat.format(
+					"hh:mm:ss", new java.util.Date()).toString();
+			String notifyMsg = "The message is sent out to stop remote tracking @ " + sentTime;
+			Toast.makeText(getApplicationContext(),
+					notifyMsg, Toast.LENGTH_LONG).show();
 		}
 	};
 
@@ -551,4 +511,32 @@ public class AdminInvokeActivity extends MapActivity implements PhoneContactIF {
 	public static boolean isOnForeground() {
 		return isOnForeground;
 	}	
+	
+	/**
+	 * Load menu
+	 */
+	@Override  
+	public boolean onCreateOptionsMenu(Menu menu) {  	   
+		 MenuInflater inflater = getMenuInflater();
+		 inflater.inflate(R.menu.admin_menu, menu);
+		 		 
+		 return true;
+	}  
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_back:     
+	        	//Toast.makeText(this, "You pressed the admin setting!", Toast.LENGTH_LONG).show();
+	        	Class<?> backTo = SessionManager.getFromActivityCls();
+	        	if (backTo != null) {
+	        		startActivity(new Intent(this, backTo)); 
+	        		SessionManager.setFromActivityCls(null);
+	        	}
+	        	break;
+	        default:
+				break;	     
+	    }
+	    return true;
+	}
 }
