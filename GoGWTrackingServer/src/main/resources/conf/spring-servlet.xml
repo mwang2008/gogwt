@@ -158,7 +158,14 @@
 		<property name="formView"><value>/tracking/forgot_password</value></property>
 		<property name="successView"><value>forgotpassword</value></property>
    </bean>
-   
+
+    <!--  Contact US -->	
+   <bean name="name=controller/ContactUsController"
+		class="com.gogwt.apps.tracking.controllers.ContactUsController" >
+		<property name="commandName"><value>contactUsFormBean</value></property>
+		<property name="formView"><value>/tracking/contact_us</value></property>		 
+   </bean>
+  
    <!--  FAQs -->
    <bean name="name=controller/FAQController"
 		class="com.gogwt.apps.tracking.controllers.GenericController" >
@@ -181,6 +188,7 @@
 				<prop key="/**/forgotpassword/**/">name=controller/ForgotPasswordController</prop>
 				<prop key="/**/error/**/">name=controller/ErrorController</prop>	
 				<prop key="/**/faq/**/">name=controller/FAQController</prop>
+				<prop key="/**/contactus/**/">name=controller/ContactUsController</prop>
 													
 			</props>
 		</property>

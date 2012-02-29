@@ -5,7 +5,7 @@
           <tr></tr>
         </tbody>
      </table>
-     <table cellpadding="0" cellspacing="0">
+     <table cellpadding="1" cellspacing="1">
        <tbody>
          <tr>
            <td style="vertical-align: top;" align="left">
@@ -14,6 +14,14 @@
               %>
              <div class="gwt-HTML"> @<%=year%> GoGWT.com</div>
            </td>
+		   <td>
+		      &nbsp; &nbsp; &nbsp;
+		   </td>
+		   <td>
+		      <a style="text-decoration:none" href="/tracking/en-us/contactus">
+                  <span> Contact US </span>
+              </a>
+		   </td>
         </tr>
       </tbody>
      </table>
