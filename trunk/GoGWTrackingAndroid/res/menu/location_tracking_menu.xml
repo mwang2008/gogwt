@@ -6,11 +6,10 @@
         
     <item android:id="@+id/menu_logout"
         android:title="Logout" />
-  
-    <item android:id="@+id/menu_sendlocation"
+     
+    <item android:id="@+id/menu_currentlocation"
         android:title="Send Location"
     />
-            
     <item android:id="@+id/menu_help"
         android:title="Help"
      />
