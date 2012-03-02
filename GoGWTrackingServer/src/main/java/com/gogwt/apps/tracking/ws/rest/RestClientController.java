@@ -65,7 +65,7 @@ public class RestClientController {
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		LoginResponse response = service.retrieveCustomerProfileByGroupId(request);
 		
-		logger.info(" ==== mobilelogin response: " + response.toString());
+		logger.info("     mobilelogin response: " + response.getStatus().getCode());
 		return response;
  	}
 	
@@ -77,7 +77,7 @@ public class RestClientController {
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		LoginResponse response = service.retrieveCustomerProfileByGroupId(request);
 		
-		System.out.println(" ==== mobilelogin response: " + response.toString());
+		System.out.println("      mobilelogin response: " + response.getStatus().getCode());
 		return response;
 	}
 	

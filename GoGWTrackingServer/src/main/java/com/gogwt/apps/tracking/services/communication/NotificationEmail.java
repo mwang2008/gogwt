@@ -26,7 +26,7 @@ public class NotificationEmail {
 	private String FORGOT_PASSWORD_EMAIL_TEMPLATE = "/forgot_password_template.html";
 	private String CUSTOMER_COMMENTS_EMAIL_TEMPLATE = "/customer_comments_template.html";
 
-	public void sendEnrollEmail(final CustomerProfile profile) {
+	public void sendEnrollEmail(final CustomerProfile profile, final String unencrptedPassword) {
 		logger.debug("=sendEnrollEmail");
 
 		HttpClient client = new HttpClient();
@@ -36,7 +36,7 @@ public class NotificationEmail {
 					new NameValuePair("to", profile.getEmail()),
 					new NameValuePair("subject",
 							"Welcome to choose gogwt mobile app"),
-					new NameValuePair("body", constructBody(profile)) };
+					new NameValuePair("body", constructBody(profile, unencrptedPassword)) };
 			method.setRequestBody(data);
 
 			int statusCode = client.executeMethod(method);
@@ -136,7 +136,7 @@ public class NotificationEmail {
 		return null;
 	}
 	
-	private String constructBody(final CustomerProfile profile) {
+	private String constructBody(final CustomerProfile profile, final String unencrptedPassword) {
 		InputStream in = this.getClass().getResourceAsStream(EMAIL_TEMPLATE);
 		try {
 			String body = IOUtils.toString(in, "UTF-8");
@@ -145,7 +145,7 @@ public class NotificationEmail {
 			body = body.replaceAll("\\$\\{lastname\\}", profile.getLastName());
 			body = body.replaceAll("\\$\\{userName\\}", profile.getUserName());
 			body = body.replaceAll("\\$\\{groupId\\}", profile.getGroupId());
-			body = body.replaceAll("\\$\\{password\\}", profile.getPassword());
+			body = body.replaceAll("\\$\\{password\\}", unencrptedPassword);
 			body = body.replaceAll("\\$\\{email\\}", profile.getEmail());
 
 			return body;

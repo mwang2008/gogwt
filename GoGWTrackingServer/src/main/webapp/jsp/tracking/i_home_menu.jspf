@@ -91,7 +91,7 @@
 		</div>				
    	  </div>
 	  <div class="pcrTeaser">	
-	     <div class="rTeaser joinNowPanel"> <a class="quickEnrollPanel" href="${env.prefix}/forgotpassword" title="Join Now!">Forgot Password</a>
+	     <div class="rTeaser joinNowPanel"> <a class="quickEnrollPanel" href="${env.prefix}/forgotpassword" title="Forgot Password">Forgot Password</a>
 		 </div>				
    	  </div>
     </div> <%-- module_data--%>  

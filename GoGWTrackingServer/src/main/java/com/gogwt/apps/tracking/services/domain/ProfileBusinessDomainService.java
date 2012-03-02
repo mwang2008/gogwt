@@ -35,7 +35,7 @@ public final class ProfileBusinessDomainService extends BaseBusinessDomainServic
 		CustomerProfile profile = getCustomerDAO().getCustomerById(id);
 	 	
 		//send email by using Google App Engine. 
-		new NotificationEmail().sendEnrollEmail(profile);
+		new NotificationEmail().sendEnrollEmail(profile, formBean.getPassword());
 		
 		return profile;
 	}

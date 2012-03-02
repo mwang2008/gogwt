@@ -1,0 +1,180 @@
+<%-- i_demo.jspf --%>
+
+<table width="700" cellspacing="5" cellpadding="5" border="0">
+  <tr> 
+     <td>
+	    Demo of the site
+	 <td>
+  </tr>
+  <tr>
+    <td> 
+	   
+	</td>
+  </tr>
+</table>
+
+<hr width="60%" align="left">
+
+<A NAME="top">
+<table width="700" cellspacing="5" cellpadding="5" border="0">
+  <tr> 
+     <td>
+       <p> <u>On phone (android) side</u>
+	   <blockquote>
+	      <p>
+		  <ul>
+		    <li> <a href="#send_loc"> Send my location</a> 
+			<li> <a href="#admin_loc"> Retrieve group member location</a>  
+			<li> <a href="#admin_start_loc"> Start/Stop tracking group member remotely</a> 
+			<li> <a href="#admin_setting"> Change Preference Settings</a> 
+		  </ul>
+	   </blockquote>
+	</td>
+  </tr>
+  <tr> 
+     <td>
+       <p> <u>On server side</u>
+	   <blockquote>
+	      <p>
+		  <div class="main_txt">
+		  <ul>
+		    <li> <a href="#server_current_track"> Show Current Tracks </a>
+			<li> <a href="#server_old_track"> Show Old Tracks  </a>
+		  </ul>
+		  </div>
+	   </blockquote>
+	</td>
+  </tr>
+
+
+</table> 
+
+<hr width="60%" align="left">
+
+<%-- content --%>
+<table width="700" cellspacing="5" cellpadding="5" border="0">
+  <tr> 
+     <td>
+       <p> <div class="main_txt">
+		    <a name="send_loc">Send my location</a>
+		    <br> 
+			   After start tracking, you can send your location to anyone you want. 
+			   In tracking screen, click menu in your device, then click Send Location. 
+			   Send Location dialog will be popped up, you can directly type in the phone number or search through your contact list. 
+			   Your location as well as your message is sent to the phone with the number you specify. 
+			   <table cellspacing="5" cellpadding="5" border="0">
+			      <tr> 
+				     <td align="center">
+				        <a href="/tracking/images/device-2012-02-29-111612.png"> <img src="/tracking/images/device-2012-02-29-111612.png" atl="tracking" width="160" height="240"/> </a><br>
+                         Figure 1, Tacking Screeen  						
+					 </td>
+					 <td align="center">
+					    <a href="/tracking/images/device-2012-03-01-151003.png"><img src="/tracking/images/device-2012-03-01-151003.png" atl="tracking" width="160" height="240"/></a> <br>
+						Figure 2, Menu -> Send Location
+					 </td>
+					 <td align="center">
+				        <a href="/tracking/images/device-2012-02-29-111746.png"><img src="/tracking/images/device-2012-02-29-111746.png" atl="tracking" width="160" height="240"/> </a><br>
+						Figure 3. Send Location Screen 
+					 </td>
+				  </tr>
+			   </table>
+			
+             <p>
+			 <a name="admin_loc"> Retrieve group member location</a>
+			 <br>
+			    If you are the group owner meaning your phone number is the registration phone, you can retrieve your group member's location and start/stop tracking for him/her.
+				In menu, click Remote Control link, it will go to Remote Control (Screen Figure 5). 
+				By typing in phone number or search through contact list, you can get his/her current location. The result would be something like Figure 6.  
+				By tapping the map in Figure 6, you are able to start navigate to his/her location (see Figure 7).
+
+ 			    <table cellspacing="15" cellpadding="5" border="0">
+			      <tr> 
+				     <td align="center">
+				         <a href="/tracking/images/device-2012-02-27-162228.png"><img src="/tracking/images/device-2012-02-27-162228.png" atl="tracking" width="160" height="240"/> </a>	<br>
+                         Figure 4, Menu Screen with Admin Section * 						
+					 </td>
+					 <td align="center">
+					     <a href="/tracking/images/device-2012-02-27-162330.png"><img src="/tracking/images/device-2012-02-27-162330.png" atl="tracking" width="160" height="240"/> </a><br>
+						Figure 5, Remote Control Screen
+					 </td>
+					 <td align="center">
+				         <a href="/tracking/images/device-2012-02-29-112913.png"><img src="/tracking/images/device-2012-02-29-112913.png" atl="tracking" width="160" height="240"/> </a><br>
+						Figure 6. Sample of Location Result 
+					 </td>
+					 <td align="center">
+				         <a href="/tracking/images/device-2012-03-01-160055.png"><img src="/tracking/images/device-2012-03-01-160055.png" atl="tracking" width="160" height="240"/> </a><br>
+						Figure 7. Navigation or Direction 
+					 </td> 
+					 
+				  </tr>
+			   </table>  
+
+			 <p>
+			 <a name="admin_start_loc"> Start tracking group member remotely</a> 			   
+			 <br>
+			    If you are group owner, you can remote start track your group member remotely. 
+				In Figure 5, typing phone number and click Starting Tracking button, you start tracking for him/her. 
+				You can view his/her trace <a href="http://www.gogwt.com/tracking"> with the link </a>.
+				<br>
+				In the same screen, you can stop the tracking you started earlier.
+			
+             <p>
+			 <a name="admin_setting"> Change Preference Settings</a> 			   
+			 <br> 
+			    You can change the perference with this page.
+              <table cellspacing="15" cellpadding="5" border="0">
+			      <tr> 
+				     <td align="center">
+				         <a href="/tracking/images/device-2012-03-01-215327.png"><img src="/tracking/images/device-2012-03-01-215327.png" atl="menu" width="160" height="240"/> </a>	<br>                      
+						 Figure 8, Menu Screen for Perference  						
+					 </td>
+					  <td>
+				         <a href="/tracking/images/device-2012-03-01-220312.png"><img src="/tracking/images/device-2012-03-01-220312.png" atl="preference" width="160" height="240"/> </a><br>
+						Figure 9. Preference Settings 
+					 </td> 
+				  </tr>
+               </table>				  
+				
+				
+		  </div>
+		  
+		  
+	   </blockquote>
+	</td>
+  </tr>
+  
+  <tr> 
+     <td>
+        <p> 
+		<div class="main_txt">
+	       <a name="server_current_track"> Show Current Tracks </a>
+		    <br> 
+			   After you <a href="http://www.gogwt.com/tracking/en-us/showactiveattracks"> login </a>, you can start view the current tracks, at same time you can view the SMS activities (send/receive). 
+			   <br><b>Note:</b> The SMS is not sent to the server by default, your group member can change the app setting to turn it on.
+			    <table cellspacing="15" cellpadding="5" border="0">
+			      <tr> 
+				     <td align="center">
+				        <a href="/tracking/images/server_current_tracking.png"> <img src="/tracking/images/server_current_tracking.png" atl="tracking" width="360" height="240"/> 	</a><br>
+                         Figure 10, Current Track 						
+					 </td>
+				  </tr>
+			   </table> 	 
+			   
+			<br>
+			<a name="server_old_track"> Show Old Tracks </a>
+			<br>
+			   GoGWT provides a way to view old tracks. Google chart is applied to help you to find out the speed visually at any moment.  
+			   It is easy to find the over speed spot and/or over extended stay spot.   
+		       <table cellspacing="15" cellpadding="5" border="0">
+			      <tr> 
+				     <td align="center">
+				        <a href="/tracking/images/server_old_track_2.png"> <img src="/tracking/images/server_old_track_2.png" atl="tracking" width="360" height="240"/> 	</a><br>
+                         Figure 11, Current Track 						
+					 </td>
+				  </tr>
+			   </table> 	  
+		</div>	
+	</td>
+  </tr>
+</table> 
+ 

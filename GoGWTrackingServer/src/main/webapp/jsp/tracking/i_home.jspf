@@ -1,14 +1,14 @@
 <%--
   i_home.jspf
 --%>
-<div>
+<div class="main_txt">
 <div style="text-align: center;">  
    <img src="/tracking/images/android_xperia.jpg" atl="android">
 </div>
 <h2>GoGWT Real Time GPS Tracker	</h2>
 <h5>The Android powered phone live tracking supported by GoGWT.</h5>
 </p>
-Welcome to GoGWT official website of Real Time GPS Tracker. Once an Andoid phone user installed GoGWT Tracker app and enable it, the location of the phone will be send to GoGWT server. 
+Welcome to GoGWT official website of Real Time GPS Tracker. Once an Andoid phone user installed GoGWT Tracker app and enabled it, the location of the phone will be sent to the GoGWT server. 
 With this site, you are able to monitor/view remotely of the movement of users under your group.
 
 </p>
@@ -17,37 +17,46 @@ The information of Android phone's current location, moving speed and text messa
 </p>
 <h2>Who should use it</h2>
 
-There are unlimited possibilities what this tracking service can be used for. 
+There are unlimited possibilities what this tracking service can be used for, list are some of them. 
 <ul>
-<li>One safety use case:</li> Parent is able to check their children driving behaviors, whether they are over the speed limit and/or texting while driving.
-<li>Locate family member/friend:</li> You can find whether is your friends and view current traffic condition. 
+<li>Realtime safety use case: <a href="/tracking/en-us/demo#server_current_track"> demo </a></li> 
+Parent is able to check their children's driving behaviors at real time, whether they are over the speed limit and/or texting while driving.
+
+<li>Locate family member/friend:<span style="font-size:x-small;"> (<b>This is bettery saving mode.</b>) </span> <a href="/tracking/en-us/demo#admin_loc"> demo </a></li>  
+You are able to find where is your family member/friend by pulling their current location.    
+
+<Li>Send my current location <a href="/tracking/en-us/demo#send_loc"> demo </a> </li> 
+Send your current location to your family member/friend's smart phone. so they can navigate to your location.
+
 <li>Save the track for later review:</li> You can export the track as cvs file and review it later on. 
 </ul
 
 </p>
 <h2>How it works</h2>
-In the server:
+On the server side:
 <ul>
-<li> Click Sign Up Now to create account, the group is used to represent for family, special group etc.</li>
+<li> Click Sign Up Now to create account, you will be the group owner. The group is used to represent for family, special group etc.</li>
 <li> Login with groupId, username and password, you can view current track or view history tracks.
 </ul>
 
-On the phone:
+On the phone (android phone) side:
 <ul>
 <li> On your phone, downlaod GoGWT tracking from Android Market (search for gogwt)</li>
-<li> Launch the app and login with groupId and display name.</li>
+<li> Launch the app and login with groupId and display name(any name to identify the trip).</.</li>
 <li> Click Start to start tracking</li>
 <li> Click Stop to stop stracking</li>
 </ul>
 
 </p>
 <h2>Disclaimer</h2>
-<li>The application provides an easy to use tracking service which is free for your personal use. 
-<span style=”font-size:x-small;”>You agree that we do not have any liability for any inaccuracies or failures related to any services provided by GoGWT.</span>
+<li>At this monment, it is mainly used for my family members and my friends. Of course, you are welcome to use it personally. 
+<br><span style="font-size:x-small;">You agree that we do not have any liability for any inaccuracies or failures related to any services provided by GoGWT.</span>
 <li>For comercial use, please contact contat.gogwt @ gmail. com
 <li>The location data saved in the server may not be available after 30 days.
 
 </p>
+<%--
 <h2><a href="/tracking/en-us/faq">FAQs</a></h2>
+--%>
 </div>
  
