@@ -1,19 +1,6 @@
 <%-- i_demo.jspf --%>
 
-<table width="700" cellspacing="5" cellpadding="5" border="0">
-  <tr> 
-     <td>
-	    Demo of the site
-	 <td>
-  </tr>
-  <tr>
-    <td> 
-	   
-	</td>
-  </tr>
-</table>
 
-<hr width="60%" align="left">
 
 <A NAME="top">
 <table width="700" cellspacing="5" cellpadding="5" border="0">

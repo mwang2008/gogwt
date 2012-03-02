@@ -40,7 +40,8 @@
 						  <tr>   
 						      <td valign="middle"> 		
                                  <table  class="bw_result_area_border" cellspacing="0" cellpadding="2" border="0" width="100%">
-                                   <tr class="bw_result_name_row"> <td colspan="2">								 
+                                   <tr class="bw_result_name_row"> 
+								   <td colspan="3">								 
 								 <b>Display Name:</b> ${track.start.displayName}  
 								 <c:url value="/${env.languageId}-${env.countryId}/trackdetail" var="detailUrl">
 							        <c:param name="groupId" value="${env.customerProfile.groupId}"/>
@@ -78,9 +79,13 @@
 								            </c:otherwise>
     							         </c:choose>
 									   </td>
-									   <td>
+									   <td align="right">
 									      at ${gogwtutil:formatTimestamp(track.start.time)}
 									   </td>
+									   <td width="10">
+									     &nbsp;
+									   </td>
+									   
 								   </tr>
 							       <tr>
 								       <td>
@@ -93,8 +98,11 @@
 								             </c:otherwise>
 							              </c:choose>
 									   </td>
-									   <td>
+									   <td align="right">
 									      at ${gogwtutil:formatTimestamp(track.end.time)}
+									   </td>
+									   <td width="10">
+									     &nbsp;
 									   </td>
 								   </tr>
 							     </table> 
