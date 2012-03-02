@@ -172,6 +172,12 @@
 		<property name="formView"><value>/tracking/faq</value></property>
    </bean>	
    
+   <!--  DEMO -->
+   <bean name="name=controller/DEMOController"
+		class="com.gogwt.apps.tracking.controllers.GenericController" >
+		<property name="formView"><value>/tracking/demo</value></property>
+   </bean>	
+   
 	<!-- ========================= URL MAPPING ========================= -->
 	<bean name="urlMappingPart1"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -189,7 +195,7 @@
 				<prop key="/**/error/**/">name=controller/ErrorController</prop>	
 				<prop key="/**/faq/**/">name=controller/FAQController</prop>
 				<prop key="/**/contactus/**/">name=controller/ContactUsController</prop>
-													
+				<prop key="/**/demo/**/">name=controller/DEMOController</prop>
 			</props>
 		</property>
 	</bean>

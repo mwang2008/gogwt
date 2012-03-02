@@ -66,6 +66,9 @@
 		    <div class="rTeaser"> Not a member?
 	          <a class="quickEnrollPanel" href="/tracking/en-us/enroll" title="Join Now!">Join Now!</a>
             </div>	
+		    <div class="rTeaser"> 
+			  <a class="quickEnrollPanel" href="${env.prefix}/forgotpassword" title="Forgot Password">Forgot Password</a>
+		    </div>				   	  
 		  </td>
        </tr>
     </table>

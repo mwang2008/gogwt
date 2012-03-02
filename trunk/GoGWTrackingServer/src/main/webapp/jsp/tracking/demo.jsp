@@ -1,12 +1,12 @@
 <%--
-  faq.jsp
+  demo.jsp
 --%>
 <%@ include file="/jsp/common/i_global.jspf"%>
 
 <html lang="${env.languageId}">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    
-   <title> FAQ</title>  
+   <title> DEMO </title>  
    
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
@@ -29,7 +29,7 @@
 	</c:choose>
     
     <div id="wrapperContent" style="position: relative">
-	   <%@ include file="i_faq.jspf"%>
+	   <%@ include file="i_demo.jspf"%>
       
     </div> 
     <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
