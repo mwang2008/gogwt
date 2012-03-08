@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, LoginActivity!</string>
-    <string name="app_name">GoGWTracking</string>
+    <string name="app_name">GoGWT GPS Tracker</string>
     
     <!-- LoginActivity -->
+    <!-- 
     <string name="demo_account">
        An demo account is created for you to feel/test it before you create your own account. \n
        GroupId=<b>gogwtid</b> \n
@@ -12,8 +13,10 @@
        \n 
        In your Android phone, you can login with GroupId of <b>gogwtid</b> and any Display Name such as: <b>trip to six flag</b>.
        \n\n
-       In web browser, you can login to server http://www.gogwt.com/tracking with GroupId of <b>gogwtid</b>, Username of <b>gogwtuser</b> and Password of<b>gogwt</b>
+       In web browser, you can login to server http://www.gogwt.com/tracking with GroupId of <b>gogwtid</b>, Username of <b>gogwtuser</b> and Password of <b>gogwt</b>
     </string>
+     -->
+    <string name="demo_account"> </string>
     
     <!--  MainMenuActivity -->
     <string name="text_main">Select an option to view the associated gogps.</string>
