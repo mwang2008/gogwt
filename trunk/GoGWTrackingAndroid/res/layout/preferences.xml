@@ -40,6 +40,7 @@
                
     </PreferenceCategory>
 
+    <!-- 
     <PreferenceCategory
         android:key="system_settings"
         android:title="System Settigns" >
@@ -50,7 +51,7 @@
             android:summary="Start automatically when this device is booting"
             android:title="Auto Start" />
     </PreferenceCategory>
-
+     -->
     <!-- 
     <PreferenceCategory android:title="About" >
 
