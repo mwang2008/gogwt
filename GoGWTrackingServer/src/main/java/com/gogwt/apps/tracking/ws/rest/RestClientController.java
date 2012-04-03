@@ -45,7 +45,7 @@ import com.gogwt.apps.tracking.utils.StringUtils;
 
 @Controller
 public class RestClientController {
-	protected static Logger logger = Logger.getLogger("RestServiceController");
+	protected static Logger logger = Logger.getLogger("RestClientController");
 	
  	/**
 	 * http://localhost/tracking/en-us/resttest

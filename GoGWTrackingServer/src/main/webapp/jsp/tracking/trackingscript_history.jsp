@@ -138,7 +138,9 @@
        +------------------------------------------------------*/ 
       --%>
       function showMaps(map) {      
-  		 //jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {		 
+  		 //jq.getJSON('http://www.gogwt.com/tracking/en-us/displaycurrentlocation?groupId=g5&days=5', function(data) {
+		 document.getElementById('loadingImg').style.display = 'block';
+		 
 		 var url = ajaxUrl;
 	     jq.getJSON(url, function(data) {            
  			 //-----
@@ -166,6 +168,8 @@
 	  
 			    showLines(map, data);   		  
 			 }
+			 
+			 document.getElementById('loadingImg').style.display = 'none';
 			 
 			 if (data.smsList) {
 			    hasValidData = true;
