@@ -46,7 +46,7 @@
 <%-- start login popup in login bar --%>
 <div id="pcrMainForm" style="position:absolute">
    <div id="pcrSignInFormContent"  tabindex="0" class="pcrLoginPopupPanel" >  
-     <div class="loginHeader" title="Priority Club Rewards">
+     <div class="loginHeader" title="Login Head">
 		<div class="closeBtn" >
 		<a href="#">
 			<img height="14" width="14" border="0"  title="Select to close." src="/gwtbooking/images/close.gif"  alt="Login Close Button Graphic" /></a>

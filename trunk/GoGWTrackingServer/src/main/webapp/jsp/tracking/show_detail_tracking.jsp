@@ -100,9 +100,10 @@
 		 
          <td valign="top" width="760" align="left">		  
 		     <div id="container">  	   
-			    <div id="locInfo" style="width:740px; overflow:auto; background-color:lightgrey;"/>	            
+			    <div id="locInfo" style="width:740px; overflow:auto; background-color:lightgrey;"/>	                          
              </div> 			 
              <div id="container">  	   			    
+			    &nbsp;&nbsp;&nbsp; <img id="loadingImg" src="${env.contextPath}/images/loading.gif" style="display: none;"/>				
 	            <div id="map_canvas" style="width:740px; height:350px"></div>
              </div> 
 			  <div id="container">  	   

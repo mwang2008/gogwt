@@ -42,17 +42,20 @@ public class URLHandlerInterceptor extends HandlerInterceptorAdapter {
 			CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
 			urlMappingElem.setCustomerProfile(customerProfile);
 			
+			/*
+			if (customerProfile == null) {
+			   CustomerProfile cookieProfile = CookieUtils.getCookieProfile(request);
+			   if (cookieProfile != null) {				  
+				  cookieProfile.setStatus(LoginStatus.IMPLICIT);
+				  session.setAttribute(CUSTOMER_PROFILE, cookieProfile);
+				  urlMappingElem.setCustomerProfile(cookieProfile);
+			   }
+			}
+			*/
+			
 			// save urlMappingElem to request
 			request.setAttribute(ENV, urlMappingElem);
 
-			if (customerProfile == null) {
-			   CustomerProfile profile = CookieUtils.getCookieProfile(request);
-			   if (profile != null) {
-				  profile.setStatus(LoginStatus.IMPLICIT);
-				  session.setAttribute(CUSTOMER_PROFILE, profile);
-			   }
-			}
-			
 			return true;
 		} catch (Exception e) {
 			// todo: has error, redirect to default page

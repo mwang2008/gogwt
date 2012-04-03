@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.data.LoginStatus;
+import com.gogwt.apps.tracking.utils.CookieUtils;
 import com.gogwt.apps.tracking.utils.StringUtils;
 
 public class CheckLoginInterceptor extends HandlerInterceptorAdapter {
@@ -27,10 +29,21 @@ public class CheckLoginInterceptor extends HandlerInterceptorAdapter {
 			 
 			UrlMappingElem urlMappingElem = (UrlMappingElem)request.getAttribute(ENV);
 			
+			if (customerProfile == null) {
+			    CustomerProfile cookieProfile = CookieUtils.getCookieProfile(request);
+			    if (cookieProfile != null) {				  
+			       cookieProfile.setStatus(LoginStatus.IMPLICIT);
+			       session.setAttribute(CUSTOMER_PROFILE, cookieProfile);
+			       urlMappingElem.setCustomerProfile(cookieProfile);
+			       
+			       customerProfile = cookieProfile;
+			       request.setAttribute(ENV, urlMappingElem);
+			    }
+			}
+			
 			if (customerProfile == null || !StringUtils.isSet(customerProfile.getGroupId())) {
 				//return back to login page
-			 
-				String context = request.getContextPath();
+ 				String context = request.getContextPath();
 				response.sendRedirect(context + "/en-us/login?successURL="+urlMappingElem.getUri());
 				
 				return false;

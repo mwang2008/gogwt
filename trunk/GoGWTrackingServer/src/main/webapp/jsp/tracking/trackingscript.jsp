@@ -112,7 +112,8 @@
 	   +-----------------------------------------------------------------------------------------------------------------------------*/ 
       --%>
       function showMaps(map) {  
-    
+         document.getElementById('loadingImg').style.display = 'block';
+		 
     	 var url = ajaxUrl;
 	     jq.getJSON(url, function(data) { 
              var hasValidData = false;
@@ -139,6 +140,8 @@
 	  
 			    showLines(map, data);   		  
 			 }
+			 
+			 document.getElementById('loadingImg').style.display = 'none';
 			 
 			 if (data.smsList) {
 			    hasValidData = true;

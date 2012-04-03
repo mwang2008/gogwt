@@ -51,7 +51,10 @@
                 </div>  
              </spring:hasBindErrors>
                 <div class="fileinputs">
-                    File: <form:input path="fileData" type="file"/>
+                    File:  <input type="file" name="fileData"/> 
+					<%--
+					<form:input path="fileData" type="file"/>
+					--%>
                     </p>
  
                     <p>

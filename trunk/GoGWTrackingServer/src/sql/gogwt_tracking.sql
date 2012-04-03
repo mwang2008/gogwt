@@ -48,7 +48,8 @@ CREATE TABLE `tracking_mobile` (
 -- 2000 and above for production.
 //ALTER TABLE tracking_mobile AUTO_INCREMENT = 2000;   
 ALTER TABLE tracking_mobile ADD INDEX(groupId,display_name);
-	
+ALTER TABLE tracking_mobile ADD INDEX(groupId,latitude);
+
 ///////////////////////////////////
 // read [0:1] 0 -- new,  1 -- read 
 // type [1:2] 1 -- receive(inbox), 2 -- send  

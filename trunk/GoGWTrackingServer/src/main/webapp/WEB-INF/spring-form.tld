@@ -424,14 +424,21 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>Path to property for data binding</description>
 		</attribute>
-
+		
+	    <attribute>
+			<name>showPassword</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Show password</description>
+		</attribute>
+		
 		<attribute>
 			<name>id</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>HTML Standard Attribute</description>
 		</attribute>
-
+ 
 		<attribute>
 			<name>htmlEscape</name>
 			<required>false</required>

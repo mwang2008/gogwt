@@ -83,11 +83,15 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 				return null;
 			}
 
+			//printTrackingMobileDatas(minList, "beforesort");
+			
 			//sort list
 			TrackingMobileDataComparator comparator = new TrackingMobileDataComparator();
 			Collections.sort(maxList, comparator);
 			Collections.sort(minList, comparator);
  			 
+			//printTrackingMobileDatas(minList, "aftersort");
+			
 			TrackingMobileData maxTrack;
 			
 			List<TrackingMobileDataCol> trackingMobileDataColList = new ArrayList<TrackingMobileDataCol>();
@@ -119,6 +123,11 @@ public final class RestBusinessDomainService extends BaseBusinessDomainService {
 	}
 
 
+	private void printTrackingMobileDatas(List<TrackingMobileData> tracks, String tag) {
+		for (TrackingMobileData track : tracks) {
+			System.out.println(tag + " : " + track.getStartTime());
+		}
+	}
 	
 	public List<TrackingMobileData> retrieveLocations(
 			CustomerProfile customerProfile, Calendar endCal, Calendar startCal) {
