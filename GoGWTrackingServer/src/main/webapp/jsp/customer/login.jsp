@@ -44,15 +44,15 @@
        </tr>
        <tr> 
           <td> <label for="groupId"><fmt:message key='label.GroupId'/></label>: </td>
-          <td> <form:input id="groupId" path="groupId" size="30" maxlength="30" showPassword="true"/></td>
+          <td> <form:input id="groupId" path="groupId" size="30" maxlength="30"/></td>
        </tr>
        <tr> 
           <td> <label for="userName"><fmt:message key='label.userName'/></label>: </td>
-          <td> <form:input id="userName" path="userName" size="30" maxlength="30"showPassword="true" /></td>
+          <td> <form:input id="userName" path="userName" size="30" maxlength="30" /></td>
        </tr>
         <tr> 
-          <td> <label for="userName"><fmt:message key='label.password'/></label>: </td>
-          <td> <form:password path="password" size="30" maxlength="30"showPassword="true" /></td>
+          <td> <label for="password"><fmt:message key='label.password'/></label>: </td>
+          <td> <form:password path="password" size="30" maxlength="30" showPassword="true" /></td>
        </tr>
        <tr>
           <td> &nbsp; </td>
