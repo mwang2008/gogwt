@@ -10,6 +10,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
+import com.gogwt.apps.email.SendEmailWithGmailHost;
 import com.gogwt.apps.tracking.AppConstants;
 import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.formbean.ContactUsFormBean;
@@ -28,6 +29,22 @@ public class NotificationEmail {
 
 	public void sendEnrollEmail(final CustomerProfile profile, final String unencrptedPassword) {
 		logger.debug("=sendEnrollEmail");
+		
+		SendEmailWithGmailHost.getInstance().sendEmail(
+				profile.getEmail(), 
+				"Welcome to GoGWT mobile app", 
+				constructBody(profile, unencrptedPassword));
+		
+	}
+	
+	/**
+	 * 
+	 * @param profile
+	 * @param unencrptedPassword
+	 * @deprecated use sendEnrollEmail instead
+	 */
+	public void sendEnrollEmail_GAE(final CustomerProfile profile, final String unencrptedPassword) {
+		logger.debug("=sendEnrollEmail");
 
 		HttpClient client = new HttpClient();
 		PostMethod method = new PostMethod(emailURL);
@@ -35,7 +52,7 @@ public class NotificationEmail {
 			NameValuePair[] data = {
 					new NameValuePair("to", profile.getEmail()),
 					new NameValuePair("subject",
-							"Welcome to choose gogwt mobile app"),
+							"Welcome to gogwt mobile app"),
 					new NameValuePair("body", constructBody(profile, unencrptedPassword)) };
 			method.setRequestBody(data);
 
@@ -49,7 +66,22 @@ public class NotificationEmail {
 		}
 	}
 	
+	
 	public void sendForgotPasswordEmail(final CustomerProfile profile, String newPassword) {
+		logger.debug("=sendForgotPasswordEmail");
+		SendEmailWithGmailHost.getInstance().sendEmail(
+				profile.getEmail(), 
+				"Your password has been reset", 
+				constructBody(profile, constructForgotPasswordBody(profile, newPassword)));
+	}
+	
+	/**
+	 * 
+	 * @param profile
+	 * @param newPassword
+	 * @deprecated use sendForgotPasswordEmail instead
+	 */
+	public void sendForgotPasswordEmail_GAE(final CustomerProfile profile, String newPassword) {
 		logger.debug("=sendForgotPasswordEmail");
 		
 		HttpClient client = new HttpClient();
@@ -74,6 +106,19 @@ public class NotificationEmail {
 	}
 
 	public void sendCustomerComments(ContactUsFormBean formBean) {
+		logger.debug("sendCustomerComments");
+		SendEmailWithGmailHost.getInstance().sendEmail(
+				AppConstants.MAIN_EMAIL_LIST, 
+				formBean.getSubject(), 
+				constructCustomerCommentsBody(formBean));
+	}
+	
+	/**
+	 * 
+	 * @param formBean
+	 * @deprecated use sendCustomerComments instead
+	 */
+	public void sendCustomerComments_GAE(ContactUsFormBean formBean) {
 		logger.debug("sendCustomerComments");
 		HttpClient client = new HttpClient();
 		PostMethod method = new PostMethod(emailURL);

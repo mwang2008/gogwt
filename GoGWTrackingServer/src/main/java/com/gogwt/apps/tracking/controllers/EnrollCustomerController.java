@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
+import com.gogwt.apps.tracking.data.LoginStatus;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
@@ -55,6 +56,7 @@ public class EnrollCustomerController extends BaseAbstractController {
 
 			CustomerProfile customerProfile = 
 					businessService.enrollCustomer(formBean);
+			customerProfile.setStatus(LoginStatus.EXPLICIT);
 			
 			HttpSession session = request.getSession();
 			

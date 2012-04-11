@@ -37,10 +37,12 @@ public class ViewAccountController extends BaseAbstractController {
 			throws Exception {
 		
 		
+		UrlMappingElem urlMappingElem = (UrlMappingElem)request.getAttribute(ENV);
 		
-		HttpSession session = request.getSession();
-		CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
-	 	 
+		//HttpSession session = request.getSession();
+		//CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
+		CustomerProfile customerProfile = urlMappingElem.getCustomerProfile();
+		
 		final EnrollCustomerFormBean requestForm = new EnrollCustomerFormBean();
 		if (customerProfile != null) {
 		    requestForm.setGroupId(customerProfile.getGroupId());
@@ -61,12 +63,12 @@ public class ViewAccountController extends BaseAbstractController {
 		
 		final UrlMappingElem env = (UrlMappingElem)request.getAttribute(ENV);
 		HttpSession session = request.getSession();
-		CustomerProfile customerProfile = (CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
+		CustomerProfile customerProfile = env.getCustomerProfile(); //(CustomerProfile)session.getAttribute(CUSTOMER_PROFILE);
 		
 		//if implicit, require login
 		if (!(customerProfile.getStatus() == LoginStatus.EXPLICIT)) {
 			//redirect to login page
-			String targetURL = env.getPrefix() + "/login?successURL=" + env.getPrefix()+"/viewaccount";
+			String targetURL = env.getPrefix() + "/login?from=viewaccount&successURL=" + env.getPrefix()+"/viewaccount";
 			return new ModelAndView(new RedirectView(targetURL));
 			//response.sendRedirect(targetURL);
 		}

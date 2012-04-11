@@ -42,14 +42,29 @@
                 </div>  
              </spring:hasBindErrors></td>
        </tr>
-       <tr> 
-          <td> <label for="groupId"><fmt:message key='label.GroupId'/></label>: </td>
-          <td> <form:input id="groupId" path="groupId" size="30" maxlength="30"/></td>
-       </tr>
-       <tr> 
-          <td> <label for="userName"><fmt:message key='label.userName'/></label>: </td>
-          <td> <form:input id="userName" path="userName" size="30" maxlength="30" /></td>
-       </tr>
+	   <c:choose>
+	      <c:when test="${env.customerProfile != null && param.from == 'viewaccount'}">
+	         <tr> 
+                <td> <label for="groupId"><fmt:message key='label.GroupId'/></label>: </td>
+                <td> <input type="hidden" name="groupId" value="${env.customerProfile.groupId}"/> ${env.customerProfile.groupId} </td>
+             </tr>
+             <tr> 
+                <td> <label for="userName"><fmt:message key='label.userName'/></label>: </td>
+                <td> <input type="hidden" name="userName" value="${env.customerProfile.userName}"/> ${env.customerProfile.userName}</td>
+            </tr>	  
+		  </c:when>
+		  <c:otherwise>
+		     <tr> 
+                <td> <label for="groupId"><fmt:message key='label.GroupId'/></label>: </td>
+                <td> <form:input id="groupId" path="groupId" size="30" maxlength="30"/></td>
+             </tr>
+             <tr> 
+                <td> <label for="userName"><fmt:message key='label.userName'/></label>: </td>
+                <td> <form:input id="userName" path="userName" size="30" maxlength="30" /></td>
+            </tr>
+		  </c:otherwise>
+	   </c:choose>
+  
         <tr> 
           <td> <label for="password"><fmt:message key='label.password'/></label>: </td>
           <td> <form:password path="password" size="30" maxlength="30" showPassword="true" /></td>
