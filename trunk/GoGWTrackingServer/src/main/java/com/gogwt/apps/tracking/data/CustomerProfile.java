@@ -18,7 +18,7 @@ public class CustomerProfile extends BaseBean {
 	private boolean isLogin;
 	private boolean active = true;
 	private Date createDate;
-	private LoginStatus status;
+	private LoginStatus status = LoginStatus.ANAYMOUS;
 	
 	public String getId() {
 		return id;

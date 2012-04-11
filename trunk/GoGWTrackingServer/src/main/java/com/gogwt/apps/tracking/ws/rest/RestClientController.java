@@ -73,7 +73,8 @@ public class RestClientController {
 	//@RequestMapping(value="mobilelogin", method=RequestMethod.GET, headers="Content-Type=application/json")
 	public @ResponseBody LoginResponse sendLoginJSON(@RequestBody Profile request) {
 		//logger.debug(" ==== mobilelogin JSON input: " + request.toString());
-		System.out.println(" ==== mobilelogin JSON input: " + request.toString());
+		
+		System.out.println(" ==== " + new Date() + " mobilelogin JSON input: " + request.toString());
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		LoginResponse response = service.retrieveCustomerProfileByGroupId(request);
 		

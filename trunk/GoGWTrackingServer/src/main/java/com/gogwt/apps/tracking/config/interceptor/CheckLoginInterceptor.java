@@ -33,7 +33,7 @@ public class CheckLoginInterceptor extends HandlerInterceptorAdapter {
 			    CustomerProfile cookieProfile = CookieUtils.getCookieProfile(request);
 			    if (cookieProfile != null) {				  
 			       cookieProfile.setStatus(LoginStatus.IMPLICIT);
-			       session.setAttribute(CUSTOMER_PROFILE, cookieProfile);
+			       //session.setAttribute(CUSTOMER_PROFILE, cookieProfile);
 			       urlMappingElem.setCustomerProfile(cookieProfile);
 			       
 			       customerProfile = cookieProfile;
