@@ -106,7 +106,7 @@
      <div class="loginHeader" title="Priority Club Rewards">
 		<div class="closeBtn" >
 		<a href="#">
-			<img height="14" width="14" border="0"  title="Select to close." src="/gwtbooking/images/close.gif"  alt="Login Close Button Graphic" /></a>
+			<img height="14" width="14" border="0"  title="Select to close." src="/tracking/images/close.gif"  alt="Login Close Button Graphic" /></a>
 	  	</div>
 	</div> <%-- loginHeader--%>
 
