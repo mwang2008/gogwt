@@ -32,7 +32,7 @@
 <%@ include file="/jsp/common/i_header.jspf"%>
 
  
-<c:set var="fromPage" value="ShowActiveTracks"/>
+<c:set var="showactiveattracks" value="selected"/>
 <%@ include file="i_menu.jspf"%>
  
  

@@ -35,6 +35,7 @@
 <body>
 
 <%@ include file="/jsp/tracking/i_header.jspf"%>
+<c:set var="importtrack" value="selected"/>
 <%@ include file="i_menu.jspf"%>
 
 <div id="container"> 

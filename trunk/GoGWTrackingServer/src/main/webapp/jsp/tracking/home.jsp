@@ -23,7 +23,7 @@
   <div id="wrapper">
   <div id="container">
     <%@ include file="i_header.jspf"%>
-	yyyy <c:set var="home" value="selected"/>
+	<c:set var="home" value="selected"/>
 	<c:choose>
 	   <c:when test="${env.customerProfile != null}">
 	      <%@ include file="i_menu.jspf"%>
