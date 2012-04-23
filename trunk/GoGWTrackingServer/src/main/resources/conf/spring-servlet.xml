@@ -26,6 +26,7 @@
     <bean name="name=validator/ChangePasswordValidator" class="com.gogwt.apps.tracking.controllers.validation.ChangePasswordValidator" />
     <bean name="name=validator/ModifyCustomerValidator" class="com.gogwt.apps.tracking.controllers.validation.ModifyCustomerValidator" />
     <bean name="name=validator/ForgotPasswordValidator" class="com.gogwt.apps.tracking.controllers.validation.ForgotPasswordValidator" />
+    <bean name="name=validator/C2DMSendMessageValidator" class="com.gogwt.apps.tracking.controllers.validation.C2DMSendMessageValidator" />
 
 	<!-- ========================= INTERCEPTOR ========================= -->
 	<bean name="name=interceptor/config/URLHandlerInterceptor"
@@ -135,7 +136,7 @@
 		<property name="formView"><value>/customer/view_account</value></property>
 		<property name="successView"><value>viewaccount</value></property>
    </bean>
-   
+  
    <!--  Delete Account  -->	
    <bean name="name=controller/DeleteAccountController"
 		class="com.gogwt.apps.tracking.controllers.DeleteAccountController" >
@@ -166,6 +167,14 @@
 		<property name="formView"><value>/tracking/contact_us</value></property>		 
    </bean>
   
+   <!--  C2DM  -->
+   <bean name="name=controller/C2DMRegisterListController"
+		class="com.gogwt.apps.tracking.controllers.C2DMRegisterListController" >		
+		<property name="commandName"><value>c2dmSendMessageFormBean</value></property>
+		<property name="validator"><ref bean="name=validator/C2DMSendMessageValidator" /></property>
+		<property name="formView"><value>/tracking/c2dm_user_list</value></property>
+   </bean>
+   
    <!--  FAQs -->
    <bean name="name=controller/FAQController"
 		class="com.gogwt.apps.tracking.controllers.GenericController" >
@@ -224,6 +233,8 @@
 				<prop key="/**/viewaccount/**/">name=controller/ViewAccountController</prop>
 				<prop key="/**/deleteaccount/**/">name=controller/DeleteAccountController</prop>
 				<prop key="/**/changepassword/**/">name=controller/ChangePasswordController</prop>
+				<prop key="/**/c2dmuserlist/**/">name=controller/C2DMRegisterListController</prop>
+				
 			</props>
 		</property>
 	</bean>

@@ -69,9 +69,30 @@ CREATE TABLE `tracking_sms` (
 );
 //ALTER TABLE tracking_sms AUTO_INCREMENT = 2000;   
 ALTER TABLE tracking_sms ADD INDEX(groupId,display_name);
+    
+CREATE TABLE `tracking_c2mdregistration` (
+   `phone` varchar(30) NOT NULL, 
+   `groupId` varchar(30) NOT NULL,
+   `registrationid` varchar(1024) NOT NULL, 
+   `deviceid` varchar(130) NOT NULL,
+   `email` varchar(130),
+   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+   PRIMARY KEY  (`phone`)
+);
 
 ////////////////////////////////////////////////
 /// NOT USED
+CREATE TABLE `tracking_c2mdregistration` (
+   --`id` INT auto_increment,
+   `phone` varchar(30) NOT NULL, 
+   `registrationid` varchar(1024) NOT NULL, 
+   `deviceid` varchar(130) NOT NULL,
+   `email` varchar(130),
+   `create_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+   PRIMARY KEY  (`phone`)
+   --UNIQUE KEY c2md_registration (phone)
+);
+
 CREATE TABLE `mobile_login_user` (  
    `id` mediumint(9) NOT NULL auto_increment,
    `groupId` varchar(30) NOT NULL,

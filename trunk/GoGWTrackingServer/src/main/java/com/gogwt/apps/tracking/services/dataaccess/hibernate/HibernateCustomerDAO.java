@@ -18,9 +18,11 @@ import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
 import com.gogwt.apps.tracking.data.TrackingSmsData;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
+import com.gogwt.apps.tracking.exceptions.CouldNotFindException;
 import com.gogwt.apps.tracking.exceptions.DisplayNameAlreadyLoginException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
 import com.gogwt.apps.tracking.exceptions.InvalidUserException;
+import com.gogwt.apps.tracking.formbean.C2DMRegisterBean;
 import com.gogwt.apps.tracking.formbean.LoginFormBean;
 import com.gogwt.apps.tracking.services.dataaccess.CustomerDAO;
 import com.gogwt.apps.tracking.utils.StringUtils;
@@ -620,5 +622,136 @@ public class HibernateCustomerDAO implements CustomerDAO {
 
 	}
 
+	@Override
+	public void registerC2DM(C2DMRegisterBean registerBean)
+			throws AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
 
+			tx = session.beginTransaction();
+			//session.merge(registerBean);
+			session.saveOrUpdate(registerBean);
+			tx.commit();
+		}
+
+		catch (GenericJDBCException e) {
+			e.printStackTrace();			
+			throw new AppRemoteException("wrong save c2dm register=: " + registerBean.getPhone() + ", id="+registerBean.getRegistrationid());
+		} 
+		catch (Exception e) {
+			e.printStackTrace();			
+			throw new AppRemoteException("wrong save c2dm register=: " + registerBean.getPhone() + ", id="+registerBean.getRegistrationid());
+		} 
+		finally {
+			 
+			if (session != null) {
+				// session.close();
+			}
+		}	  
+		
+	}
+
+	public C2DMRegisterBean getC2DMRegisterByPhonenumber(final String phone) throws CouldNotFindException, AppRemoteException {
+		logger.debug("start retrieveCustomerProfileByUsername");
+
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+			session.beginTransaction();
+
+			Query query = session
+					.createQuery("from C2DMRegisterBean where phone=:phone");
+			query.setParameter("phone", phone);
+
+			List<C2DMRegisterBean> result = query.list();
+
+			session.getTransaction().commit();
+
+			if (result == null || result.isEmpty()) {
+				throw new CouldNotFindException("invalid phone: " + phone);
+			}
+
+			return result.get(0);
+		}
+
+		catch (GenericJDBCException e) {
+			e.printStackTrace();
+			// throw new AppRemoteException("error for gettting customer", e);
+			throw new CouldNotFindException("wrong phone: " + phone);
+		} finally {
+			
+			if (session != null) {
+				// session.close();
+			}
+		}
+	}
+	
+	public void unregisterC2DM(final C2DMRegisterBean registerBean) throws AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+			tx = session.beginTransaction();
+			Query query = session.createQuery("delete from C2DMRegisterBean where phone=:phone");
+			query.setParameter("phone", registerBean.getPhone());
+			 
+			query.executeUpdate(); 
+			
+			tx.commit();
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();			
+			throw new AppRemoteException("wrong delete phone=: " + registerBean.getPhone());
+		} finally {
+			 
+			if (session != null) {
+				// session.close();
+			}
+		}	 
+	}
+
+	@Override
+	public List<C2DMRegisterBean> getRegisterListByGroupId(String groupId)
+			throws AppRemoteException {
+		logger.debug("start getRegisterListByGroupId");
+
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+			session.beginTransaction();
+
+			Query query = session
+					.createQuery("from C2DMRegisterBean where groupId=:groupId");
+			query.setParameter("groupId", groupId);
+
+			List<C2DMRegisterBean> result = query.list();
+
+			session.getTransaction().commit();
+
+			if (result == null || result.isEmpty()) {
+				throw new CouldNotFindException("invalid groupId: " + groupId);
+			}
+
+			return result;
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+			// throw new AppRemoteException("error for gettting customer", e);
+			throw new CouldNotFindException("wrong groupId: " + groupId);
+		} finally {
+			
+			if (session != null) {
+				// session.close();
+			}
+		}
+	}
+	
+	
 }

@@ -7,9 +7,11 @@ import com.gogwt.apps.tracking.data.CustomerProfile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
 import com.gogwt.apps.tracking.data.TrackingSmsData;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
+import com.gogwt.apps.tracking.exceptions.CouldNotFindException;
 import com.gogwt.apps.tracking.exceptions.DisplayNameAlreadyLoginException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
 import com.gogwt.apps.tracking.exceptions.InvalidUserException;
+import com.gogwt.apps.tracking.formbean.C2DMRegisterBean;
 import com.gogwt.apps.tracking.formbean.LoginFormBean;
 
 public interface CustomerDAO {
@@ -32,4 +34,11 @@ public interface CustomerDAO {
 	
     public int saveSmsData(List<TrackingSmsData> smsDataList) throws InvalidUserException, AppRemoteException;
     public List<TrackingSmsData> findAllTrackingSmsData(String groupId, String displayName, long startTimeLong) throws InvalidUserException, AppRemoteException;
+    
+    public void registerC2DM(final C2DMRegisterBean registerBean) throws AppRemoteException;
+    public void unregisterC2DM(final C2DMRegisterBean registerBean) throws AppRemoteException;
+    public C2DMRegisterBean getC2DMRegisterByPhonenumber(final String phone) throws CouldNotFindException, AppRemoteException;
+
+    public List<C2DMRegisterBean> getRegisterListByGroupId(final String groupId) throws AppRemoteException;
+    
 }

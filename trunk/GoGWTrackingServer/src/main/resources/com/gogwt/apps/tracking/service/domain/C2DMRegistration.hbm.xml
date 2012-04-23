@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.gogwt.apps.tracking.formbean">
+
+    <class name="C2DMRegisterBean" dynamic-update="true" select-before-update="true" table="tracking_c2mdregistration">        
+        <id name="phone" type="java.lang.String">
+            <column name="phone" />
+            <generator class="assigned" />
+        </id>
+         
+        <property name="registrationid" column="registrationid"/>
+        <property name="deviceid" column="deviceid"/>
+        <property name="groupId" column="groupId"/>
+        
+        <property name="email" column="email"/>
+        <property name="createDate" column="create_date"/>
+        
+    </class>
+</hibernate-mapping>
+ 

@@ -32,6 +32,10 @@
 	           <c:choose >
 			     <c:when test="${hasResult}">
                     <table border="0" cellpadding="5" width="100%">
+					<form:form method="POST" commandName="c2dmSendMessageFormBean">		                
+					    <div id="ErrorContainer">
+	                      <div id="Error"><form:errors path="*" cssClass="text12red" /></div>
+                        </div> 
 				        <c:forEach var="track" items="${c2dmRegList}" varStatus="status">
 						  <c:if test="${status.first}">	
 						  <tr>
@@ -42,14 +46,35 @@
 						      <td valign="middle"> 		
                                  <table   cellspacing="0" cellpadding="1" border="0" width="100%">
                                    <tr> 
-								     <td colspan="3"> ${track.phone}   </td>
+								     <td colspan="3"> <form:checkbox path="recipientList" value="${track.phone}" />  ${track.phone}   </td>
 								   </tr>
 								 </table>
+							   </td>
+							</tr>
 						</c:forEach>
+						
+						<tr> 
+						   <td>                       
+							  <label for="message"><fmt:message key='label.Message'/></label>:
+						   </td>
+					    </tr>
+						<tr> 
+						   <td>
+						      <form:textarea path="message" rows="5" cols="30" />
+						   </td>
+					    </tr>
+
+						<tr> 
+						   <td>
+						      <input type="submit" value="Send Message"/>
+						   </td>
+					    </tr>
+						
+					</form:form>
 					</table>
                  </c:when>
 			     <c:otherwise>
-				    No track available for viewing
+				    No user is registered C2DM with your group 
 				 </c:otherwise>
 			  </c:choose>			 
 		    </div>
