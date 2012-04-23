@@ -1,92 +1,15 @@
+<%-- @ include file="test.jspf" --%>
+ <%@ include file="i_my_menu.jspf"%>
+					 
+<%--
  <div id="menu" style="position: relative;">
          <table class="menu_table" cellpadding="0" cellspacing="0">
-            <tbody>
+		  <tbody>
               <tr align="right">
                  <td style="vertical-align: top;" align="left">
-                    <table class="menu_inner" cellpadding="0" cellspacing="0">
-                       <tbody>
-                       <tr>
-                          <td style="vertical-align: middle;" align="left">
-                             <div class="gwt-Label bw_top_menu">
-							   <a href="${env.prefix}/home" style="text-decoration:none"> <span class="gwt-Label bw_top_menu"> Home </span></a>                            
-                          </td>
-						  <td class="gwt-Label bw_top_menu" align="left"> &nbsp;| &nbsp; </td>
-						  
-                          <td style="vertical-align: middle;" align="left">						   
-						     <c:choose>
-							    <c:when test="${fromPage eq 'ShowActiveTracks'}">
-								  <div class="gwt-Label top_menu_select">                                                 
-                                     Show Current Tracks                                 
-                                  </div>
-								</c:when>
-								<c:otherwise>
-								  <div class="gwt-Label menu_select">                                                 
-                                    <a href="${env.prefix}/showactiveattracks" style="text-decoration:none"><span class="gwt-Label bw_top_menu"> Show Current Tracks   </span></a>                         
-                                  </div>								
-								</c:otherwise>
-							 </c:choose>                           
-                          </td>
-						  
-						  <td class="gwt-Label bw_top_menu" align="left"> &nbsp;| &nbsp; </td>
-						  <%-- import track --%>
-                          <td style="vertical-align: middle;" align="left">						   
-						     <c:choose>
-							    <c:when test="${fromPage eq 'importtrack'}">
-								  <div class="gwt-Label top_menu_select">                                                 
-                                     Import Track                                 
-                                  </div>
-								</c:when>
-								<c:otherwise>
-								  <div class="gwt-Label menu_select">                                                 
-                                    <a href="${env.prefix}/importtrack" style="text-decoration:none"><span class="gwt-Label bw_top_menu"> Import Track </span></a>                         
-                                  </div>								
-								</c:otherwise>
-							 </c:choose>                           
-                          </td>						  
-						  <td class="gwt-Label bw_top_menu" align="left"> &nbsp;| &nbsp; </td>						  
-                          <td style="vertical-align: middle;" align="left">                              
-							 <c:choose>
-							    <c:when test="${fromPage eq 'ShowHistoryTracks'}">
-								  <div class="gwt-Label top_menu_select">                                                 
-                                      Show Old Tracks                                          									 
-                                  </div>
-								</c:when>
-								<c:otherwise>
-								  <div class="gwt-Label menu_select">                                                 
-                                    <a href="${env.prefix}/retrievetracks" style="text-decoration:none"><span class="gwt-Label bw_top_menu"> Show Old Tracks  </span></a>                         
-                                  </div>								
-								</c:otherwise>
-							 </c:choose>
-                            </div>                        
-                          </td>
-						  
-                          <%-- track detail --%>
-						  <c:if test="${fromPage eq 'trackdetail'}">
-							 <td class="gwt-Label bw_top_menu" align="left"> &nbsp;| &nbsp; </td>
-							 <td style="vertical-align: middle;" align="left"> 
-						           <div class="gwt-Label top_menu_select">                                                 
-                                      Show Track Detail
-                                   </div>
-							 </td>
-						  </c:if>
-						  
-                       </tr>
-                       </tbody>
-                    </table>
+                     <%@ include file="i_my_menu.jspf"%>
                  </td>
-             
-                 <td style="vertical-align: top;" class="gwt-Label bw_top_menu" align="right">
-				    <a href="${env.prefix}/viewaccount" style="text-decoration:none">
-                       <span class="gwt-Label bw_top_menu">  Manager Account &nbsp;</span>
-                    </a>
-					&nbsp;| &nbsp;
-                    <a href="${env.prefix}/logout" style="text-decoration:none">
-                       <span class="gwt-Label bw_top_menu">  Logout &nbsp;</span>
-                    </a>
-                 </td>
-			
-              </tr>
-            </tbody>
-         </table>
-      </div> 
-   </div>
+		      </tr>
+		</table>
+</div>
+--%>

@@ -13,7 +13,7 @@
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>      
-   
+      
    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
    
@@ -21,7 +21,22 @@
        var MULTIPLE_RETRIEVE = true;
        var ajaxUrl = '${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5';         	   
    </script>
-   
+    <script type="text/javascript">
+     $(document).ready(function () { 
+     
+      $('#nav li').hover(
+         function () {
+            //show its submenu
+            $('ul', this).slideDown(100);
+ 
+        }, 
+        function () {
+            //hide its submenu
+            $('ul', this).slideUp(100);         
+        }
+    );
+     
+   });
    <script type="text/javascript" src="${env.contextPath}/jsp/tracking/trackingscript.jsp"></script>
    
    
