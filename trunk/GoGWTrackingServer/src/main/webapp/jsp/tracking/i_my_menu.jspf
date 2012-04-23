@@ -1,48 +1,61 @@
+<%--
+  Most from: http://javascript-array.com/scripts/jquery_simple_drop_down_menu/
+--%>
 <style type="text/css">
-/* menu styles */
-#jsddm
-{	margin: 0;
-	padding: 0}
+   /* menu styles */
+   #jsddm {
+      margin: 0;
+	  padding: 0
+   }
 
-	#jsddm li
-	{	float: left;
-		list-style: none;
-		font: 12px Tahoma, Arial}
+	#jsddm li {
+	   float: left;
+	   list-style: none;
+	   font: 12px Verdana,Helvetica,Arial,sans-serif;
+	   font-weight: bold;
+	}
 
-	#jsddm li a
-	{	display: block;
+	#jsddm li a {
+	    display: block;
 		background: #548B54;
 		padding: 5px 12px;
 		text-decoration: none;
 		border-right: 1px solid white;
 		width: 120px;
 		color: #EAFFED;
-		white-space: nowrap}
+		white-space: nowrap
+	}
 
-	#jsddm li a:hover
-	{	background: #003300}
-		
-		#jsddm li ul
-		{	margin: 0;
-			padding: 0;
-			position: absolute;
-			visibility: hidden;
-			border-top: 1px solid white}
-		
-			#jsddm li ul li
-			{	float: none;
-				display: inline}
-			
-			#jsddm li ul li a
-			{	width: auto;
-				background: #A9C251;
-				color: #24313C}
-			
-			#jsddm li ul li a:hover
-			{	background: #8EA344}
+	#jsddm li a:hover {
+	   background: #003300
+	}
+
+	#jsddm li ul {
+	    margin: 0;
+		padding: 0;
+		position: absolute;
+		visibility: hidden;
+		z-index:101;
+		border-top: 1px solid white
+	}
+
+	#jsddm li ul li {
+	   float: none;
+	   display: inline
+	}
+
+	#jsddm li ul li a {
+	   width: auto;
+	   background: #A9C251;
+	   color: #24313C
+	}
+
+	#jsddm li ul li a:hover	{
+	   background: #8EA344
+	}
 </style>
 
-<!-- 
+<!--
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script>
 <script src="jquery.min.js" type="text/javascript"></script>
 -->
@@ -79,33 +92,30 @@ document.onclick = jsddm_close;
    <table class="menu_table" cellpadding="0" cellspacing="0">
       <tr align="right">
          <td style="vertical-align: top;" align="center">
-                     
-<ul id="jsddm">
-    <li><a href="${env.prefix}/home">Home</a></li>
-	<li><a href="${env.prefix}/showactiveattracks">Show Current Tracks</a></li>
-	<li><a href="${env.prefix}/importtrack">Import Track</a></li>
-	<li><a href="${env.prefix}/retrievetracks">Show Old Tracks</a></li>
-	<%-- track detail --%>
-	<c:if test="${fromPage eq 'trackdetail'}">
-	   <li><a href="#">Show Track Detail</a></li>		   
-	</c:if>
-    <li><a href="#">Manager Account</a>
-       <ul>
-          <li><a href="${env.prefix}/viewaccount">Manager Account</a></li>
-          <li><a href=""${env.prefix}/c2dmuserlist">Send Notification</a></li>
-       </ul>        
-    </li>
- </ul>
+            <ul id="jsddm">
+               <li><a href="${env.prefix}/home">Home</a></li>
+	           <li><a href="${env.prefix}/showactiveattracks">Current Tracks</a></li>
+	           <li><a href="${env.prefix}/importtrack">Import Track</a></li>
+	           <li><a href="${env.prefix}/retrievetracks">Old Tracks</a></li>
+	           <%-- track detail --%>
+	           <c:if test="${fromPage eq 'trackdetail'}">
+	              <li><a href="#">Track Detail</a></li>
+	           </c:if>
+               <li><a href="#">Manager Account</a>
+                 <ul>
+                   <li><a href="${env.prefix}/viewaccount">Manager Account</a></li>
+                   <li><a href="${env.prefix}/c2dmuserlist">Send Notification</a></li>
+                 </ul>
+              </li>
+            </ul>
         </td>
 		<td align="right">
-				 <ul id="jsddm">
-				 <li><a href="#">Logout</a></li>
-				 </ul>
-				 </td>
-		      </tr>
-	
-    	
-		</table>
+			<a href="${env.prefix}/logout" style="text-decoration:none">
+                       <span class="gwt-Label bw_top_menu">  Logout &nbsp;</span>
+                    </a>
+		</td>
+	 </tr>
+  </table>
 </div>
 
 <div class="clear"> </div>
