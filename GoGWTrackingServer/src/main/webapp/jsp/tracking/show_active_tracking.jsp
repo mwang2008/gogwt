@@ -21,22 +21,7 @@
        var MULTIPLE_RETRIEVE = true;
        var ajaxUrl = '${env.prefix}/displaycurrentlocation?groupId=${env.customerProfile.groupId}&days=5';         	   
    </script>
-    <script type="text/javascript">
-     $(document).ready(function () { 
-     
-      $('#nav li').hover(
-         function () {
-            //show its submenu
-            $('ul', this).slideDown(100);
  
-        }, 
-        function () {
-            //hide its submenu
-            $('ul', this).slideUp(100);         
-        }
-    );
-     
-   });
    <script type="text/javascript" src="${env.contextPath}/jsp/tracking/trackingscript.jsp"></script>
    
    
@@ -46,9 +31,10 @@
 
 <%@ include file="/jsp/common/i_header.jspf"%>
 
+ 
 <c:set var="fromPage" value="ShowActiveTracks"/>
 <%@ include file="i_menu.jspf"%>
-
+ 
  
 <div id="container"> 
    <table border="1" cellspacing="2" cellpadding="2">
