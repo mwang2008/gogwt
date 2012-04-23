@@ -5,7 +5,7 @@
 
        	<!-- 
 	      This file will hold all the domain service definitions.
-	-->
+	    -->
 	    
 	    
         <bean name="name=domain/customer/ProfileBusinessDomainService" class="com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService">
@@ -13,6 +13,10 @@
         </bean>
   
         <bean name="name=domain/customer/RestBusinessDomainService" class="com.gogwt.apps.tracking.services.domain.RestBusinessDomainService">
+           <property name="customerDAO"><ref bean="name=dao/CustomerDAO" /></property>                  
+        </bean>
+
+        <bean name="name=domain/customer/C2DMBusinessDomainService" class="com.gogwt.apps.tracking.services.domain.C2DMBusinessDomainService">
            <property name="customerDAO"><ref bean="name=dao/CustomerDAO" /></property>                  
         </bean>
        

@@ -35,12 +35,16 @@ import com.gogwt.apps.tracking.data.response.LocationResponse;
 import com.gogwt.apps.tracking.data.response.LoginResponse;
 import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.exceptions.DuplicatedUserNameException;
+import com.gogwt.apps.tracking.formbean.C2DMMessageBean;
+import com.gogwt.apps.tracking.formbean.C2DMRegisterBean;
 import com.gogwt.apps.tracking.formbean.EnrollCustomerFormBean;
+import com.gogwt.apps.tracking.services.domain.C2DMBusinessDomainService;
 import com.gogwt.apps.tracking.services.domain.DomainServiceHelper;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.ProfileBusinessDomainService;
 import com.gogwt.apps.tracking.services.domain.RestBusinessDomainService;
 import com.gogwt.apps.tracking.utils.StringUtils;
+import com.gogwt.apps.tracking.utils.ToStringUtils;
 
 
 @Controller
@@ -55,6 +59,53 @@ public class RestClientController {
 	public String test() {
 		logger.info("==== Spring Android Showcase");
 		return "/tracking/home";
+	}
+
+	/**
+	 * c2dmmsg
+	 * http://10.0.101.244/tracking/en-us/c2dmmsg
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="c2dmmsg", method=RequestMethod.POST, headers="Content-Type=application/xml")
+	public @ResponseBody String sendC2DMMessageXML(@RequestBody C2DMMessageBean messageBean) {
+		System.out.println(" ==== c2dmmsg XML input: " + ToStringUtils.toString(messageBean));
+		final C2DMBusinessDomainService service =  LookupBusinessService.getC2DMBusinessDomainService();
+		String returnCode = service.sendC2DMMessage(messageBean);
+		System.out.println(" ==== c2dmmsg XML response: " + returnCode);
+		return returnCode;
+ 	}
+	
+	@RequestMapping(value="c2dmmsg", method=RequestMethod.POST, headers="Content-Type=application/json")
+	public @ResponseBody String sendC2DMMessageJSON(@RequestBody C2DMMessageBean messageBean) {		
+		System.out.println(" ==== c2dmmsg JSON input: " + ToStringUtils.toString(messageBean));		 
+		final C2DMBusinessDomainService service =  LookupBusinessService.getC2DMBusinessDomainService();
+		String returnCode = service.sendC2DMMessage(messageBean);
+		System.out.println(" ==== c2dmmsg JSON response: " + returnCode);	
+		return returnCode;
+	}
+
+	
+	/**
+	 * c2dmreg, save registrationId and phone number etc
+	 * http://10.0.101.244/tracking/en-us/c2dmreg
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="c2dmreg", method=RequestMethod.POST, headers="Content-Type=application/xml")
+	public @ResponseBody String sendC2DMRegisterXML(@RequestBody C2DMRegisterBean registerBean) {
+		System.out.println(" ==== c2mdreg XML input: deviceid=" + registerBean.getDeviceid() + ", registrationid="+registerBean.getRegistrationid());
+		final C2DMBusinessDomainService service =  LookupBusinessService.getC2DMBusinessDomainService();
+		String returnCode = service.registerC2DM(registerBean);
+		return returnCode;
+ 	}
+	
+	@RequestMapping(value="c2dmreg", method=RequestMethod.POST, headers="Content-Type=application/json")
+	public @ResponseBody String sendC2DMRegisterJSON(@RequestBody C2DMRegisterBean registerBean) {		
+		System.out.println(" ==== c2mdreg JSON input: deviceid=" + registerBean.getDeviceid() + ", registrationid="+registerBean.getRegistrationid());		 
+		final C2DMBusinessDomainService service =  LookupBusinessService.getC2DMBusinessDomainService();
+		String returnCode = service.registerC2DM(registerBean);
+		return returnCode;
 	}
 	
 	

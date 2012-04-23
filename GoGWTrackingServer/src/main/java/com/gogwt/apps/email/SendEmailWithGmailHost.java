@@ -14,6 +14,15 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 
+ * Utilize Google App Email server smtp.gmail.com to send email. 
+ * Required account: contact@gogwt.com/freedog123
+ * 
+ * 
+ * @author michael.wang
+ *
+ */
 public class SendEmailWithGmailHost {
 	private static Logger logger = Logger.getLogger(SendEmailWithGmailHost.class);
 	
