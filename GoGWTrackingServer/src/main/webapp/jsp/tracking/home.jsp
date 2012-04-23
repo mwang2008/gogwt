@@ -9,25 +9,31 @@
    <title> Tracking Home</title>  
    
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+   
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+   
+  
    <link rel="stylesheet" type="text/css" media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
-
-
+  
+  
+  </script>
 </head>
 <body>
   <div id="wrapper">
   <div id="container">
     <%@ include file="i_header.jspf"%>
+	yyyy <c:set var="home" value="selected"/>
 	<c:choose>
 	   <c:when test="${env.customerProfile != null}">
 	      <%@ include file="i_menu.jspf"%>
+		  
 	   </c:when>
 	   <c:otherwise>
 	      <%@ include file="i_home_menu.jspf"%>
 	   </c:otherwise>
 	</c:choose>
-    
+    <p/>
     <div id="wrapperContent" style="position: relative">
 	   <%@ include file="i_home.jspf"%>
       
