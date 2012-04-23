@@ -53,6 +53,11 @@
 	#jsddm li ul li a:hover	{
 	   background: #8EA344
 	}
+	
+	/* make a different style for default selected value */
+    #jsddm a.selected {
+        color:#150517;
+    }
 </style>
 
 <!--
@@ -94,16 +99,16 @@ document.onclick = jsddm_close;
          <td style="vertical-align: top;" align="center">
             <ul id="jsddm">
                <li><a href="${env.prefix}/home">Home</a></li>
-	           <li><a href="${env.prefix}/showactiveattracks">Current Tracks</a></li>
-	           <li><a href="${env.prefix}/importtrack">Import Track</a></li>
-	           <li><a href="${env.prefix}/retrievetracks">Old Tracks</a></li>
+	           <li><a href="${env.prefix}/showactiveattracks" class="${showactiveattracks}">Current Tracks</a></li>
+	           <li><a href="${env.prefix}/importtrack" class="${importtrack}">Import Track</a></li>
+	           <li><a href="${env.prefix}/retrievetracks" class="${retrievetracks}"> Old Tracks</a></li>
 	           <%-- track detail --%>
 	           <c:if test="${fromPage eq 'trackdetail'}">
 	              <li><a href="#">Track Detail</a></li>
 	           </c:if>
-               <li><a href="#">Manager Account</a>
+               <li><a href="#" class="${viewaccount} ${c2dmuserlist}">Manager Account</a>
                  <ul>
-                   <li><a href="${env.prefix}/viewaccount">Manager Account</a></li>
+                   <li><a href="${env.prefix}/viewaccount" >Manager Account</a></li>
                    <li><a href="${env.prefix}/c2dmuserlist">Send Notification</a></li>
                  </ul>
               </li>

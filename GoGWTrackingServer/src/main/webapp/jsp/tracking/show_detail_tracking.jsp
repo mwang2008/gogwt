@@ -64,6 +64,7 @@
 <%@ include file="/jsp/common/i_header.jspf"%>
  
 <c:set var="fromPage" value="trackdetail"/>
+<c:set var="retrievetracks" value="selected"/>
 <%@ include file="i_menu.jspf"%>
  
 <div id="container"> 
