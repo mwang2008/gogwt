@@ -653,6 +653,34 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		
 	}
 
+
+	
+	public void unregisterC2DM(final C2DMRegisterBean registerBean) throws AppRemoteException {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+			tx = session.beginTransaction();
+			Query query = session.createQuery("delete from C2DMRegisterBean where phone=:phone");
+			query.setParameter("phone", registerBean.getPhone());
+			 
+			query.executeUpdate(); 
+			
+			tx.commit();
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();			
+			throw new AppRemoteException("wrong delete phone=: " + registerBean.getPhone());
+		} finally {
+			 
+			if (session != null) {
+				// session.close();
+			}
+		}	 
+	}
+
 	public C2DMRegisterBean getC2DMRegisterByPhonenumber(final String phone) throws CouldNotFindException, AppRemoteException {
 		logger.debug("start retrieveCustomerProfileByUsername");
 
@@ -689,32 +717,6 @@ public class HibernateCustomerDAO implements CustomerDAO {
 		}
 	}
 	
-	public void unregisterC2DM(final C2DMRegisterBean registerBean) throws AppRemoteException {
-		Session session = null;
-		Transaction tx = null;
-		try {
-			session = HibernateUtil.getSessionFactory().getCurrentSession();
-
-			tx = session.beginTransaction();
-			Query query = session.createQuery("delete from C2DMRegisterBean where phone=:phone");
-			query.setParameter("phone", registerBean.getPhone());
-			 
-			query.executeUpdate(); 
-			
-			tx.commit();
-		}
-
-		catch (Exception e) {
-			e.printStackTrace();			
-			throw new AppRemoteException("wrong delete phone=: " + registerBean.getPhone());
-		} finally {
-			 
-			if (session != null) {
-				// session.close();
-			}
-		}	 
-	}
-
 	@Override
 	public List<C2DMRegisterBean> getRegisterListByGroupId(String groupId)
 			throws AppRemoteException {

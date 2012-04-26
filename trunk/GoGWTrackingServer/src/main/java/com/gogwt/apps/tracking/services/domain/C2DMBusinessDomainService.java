@@ -39,6 +39,8 @@ public class C2DMBusinessDomainService extends BaseBusinessDomainService {
 		
 	}
 	
+ 
+	
 	public String sendC2DMMessage(C2DMMessageBean messageBean) {
 		try {
 			C2DMRegisterBean registerBean = getCustomerDAO().getC2DMRegisterByPhonenumber(messageBean.getTo());
