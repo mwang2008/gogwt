@@ -87,6 +87,7 @@ public class RestClientController {
 
 	
 	/**
+	 * Same for register and unregister.
 	 * c2dmreg, save registrationId and phone number etc
 	 * http://10.0.101.244/tracking/en-us/c2dmreg
 	 * @param request
@@ -94,7 +95,7 @@ public class RestClientController {
 	 */
 	@RequestMapping(value="c2dmreg", method=RequestMethod.POST, headers="Content-Type=application/xml")
 	public @ResponseBody String sendC2DMRegisterXML(@RequestBody C2DMRegisterBean registerBean) {
-		System.out.println(" ==== c2mdreg XML input: deviceid=" + registerBean.getDeviceid() + ", registrationid="+registerBean.getRegistrationid());
+		System.out.println(" ==== c2mdreg XML input: deviceid=" + ToStringUtils.toString(registerBean));
 		final C2DMBusinessDomainService service =  LookupBusinessService.getC2DMBusinessDomainService();
 		String returnCode = service.registerC2DM(registerBean);
 		return returnCode;
@@ -102,7 +103,7 @@ public class RestClientController {
 	
 	@RequestMapping(value="c2dmreg", method=RequestMethod.POST, headers="Content-Type=application/json")
 	public @ResponseBody String sendC2DMRegisterJSON(@RequestBody C2DMRegisterBean registerBean) {		
-		System.out.println(" ==== c2mdreg JSON input: deviceid=" + registerBean.getDeviceid() + ", registrationid="+registerBean.getRegistrationid());		 
+		System.out.println(" ==== c2mdreg JSON input: deviceid=" + ToStringUtils.toString(registerBean));		 
 		final C2DMBusinessDomainService service =  LookupBusinessService.getC2DMBusinessDomainService();
 		String returnCode = service.registerC2DM(registerBean);
 		return returnCode;

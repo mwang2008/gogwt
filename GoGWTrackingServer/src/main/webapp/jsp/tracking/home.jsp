@@ -15,31 +15,31 @@
    
   
    <link rel="stylesheet" type="text/css" media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
-  
-  
-  </script>
 </head>
 <body>
-  <div id="wrapper">
-  <div id="container">
-    <%@ include file="i_header.jspf"%>
+ 
+    
+	<%@ include file="/jsp/common/i_header.jspf"%>
 	<c:set var="home" value="selected"/>
 	<c:choose>
 	   <c:when test="${env.customerProfile != null}">
-	      <%@ include file="i_menu.jspf"%>
+	   <%@ include file="i_menu.jspf"%>
 		  
 	   </c:when>
 	   <c:otherwise>
-	      <%@ include file="i_home_menu.jspf"%>
+	    <%@ include file="i_home_menu.jspf"%>
 	   </c:otherwise>
 	</c:choose>
     <p/>
-    <div id="wrapperContent" style="position: relative">
+    <div id="container">
 	   <%@ include file="i_home.jspf"%>
       
     </div> 
-    <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
-  </div>
-</div>
+<div id="container">
+    <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="/jsp/common/i_footer.jspf"%></div>
+</div> 
 
+  
 <%@ include file="/jsp/common/i_analytics.jspf"%>
+</body>
+</html>
