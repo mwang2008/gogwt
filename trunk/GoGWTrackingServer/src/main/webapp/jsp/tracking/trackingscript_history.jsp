@@ -45,7 +45,12 @@
    /*GDispItem*/
    var lastDispLocations = null;
   
-   google.load("visualization", "1", {packages:["columnchart"]});
+   if ( jq.browser.msie ) {
+     google.load("visualization", "1", {packages:["corechart"]});
+   }
+   else {
+     google.load("visualization", "1", {packages:["columnchart"]});
+   }
 
    jq(document).ready(function() {
         
@@ -839,7 +844,7 @@
 	   if (options == null) {
 	      options = {
              width: 500,
-             height: 200,
+             height: 300,
              legend: 'none',
              title:  'Display Name: ' + dispName,
              titleY: 'Speed (mph)',

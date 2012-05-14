@@ -122,7 +122,7 @@
 				      <td align="left"> &nbsp;&nbsp;&nbsp;<img id="arrowLeft"  src="${env.contextPath}/images/arrow-left.png"> 
 					  <img id="loadingImgLeft" src="${env.contextPath}/images/loading.gif" style="display: none;"/>
 					  </td>
-				      <td align="center"><div id="chart_div" style="width:600px; height:200px" onmouseout="clearMatchMousemarker()"></div> </td>
+				      <td align="center"><div id="chart_div" style="width:600px; height:300px" onmouseout="clearMatchMousemarker()"></div> </td>
 					  <td align="right"> <img id="arrowRight" src="${env.contextPath}/images/arrow-right.png"> 
 					  <img id="loadingImgRight" src="${env.contextPath}/images/loading.gif" style="display: none;"/>
 					  </td>
