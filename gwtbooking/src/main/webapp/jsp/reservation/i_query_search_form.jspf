@@ -12,7 +12,7 @@
 		   source: function(request, response) {
 		     // alert(" here 1");
 		      
-			   jq.getJSON('http://localhost/gwtbooking/en-us/getkeywords', {key: request.term}, function(myreturn) {
+			   jq.getJSON('/gwtbooking/en-us/getkeywords', {key: request.term}, function(myreturn) {
 			     // alert(" herere 3" + myreturn.data);
 			   	 
 			   	response(jq.map(myreturn.data, function(destination) {
