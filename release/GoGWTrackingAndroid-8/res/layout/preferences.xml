@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="personal_settings"
+        android:title="Personal Settings" >
+
+        <ListPreference
+            android:defaultValue="mi"
+            android:entries="@array/preferredUnit"
+            android:entryValues="@array/preferredUnitValue"
+            android:key="prefreed_unit"
+            android:summary="Miles or Kilometers: "
+            android:title="Preferred units" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="communication_configuration"
+        android:title="Communication Settings" >
+        <!--  
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="GPS update rates [seconds] "
+            android:key="gps_interval"
+            android:summary="GPS update rate with satelite in seconds. Current value: "
+            android:title="GPS Interval" />
+        -->
+        <EditTextPreference
+            android:defaultValue="5"            
+            android:dialogTitle="Send interval [seconds] "
+            android:key="server_interval"
+            android:summary="Time between two location communicated with server in seconds. Current value: "
+            android:title="Send Interval" />
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="send_body"
+            android:summary="Send messaging body when receiving/sending message: "
+            android:title="Send Messaging body" />
+               
+    </PreferenceCategory>
+
+    <!-- 
+    <PreferenceCategory
+        android:key="system_settings"
+        android:title="System Settigns" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="auto_start"
+            android:summary="Start automatically when this device is booting"
+            android:title="Auto Start" />
+    </PreferenceCategory>
+     -->
+    <!-- 
+    <PreferenceCategory android:title="About" >
+
+       <PreferenceScreen
+            android:summary="summary_intent_preference"
+            android:title="title_intent_preference" >
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.android.com" />
+        </PreferenceScreen>
+
+        <com.gogwt.apps.tracking.custom.SeekBarPreference
+            android:defaultValue="5"
+            android:dialogMessage="Something duration"
+            android:key="duration"
+            android:max="60"
+            android:summary="How long something will last"
+            android:text=" minutes"
+            android:title="Duration of something" />
+        
+    </PreferenceCategory>
+     -->
+</PreferenceScreen>
