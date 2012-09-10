@@ -1,0 +1,12 @@
+com.gogwt.app.booking.dto.dataObjects.BaseBean, true, false, true, false, com.gogwt.app.booking.dto.dataObjects.BaseBean/3540520876, 3540520876
+com.gogwt.app.booking.dto.dataObjects.UserContextBean, false, false, true, true, com.gogwt.app.booking.dto.dataObjects.UserContextBean/129731941, 129731941
+com.gogwt.app.booking.dto.dataObjects.common.HotelBean, true, true, false, false, com.gogwt.app.booking.dto.dataObjects.common.HotelBean/1421699848, 1421699848
+com.gogwt.app.booking.exceptions.clientserver.AppRemoteException, true, true, false, false, com.gogwt.app.booking.exceptions.clientserver.AppRemoteException/1752446509, 1752446509
+com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException, true, true, false, false, com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException/1394820314, 1394820314
+com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException, true, true, false, false, com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException/2281445940, 2281445940
+com.gogwt.app.booking.rpc.interfaces.hotel.HotelDetailProcessService, false, false, false, false, _, 3157167694
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131

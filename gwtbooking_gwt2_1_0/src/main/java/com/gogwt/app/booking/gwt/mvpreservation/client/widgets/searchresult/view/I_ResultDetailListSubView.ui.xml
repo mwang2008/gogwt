@@ -1,0 +1,11 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+     xmlns:g="urn:import:com.google.gwt.user.client.ui"
+     xmlns:gm='urn:import:com.google.gwt.maps.client'
+     xmlns:item='urn:import:com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view'>
+     
+     <ui:style field='resStyle' src="../../reservation.css"/>
+
+      <g:FlexTable ui:field='table'  cellSpacing='1' cellPadding='1'/>
+      
+</ui:UiBinder>

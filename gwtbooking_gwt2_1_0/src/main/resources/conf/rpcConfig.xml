@@ -1,0 +1,45 @@
+<!-- RPC Configuration -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+  <!-- ======== Service End Points ========== -->
+  <bean name="name=rpc/reservation/HotelSearchEndPoint"      class="com.gogwt.app.booking.rpc.services.reservation.HotelSearchRPCController"/>
+  <bean name="name=rpc/reservation/HotelReserveEndPoint"     class="com.gogwt.app.booking.rpc.services.reservation.HotelReserveRPCController"/>
+  <bean name="name=rpc/reservation/SessionRetrievalEndPoint" class="com.gogwt.app.booking.rpc.services.reservation.SessionRetrievalRPCController"/>
+  <bean name="name=rpc/hoteldetail/HotelDetailEndPoint" class="com.gogwt.app.booking.rpc.services.hoteldetail.HotelDetailRPCController"/>
+
+
+  <!-- ======== GWT-Spring Integration Assignments ======= --> 
+  <bean name="name=rpc/reservation/HotelSearchControllerExport" class="org.gwtwidgets.server.spring.GWTRPCServiceExporter">
+     <property name="service" ref="name=rpc/reservation/HotelSearchEndPoint" />
+  </bean>
+  <bean name="name=rpc/reservation/HotelReserveControllerExport" class="org.gwtwidgets.server.spring.GWTRPCServiceExporter">
+     <property name="service" ref="name=rpc/reservation/HotelReserveEndPoint" />
+  </bean>
+  <bean name="name=rpc/reservation/SessionRetrievalControllerExport" class="org.gwtwidgets.server.spring.GWTRPCServiceExporter">
+     <property name="service" ref="name=rpc/reservation/SessionRetrievalEndPoint" />
+  </bean>
+  <bean name="name=rpc/hoteldetail/HotelDetailControllerExport" class="org.gwtwidgets.server.spring.GWTRPCServiceExporter">
+     <property name="service" ref="name=rpc/hoteldetail/HotelDetailEndPoint" />
+  </bean>
+ 
+ 
+   <!-- =======================================================================
+    URL Handler Mapping
+  ============================================================================ -->  
+   <bean name="rpcURLMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+     <property name="mappings">
+        <props>
+            <prop key="/**/suggestiveText.rpc/**/">name=rpc/reservation/HotelSearchControllerExport</prop>
+            <prop key="/**/hotelSearch.rpc/**/">name=rpc/reservation/HotelSearchControllerExport</prop> 
+            <prop key="/**/reserveHotel.rpc/**/">name=rpc/reservation/HotelReserveControllerExport</prop> 
+            <prop key="/**/reservationSession.rpc/**/">name=rpc/reservation/SessionRetrievalControllerExport</prop> 
+            <prop key="/**/gethoteldetail.rpc/**/">name=rpc/hoteldetail/HotelDetailControllerExport</prop>      
+                    
+        </props>
+      </property>
+   </bean> 
+       
+</beans>

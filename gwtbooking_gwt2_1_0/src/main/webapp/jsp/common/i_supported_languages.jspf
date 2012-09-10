@@ -1,0 +1,13 @@
+<%--
+    i_supported_languages.jspf
+--%>
+<c:set var="selectedLocale" value="${env.languageId}-${fn:toUpperCase(env.countryId)}" />
+ 
+<fmt:message key='label.language'/>  | 
+
+<c:forEach var="locale" items="${langRegions}">
+   <c:if test="${ ! fn:containsIgnoreCase(locale.key, selectedLocale) }" >
+        <a href="${env.contextPath}/${locale.key}/home"> ${locale.value} </a> 
+   </c:if>
+</c:forEach>     
+        

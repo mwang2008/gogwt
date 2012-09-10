@@ -1,0 +1,25 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+     xmlns:g="urn:import:com.google.gwt.user.client.ui"
+     xmlns:gm='urn:import:com.google.gwt.maps.client'
+     xmlns:item='urn:import:com.gogwt.app.booking.gwt.hoteldetail.client.widgets.info.view'>
+     
+     <ui:style field='resStyle' src="../../../../../gogwt_mvp.css"/>
+  
+     <g:HTMLPanel>
+         <br/>       
+         <g:HTML styleName="{resStyle.text12red}" ui:field="errorMessage"></g:HTML>
+   
+         <!--  hotel detail -->        
+         <item:SubHotelDetailView ui:field='subDetailView' /> 
+         
+         
+         <!--
+         <item:SubHotelDetailView ui:field='subDetailView' />        
+        <div class='{resStyle.item}'> <B><span ui:field='name'/></B> <span class='{resStyle.distance}' ui:field='distance'/> </div>
+        <div class='{resStyle.item}' ui:field='address'/> 
+        <div class='{resStyle.item}'><b>Amenities:</b> <span ui:field='amenities'/>   </div>
+        -->
+       
+     </g:HTMLPanel>
+</ui:UiBinder>

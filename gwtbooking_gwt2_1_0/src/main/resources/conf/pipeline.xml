@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+       	<!-- 
+	     This file will hold all the PIPELINE & PROCESSOR definitions.
+	-->
+	    
+	<!-- ConfirmedReservationProcesssors -->
+        <bean name="name=pipeline/reservation/ReservationPipeline"
+                 class="com.gogwt.app.booking.pipeline.ExecutePipeline">
+           <property name="processors">
+	      <list>
+	         <ref bean="name=processor/reservation/SendCreatedEmailProcessor"/>
+	         <ref bean="name=processor/reservation/ReservationDemoProcessor"/>
+	      </list>
+           </property> 
+        </bean>
+        
+        <bean name="name=processor/reservation/SendCreatedEmailProcessor" class="com.gogwt.app.booking.pipeline.reservation.SendCreatedEmailProcessor"/>
+   
+        <bean name="name=processor/reservation/ReservationDemoProcessor" class="com.gogwt.app.booking.pipeline.reservation.ReservationDemoProcessor">
+            
+        </bean>
+	    
+</beans>

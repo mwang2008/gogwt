@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<application> 
+	<pages>
+      <page name="home" 
+			class="com.gogwt.app.booking.gwt.reservation.client.navigation.HomeView">
+		   
+		   <forward name="success" token="searchresult"/> 	
+       </page>
+      		
+		<!-- hotelsearchresult -->
+		<page name="searchresult"
+			class="com.gogwt.app.booking.gwt.reservation.client.navigation.SearchResultView"> 
+			<forward name="success" token="guestinfo"/>          			
+		</page>
+
+      <!--  guestinfo -->
+      <page name="guestinfo"
+			class="com.gogwt.app.booking.gwt.reservation.client.navigation.GuestInformationView">
+			<properties>
+				<property name="populators">
+					<map>
+						<entry key="statesProvincesPopulator">com.gogwt.app.booking.populator.StatePopulator</entry>
+						<entry key="titlePopulator">com.gogwt.app.booking.populator.TitlePopulator</entry>
+		 			</map>
+				</property>
+			</properties>
+			<forward name="success" token="resconfirmation"/>
+			<!-- <forward name="failure" token="dummy"/>  -->
+			
+		</page> 
+		
+		<!--  resconfirmation -->   
+		<page name="resconfirmation"
+         class="com.gogwt.app.booking.gwt.reservation.client.navigation.ReservationConfirmationView">
+      </page> 
+      
+      <!--  test page -->   
+      <page name="testpage"
+         class="com.gogwt.app.booking.gwt.reservation.client.navigation.TestPageView">
+      </page> 
+      
+	</pages>
+</application>

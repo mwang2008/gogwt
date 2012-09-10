@@ -1,0 +1,36 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+     xmlns:g="urn:import:com.google.gwt.user.client.ui"
+     xmlns:gm='urn:import:com.google.gwt.maps.client'
+     xmlns:item='urn:import:com.gogwt.app.booking.gwt.mvpreservation.client.widgets.searchresult.view'>
+     
+     <ui:style field='resStyle' src="../../reservation.css"/>
+  
+     <g:HTMLPanel>
+         <br/>
+         <table> <tr> <td> <b> <g:Label ui:field="reservationNumberLabel"/></b></td>  <td><g:Label ui:field="reservationNumber"/> </td></tr></table>
+         <table> 
+            <tr>
+                <td class="text12blue"> Guest Information  </td>  
+            </tr>
+            <tr>
+                <td> <b><g:Label ui:field="guestName"/> </b></td>  
+            </tr>
+            <tr>
+                <td> <g:Label ui:field="guestAddress"/> </td>  
+            </tr>         
+         </table>
+         <br/>
+         <table> 
+             <tr>
+                <td class="text12blue"> Hotel Information </td>  
+            </tr>
+            <tr>
+                <td> <b><g:Label ui:field="hotelName"/> </b></td>  
+            </tr>
+            <tr>
+                <td> <g:Label ui:field="hotelAddress"/> </td>  
+            </tr>         
+         </table>
+     </g:HTMLPanel> 
+</ui:UiBinder>
