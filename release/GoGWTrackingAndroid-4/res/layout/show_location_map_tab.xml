@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+		 
+       <!--  
+		        czhao:    0pMwFTdixXK-a2cyjPHDeeO7HmVHdvLlhdcl7sA
+		        cypress:  0pMwFTdixXK8Or1NSmw_l2wlAjnHv_TvEpNi-Sg
+		        prod:     0pMwFTdixXK9Q7HsSwt-Y7t0SW9ru0iPhrJC5tA
+		     -->
+	<com.google.android.maps.MapView
+		android:id="@+id/mapview" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:clickable="true"
+		android:apiKey="0pMwFTdixXK8Or1NSmw_l2wlAjnHv_TvEpNi-Sg" />
+    
+    
+</LinearLayout>
