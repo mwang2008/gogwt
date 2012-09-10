@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  
+  <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+  <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+	 
+  <!-- ======== Service End Points ========== 
+  <bean name="name=rpc/reservation/HotelSearchEndPoint"      class="com.gogwt.app.booking.rpc.services.reservation.HotelSearchRPCController"/>
+  <bean name="name=rpc/reservation/HotelReserveEndPoint"     class="com.gogwt.app.booking.rpc.services.reservation.HotelReserveRPCController"/>
+  <bean name="name=rpc/reservation/SessionRetrievalEndPoint" class="com.gogwt.app.booking.rpc.services.reservation.SessionRetrievalRPCController"/>
+  <bean name="name=rpc/hoteldetail/HotelDetailEndPoint" class="com.gogwt.app.booking.rpc.services.hoteldetail.HotelDetailRPCController"/>
+ 
+  
+   <bean name="rpcURLMapping" class="org.gwtwidgets.server.spring.GWTHandler">
+     <property name="mappings">
+        <props>
+            <prop key="/**/suggestiveText.rpc/**/">name=rpc/reservation/HotelSearchEndPoint</prop>
+            <prop key="/**/hotelSearch.rpc/**/">name=rpc/reservation/HotelReserveEndPoint</prop> 
+            <prop key="/**/reserveHotel.rpc/**/">name=rpc/reservation/HotelReserveControllerExport</prop> 
+            <prop key="/**/reservationSession.rpc/**/">name=rpc/reservation/SessionRetrievalEndPoint</prop> 
+            <prop key="/**/gethoteldetail.rpc/**/">name=rpc/hoteldetail/HotelDetailEndPoint</prop>      
+                    
+        </props>
+      </property>
+   </bean> 
+   -->
+   
+   <!-- GWT RPC remote call section -->
+   <import resource="classpath:conf/rpcConfig.xml"/>
+    
+   
+  
+</beans>

@@ -1,0 +1,74 @@
+<%--
+   i_query_search_form.jspf
+--%>
+
+<script>
+  var jq = jQuery.noConflict();
+  
+  jq(document).ready(function() {
+       
+    	jq('#location').autocomplete({
+     	    
+		   source: function(request, response) {
+		     // alert(" here 1");
+		      
+			   jq.getJSON('/gwtbooking/en-us/getkeywords', {key: request.term}, function(myreturn) {
+			     // alert(" herere 3" + myreturn.data);
+			   	 
+			   	response(jq.map(myreturn.data, function(destination) {
+					   return {
+						   label: destination.keyword,
+						   value: destination.keyword,						    
+						   lat: destination.lat,
+						   lng: destination.lng
+					   };
+				   })); //</response
+				    
+			}); //</getJSON
+		  }
+		 
+		,minLength: 3
+		,select: function(event, ui) {
+		   //alert(" here 2");
+		   jq('#lat').val(ui.item.lat);
+		   jq('#lng').val(ui.item.lng);
+		   
+			//('#latitude').val(ui.item.latitude);
+			//('#longitude').val(ui.item.longitude);
+			// call default submit action , geocode are set
+			//callDefaultFormSubmit = true;
+		}
+	 });    
+  });
+</script>
+   
+  
+   
+<form:form commandName="searchFormBean" action="${env.contextPath}/${env.languageId}-${fn:toUpperCase(env.countryId)}/jhotelsearch" method="post">
+ <spring:hasBindErrors name="searchFormBean">
+   <div id="ErrorContainer">
+       <div id="Error"><form:errors path="*" cssClass="text12red" /></div>
+   </div>      
+</spring:hasBindErrors>
+<input type="hidden" id="lat" name="geoCode.lat" value="">
+<input type="hidden" id="lng" name="geoCode.lng" value="">
+
+<div id="FormLabel"><label for="location"><fmt:message key='label.location'/></label></div>
+<div id="ContentCopy">
+  <form:input id="location" path="location" size="50" maxlength="100"/>   
+</div>
+
+<div id="FormLabel"><label for="radius"><fmt:message key='label.radius'/></label></div>
+<div id="ContentCopy">
+<form:select id="radius" path="radius" size="1">
+  <c:forEach var="index" begin="1" end="30">
+     <form:option value="${index}" label="${index}"/>
+  </c:forEach>
+</form:select>
+<div>				
+<div id="ContentCopy">
+    <div><input type="submit" value=" Find Hotels " /></div>
+</div>
+				
+</form:form>
+

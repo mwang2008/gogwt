@@ -1,0 +1,5 @@
+<module>
+  <source path="error" />
+  <source path="misc" />
+  <source path="view" />
+</module>

@@ -1,0 +1,152 @@
+====================================
+Types potentially sent from browser:
+====================================
+
+Reachable types computed on: Thu Sep 30 14:08:54 EDT 2010
+com.gogwt.app.booking.dto.dataObjects.BaseBean
+   Serialization status
+      Field serializable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.BaseBean' is reachable as a supertype of type 'class com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+      'com.gogwt.app.booking.dto.dataObjects.UserContextBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+
+com.gogwt.app.booking.dto.dataObjects.UserContextBean
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.Exception
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.RuntimeException
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.String
+   Serialization status
+      Instantiable
+   Path
+      Started from 'java.lang.String'
+
+java.lang.Throwable
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Throwable' is reachable as a supertype of type 'class java.lang.Exception'
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+===================================
+Types potentially sent from server:
+===================================
+
+Reachable types computed on: Thu Sep 30 14:08:54 EDT 2010
+com.gogwt.app.booking.dto.dataObjects.BaseBean
+   Serialization status
+      Field serializable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.BaseBean' is reachable as a supertype of type 'class com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.HotelBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+
+com.gogwt.app.booking.dto.dataObjects.common.HotelBean
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+
+com.gogwt.app.booking.exceptions.clientserver.AppRemoteException
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+
+com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException' is reachable as a subtype of type 'class com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+      Started from 'com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+
+com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException' is reachable as a subtype of type 'class com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+      Started from 'com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+double
+   Serialization status
+      Not serializable
+   Path
+      'double' is reachable from field 'lat' of type 'com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.HotelBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+
+int
+   Serialization status
+      Not serializable
+   Path
+      'int' is reachable from field 'id' of type 'com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.HotelBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.HotelBean'
+
+java.lang.Exception
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.RuntimeException
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.String
+   Serialization status
+      Instantiable
+   Path
+      Started from 'java.lang.String'
+
+java.lang.Throwable
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Throwable' is reachable as a supertype of type 'class java.lang.Exception'
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+

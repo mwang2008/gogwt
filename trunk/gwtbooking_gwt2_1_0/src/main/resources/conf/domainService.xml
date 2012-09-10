@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+       	<!-- 
+	      This file will hold all the domain service definitions.
+	-->
+	    
+	<!--  reservation -->
+        <bean name="Booking:name=domain/reservation/ReservationBusinessService" class="com.gogwt.app.booking.businessService.domainService.ReservationBusinessService">
+           <property name="hotelSearchDAO"><ref bean="name=dao/HotelSearchDAO" /></property>                  
+        </bean>
+ 
+ 	<!--  common -->
+        <bean name="Booking:name=domain/reservation/CommonBusinessService" class="com.gogwt.app.booking.businessService.domainService.CommonBusinessService">
+           <property name="commonDAO"><ref bean="name=dao/CommonDAO" /></property>                  
+        </bean>
+       
+ 	<!--  hoteldetail -->
+        <bean name="Booking:name=domain/hoteldetail/HotelDetailBusinessService" class="com.gogwt.app.booking.businessService.domainService.HotelDetailBusinessService">
+           <property name="commonDAO"><ref bean="name=dao/CommonDAO" /></property>                  
+        </bean>
+        
+         <bean name="Booking:name=domain/customer/ProfileBusinessService" class="com.gogwt.app.booking.businessService.domainService.ProfileBusinessService">
+           <property name="customerDAO"><ref bean="name=dao/CustomerDAO" /></property>                  
+        </bean>
+        
+	    
+</beans>

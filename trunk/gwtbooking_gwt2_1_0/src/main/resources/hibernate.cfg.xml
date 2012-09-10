@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+         
+        <property name="connection.datasource">java:DefaultDS</property>
+        
+        
+         
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+        
+        <!-- Enable the second-level cache  -->
+        <property name="cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
+        
+        <property name="cache.use_query_cache">true</property>
+        <property name="cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_structured_entries">true</property>
+        
+        
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        
+        <mapping resource="com/gogwt/app/booking/service/domain/SearchProperty.hbm.xml"/>
+        <mapping resource="com/gogwt/app/booking/service/domain/State.hbm.xml"/>
+        <mapping resource="com/gogwt/app/booking/service/domain/Reservation.hbm.xml"/>
+        <mapping resource="com/gogwt/app/booking/service/domain/Keyword.hbm.xml"/>
+        <mapping resource="com/gogwt/app/booking/service/domain/Customer.hbm.xml"/>
+        
+    </session-factory>
+
+</hibernate-configuration>

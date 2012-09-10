@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><module>
+   <source path="utils"/> 
+   <source path="i18n"/>  
+   <source path="helper"/> 
+   <source path="widget"/>  
+   <source path="populator"/>
+   
+   <!-- Logging  -->
+   <inherits name="com.allen_sauer.gwt.log.gwt-log"/>
+   
+    
+   <!-- 
+    <extend-property name="log_level" values="FATAL,OFF"/>   
+    <extend-property name="log_level" values="INFO,OFF"/>
+    <set-property name="log_RemoteLogger" value="ENABLED" />
+     -->
+</module>
