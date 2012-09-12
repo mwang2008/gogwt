@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+        
+  <tlib-version>1.1</tlib-version>
+  <uri>/WEB-INF/goGWTUtils.tld</uri>
+  
+  <function>
+    <name>fullHotelAddress</name>
+    <function-class>com.gogwt.app.booking.gwt.common.helper.DisplayHelper</function-class>
+    <function-signature>String fullAddress(com.gogwt.app.booking.dto.dataObjects.common.HotelBean)</function-signature>
+  </function>
+  
+  <function>
+    <name>dispReservationNum</name>
+    <function-class>com.gogwt.app.booking.gwt.common.helper.DisplayHelper</function-class>
+    <function-signature>String dispReservationNum(int)</function-signature>
+  </function>
+  
+  <function>
+    <name>fillHotelAmenities</name>
+    <function-class>com.gogwt.app.booking.controllers.helper.DisplayAmenitiesJSPHelper</function-class>
+    <function-signature>String fillAmenities(com.gogwt.app.booking.dto.dataObjects.common.HotelBean)</function-signature>
+  </function>
+  
+  <function>
+    <name>fullGuestAddress</name>
+    <function-class>com.gogwt.app.booking.gwt.common.helper.DisplayHelper</function-class>
+    <function-signature>String fullAddress(com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean)</function-signature>
+  </function>
+</taglib>

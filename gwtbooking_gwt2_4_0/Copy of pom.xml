@@ -1,0 +1,366 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.gogwt.app.booking</groupId>
+  <artifactId>gwtbooking</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>booking GWT, Spring MVC, Hibernate</name>
+  <url>http://maven.apache.org</url>
+  
+  <!-- ================================================================    
+    1. mvn resources:resources
+    2. mvn clean package
+    3. copy war file to server deploy directory
+    gwt compile style:  OBF, PRETTY, or DETAILED
+  ==================================================================== -->  
+  <properties>
+    <cxf.version>2.3.1</cxf.version>
+    <gwt.version>2.0.3</gwt.version>
+    <gwt.pluginVersion>1.2</gwt.pluginVersion>
+    <gwt.module.compile.style>OBF</gwt.module.compile.style>
+
+    <!--  tell the compiler we can use 1.6 -->
+    <maven.compiler.source>1.5</maven.compiler.source>
+    <maven.compiler.target>1.5</maven.compiler.target> 
+  </properties>
+   
+  <build>
+    <finalName>${artifactId}</finalName>
+    
+    
+     <plugins>   
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+        </configuration>
+     </plugin>
+
+     <!-- unwar to jboss deploy directory -->
+     <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>        
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <tasks>
+                   <unwar src="target/gwtbooking.war" dest="${JBOSS_HOME}/server/mytest/deploy/gwtbooking.war"/>                                      
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution> 
+        </executions>
+     </plugin>
+     
+     <!-- AspectJ -->
+     <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <version>1.3</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <complianceLevel>1.5</complianceLevel>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>       <!-- use this goal to weave all your main classes -->          
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+     <!-- GWT 2.0.3 plugin -->
+     <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>${gwt.pluginVersion}</version>
+
+        <configuration>
+           <logLevel>INFO</logLevel>
+           
+           <modules>          
+              <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
+              <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
+              <module>com.gogwt.app.booking.gwt.hoteldetail.HotelDetailModule</module>                           
+                                     
+               <!--
+              <module>com.gogwt.app.booking.gwt.reservation.ReservationEntry</module>     
+              <module>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</module>
+              <module>com.gogwt.app.booking.gwt.hoteldetail.HotelDetailModule</module>                           
+              -->
+           </modules>
+           
+             <!--               
+           <compileTargets>   
+                     
+               <value>com.gogwt.app.booking.gwt.reservation.ReservationEntry</value>   
+                         
+               <value>com.gogwt.app.booking.gwt.mvpreservation.ReservationMVPModule</value>
+                               
+           </compileTargets>
+           
+            --> 
+            
+          <gwtVersion>${gwt.version}</gwtVersion>
+          <style>${gwt.module.compile.style}</style>
+            
+          <i18nConstantsWithLookupBundles>
+              <i18nConstantsWithLookupBundle>com.gogwt.app.booking.resources.i18n.misc.MiscResources</i18nConstantsWithLookupBundle>
+          </i18nConstantsWithLookupBundles>
+          
+           
+          <i18nMessagesBundles>
+             <i18nMessagesBundle>com.gogwt.app.booking.resources.i18n.view.LabelResources</i18nMessagesBundle>
+             <i18nMessagesBundle>com.gogwt.app.booking.resources.i18n.error.ErrorResources</i18nMessagesBundle>
+           </i18nMessagesBundles>
+                   
+          <generateDirectory>src/main/java</generateDirectory>	  
+       </configuration>
+       
+       <executions>
+         <execution>
+           <goals>	
+	     <goal>compile</goal>
+	     <goal>i18n</goal>
+ 	   </goals>
+	 </execution>
+       </executions>
+     </plugin>
+ 
+      <!-- resource bundle -->
+     <plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>native2ascii-maven-plugin</artifactId>
+	<executions>
+	   <execution>
+         <goals>
+	     <goal>native2ascii</goal>
+         </goals>
+	 <configuration>
+             <encoding>utf-8</encoding>
+             <src>src/main/resources</src>
+             <dest>target/classes</dest>
+	     <includes>
+	         **/*_ja.properties,**/*_zh.properties
+             </includes>
+          </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>     
+  </build>
+
+   
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Because this is a web app, we also have a dependency on the servlet api. -->
+    <dependency>
+       <groupId>javax.servlet</groupId>
+       <artifactId>servlet-api</artifactId>
+       <version>2.4</version>
+       <scope>compile</scope>
+    </dependency>
+
+    <!-- Spring MVC -->      
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>2.5.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring</artifactId>
+      <version>2.5.4</version>
+    </dependency>    
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>2.5.4</version>
+    </dependency>
+    
+ 
+    
+    <!-- Hibernate uses slf4j for logging, for our purposes here use the simple backend -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.5.6</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.5.6</version>
+    </dependency>
+      
+    <!--  log4j -->
+    <!--  comment it out as slf4j 
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.12</version>
+      <scope>compile</scope>
+    </dependency>
+    -->
+    
+    <!-- Hibernate -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>3.3.1.GA</version>
+    </dependency>
+    
+    <!-- Hibernate gives you a choice of bytecode providers between cglib and javassist -->       
+    <dependency>
+       <groupId>javassist</groupId>
+       <artifactId>javassist</artifactId>
+       <version>3.4.GA</version>
+    </dependency>
+      
+    <!-- MySQL -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.0.5</version>
+    </dependency>
+    
+   
+     <!--  Apache common -->
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.3</version>
+    </dependency>
+    
+    <!-- GWT -->
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <version>${gwt.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <version>${gwt.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gwt-log</groupId>
+      <artifactId>gwt-log</artifactId>
+      <version>2.6.2</version>
+     </dependency>
+
+     <!--  Google map  -->
+     <dependency>
+      <groupId>com.google.gwt.google-apis</groupId>
+      <artifactId>gwt-maps</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+    
+    <!-- XML parser Jdom,xerces,jaxen, saxpath -->
+    <dependency>
+       <groupId>org.jdom</groupId>
+       <artifactId>jdom</artifactId>
+       <version>1.1</version>
+    </dependency>    
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <version>1.0-FCS</version>
+    </dependency>
+    <dependency>
+      <groupId>saxpath</groupId>
+      <artifactId>saxpath</artifactId>
+      <version>1.0-FCS</version>
+    </dependency>
+
+     <!-- gwtarch 1.0-SNAPSHOT -->
+     <dependency>
+         <groupId>com.gogwt.framework</groupId>
+         <artifactId>gogwt</artifactId>
+         <version>1.0</version>
+      </dependency>
+      
+    <!--  SL -->
+    <dependency>
+      <groupId>net.sf.gwt-widget</groupId>
+      <artifactId>gwt-sl</artifactId>
+      <version>0.1.5</version>
+    </dependency>
+    
+    <!--  JSON -->
+    <dependency>
+      <groupId>net.sf.json-lib</groupId>
+      <artifactId>json-lib</artifactId>
+      <version>2.3</version>   
+      <classifier>jdk15</classifier> 
+    </dependency>   
+  
+     <!-- EHCACHE -->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>1.4.1</version>
+    </dependency>
+   
+    <!-- AspectJ -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.6.7</version>
+      <scope>compile</scope>
+   </dependency>
+   
+   <!--  cfx -->
+   <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+      <version>1.1.1</version>      
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <version>${cxf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http</artifactId>
+      <version>${cxf.version}</version>
+    </dependency>
+      
+  </dependencies>
+
+</project>

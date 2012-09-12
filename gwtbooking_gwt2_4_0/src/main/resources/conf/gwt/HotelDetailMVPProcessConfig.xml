@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application> 
+   <pages>
+      <page name="info" 
+         class="com.gogwt.app.booking.gwt.hoteldetail.client.navigation.HotelInfoPage">
+      </page>
+    </pages>
+</application>
