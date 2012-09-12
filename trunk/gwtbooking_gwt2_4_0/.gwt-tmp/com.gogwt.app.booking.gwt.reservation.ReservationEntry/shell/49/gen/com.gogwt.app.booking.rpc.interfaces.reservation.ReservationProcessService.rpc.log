@@ -1,0 +1,446 @@
+====================================
+Types potentially sent from browser:
+====================================
+
+Reachable types computed on: Thu Oct 07 15:29:01 EDT 2010
+com.gogwt.app.booking.dto.dataObjects.BaseBean
+   Serialization status
+      Field serializable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.BaseBean' is reachable as a supertype of type 'class com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+      'com.gogwt.app.booking.dto.dataObjects.UserContextBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+
+com.gogwt.app.booking.dto.dataObjects.UserContextBean
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.dto.dataObjects.UserContextBean'
+
+com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean' is reachable from field 'geoCode' of type 'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+      'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+
+com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum'
+
+com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean'
+
+com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+double
+   Serialization status
+      Not serializable
+   Path
+      'double' is reachable from field 'lat' of type 'com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean' is reachable from field 'geoCode' of type 'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+      'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+
+int
+   Serialization status
+      Not serializable
+   Path
+      'int' is reachable from field 'id' of type 'com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean'
+      'com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean'
+
+java.lang.Exception
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.RuntimeException
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.String
+   Serialization status
+      Instantiable
+   Path
+      Started from 'java.lang.String'
+
+java.lang.Throwable
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Throwable' is reachable as a supertype of type 'class java.lang.Exception'
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+===================================
+Types potentially sent from server:
+===================================
+
+Reachable types computed on: Thu Oct 07 15:29:01 EDT 2010
+E
+   Serialization status
+      Not serializable
+   Path
+      'E' is reachable from field 'exposeElement' of type 'java.util.Vector<E>'
+      'java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+E
+   Serialization status
+      Not serializable
+   Path
+      'E' is reachable from field 'exposeElement' of type 'java.util.LinkedList<E>'
+      'java.util.LinkedList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+E
+   Serialization status
+      Not serializable
+   Path
+      'E' is reachable from field 'exposeElement' of type 'java.util.ArrayList<E>'
+      'java.util.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+E[]
+   Serialization status
+      Not serializable
+   Path
+      'E[]' is reachable from field 'array' of type 'java.util.Arrays.ArrayList<E>'
+      'java.util.Arrays.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+com.gogwt.app.booking.dto.dataObjects.BaseBean
+   Serialization status
+      Field serializable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.BaseBean' is reachable as a supertype of type 'class com.gogwt.app.booking.dto.dataObjects.common.KeywordBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.KeywordBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.KeywordBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.KeywordBean' is reachable from type argument 0 of type 'java.util.Vector<E>'
+      'java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.common.GeoCodeBean' is reachable from field 'geoCode' of type 'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+      'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean'
+      'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean' is reachable from field 'hotelSearchRequest' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.common.HotelBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.common.HotelBean' is reachable from type argument 0 of type 'java.util.Vector<E>'
+      'java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>'
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.common.HotelBean[]
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.common.HotelBean' is reachable from type argument 0 of type 'java.util.Arrays.ArrayList<E>'
+      'java.util.Arrays.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>'
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.common.KeywordBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.common.KeywordBean' is reachable from type argument 0 of type 'java.util.Vector<E>'
+      'java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+com.gogwt.app.booking.dto.dataObjects.common.KeywordBean[]
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.common.KeywordBean' is reachable from type argument 0 of type 'java.util.Arrays.ArrayList<E>'
+      'java.util.Arrays.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.common.ProcessStatusEnum' is reachable from field 'status' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.request.GeoSearchBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.request.GeoSearchBean' is reachable from field 'centerGeocode' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.request.GuestInfoFormBean' is reachable from field 'guestInfoBean' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.request.SearchFormBean' is reachable from field 'hotelSearchRequest' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.dto.dataObjects.response.ReserveResponseBean' is reachable from field 'reserveResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+com.gogwt.app.booking.exceptions.clientserver.AppRemoteException
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+
+com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.exceptions.clientserver.InvalidateGeocodeException' is reachable as a subtype of type 'class com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+      Started from 'com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+
+com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException
+   Serialization status
+      Instantiable
+   Path
+      'com.gogwt.app.booking.exceptions.clientserver.SessionTimedoutException' is reachable as a subtype of type 'class com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+      Started from 'com.gogwt.app.booking.exceptions.clientserver.AppRemoteException'
+
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException
+   Serialization status
+      Instantiable
+   Path
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+double
+   Serialization status
+      Not serializable
+   Path
+      'double' is reachable from field 'lat' of type 'com.gogwt.app.booking.dto.dataObjects.common.KeywordBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.KeywordBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.KeywordBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.KeywordBean' is reachable from type argument 0 of type 'java.util.Vector<E>'
+      'java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+int
+   Serialization status
+      Not serializable
+   Path
+      'int' is reachable from field 'size' of type 'java.util.LinkedList<E>'
+      'java.util.LinkedList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+java.lang.Exception
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.RuntimeException
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.lang.String
+   Serialization status
+      Instantiable
+   Path
+      Started from 'java.lang.String'
+
+java.lang.Throwable
+   Serialization status
+      Field serializable
+   Path
+      'java.lang.Throwable' is reachable as a supertype of type 'class java.lang.Exception'
+      'java.lang.Exception' is reachable as a supertype of type 'class java.lang.RuntimeException'
+      'java.lang.RuntimeException' is reachable as a supertype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException' is reachable as a subtype of type 'class com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+      Started from 'com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException'
+
+java.util.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+java.util.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>'
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+java.util.Arrays.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.Arrays.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>'
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+java.util.Arrays.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.Arrays.ArrayList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+java.util.LinkedList<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.LinkedList<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>'
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+java.util.LinkedList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.LinkedList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+java.util.LinkedList.Node<E>
+   Serialization status
+      Not serializable
+   Path
+      'java.util.LinkedList.Node<E>' is reachable from field 'header' of type 'java.util.LinkedList<E>'
+      'java.util.LinkedList<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>
+   Serialization status
+      Not serializable
+   Path
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>
+   Serialization status
+      Not serializable
+   Path
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+java.util.Stack<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.Stack<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+
+java.util.Stack<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.Stack<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>'
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>'
+      'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.HotelBean>' is reachable from field 'hotelList' of type 'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean'
+      'com.gogwt.app.booking.dto.dataObjects.response.HotelSearchResponseBean' is reachable from field 'hotelSearchResponse' of type 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean' is reachable as a subtype of type 'class com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+      Started from 'com.gogwt.app.booking.dto.dataObjects.common.ReservationContainerBean'
+
+java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>
+   Serialization status
+      Instantiable
+   Path
+      'java.util.Vector<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>' is reachable as a subtype of type 'interface java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+      Started from 'java.util.List<com.gogwt.app.booking.dto.dataObjects.common.KeywordBean>'
+

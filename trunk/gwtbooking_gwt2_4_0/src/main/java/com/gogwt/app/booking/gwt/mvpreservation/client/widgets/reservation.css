@@ -1,0 +1,94 @@
+.homeViewId {   
+  height:300px;
+  width:972px;
+  margin: 10px 0 0 0;
+}
+.foot_table { 
+   position:relative;
+   padding:2px;
+   left:0px;
+   width:972px;  
+   top:150px;
+}
+.text12blue {
+   color:#4784BE; 
+   font-weight: bold;
+   font-size: 12px;  
+}
+
+.text12red {
+   color:#FF0000; 
+   font-weight: bold;
+   font-size: 12px;  
+}
+.homeViewRight {
+   margin: 15px 0 0 30%;
+}
+
+.homeViewLeft {
+  float:left;
+  top:27px;
+}
+
+.homeSearchPanel {
+  //position:absolute;
+  top:10px;
+  padding:8px 0 0;
+}
+
+.destSubContainer {
+  color: #666;
+  font-size: 12px;
+  font-weight: bold;
+  vertical-align:top
+  height: 26px;
+  line-height: 14px;
+  padding: 14px 0 0 5px;
+  width: 465px;
+}
+.quickResRow {
+   margin-top: 9px;
+   margin-bottom: 9px;
+}
+
+.result_area_border { 
+  border:1px solid #080808;
+  background-color:#FFF8C6;
+  position:relative;
+  width:972px; 
+  top:20px;
+  margin-bottom: 9px;
+}
+
+ .item {
+    margin-bottom:0.3em;
+    margin-bottom:0.3em;
+    margin-left:0.8em;
+ }
+
+  
+ .distance {  
+    border-width:1px;
+    padding:10px;
+    position:absolute;
+    top:1px;
+    right:15px;
+    width:100x;  
+ }
+  
+ .btnSelect {  
+    border-width:1px;
+    padding:10px;
+    position:absolute;
+    top:18px;
+    right:15px;
+    width:100x;  
+ }
+ 
+.guestInfoRequiredField { 
+    padding:4px 16px 2px 0;
+    text-align:right;
+    width:79px;
+}
+ 
+ 
