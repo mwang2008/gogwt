@@ -1,7 +1,7 @@
 package com.gogwt.app.booking.rpc.services.hoteldetail;
 
+import com.gogwt.app.booking.businessService.LookupBusinessService;
 import com.gogwt.app.booking.businessService.domainService.HotelDetailBusinessService;
-import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.HotelBean;
 import com.gogwt.app.booking.exceptions.clientserver.AppRemoteException;

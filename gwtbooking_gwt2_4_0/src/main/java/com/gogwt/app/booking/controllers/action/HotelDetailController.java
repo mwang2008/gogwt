@@ -7,8 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gogwt.app.booking.businessService.LookupBusinessService;
 import com.gogwt.app.booking.businessService.domainService.CommonBusinessService;
-import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
 import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.controllers.ControllerHelper;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;

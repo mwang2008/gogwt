@@ -26,7 +26,11 @@ public class HomeView extends AbstractController {
 	@Override
 	protected void fillMetaInfo(PageMetaInfo pageInfo) {
 		pageInfo.setTitle("Hotel Search");
-		
+		pageInfo.setDescription("GoGWT home description");
+	    pageInfo.setKeywords("GWT, home, demo");
+	                
+	    pageInfo.addMetaMap("robots", "NOODP, NOYDIR");
+	    pageInfo.addMetaMap("currentToken", this.getCurrentToken());
 	}
   
  }

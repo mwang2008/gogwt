@@ -5,15 +5,27 @@ import com.gogwt.app.booking.performance.metrics.*;
 import com.gogwt.app.booking.performance.metrics.PerformanceMetricsCollector;
 
 public aspect PerformanceMetricCollectorAspect implements PerformanceMetricsCollector {
-   
+  
+  /*  
   protected pointcut methodControllerCalls():
     execution(public * com.gogwt.app.booking.controllers.action..*Controller.* (..) );
+  */
+  
+  protected pointcut methodRPCControllerCalls():
+    execution(public * com.gogwt.app.booking.rpc.services.reservation..*RPCController.* (..) );
+ 
  
   protected pointcut methodDomainServiceCalls():
     execution(public * com.gogwt.app.booking.businessService.domainService..*Service.* (..) );
-  
+ 
+  /* 
   protected pointcut interceptedMethodCalls():
     methodControllerCalls() || methodDomainServiceCalls();
+  */
+
+  protected pointcut interceptedMethodCalls():
+    methodRPCControllerCalls() || methodDomainServiceCalls();
+
     
   //<PerformanceMetricsKeyBean, PerformanceMetricsValueBean>
   private Map metricsMap

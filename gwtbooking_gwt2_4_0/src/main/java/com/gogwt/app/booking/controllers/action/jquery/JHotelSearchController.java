@@ -25,7 +25,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
+import com.gogwt.app.booking.businessService.LookupBusinessService;
 import com.gogwt.app.booking.businessService.domainService.ReservationBusinessService;
 import com.gogwt.app.booking.controllers.BaseAbstractController;
 import com.gogwt.app.booking.controllers.action.HotelSearchController;

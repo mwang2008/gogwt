@@ -65,7 +65,7 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
 
 <tr>
   <td>
-     <a href="<%=request.getContextPath()%>/gwtbooking/en-us/admin/metrics"> Admin console </a> <br>
+     <a href="<%=request.getContextPath()%>/en-us/admin/metrics"> Admin console </a> <br>
      &nbsp;&nbsp;&nbsp; View performance data
   </td>
 </tr>
