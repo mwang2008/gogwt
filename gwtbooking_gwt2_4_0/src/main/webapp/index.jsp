@@ -66,13 +66,16 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
 <tr>
   <td>
      <a href="<%=request.getContextPath()%>/en-us/admin/metrics"> Admin console </a> <br>
-     &nbsp;&nbsp;&nbsp; View performance data
+     &nbsp;&nbsp;&nbsp; View performance data to display RPC and Business Service number of calls and time used.
   </td>
 </tr>
 
 </table>   
 
-<h4>Please note: it is under development. The code is under  </h4>
+<h4>Please note: it is under development. </h4> 
+The code is under Google SVN: <br>
+can be extracted with: <i> svn checkout http://gogwt.googlecode.com/svn/trunk/gwtbooking_gwt2_4_0 </i>or <br>
+can be viewed with:    <a href="http://gogwt.googlecode.com/svn/trunk/gwtbooking_gwt2_4_0/"> click here</a>
 
 </body>
 </html>
