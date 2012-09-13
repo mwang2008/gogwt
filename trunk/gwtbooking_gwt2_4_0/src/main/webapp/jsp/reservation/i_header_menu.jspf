@@ -76,7 +76,7 @@
                        </tbody>
                     </table>
                  </td>
-                 
+                 <!-- 
                  <td style="vertical-align: top;" class="gwt-Label bw_top_menu" align="right">
                      <c:choose>
                         <c:when test="${pageName == 'login'}">
@@ -89,6 +89,7 @@
                        
                      Not a Member? <a href="${env.prefix}/enroll" style="text-decoration:none"><span class="bw_top_menu_underline"> Sign Up Now </span>
                  </td>
+                  -->
               </tr>
             </tbody>
          </table>

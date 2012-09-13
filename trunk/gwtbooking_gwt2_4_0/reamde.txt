@@ -4,3 +4,4 @@ http://gogwt.googlecode.com/svn/trunk/gwtbooking
 
 
 
+Demo doc: http://gogwt.googlecode.com/svn/trunk/gwtbooking_gwt2_4_0/gwtdemo.docx
