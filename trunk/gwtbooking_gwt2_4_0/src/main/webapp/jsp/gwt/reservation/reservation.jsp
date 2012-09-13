@@ -1,4 +1,4 @@
-﻿<%--
+<%--
    reservation.jsp
 --%>
 
@@ -12,8 +12,17 @@
    <meta name="gwt:property" content="locale=${env.languageId}_${fn:toLowerCase(env.countryId)}" />
    
    <title> Reservation </title>
+   
+   <%--
    <script type="text/javascript" language="javascript" src="${env.contextPath}/com.gogwt.app.booking.gwt.reservation.ReservationEntry/com.gogwt.app.booking.gwt.reservation.ReservationEntry.nocache.js"></script>
-      
+    --%>
+   <%-- inline nocache.js ReservationEntry.gwt.xml --%>
+   <base href="<%=request.getContextPath()%>/com.gogwt.app.booking.gwt.reservation.ReservationEntry/" />
+   <script type="text/javascript" language="javascript">
+      <%@ include file="/com.gogwt.app.booking.gwt.reservation.ReservationEntry/com.gogwt.app.booking.gwt.reservation.ReservationEntry.nocache.js" %>
+   </script>
+   <base href="<%=request.getRequestURL().toString()%>" />
+         
    <link rel="stylesheet" type="text/css"media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
  
    

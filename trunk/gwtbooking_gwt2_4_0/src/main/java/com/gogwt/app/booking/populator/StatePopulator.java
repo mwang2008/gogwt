@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
+import com.gogwt.app.booking.businessService.LookupBusinessService;
 import com.gogwt.app.booking.config.urlmapping.UrlMappingElem;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.PopulatorItem;

@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>Performance Metrics</h1>
-<h3>Remote Procedure Method Calls</h3>
+<h3>RPC Calls</h3>
 <table  align="center" border="1">
    <tr>
       <th>Method Name</th>
@@ -22,7 +22,7 @@
    </tr>
    <c:forEach var="metricsEntry"
       items="${performanceMetricsInfoMap}">
-      <c:if test="${!fn:containsIgnoreCase(metricsEntry.key.className, 'modelbean')}">
+      <c:if test="${fn:containsIgnoreCase(metricsEntry.key.className, 'RPCController')}">
          <tr>
             <td>${metricsEntry.key.className}.${metricsEntry.key.methodName}</td>
             <td>${metricsEntry.value.callCount == 0 ? '-' : metricsEntry.value.callCount}</td>
@@ -39,7 +39,7 @@
       </c:if>
    </c:forEach>
 </table>
-<h3>Model Bean Method Calls</h3>
+<h3>Business Service Calls</h3>
 <table  align="center" border="1">
   <tr>
     <th>Method Name</th>
@@ -51,7 +51,7 @@
   </tr>
   <c:forEach var="metricsEntry"
     items="${performanceMetricsInfoMap}">
-    <c:if test="${fn:containsIgnoreCase(metricsEntry.key.className, 'modelbean')}">
+    <c:if test="${fn:containsIgnoreCase(metricsEntry.key.className, 'BusinessService')}">
       <tr>
         <td>${metricsEntry.key.className}.${metricsEntry.key.methodName}</td>
         <td>${metricsEntry.value.callCount == 0 ? '-' : metricsEntry.value.callCount}</td>
@@ -69,6 +69,6 @@
   </c:forEach>
 </table>
   <br /><br />
-  <div><b>'-' indicates a zero value</b></div>
+  <div><b>Note: </b> '-' indicates a zero value</div>
 </body>
 </html>

@@ -2,7 +2,7 @@ package com.gogwt.app.booking.rpc.services.reservation;
 
 import java.util.List;
 
-import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
+import com.gogwt.app.booking.businessService.LookupBusinessService;
 import com.gogwt.app.booking.businessService.domainService.ReservationBusinessService;
 import com.gogwt.app.booking.dto.dataObjects.UserContextBean;
 import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;

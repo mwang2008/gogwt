@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gogwt.app.booking.businessService.domainService.LookupBusinessService;
+import com.gogwt.app.booking.businessService.LookupBusinessService;
 import com.gogwt.app.booking.dto.dataObjects.common.KeywordBean;
 import com.gogwt.app.booking.webservice.rest.domain.KeywordList;
 
