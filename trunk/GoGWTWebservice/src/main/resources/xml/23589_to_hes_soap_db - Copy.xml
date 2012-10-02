@@ -1,0 +1,148 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+  <soap:Body>
+    <ns2:processReferral xmlns:ns2="https://healthesystems.com/Referral/in/schema/v4/xsd/">
+      <r>
+        <accessCode>wkoYXgNDOjmyLcP9j07inbd4LIRZlQ</accessCode>
+        <action>Referral</action>
+        <additionalCommStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <alternateEmail xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <alternateName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <apportionment>N</apportionment>
+        <claimID>WC205-A27671</claimID>
+        <clientSpecific1>0</clientSpecific1>
+        <clientSpecific2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <customerID>Liberty</customerID>
+        <customerRequestNumber xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <dateFirstRequestMade>2012-09-06T11:50:21.823-04:00</dateFirstRequestMade>
+        <hesReferralID>478618</hesReferralID>
+        <hesRequestID>0</hesRequestID>
+        <icdCode1>724.2</icdCode1>
+        <icdCode2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <icdCode3 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <icdCode4 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <icdCode5 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <icdCode6 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <masterNotes />
+        <partnerCreateDate>2012-09-06T11:50:21.823-04:00</partnerCreateDate>
+        <partnerFormatVersion>4.1</partnerFormatVersion>
+        <partnerID>CYPR</partnerID>
+        <partnerReferralID>340141</partnerReferralID>
+        <partnerTimestamp>2012-09-14T16:11:16.669-04:00</partnerTimestamp>
+        <partnerTransactionID xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <quoteExpirationDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <referralDetail>
+          <additionalApprover1Name xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <additionalApprover1Role xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <additionalApprover2Name xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <additionalApprover2Role xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <adjIndicatedNoSubstitutions>N</adjIndicatedNoSubstitutions>
+          <anticipatedDeliveryDate>2012-09-14T00:00:00-04:00</anticipatedDeliveryDate>
+          <approvedHCPCSUnits>1.0</approvedHCPCSUnits>
+          <approvedUnits>1.0</approvedUnits>
+          <approvedUnitsDesc>Each</approvedUnitsDesc>
+          <approvedUnitsFrequency xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <approvedUnitsUOM>Each</approvedUnitsUOM>
+          <authByEmail xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authByName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authByRole xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authCode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authEndDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authEscortMealsIndicator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authInjuredWorkerMealsIndicator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authMaxAmount>0.0</authMaxAmount>
+          <authNoPayPDC xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authNotes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authParkingIndicator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authPayAsSubmitted xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authStartDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <authTollsIndicator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <cancelledBy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <categoryID>57</categoryID>
+          <customerSpecificDetail1 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <dateOfService>2012-09-14T00:00:00.841-04:00</dateOfService>
+          <dateOfServiceTo>2012-09-14T00:00:00.841-04:00</dateOfServiceTo>
+          <description>(A) ULTRA LIGHTWEIGHT WHEELCHAIR, EA</description>
+          <hcpcsCptCode>K0005</hcpcsCptCode>
+          <hesParentReferralDetailID>0</hesParentReferralDetailID>
+          <hesReferralDetailID>0</hesReferralDetailID>
+          <interpreterCategory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <interpreterLicense xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <isRush>N</isRush>
+          <itemAlreadyDispensed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <maxPriceTotal>0.0</maxPriceTotal>
+          <minPriceTotal>0.0</minPriceTotal>
+          <modifier>NU</modifier>
+          <ndc />
+          <nonMedicalIndicator>N</nonMedicalIndicator>
+          <orderScheduledDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <orderingPhysicanName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <orderingPhysicanPhone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <parentIndicator>N</parentIndicator>
+          <partnerCreateDate>2012-09-14T16:10:46.743-04:00</partnerCreateDate>
+          <partnerExpectedAmt>1817.84</partnerExpectedAmt>
+          <partnerFeePrice>0.0</partnerFeePrice>
+          <partnerNotes />
+          <partnerParentReferralDetailID xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <partnerPayAsSubmitted>N</partnerPayAsSubmitted>
+          <partnerPriceEach>1817.84</partnerPriceEach>
+          <partnerReferralDetailID>1002439224</partnerReferralDetailID>
+          <partnerReferralTypeDetailID xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <partnerUCRPrice>0.0</partnerUCRPrice>
+          <placeOfService xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <prescribingPhyLic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <prescribingPhyNPI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <productID>CC-DME-K0005-001</productID>
+          <referralDetailStatusCode>8</referralDetailStatusCode>
+          <referralType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <referralTypeDetailID>0</referralTypeDetailID>
+          <repriceState>OH</repriceState>
+          <repriceZip>44087</repriceZip>
+          <requestedByEmail />
+          <requestedByName>Debbie/ Manchester Orthropetics</requestedByName>
+          <requestedByPhone>(845) 343-6149</requestedByPhone>
+          <requestedByRole>CONPR</requestedByRole>
+          <requestedByTitle>Other</requestedByTitle>
+          <ruralFlag>N</ruralFlag>
+          <scriptHolderName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <scriptHolderRole xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceBusinessExt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceBusinessPhone />
+          <serviceHomePhone>8452382838</serviceHomePhone>
+          <serviceLocationCity>MONROE</serviceLocationCity>
+          <serviceLocationCityTo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationName>Patient Home</serviceLocationName>
+          <serviceLocationNameTo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationState>NY</serviceLocationState>
+          <serviceLocationStateTo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationStreet1>37 MAPLE LN</serviceLocationStreet1>
+          <serviceLocationStreet1To xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationStreet2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationStreet2To xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationTag xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationTagTo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceLocationZip>109500000</serviceLocationZip>
+          <serviceLocationZipTo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <serviceType>DME</serviceType>
+          <shipMethod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <specialityCode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <subCategoryID>418</subCategoryID>
+          <timeOfService>2012-09-14T00:00:00.841-04:00</timeOfService>
+          <translatorPhone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <tripNumber>1</tripNumber>
+          <tripType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+          <typeOfService xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        </referralDetail>
+        <referralTransactionStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+        <replacementReferralID>0</replacementReferralID>
+        <requestMethod>P</requestMethod>
+        <requestor>Debbie/ Manchester Orthropetics</requestor>
+        <requestorEmail />
+        <requestorPhone>(845) 343-6149</requestorPhone>
+        <requestorRole>CONPR</requestorRole>
+        <requestorTitle>Other</requestorTitle>
+        <sequenceNumber>1</sequenceNumber>
+        <surgeryDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  />
+      </r>
+    </ns2:processReferral>
+  </soap:Body>
+</soap:Envelope>

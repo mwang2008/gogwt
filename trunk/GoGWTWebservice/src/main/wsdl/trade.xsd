@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema targetNamespace="http://com.gogwt.schema.trade" xmlns="http://com.gogwt.schema.trade"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- web service input types -->
+	
+	<xsd:element name="trade">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="security" type="xsd:string" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="quantity" type="xsd:integer" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="comments" type="comment" minOccurs="1" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="comment">
+		<xsd:sequence>
+			<xsd:element name="message" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="author" type="xsd:string" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- web service output types -->
+	
+	<xsd:element name="status">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="id" type="xsd:string" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="message" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>
+

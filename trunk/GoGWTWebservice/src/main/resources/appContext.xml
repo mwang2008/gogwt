@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd	                      
+                          http://www.springframework.org/schema/jee 
+                          http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+                          
+                          http://www.springframework.org/schema/context                           
+                          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                          http://www.springframework.org/schema/mvc 
+			              http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd                          
+                          http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd"
+						  >
+						  
+
+	<!-- Load the needed resources that are present in the cxf* jars -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+    <!-- ========================== WSDL FIRST ================== -->
+	<!-- Hook up the web service -->
+	<jaxws:endpoint id="ws-example" implementor="com.gogwt.soap.service.wsdlfirst.TradeServiceImpl"
+		address="/trade" />
+
+    <!-- ========================== JAVA FIRST ================== -->
+    <jaxws:server id="jaxwsService" serviceClass="com.gogwt.soap.service.javafirst.HelloWorld" 
+      address="/hello_world">                     
+  	    <jaxws:serviceBean>
+  		   <bean class="com.gogwt.soap.service.javafirst.HelloWorldImpl" />
+  	    </jaxws:serviceBean>
+    </jaxws:server>
+  
+    <!-- ========================== REST ======================== -->
+    <!-- Activates various annotations to be detected in bean classes -->
+	<context:annotation-config />
+	
+	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
+	 For example @Controller and @Service. Make sure to set the correct base-package-->	
+	<context:component-scan base-package="com.gogwt.rest.service.controller" />
+	<context:component-scan base-package="com.gogwt.apps.controller" />
+	
+	<!-- Configures the annotation-driven Spring MVC Controller programming model.
+	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
+	<mvc:annotation-driven />
+	
+</beans>
