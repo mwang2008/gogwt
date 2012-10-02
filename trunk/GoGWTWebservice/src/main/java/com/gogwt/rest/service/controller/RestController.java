@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogwt.apps.admin.formbean.WeatherForm;
 import com.gogwt.apps.admin.formbean.WeatherResponse;
+import com.gogwt.utils.ToStringUtils;
 
 /**
  * 
@@ -34,9 +35,9 @@ public class RestController {
 		return "hi RestController";
 	}
 	
-	@RequestMapping(value="restweather", method=RequestMethod.POST, headers="Content-Type=application/json")
+	@RequestMapping(value="/restweather", method=RequestMethod.POST, headers="Content-Type=application/json")
 	public @ResponseBody WeatherResponse retrieveWeatherJSON(@RequestBody WeatherForm weatherForm, final HttpServletRequest request) {
-		logger.info(" ==== mobilelogin JSON input: " + weatherForm.toString());
+		logger.info(" ==== retrieveWeatherJSON JSON input: " + ToStringUtils.toString(weatherForm));
 		
 		WeatherResponse response = new WeatherResponse();
 		response.setCity("Atlanta");

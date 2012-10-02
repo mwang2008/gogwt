@@ -54,3 +54,31 @@ WSDL: http://localhost:8080/gservice/ws/hello_world?wsdl
 3. Spring MVC annatation
 http://localhost:8080/gservice/en/hello
 
+
++-------------------------------------------------------------------------
+| Simulate Call weather MVC --> weather REST --> weather SOAP
++-------------------------------------------------------------------------
+Create WeatherController.java to consume the REST 
+Add 
+  <!-- ======================== Rest Template =========================== --> 
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="messageConverters">
+			<list>
+				<ref bean="marshallingConverter" />				 
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="marshallingConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">    	 
+    	<property name="supportedMediaTypes" value="application/xml"/>
+	</bean>
+ 
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+	</bean>
+	
++--------------------------------------------------------------------------
+| Soap client: WebServicetemplate
++--------------------------------------------------------------------------
+
+	
