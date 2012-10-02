@@ -1,0 +1,45 @@
+<ns2:processReferralResponse xmlns:ns2="https://healthesystems.com/Referral/in/schema/v4/xsd/">
+    <return>
+        <description xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <hesReferralID>478618</hesReferralID>
+        <partnerReferralID>340141</partnerReferralID>
+        <referralDetail>
+            <approvedLocationTags xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <authEndDate>1900-01-01T05:00:00Z</authEndDate>
+            <authPrice>0.0</authPrice>
+            <authStartDate>1900-01-01T05:00:00Z</authStartDate>
+            <catalogPrice>1817.84</catalogPrice>
+            <childAdjudicatedHCPC></childAdjudicatedHCPC>
+            <childAdjudicatedState>  </childAdjudicatedState>
+            <childCalculatedLookupAmt>0.0</childCalculatedLookupAmt>
+            <childParentPriceDiff>0.0000</childParentPriceDiff>
+            <currentApprovedUnits>1</currentApprovedUnits>
+            <currentMaxAmt>0.0</currentMaxAmt>
+            <dateOfService>2012-09-14T04:00:00Z</dateOfService>
+            <duplicatePartnerReferralDetailID xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <hesAdjModifier></hesAdjModifier>
+            <hesAdjPrice>0.0</hesAdjPrice>
+            <hesAdjState>  </hesAdjState>
+            <hesAdjudicatedHowRepriced xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <hesHcpcsCptCode></hesHcpcsCptCode>
+            <hesParentReferralDetailID>0</hesParentReferralDetailID>
+            <hesPriceEach>0.0</hesPriceEach>
+            <hesPriceTotal>0.0</hesPriceTotal>
+            <hesReferralDetailID>0</hesReferralDetailID>
+            <parentAdjudicatedHCPC></parentAdjudicatedHCPC>
+            <parentAdjudicatedState>  </parentAdjudicatedState>
+            <parentCalculatedLookupAmt>0.0</parentCalculatedLookupAmt>
+            <partnerParentReferralDetailID></partnerParentReferralDetailID>
+            <partnerReferralDetailID>1002439224</partnerReferralDetailID>
+            <productID>CC-DME-K0005-001</productID>
+            <referralDetailOutcomeCode>131</referralDetailOutcomeCode>
+            <referralDetailReasonCode>10</referralDetailReasonCode>
+            <referralDetailStatusChange>N</referralDetailStatusChange>
+            <referralDetailStatusCode>11</referralDetailStatusCode>
+            <remainingMaxAmount>0.0</remainingMaxAmount>
+            <remainingQuantity>1.0</remainingQuantity>
+        </referralDetail>
+        <referralErrorReasonID xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <referralTransactionStatus>D</referralTransactionStatus>
+    </return>
+</ns2:processReferralResponse>

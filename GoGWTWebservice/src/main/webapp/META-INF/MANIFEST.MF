@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Class-Path: aopalliance-1.0.jar asm-2.2.3.jar commons-lang-2.4.jar com
+ mons-logging-1.1.jar cxf-api-2.1.jar cxf-common-schemas-2.1.jar cxf-c
+ ommon-utilities-2.1.jar cxf-rt-bindings-soap-2.1.jar cxf-rt-bindings-
+ xml-2.1.jar cxf-rt-core-2.1.jar cxf-rt-databinding-jaxb-2.1.jar cxf-r
+ t-frontend-jaxws-2.1.jar cxf-rt-frontend-simple-2.1.jar cxf-rt-transp
+ orts-http-2.1.jar cxf-rt-ws-addr-2.1.jar cxf-tools-common-2.1.jar Fas
+ tInfoset-1.2.2.jar geronimo-activation_1.1_spec-1.0.2.jar geronimo-an
+ notation_1.0_spec-1.1.1.jar geronimo-javamail_1.4_spec-1.3.jar geroni
+ mo-stax-api_1.0_spec-1.0.1.jar geronimo-ws-metadata_2.0_spec-1.1.2.ja
+ r jaxb-api-2.1.jar jaxb-impl-2.1.6.jar jaxb-xjc-2.1.6.jar jaxws-api-2
+ .1-1.jar neethi-2.0.4.jar saaj-api-1.3.jar saaj-impl-1.3.jar spring-b
+ eans-2.5.jar spring-context-2.0.8.jar spring-core-2.5.jar spring-web-
+ 2.0.8.jar velocity-1.4.jar velocity-dep-1.4.jar wsdl4j-1.6.1.jar wstx
+ -asl-3.2.4.jar xml-resolver-1.2.jar XmlSchema-1.4.2.jar
+
