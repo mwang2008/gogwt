@@ -1,4 +1,4 @@
-package com.gogwt.apps.controller;
+package com.gogwt.apps.admin.controller;
 
 import java.util.logging.Logger;
 

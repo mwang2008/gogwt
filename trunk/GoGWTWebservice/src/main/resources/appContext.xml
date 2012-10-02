@@ -42,10 +42,16 @@
 	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
 	 For example @Controller and @Service. Make sure to set the correct base-package-->	
 	<context:component-scan base-package="com.gogwt.rest.service.controller" />
-	<context:component-scan base-package="com.gogwt.apps.controller" />
-	
+	<!-- move it to spring-servlet.xml for controller only -->
+	<context:component-scan base-package="com.gogwt.apps.admin.controller" />
+	 
+	 
 	<!-- Configures the annotation-driven Spring MVC Controller programming model.
-	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
+	Note that, with Spring 3.0, this tag works in Servlet MVC only!
+	my comment: must be here, otherwise controller is not mappped  -->	 
+	<!-- support JSR303 annotation if JSR 303 validation present on classpath -->
 	<mvc:annotation-driven />
+	 
+	 
 	
 </beans>

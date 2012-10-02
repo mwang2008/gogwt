@@ -3,10 +3,16 @@ package com.gogwt.rest.service.controller;
 
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.gogwt.apps.admin.formbean.WeatherForm;
+import com.gogwt.apps.admin.formbean.WeatherResponse;
 
 /**
  * 
@@ -26,5 +32,15 @@ public class RestController {
 	public @ResponseBody String test() {
 		logger.info("==== Spring REST Showcase");
 		return "hi RestController";
-	} 
+	}
+	
+	@RequestMapping(value="restweather", method=RequestMethod.POST, headers="Content-Type=application/json")
+	public @ResponseBody WeatherResponse retrieveWeatherJSON(@RequestBody WeatherForm weatherForm, final HttpServletRequest request) {
+		logger.info(" ==== mobilelogin JSON input: " + weatherForm.toString());
+		
+		WeatherResponse response = new WeatherResponse();
+		response.setCity("Atlanta");
+	 	return response;
+	}
+
 }
