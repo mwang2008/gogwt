@@ -19,7 +19,7 @@
 
    --%>
    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
    <link rel="stylesheet" type="text/css" media="print, screen, tty, tv, projection, handheld, braille, aural" href="${env.contextPath}/css/booking.css"/>
 
@@ -27,6 +27,8 @@
 </head>
 <body>
    
+   
+    
  
 
   <div id="wrapper">
@@ -45,7 +47,13 @@
         <li> Airport code: ATL </li>     
     </div>
     
-    <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
+    <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%> 
+	
+	  <div id="terms" style="display:none;">
+         This app is only for personal usage, no respose for other purpose.
+      </div>
+      <a id="showTerms" href="#">Show Terms &amp; Conditions</a>
+	</div>
   </div>
 </div>
 

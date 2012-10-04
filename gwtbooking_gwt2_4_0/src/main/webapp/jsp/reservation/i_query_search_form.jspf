@@ -39,11 +39,71 @@
 			//callDefaultFormSubmit = true;
 		}
 	 });    
+	 
+	 jq('#showTerms').click(function(){
+          jq('#terms').dialog({modal:true});   
+     });
+	 
+	 //show weather
+	 jq('#showWeather').click(function(){
+          //alert("showWeather");
+		   jq.getJSON('http://localhost/gwtbooking/en-us/getkeywords', 'key=atl', function(myreturn) {
+		      //alert(" herere 3" + myreturn.data);
+			  jq.map(myreturn.data, function(destination) {
+			     //alert("key="+destination.keyword);
+				 var kd = destination.keyword;
+				  jq('#termsDialog').html(kd).dialog({modal:true, title:"Weather"}).dialog('open');
+			  });
+
+		   });
+     });
+
+ 
+	 jq('#showWeatherPost').click(function(){    
+    	jq.ajax({
+           type: 'POST',
+           contentType: 'application/json',
+           url: '/gservice/en/restweather?callback=?',
+           //dataType: "json",
+           //data: formToJSON(),
+		   data: '{"zip":"30022", "temperatureType":"F"}',
+           success: function(data, textStatus, jqXHR){
+  			  var dialogContent = '<table border="0" width="100%">';
+			  if (data.success) {
+			     dialogContent += "<tr><td><b>City </b></td><td>" + data.city + "</td></tr>";
+				 dialogContent += "<tr><td><b>State</b></td><td>" + data.state + "</td></tr>";
+				 dialogContent += "<tr><td><b>Zip</b></td><td>" + data.zip + "</td></tr>";
+				 dialogContent += "<tr><td><b>Temperature</b></td><td>" + data.temperature +  data.temperatureType + "</td></tr>";
+				 dialogContent += "<tr><td><b>Description</b></td><td>" + data.description + "</td></tr>";
+			  }
+			  else {
+                 dialogContent += "<tr><td><b>Error: </b></td><td>" + data.responseText + "</td></tr>";
+              }		
+             dialogContent += "</table>"		
+             jq('#termsDialog').html(dialogContent).dialog({modal:true, title:"Weather"}).dialog('open');			 
+			 //alert('Wine created successfully');
+           },
+           error: function(jqXHR, textStatus, errorThrown){
+             alert('addWine error: ' + textStatus);
+           }
+		   
+        });
+     });
+	 
+	 
+	 
   });
-</script>
-   
   
-   
+  function showWeatherInDialog() {
+    alert("showWeatherInDialog");
+  }
+</script>
+ 
+<%--  test  jq('#showWeatherPost').click(function(){ 
+ <br><a id="showWeatherPost" href="#">Show whether &amp; Conditions Post</a>
+ <div id="termsDialog" style="display:none;"> </div>
+--%> 
+ 
 <form:form commandName="searchFormBean" action="${env.contextPath}/${env.languageId}-${fn:toUpperCase(env.countryId)}/jhotelsearch" method="post">
  <spring:hasBindErrors name="searchFormBean">
    <div id="ErrorContainer">
