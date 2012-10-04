@@ -44,6 +44,7 @@
 	<context:component-scan base-package="com.gogwt.rest.service.controller" />
 	<!-- move it to spring-servlet.xml for controller only -->
 	<context:component-scan base-package="com.gogwt.apps.admin.controller" />
+	<context:component-scan base-package="com.gogwt.rest.service.service" />
 	 
 	 
 	<!-- Configures the annotation-driven Spring MVC Controller programming model.

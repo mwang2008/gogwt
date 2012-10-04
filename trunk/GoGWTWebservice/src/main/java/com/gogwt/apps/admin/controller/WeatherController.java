@@ -2,12 +2,11 @@ package com.gogwt.apps.admin.controller;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gogwt.apps.admin.formbean.WeatherForm;
 import com.gogwt.apps.admin.formbean.WeatherResponse;
-import com.gogwt.apps.admin.service.RestDomainService;
 import com.gogwt.utils.ToStringUtils;
 
 /**
@@ -35,6 +34,7 @@ import com.gogwt.utils.ToStringUtils;
  */
 @Controller
 @RequestMapping("/weather")
+//@SessionAttributes("pet")
 public class WeatherController {
 	protected static Logger logger = Logger.getLogger("WeatherController");
 	
@@ -47,13 +47,12 @@ public class WeatherController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
+	//public String initForm(BindingResult result, ModelMap model){
 	public String initForm(ModelMap model){
 		logger.info("=== initForm ===");
 		
 		WeatherForm form = new WeatherForm();
-		
-		
-		//command object
+	 	//command object
 		model.addAttribute("weather", form);
  
 		//return form view, jsp name
@@ -62,6 +61,7 @@ public class WeatherController {
 	
 	/**
 	 * Similar: protected Map referenceData(HttpServletRequest request)
+	 * temperatureTypes is used in jsp
 	 * @return
 	 */
 	@ModelAttribute("temperatureTypes")
@@ -77,6 +77,8 @@ public class WeatherController {
 	
 	/**
 	 * Similar: protected ModelAndView onSubmit(HttpServletRequest request,
+	 * Once user click the Get Weather button, a validation will be called annotated in WeatherForm, if fail, retrun to jsp to rerender the page.
+	 * Otherwise, prepare URL, and JSON method to call REST defined in RestController.java with  ~/en/restweather
 	 * @param customer
 	 * @param result
 	 * @param status
@@ -84,18 +86,53 @@ public class WeatherController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(
+	//public ModelAndView processSubmit(
 		//@ModelAttribute("weather") WeatherForm form, BindingResult result, SessionStatus status) {
 		@Valid@ModelAttribute("weather") WeatherForm form, BindingResult result, SessionStatus status, final HttpServletRequest request) {
 		
 		logger.info("=== processSubmit ===");
-		//service.getWeather();
-		
+	 	
 		System.out.println(" zip=" + form.getZip() + ", temperatureType=" + form.getTemperatureType());
 		
 		if (result.hasErrors()) {
+			 ModelAndView mav = new ModelAndView();
+		     mav.getModel().putAll(result.getModel());
+		     //return mav;
 			return "weather_form";
 		}	
 		
+		try {
+		    WeatherResponse weatherResponse = getWeather(form, request);
+		    if (!weatherResponse.isSuccess()) {
+		    	ModelAndView mav = new ModelAndView();
+		    	
+		    	result.reject("unknown.error", weatherResponse.getResponseText());	
+		    	
+		    	mav.getModel().putAll(result.getModel());	    	
+				//return  mav;
+				return "weather_form";
+		    }
+		    
+		 	//clear the command object from the session
+			status.setComplete();
+			 
+			logger.info("-- result:  " + ToStringUtils.toString(weatherResponse));
+			request.getSession().setAttribute("resultObj", weatherResponse);
+			
+			return "redirect:/en/weatherresult";		    
+		}
+		catch (Throwable e) {
+		 
+			result.reject("weather.retrieve.error");			 
+	 
+			return "weather_form";
+		}
+		
+		
+   
+	}
+	
+	private WeatherResponse getWeather(WeatherForm form, final HttpServletRequest request) {
 		int port = request.getServerPort();
 		String url = "";
 		if (port == 80) {
@@ -106,6 +143,7 @@ public class WeatherController {
 		}
 		
 		logger.info(" rest url=" + url);
+		
 		
 		RestTemplate restTemplate = new RestTemplate();
 		
@@ -121,18 +159,7 @@ public class WeatherController {
 		
 		
 		WeatherResponse weatherResponse = response.getBody();
-		System.out.println("-- result:  " + ToStringUtils.toString(weatherResponse));
 		
-		 
-		
-		//clear the command object from the session
-		status.setComplete();
-		
-		
-		//return form success view
-		return "weather_success";
- 
+		return weatherResponse;
 	}
-	
-	
 }
