@@ -22,6 +22,8 @@
 
 	<!-- ========================= BEAN DEFINITIONS ============================== -->
 	<!-- bean lookup service -->
+	<bean class="com.gogwt.utils.BeanLookupService" />
+
 
 
 	<!-- ========================= VALIDATOR ========================= -->
@@ -30,11 +32,20 @@
 
 	<!-- ========================= RESOURCE BUNDLE DEFINITIONS ========================= -->
     <!-- bind your messages.properties -->
-	<bean class="org.springframework.context.support.ResourceBundleMessageSource"
+	<!-- <bean class="org.springframework.context.support.ResourceBundleMessageSource"
 		id="messageSource">
 		<property name="basename" value="messages" />
+	</bean> -->
+    <bean name="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+			   <value>com.gogwt.apps.ws.resources.i18n.error.ErrorResources</value>
+			   <value>com.gogwt.apps.ws.resources.i18n.view.LabelResources</value>
+			</list>
+		</property>
 	</bean>
-
+	
 	<!-- ========================= POPULATOR ========================= -->
 
 	<!-- ======================= MULTIPART RESOLVER======================= -->
@@ -59,12 +70,15 @@
 		<property name="supportedMediaTypes" value="application/json" />
 	</bean>
 
-    <!-- ========================== SOAP Template ========================== -->
-	<bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
+      
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    
+   
+	  
+	
 
-    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
-        <constructor-arg ref="messageFactory"/>       
-    </bean>
+    <!-- ========================== SOAP Template ========================== -->
+	 
       
 	<!-- Declare a view resolver -->
 	<bean id="viewResolver"

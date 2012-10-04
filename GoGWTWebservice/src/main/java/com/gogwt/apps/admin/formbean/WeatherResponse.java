@@ -18,7 +18,10 @@ public class WeatherResponse implements Serializable {
 	protected String visibility;
 	protected String windChill;
 	protected String remarks;
-
+    
+	private   String zip;
+    private String temperatureType;
+    
 	public boolean isSuccess() {
 		return success;
 	}
@@ -49,6 +52,15 @@ public class WeatherResponse implements Serializable {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
 	public String getWeatherStationCity() {
@@ -131,4 +143,12 @@ public class WeatherResponse implements Serializable {
 		this.remarks = remarks;
 	}
 
+	public String getTemperatureType() {
+		return temperatureType;
+	}
+
+	public void setTemperatureType(String temperatureType) {
+		this.temperatureType = temperatureType;
+	}
+	
 }
