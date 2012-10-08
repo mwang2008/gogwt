@@ -30,7 +30,19 @@
             </tr>
             <tr>
                 <td> <g:Label ui:field="hotelAddress"/> </td>  
-            </tr>         
+            </tr>   
+            <tr>
+                <td> &nbsp; </td>  
+            </tr>    
+            <tr>
+                <td> 
+                   <g:Anchor ui:field="weatherAnchor" href="javascript:;">
+                       Weather Near Hotel
+                   </g:Anchor>
+                </td>  
+            </tr>          
          </table>
+         
+         
      </g:HTMLPanel> 
 </ui:UiBinder>

@@ -137,12 +137,14 @@ html>body .gwt-DecoratorPanel .bottomRight {
   cursor: default;
   border-bottom: 1px solid #bbbbbb;
   border-top: 5px solid #d0e4f6;
+  background: yellow;
 }
 .gwt-DialogBox .dialogContent {
+  background: yellow;
 }
 .gwt-DialogBox .dialogMiddleCenter {
-  padding: 3px;
-  background: white;
+  padding: 13px;
+  background: yellow;
 }
 html>body .gwt-DialogBox .dialogBottomCenter {
   
@@ -1200,7 +1202,7 @@ a, a:visited, a:hover {
   padding:10px;
   position:absolute;
   top:17px;
-  right:350px;
+  right:180px;
   width:400x;  
 }
 

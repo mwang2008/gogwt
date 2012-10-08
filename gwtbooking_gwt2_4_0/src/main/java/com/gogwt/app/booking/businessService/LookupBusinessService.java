@@ -1,5 +1,9 @@
-package com.gogwt.app.booking.businessService.domainService;
+package com.gogwt.app.booking.businessService;
 
+import com.gogwt.app.booking.businessService.domainService.CommonBusinessService;
+import com.gogwt.app.booking.businessService.domainService.HotelDetailBusinessService;
+import com.gogwt.app.booking.businessService.domainService.ProfileBusinessService;
+import com.gogwt.app.booking.businessService.domainService.ReservationBusinessService;
 import com.gogwt.app.booking.utils.BeanLookupService;
 
 /**

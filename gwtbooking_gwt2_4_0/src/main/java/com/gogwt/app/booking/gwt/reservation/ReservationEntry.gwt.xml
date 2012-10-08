@@ -30,8 +30,9 @@
 	<entry-point
 		class="com.gogwt.app.booking.gwt.reservation.client.ReservationEntryPoint" />
 
-   <!--  DEVELOPMENT: use following line for quick compile   -->
+   <!--  DEVELOPMENT: use following line for quick compile   
      <set-property name="user.agent" value="gecko1_8"/> 
+   -->
   
 
 </module>
