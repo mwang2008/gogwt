@@ -57,7 +57,7 @@ public class HeaderLayoutWidget extends AbstractWidget {
 		// text panel
 		Panel headerTextPanel = WidgetStyleUtils.createHorizontalPanel();
 		headerTextPanel.addStyleName("headerText");
-		Label rightLabel = new Label(" GWT, Spring MVC, Hibernate, AOP, SEO, Performance Tuneup ");
+		Label rightLabel = new Label("GWT, Spring MVC, Hibernate, AOP, SEO, REST, JSON, CFX WS, XML, Performance Tuneup, MySQL ");
 		rightLabel.addStyleName("rightLabel");
 		headerTextPanel.add(rightLabel);
 		

@@ -101,7 +101,7 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
                <li> <b>Tech term</b> Spring MVC, Spring IOC, REST, AOP, Multi-thread, JSON, Hibernate, MySql, JQuery etc
 
           </ul>
-		    Click <a href="http://gogwt.googlecode.com/svn/trunk/gwtbooking_gwt2_4_0/gwtdemo.docx"> here </a> for more details.
+		    Click <a href="/gwtbooking/more_details.jsp"> here </a> for more details.
 			</td>
 		 </tr>
 	   </table>
