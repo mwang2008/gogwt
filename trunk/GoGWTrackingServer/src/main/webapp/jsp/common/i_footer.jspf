@@ -14,9 +14,19 @@
               %>
              <div class="gwt-HTML"> @<%=year%> GoGWT.com</div>
            </td>
+            <td>
+		      &nbsp; &nbsp; &nbsp;
+		   </td>
+		   <td>
+		      <a style="text-decoration:none" href="/tracking/en-us/contactus">
+                  <span> Contact US </span>
+              </a>
+		   </td>
         </tr>
       </tbody>
      </table>
+     <br>
+     <br>
    </div>
  </div>
 </div>

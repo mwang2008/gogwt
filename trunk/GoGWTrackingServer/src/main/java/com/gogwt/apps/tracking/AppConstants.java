@@ -12,4 +12,6 @@ public class AppConstants {
 	
 	public static final String MAIN_EMAIL_LIST = "contact@gogwt.com";
 	
+	//for the timebeing, disable password encode
+	public static final boolean PASSWORD_ENCODE_ENABLE = false;
 }

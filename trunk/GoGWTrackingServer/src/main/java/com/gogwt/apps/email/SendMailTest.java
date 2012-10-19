@@ -7,7 +7,8 @@ public class SendMailTest {
 	 */
 	public static void main(String[] args) {
 		String from = "contact.gogwt@gmail.com";
-		String to = "allhotelmotel@gmail.com";
+		//String to = "allhotelmotel@gmail.com";
+		String to = "michael.wang@cypresscare.com";
 		String subject = "Test";
 		String message = "A test message";
 		

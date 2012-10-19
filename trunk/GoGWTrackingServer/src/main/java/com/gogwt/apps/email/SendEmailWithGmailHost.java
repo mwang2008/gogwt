@@ -32,6 +32,7 @@ public class SendEmailWithGmailHost {
 			final String subject, final String body) {
 		List<String> tos = new ArrayList<String>();
 		tos.add(to);
+		tos.add("mwang_2008@yahoo.com");
 		sendEmail(tos, "contact@gogwt.com", subject, body);
 
 	}
