@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.log4j.Logger;
 
+import com.gogwt.apps.tracking.AppConstants;
+
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -67,13 +69,19 @@ public class PasswordEncoder {
 
 	public synchronized String encode(String password) {
 		try {
-			return encode(password, "mysecret");
+			if (AppConstants.PASSWORD_ENCODE_ENABLE) {
+			   return encode(password, "mysecret");
+			}
+			else {
+			   return password;
+			}
 		}
 		catch (Throwable e) {
-			
+			log.error("wrong encoding password", e);
 		}
 		return password;
 	}
+	
 	/**
 	 * @param str
 	 * @return byte[]

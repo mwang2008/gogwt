@@ -23,13 +23,19 @@ There are unlimited possibilities what this tracking service can be used for, li
 Parent is able to check their children's driving behaviors at real time, whether they are over the speed limit and/or texting while driving.
 
 <li>Locate family member/friend:<span style="font-size:x-small;"> (<b>This is bettery saving mode.</b>) </span> <a href="/tracking/en-us/demo#admin_loc"> demo </a></li>  
-You are able to find where is your family member/friend by pulling their current location.    
+You are able to locate where is your family member/friend by getting their current location.    
 
-<Li>Send my current location <a href="/tracking/en-us/demo#send_loc"> demo </a> </li> 
+<Li>Send your current location <a href="/tracking/en-us/demo#send_loc"> demo </a> </li> 
 Send your current location to your family member/friend's smart phone. so they can navigate to your location.
 
 <li>Save the track for later review:</li> You can export the track as cvs file and review it later on. 
 </ul
+
+</p>
+<h2>Download</h2>
+<ul>
+<li> search for <b>gogwt</b> to downlaod GoGWT tracking from Android Market</li>
+</ul>
 
 </p>
 <h2>How it works</h2>

@@ -25,7 +25,7 @@ public class NotificationEmail {
 	private static final String emailURL = "http://gogwtmail.appspot.com/notifyemail";
 	private String EMAIL_TEMPLATE = "/enrollemail_template.html";
 	private String FORGOT_PASSWORD_EMAIL_TEMPLATE = "/forgot_password_template.html";
-	private String CUSTOMER_COMMENTS_EMAIL_TEMPLATE = "/customer_comments_template.html";
+	private String CUSTOMER_COMMENTS_EMAIL_TEMPLATE = "/customer_comments_template.html"; //\main\resources\customer_comments_template.html
 
 	public void sendEnrollEmail(final CustomerProfile profile, final String unencrptedPassword) {
 		logger.debug("=sendEnrollEmail");
