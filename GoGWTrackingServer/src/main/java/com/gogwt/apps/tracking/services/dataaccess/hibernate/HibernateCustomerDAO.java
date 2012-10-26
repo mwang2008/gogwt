@@ -195,7 +195,7 @@ public class HibernateCustomerDAO implements CustomerDAO {
 			
 			return resultMax;
 		} catch (Exception e) {
-			if (tx != null) {
+			if (tx != null && tx.isActive()) {				
 				tx.rollback();
 			}
 

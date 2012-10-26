@@ -5,9 +5,7 @@ import static com.gogwt.apps.tracking.AppConstants.CUSTOMER_PROFILE;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +17,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gogwt.apps.tracking.data.CustomerProfile;
-import com.gogwt.apps.tracking.data.GLocation;
-import com.gogwt.apps.tracking.data.Profile;
 import com.gogwt.apps.tracking.data.TrackingMobileData;
 import com.gogwt.apps.tracking.data.TrackingMobileDataCol;
-import com.gogwt.apps.tracking.data.response.DisplayResponse;
+import com.gogwt.apps.tracking.exceptions.AppRemoteException;
 import com.gogwt.apps.tracking.services.domain.LookupBusinessService;
 import com.gogwt.apps.tracking.services.domain.RestBusinessDomainService;
 import com.gogwt.apps.tracking.utils.StringUtils;
@@ -68,7 +64,15 @@ public class RetrieveTrackHistoryController extends BaseAbstractController {
 		
 		final RestBusinessDomainService service =  LookupBusinessService.getRestBusinessDomainService();
 		//List<TrackingMobileData> locationList = service.retrieveLocationsSnapShot(customerProfile);
-		List<TrackingMobileDataCol> trackingMobileDataColList	= service.retrieveLocationsSnapShot(customerProfile);	
+		
+		List<TrackingMobileDataCol> trackingMobileDataColList	= null;
+		try {
+			trackingMobileDataColList = service.retrieveLocationsSnapShot(customerProfile);
+		}
+		catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
 		final ModelMap modelMap = new ModelMap();
 		
 		if (trackingMobileDataColList == null || trackingMobileDataColList.isEmpty()) {

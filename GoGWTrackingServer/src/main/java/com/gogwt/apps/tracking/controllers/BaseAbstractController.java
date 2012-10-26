@@ -6,8 +6,10 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.gogwt.apps.tracking.populator.Populator;
@@ -18,6 +20,12 @@ public abstract class BaseAbstractController extends SimpleFormController {
 	private Map<String, Populator> populators;
     private String controllerName;
     
+	@Override 
+    protected void initBinder (HttpServletRequest request, ServletRequestDataBinder binder) throws Exception { 
+        super.initBinder (request, binder); 
+        binder.registerCustomEditor (String.class, new StringTrimmerEditor (true)); 
+    }
+	
 	/**
 	 * <p>
 	 * Overrites referenceData of SimpleFormController to process form populator
