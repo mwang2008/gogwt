@@ -9,8 +9,11 @@
        <tbody>
          <tr>
            <td style="vertical-align: top;" align="left">
-             <div class="gwt-HTML"> @2010 GoGWT.com</div>
-           </td>
+            <%
+                 int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+              %>
+             <div class="gwt-HTML"> @<%=year%> GoGWT.com    &nbsp; &nbsp;&nbsp; &nbsp;  <a href="${env.contextPath}/${env.languageId}-${env.countryId}/contactus">Contact US</a></div>             
+           </td>           
         </tr>
       </tbody>
      </table>
