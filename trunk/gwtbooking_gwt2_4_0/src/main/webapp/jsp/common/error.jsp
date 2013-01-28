@@ -1,4 +1,4 @@
-﻿<%--  Always include the global include --%> 
+<%--  Always include the global include --%> 
 <%@ include file="/jsp/common/i_global.jspf"%>
 
 <html>
@@ -26,6 +26,8 @@
            
    		<hr>
    		  <h3> ERROR PAGE </h3>
+   		  <br>
+   		   <a href="${env.contextPath}"> Back to home page </a>
    		<hr>
    		
 	</body>

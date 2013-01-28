@@ -21,11 +21,13 @@
 <%@ include file="i_header_menu.jspf"%>
  
    <div id="terms" style="display:none;">
-       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+       All right preserved.
    </div>
    <script type="text/javascript">
       var jq = jQuery.noConflict();
+      	 
 	  jq(document).ready(function() {
+	    //when click show whether, call REST webservice with POST, in turn call SOAP 
         jq('#showWeatherPost').click(function(){    
     	   jq.ajax({
               type: 'POST',
@@ -52,8 +54,25 @@
                  alert('addWine error: ' + textStatus);
               }
 		   
-          });
-      });
+            });
+        });
+	    /*
+	    $(document).mousemove(function (e) {
+          $("#d").dialog("option", { position: [e.pageX+5, e.pageY+5] 
+		});
+		
+		$("#d").dialog({
+           autoOpen: false,
+           show: "blind",
+           hide: "explode"
+        });
+        $("#c").bind("mouseover", function () {
+           $("#d").dialog('open'); // open
+        });
+        $("#c").bind("mouseleave", function () {
+           $("#d").dialog('close'); // open
+        });
+		*/
 	});
 	 
    </script>
@@ -100,16 +119,35 @@
 	   
        <tr>
           <td> <div id="termsDialog" style="display:none;"> </div>
-		    Click <a id="showWeatherPost" href="#"> here </a> to show whether near the Hotel
+		    Click <a id="showWeatherPost" href="#"> show whether </a> to get the whether information near the Hotel
 		  </td>  
        </tr>         
 
     </table>
    
+ 
 </div>
       <div id="container">
           <div id="footer" style="margin-top: 65px; position: relative""><%@ include file="i_footer.jspf"%></div>
-      </div> 
+	 </div> 
+     <div id="container">
+	    <br>
+	      <table  class="gwt-DialogBox" cellspacing="0" cellpadding="0" width="60%"> 
+       <tr>
+          <td class="text12blue"> *** Note: The Technical Detail of Show Whether Function *** </td>  
+       </tr>
+	    <tr>
+          <td> when click show whether, a POST call is made to REST webservice (/gservice/en/restweather), in turn to call SOAP API[http://www.webservicex.net/usweather.asmx?WSDL] with CFX. JSON object is returned to be displayed in JQuery dialog.
+		  <br><br>
+		  <a href="/gservice/"> Other services hosted in gservice </a>
+		  
+		  <!--
+             RestController.retrieveWeatherPOST(...)    RestDomainService.WeatherResponse getWeather(WeatherForm weatherForm)
+          -->		  
+		  </td>  
+       </tr>    
+	 </table>
+	  </div>
  <%@ include file="/jsp/common/i_analytics.jspf"%>
 </body>
 </html>

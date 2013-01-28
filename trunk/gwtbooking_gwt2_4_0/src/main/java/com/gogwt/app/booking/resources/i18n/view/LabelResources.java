@@ -349,6 +349,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   String label_Year();
 
   /**
+   * Translated "Comments/Questions".
+   * 
+   * @return translated "Comments/Questions"
+   */
+  @DefaultMessage("Comments/Questions")
+  @Key("label.comment")
+  String label_comment();
+
+  /**
    * Translated "Confirm Email".
    * 
    * @return translated "Confirm Email"
@@ -410,6 +419,15 @@ public interface LabelResources extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Password")
   @Key("label.password")
   String label_password();
+
+  /**
+   * Translated "Phone".
+   * 
+   * @return translated "Phone"
+   */
+  @DefaultMessage("Phone")
+  @Key("label.phone")
+  String label_phone();
 
   /**
    * Translated "Radius".

@@ -33,7 +33,8 @@ public class FooterLayoutWidget extends AbstractWidget {
 		Date today = new Date();
 		int year = today.getYear()+1900;
 
-		footPanel.add(new HTML(" @" + year + " GoGWT.com   Footer is created by GWT ReservationEntryPoint" ));
+		
+		footPanel.add(new HTML(" @" + year + " GoGWT.com   Footer is created by GWT ReservationEntryPoint"  + "&nbsp; &nbsp; <a href=\"/gwtbooking/en-us/contactus\">Contact US</a>" ));
 		layoutPanel.add(footPanel);
 	 
 	}
