@@ -23,10 +23,7 @@ public class WeatherResultController {
 		ModelAndView mv = new ModelAndView("weather_result");
 		
 		mv.addObject("weatherResult", weatherResponse);
-		
-		//return form view, jsp name
-		//return "weather_result";
-		
+ 		
 		return mv;
 	}
 }

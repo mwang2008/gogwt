@@ -33,14 +33,11 @@ import com.gogwt.utils.ToStringUtils;
  *
  */
 @Controller
-@RequestMapping("/weather")
-//@SessionAttributes("pet")
+@RequestMapping("/weather") 
 public class WeatherController {
 	protected static Logger logger = Logger.getLogger("WeatherController");
 	
-	//@Resource 
-	//private RestDomainService service;
-	
+ 	
 	/**
 	 * Similar: protected Object formBackingObject(HttpServletRequest request)
 	 * @param model
