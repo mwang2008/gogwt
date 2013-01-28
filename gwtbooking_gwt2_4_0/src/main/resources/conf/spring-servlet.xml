@@ -43,6 +43,8 @@
    <bean name="name=validator/reservation/GuestInfoFormValidator" class="com.gogwt.app.booking.controllers.validation.GuestInfoFormValidator"/>
    <bean name="name=validator/LoginValidator" class="com.gogwt.app.booking.controllers.validation.LoginFormValidator"/>
    <bean name="name=validator/EnrollCustomerValidator" class="com.gogwt.app.booking.controllers.validation.EnrollCustomerValidator"/>
+   <bean name="name=validator/ContactFormValidator" class="com.gogwt.app.booking.controllers.validation.ContactFormValidator"/>
+  
   
   
    <!-- ========================= INTERCEPTOR ========================= -->
@@ -169,6 +171,13 @@
        <property name="successView"><value>searchresult</value></property>   
     </bean> 
     
+    <!-- ContactController -->
+    <bean name="name=controller/ContactController" class="com.gogwt.app.booking.controllers.action.ContactController">    
+	   <property name="bindOnNewForm"><value>true</value></property>
+	   <property name="commandName"><value>contactFormBean</value></property>		
+ 	   <property name="validator"><ref bean="name=validator/ContactFormValidator"/></property>
+	   <property name="formView"><value>/customer/contact_form</value></property>
+    </bean>
 
 
 
@@ -212,7 +221,8 @@
               <prop key="/**/errorPage/**/">name=controller/common/ErrorController</prop>        
               <prop key="/**/login/**/">name=controller/LoginController</prop>
               <prop key="/**/loginsuccess/**/">name=controller/LoginSuccessController</prop>
-             
+              <prop key="/**/contactus/**/">name=controller/ContactController</prop>
+            
               <prop key="/**/enroll/**/">name=controller/EnrollCustomerController</prop>     
               <prop key="/**/enrollsuccess/**/">name=controller/reservation/EnrollCustomerSuccessController</prop>
                          

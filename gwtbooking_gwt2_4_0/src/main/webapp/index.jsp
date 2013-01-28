@@ -74,6 +74,34 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
   </td>
 </tr>
 
+<tr> 
+  <td>
+     &nbsp;&nbsp;&nbsp; 
+     <br>
+  </td>
+</tr>
+
+<tr>
+  <td>
+     <a href="<%=request.getContextPath()%>/doc/index.html"> Doc </a> <br>
+     &nbsp;&nbsp;&nbsp; Docment related to design/layout the application.
+  </td>
+</tr>
+
+<tr> 
+  <td>
+     &nbsp;&nbsp;&nbsp; 
+     <br>
+  </td>
+</tr>
+
+<tr>
+  <td>
+     <a href="/gservice/" target="new"> Web Service and Annotation Controller</a> <br>
+     &nbsp;&nbsp;&nbsp; The web service app and new approach of Spring MVC with annotation.
+  </td>
+</tr>
+
 </table>   
 
 	</td>
@@ -109,10 +137,10 @@ This is demo site for using Spring IOC and Spring MVC, Hibernate, GWT, in memory
   </tr>
 </table>
 
-<h4>Please note: it is under development. </h4> 
+<h4>Please note: it is under development. Click <a href="/gwtbooking/en-us/contactus"> Contact US</a> for questions/comments</a></h4> 
 The code is under Google SVN: <br>
 can be extracted with: <i> svn checkout http://gogwt.googlecode.com/svn/trunk/gwtbooking_gwt2_4_0 </i>or <br>
-can be viewed with:    <a href="http://gogwt.googlecode.com/svn/trunk/gwtbooking_gwt2_4_0/"> click here</a>
+can be viewed by:    <a href="http://gogwt.googlecode.com/svn/trunk/gwtbooking_gwt2_4_0/"> click here</a>
 
 </body>
 </html>
